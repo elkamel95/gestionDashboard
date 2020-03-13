@@ -1,0 +1,34 @@
+.example-header-image {
+    background-image: url('../../../assets/icon/login2.png');
+    background-size: cover;
+  }
+  .example-card{
+      margin-top: 5%;
+      width: 450px;
+  }
+
+  .mat-fab.mat-primary, .mat-flat-button.mat-primary, .mat-mini-fab.mat-primary, .mat-raised-button.mat-primary {
+    background-color: #f99f02;}
+    .card-header{
+        background-color: #0b0f2f;
+
+color:white; 
+
+padding: 30px;}
+
+
+
+element.style {
+    flex: 1 1 1e-09px;
+    box-sizing: border-box;
+}
+.card-header[_ngcontent-nrb-c13] {
+    background-color: #0b0f2f;
+    height: 15%;
+}
+.mat-card:not([class*=mat-elevation-z]) {
+    box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12);
+}
+.mat-card {
+border-radius: 0px;
+}
