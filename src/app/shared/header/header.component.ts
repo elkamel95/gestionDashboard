@@ -1,4 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthenticationService } from 'src/app/services/helpers/authentication-service.service';
 
 @Component({
   selector: 'app-header',
@@ -8,8 +10,8 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 export class HeaderComponent implements OnInit {
   @Output() toggleSideBarForMe: EventEmitter<any> = new EventEmitter();
 @Output() IsOpenConfigEm : EventEmitter<any> = new EventEmitter() ;
-  constructor() { }
-
+constructor(       private router: Router,
+  private authenticationService: AuthenticationService) { }
   ngOnInit() { }
   isOpenConfig(){
     this.IsOpenConfigEm.emit();
@@ -23,5 +25,11 @@ export class HeaderComponent implements OnInit {
       );
     }, 300);
   }
-
+  registre() {
+    this.router.navigate(['/signup']);
+}
+  logout() {
+    this.authenticationService.logout();
+    this.router.navigate(['/sigin']);
+}
 }

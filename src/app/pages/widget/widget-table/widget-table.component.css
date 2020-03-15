@@ -1,0 +1,21 @@
+table {
+    width: 99%;
+  }
+  .mat-header-cell {
+    color: black;
+    font-style: gras;
+    
+}
+  .make-gold {
+      background-color: #e8e7e7  }
+.bordre{
+          border: black;
+      }
+.mat-table-sticky:first-child {
+        border-right: 1px solid #e0e0e0;
+      }
+.mat-table-sticky:last-child {
+        border-left: 1px solid #e0e0e0;
+      }.mat-raised-button.mat-accent {
+        background-color: #ffb40a;
+    }

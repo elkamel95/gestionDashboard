@@ -1,28 +1,32 @@
-<div fxLayout="column"  class="example-card" >
-<mat-card fxFlex class="card-header" fxFlex fxLayoutAlign="center center">Simple card</mat-card>
+<div class="login-wrapper" fxLayout="row" fxLayoutAlign="center center">
+  <mat-card class="box">
+    <mat-card-header>
+      <img mat-card-image src="../../../assets/icon/sour.png" alt="">
+    </mat-card-header>
 
-  <mat-card  fxFlex="50" fxLayout="column">
-    
-    <mat-card-content>
-   
+    <form class="example-form" [formGroup]="loginForm"  >
+      <mat-card-content>
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Username"  formControlName="username" 
+      [ngClass]="{ 'is-invalid': submitted && f.username.errors }">
+        </mat-form-field>
 
-    <form class="example-form" fxLayout="column">
-      <mat-form-field class="example-full-width">
-        <mat-label>Login</mat-label>
-        <input matInput="password"  placeholder="Ex. Pizza" value="Sushi">
-      </mat-form-field>
-    
-      <mat-form-field class="example-full-width">
-        <mat-label>password</mat-label>
-        <input  matInput #password
-        type="password"
-        required
-        placeholder="Password">
-      </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Password" formControlName="password" class="form-control"
+           [ngClass]="{ 'is-invalid': submitted && f.password.errors }" >
+        </mat-form-field>
+        <div fxLayoutAlign="end end" fxLayout="column">
+          <button   (click)="onSubmit()" [disabled]="loading" mat-raised-button color="accent"
+           fxFlex="30" class="btn-block">
+           <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+
+           Log in</button>
+          <a [routerLink]="['/signup']">No account? Create one!</a>
+        </div>
+      </mat-card-content>
     </form>
+  </mat-card>
 
-    </mat-card-content>
-    <mat-card-actions fxLayoutAlign="center center" >
-        <button mat-flat-button color="primary" fxFlex="100">Login</button>
-    </mat-card-actions>
-  </mat-card></div>
+
+
+</div>

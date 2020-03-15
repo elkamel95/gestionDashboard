@@ -1,10 +1,12 @@
 <app-header (toggleSideBarForMe)="isOpenBar($event)" (IsOpenConfigEm)="isOpenBarConfig($event)"></app-header>
 
 <mat-sidenav-container class="example-container" >
-    <mat-sidenav [opened]="isOpen"  mode="side">
+  
+    <mat-sidenav [opened]="isOpen"  mode="side"   *ngIf="authenticationService.currentUserValue ">
         <app-sidbar></app-sidbar>
     </mat-sidenav>
     <mat-sidenav [opened]="isOpenConfig" mode="side" position="end">End content</mat-sidenav>
+    
     <router-outlet></router-outlet>
 </mat-sidenav-container>
 <footer>footer</footer>

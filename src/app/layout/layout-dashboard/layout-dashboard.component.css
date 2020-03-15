@@ -14,3 +14,7 @@ mat-sidenav{
 header{
     width: 100%;
 }
+.mat-drawer-container {
+    background-color: #e8e7e7;
+    color: rgba(0,0,0,.87);
+}

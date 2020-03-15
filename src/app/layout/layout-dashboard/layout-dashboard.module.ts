@@ -20,6 +20,11 @@ import { SignUpComponent } from 'src/app/pages/sign-up/sign-up.component';
 import {MatSelectModule} from '@angular/material/select';
 import { MatFormFieldModule, MatInputModule } from '@angular/material';
 import {MatCardModule} from '@angular/material/card';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { WidgetTableComponent } from 'src/app/pages/widget/widget-table/widget-table.component';
+import {MatTableModule} from '@angular/material/table';
+import { MatCheckboxModule } from '@angular/Material'
 
 
 @NgModule({
@@ -30,11 +35,14 @@ import {MatCardModule} from '@angular/material/card';
         FooterComponent,
         SidbarComponent,
         SignUpComponent,
-        SiginComponent
+        SiginComponent,
+        WidgetTableComponent
   ],
   imports: [
     CommonModule,
     MatSidenavModule,
+    MatTableModule,
+    MatCheckboxModule,
     RouterModule,
     MatIconModule,
     MatMenuModule,
@@ -47,7 +55,9 @@ import {MatCardModule} from '@angular/material/card';
     MatSelectModule,
     MatFormFieldModule, 
     MatInputModule,
-    MatCardModule
-  ]
+    MatCardModule,
+    MatSnackBarModule,
+    ReactiveFormsModule, FormsModule
+  ],
 })
 export class LayoutDashboardModule { }

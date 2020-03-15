@@ -5,10 +5,18 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { LayoutDashboardModule } from './layout/layout-dashboard/layout-dashboard.module';
+import { AlertComponent } from './auth/alert/alert.component';
+import { AlertService } from './services/auth/alert.service';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { JwtInterceptor } from './services/helpers/jwt-interceptor.service';
+import { ErrorInterceptor } from './services/helpers/error-interceptor.service';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
+    AlertComponent,
+    
  
   ],
   imports: [
@@ -16,10 +24,17 @@ import { LayoutDashboardModule } from './layout/layout-dashboard/layout-dashboar
     BrowserAnimationsModule,
     AppRoutingModule,
     MatButtonModule,
-    LayoutDashboardModule
-
+    LayoutDashboardModule,
+    HttpClientModule
+    ,ReactiveFormsModule,
+    FormsModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+
+    // provider used to create fake backend
+    AlertService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
