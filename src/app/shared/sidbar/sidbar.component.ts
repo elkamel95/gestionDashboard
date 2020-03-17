@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { AuthenticationService } from 'src/app/services/helpers/authentication-service.service';
 
 @Component({
   selector: 'app-sidbar',
@@ -6,8 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./sidbar.component.css']
 })
 export class SidbarComponent implements OnInit {
-
-  constructor() { }
+  role ='"ROLE_ADMIN"'
+  constructor(private authenticationService:AuthenticationService) { 
+   console.log( this.role);
+  }
+ 
 
   ngOnInit() {
   }

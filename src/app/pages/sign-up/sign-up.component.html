@@ -42,12 +42,18 @@
 
          
           </mat-form-field>
-          
+          <mat-form-field>
+            <mat-label>Choose an option</mat-label>
+            <mat-select formControlName="roles" >
+              <mat-option value="ROLE_ADMIN">admin</mat-option>
+              <mat-option value="ROLE_USER" >user</mat-option>
+            </mat-select>
+          </mat-form-field>
           <mat-form-field class="example-full-width">
             <input matInput placeholder="Password" formControlName="password"
             [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
            type="password" >
-            <mat-error *ngIf="f.fullname.errors">
+            <mat-error *ngIf="f.password.errors">
                 <div *ngIf="f.password.errors.required">Password is required</div>
                 <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
 
@@ -57,7 +63,7 @@
         
           <div fxLayoutAlign="end end" fxLayout="column">
             <button mat-raised-button color="accent" fxFlex="30" class="btn-block">Log in</button>
-            <a [routerLink]="['/sigin']">i have a compte</a>
+            <a [routerLink]="['/sigin']">log into existing account</a>
           </div>
         </mat-card-content>
   

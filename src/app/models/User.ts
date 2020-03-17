@@ -3,6 +3,8 @@ export class User {
     plainPassword: string;
     fullname:string;
     email:string;
+    roles:string [] = [];
     token: string;
+
  
 }

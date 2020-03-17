@@ -12,7 +12,7 @@ import { AlertService } from 'src/app/services/auth/alert.service';
   styleUrls: ['./sign-up.component.css']
 })
 export class SignUpComponent implements OnInit {
-  Roles: any = ['Admin', 'Author', 'Reader'];
+  roles: string[] = [];
   RegistreForm:FormGroup ; 
   submitted: boolean=false;
   loading: boolean;
@@ -30,9 +30,11 @@ repEmail = 0;
   ngOnInit() {
     this.RegistreForm = this.formBuilder.group({
       username: ['', Validators.required],
-      email: ['', Validators.email ],
+      email: ['', [Validators.email , Validators.required]],
       password: ['', [Validators.required,Validators.minLength(8)] ],
-      fullname : ['',Validators.required]
+      fullname : ['',Validators.required],
+      roles : ['',Validators.required]
+
   });
   this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
 
@@ -57,6 +59,8 @@ this.user.email =   this.f.email.value
 this.user.username =   this.f.username.value
 this.user.fullname =   this.f.fullname.value
 this.user.plainPassword =   this.f.password.value
+this.user.roles.push(this.f. roles.value ); 
+console.log(this.user.roles) ;
 
       this.loading = true;
     
@@ -64,6 +68,7 @@ this.user.plainPassword =   this.f.password.value
     .subscribe(
         data => {
             this.router.navigate([this.returnUrl]);
+
         },
         error => {
            this.alertService.error(error);

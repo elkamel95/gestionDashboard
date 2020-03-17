@@ -7,7 +7,7 @@ import { AuthenticationService } from 'src/app/services/helpers/authentication-s
   templateUrl: './layout-dashboard.component.html',
   styleUrls: ['./layout-dashboard.component.css']
 })
-export class LayoutDashboardComponent implements OnInit ,OnDestroy {
+export class LayoutDashboardComponent implements OnInit  {
   isOpen = false;
   isOpenConfig = false;
 
@@ -15,13 +15,10 @@ export class LayoutDashboardComponent implements OnInit ,OnDestroy {
     private authenticationService: AuthenticationService) { 
       this.isOpen=true ;
 
-
-    }
+   console.log;(authenticationService.roles) ;
+       }
 
   ngOnInit() {
-
-
-
   }
   isOpenBar(){
 this.isOpen= !this.isOpen;
@@ -30,8 +27,5 @@ this.isOpen= !this.isOpen;
 this.isOpenConfig= !this.isOpenConfig;
   }
 
-ngOnDestroy() {
-  localStorage.clear();
-  
-}
+
 }

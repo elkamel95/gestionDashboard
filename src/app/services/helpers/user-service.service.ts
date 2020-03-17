@@ -17,7 +17,9 @@ getUsersBy(email){
 
 }
     register(user: User) {
-        return this.http.post(`${this.apiUrl}/users`, user);
+        
+        console.log(user);
+       return this.http.post(`${this.apiUrl}/users`, user);
     }
 
     delete(id: number) {

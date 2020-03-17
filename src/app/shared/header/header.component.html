@@ -29,13 +29,19 @@
                         <ul>
                             <li *ngIf="authenticationService.currentUserValue ">
                                 <button mat-menu-item (click)="logout()">
-                                    <mat-icon>exit_to_app</mat-icon>
-                                    Sign out
+                                    <mat-icon>person_outline</mat-icon>
+                                 {{authenticationService.getUsername()}}
                                 </button>
+                                <button mat-menu-item (click)="logout()">
+                                <mat-icon>exit_to_app</mat-icon>
+                                            Sign out
+                                </button>
+                              
 
                             </li>
                             <li *ngIf="!authenticationService.currentUserValue "> <button mat-menu-item (click)="registre()">
                                 <mat-icon>exit_to_app</mat-icon>
+                                
                                 registre
                             </button>
                         </li>
