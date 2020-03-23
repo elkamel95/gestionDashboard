@@ -1,0 +1,32 @@
+.backgroundImage{
+    background-image: url('../../../assets/icon/backround.jpg');
+    background-repeat: round;
+}
+.full-height {
+    height: 90vh;
+}
+.formSize{
+width: 100%;
+
+}
+
+.LargeLabel {
+    font-size: 3em;
+    color: #0b0f2f;
+    position: absolute;
+    top: 30%;
+    left: 35%;
+    transform: translate(-50%, -20%);
+  }
+  .smallLabel {
+    font-size: 2em;
+    color:goldenrod;
+    position: absolute;
+    top: 50%;
+    left: 35%;
+    transform: translate(-50%, -20%);
+  }
+  h1{
+    text-align: center;
+  }
+  

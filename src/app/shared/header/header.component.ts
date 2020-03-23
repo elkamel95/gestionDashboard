@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthenticationService } from 'src/app/services/helpers/authentication-service.service';
+import { AuthenticationService } from 'src/app/services/Auth/authentication-service.service';
 
 @Component({
   selector: 'app-header',

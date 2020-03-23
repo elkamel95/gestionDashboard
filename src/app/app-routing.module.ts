@@ -4,7 +4,7 @@ import { LayoutDashboardComponent } from './layout/layout-dashboard/layout-dashb
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { SiginComponent } from './pages/sigin/sigin.component';
 import { SignUpComponent } from './pages/sign-up/sign-up.component';
-import { AuthGuard } from './services/helpers/auth-guard.service';
+import { AuthGuard } from './services/Auth/auth-guard.service';
 import { WidgetTableComponent } from './pages/widget/widget-table/widget-table.component';
 
 const routes: Routes = [

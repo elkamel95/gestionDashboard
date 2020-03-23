@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { UserService } from 'src/app/services/helpers/user-service.service';
+import { UserService } from 'src/app/services/Auth/user-service.service';
 import { first } from 'rxjs/operators';
 import { User } from 'src/app/models/User';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertService } from 'src/app/services/auth/alert.service';
+import { AlertService } from 'src/app/services/Auth/alert.service';
 
 @Component({
   selector: 'app-sign-up',

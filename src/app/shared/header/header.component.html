@@ -9,47 +9,66 @@
 
         <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
             <ul fxLayout="row" fxLayoutGap="20px">
-        
                 <li     *ngIf="authenticationService.currentUserValue ">
-                    <button mat-icon-button (click) ="isOpenConfig()">
-                        <mat-icon>settings</mat-icon>
-                    </button>
-                </li>
-                <li     *ngIf="authenticationService.currentUserValue ">
+                    <div fxLayout="column" fxLayoutAlign="center center">
+
                     <button mat-icon-button>
                         <mat-icon>help_outline</mat-icon>
                     </button>
+
+                    <div class="mat-caption"> 
+                        help
+                   </div>
+</div>
                 </li>
+                <li     *ngIf="authenticationService.currentUserValue ">
+                    <div fxLayout="column" fxLayoutAlign="center center">
+
+                    <button mat-icon-button (click) ="isOpenConfig()">
+                        <mat-icon>settings</mat-icon>
+                    </button>
+                    <div class="mat-caption"> 
+                        config
+</div>
+                    </div>
+                </li>
+            
+                <div fxLayout="column" fxLayoutAlign="center center">
+
                 <li>
                     <button mat-button [matMenuTriggerFor]="menu">
                         <mat-icon>person_outline</mat-icon>
                     </button>
-               
                     <mat-menu #menu="matMenu" >
                         <ul>
-                            <li *ngIf="authenticationService.currentUserValue ">
-                                <button mat-menu-item (click)="logout()">
-                                    <mat-icon>person_outline</mat-icon>
-                                 {{authenticationService.getUsername()}}
-                                </button>
-                                <button mat-menu-item (click)="logout()">
-                                <mat-icon>exit_to_app</mat-icon>
-                                            Sign out
-                                </button>
-                              
+                            <li *ngIf="authenticationService.currentUserValue ; else elseAuth" >
+                                <button mat-menu-item (click)="logout()"><mat-icon>person_outline</mat-icon>{{authenticationService.getUsername()}}</button><button mat-menu-item (click)="logout()">
+                                <mat-icon>exit_to_app</mat-icon>Sign out</button></li>
+                            <li *ngIf="!authenticationService.currentUserValue ">
 
-                            </li>
-                            <li *ngIf="!authenticationService.currentUserValue "> <button mat-menu-item (click)="registre()">
-                                <mat-icon>exit_to_app</mat-icon>
-                                
-                                registre
-                            </button>
+                                <button mat-menu-item (click)="registre()">
+                                  <mat-icon>exit_to_app</mat-icon> 
+                                  registre
+                                </button>
                         </li>
                         </ul>
            
                     </mat-menu>
 
                 </li>
+                
+                
+    <div class="mat-caption"> 
+    <div *ngIf="authenticationService.currentUserValue ; else elseAuth">
+        Profile
+    </div>
+    <ng-template #elseAuth>
+        <div >
+            Registre
+        </div>
+    </ng-template>
+</div>
+</div>
             </ul>
         </div>
     </mat-toolbar-row>

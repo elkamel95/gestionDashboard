@@ -1,4 +1,26 @@
 
-<mat-toolbar style="height: 9%;">My App</mat-toolbar>
+<mat-toolbar style="height: 7%;"><h6>Dashboard</h6> </mat-toolbar>
+<div gdGap="30px " >
+<div  gdGap="60px 60px" fxLayoutAlign="center center"> 
 
-<router-outlet></router-outlet>
+<div fxLayout="row" fxLayoutGap="10px" *ngFor="let item of listWidget  ">
+<div  fxFlex ="20"  *ngFor="let list of item ; let index = index  ; ">
+    
+    <app-indicateur *ngIf="list.type != 4"
+ [indicateur] ="index" [title] ="list.nameFr" >
+</app-indicateur>
+</div>
+
+</div>
+</div>
+
+<div   fxLayoutAlign="start center" > 
+
+    <div fxLayout="row" fxLayoutGap="10px"  *ngFor="let item of listWidget  ">
+    <div  fxFlex   *ngFor="let list of item ; let index = index  ; ">
+        <app-area  [title] ="list.nameFr" *ngIf="list.type == 4"></app-area>
+     
+    </div>
+    
+    </div>
+    </div></div>

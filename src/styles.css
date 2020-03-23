@@ -2,3 +2,45 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+@import "src/assets/scss/core/variables";
+@import "src/assets/scss/core/mixins";
+@import "~bootstrap/scss/bootstrap";
+
+
+@import "src/assets/scss/core/buttons";
+@import "src/assets/scss/core/checkboxes";
+@import "src/assets/scss/core/radios";
+@import "src/assets/scss/core/forms";
+@import "src/assets/scss/core/input-group";
+@import "src/assets/scss/core/images";
+@import "src/assets/scss/core/navbar";
+@import "src/assets/scss/core/alerts";
+@import "src/assets/scss/core/type";
+@import "src/assets/scss/core/tabs";
+@import "src/assets/scss/core/tooltip";
+@import "src/assets/scss/core/popover";
+@import "src/assets/scss/core/dropdown";
+@import "src/assets/scss/core/togglebutton";
+@import "src/assets/scss/core/ripples";
+@import "src/assets/scss/core/footers";
+@import "src/assets/scss/core/sidebar-and-main-panel";
+@import "src/assets/scss/core/fixed-plugin";
+@import "src/assets/scss/core/tables";
+@import "src/assets/scss/core/misc";
+
+@import "src/assets/scss/core/cards";
+@import "src/assets/scss/core/cards/card-stats";
+@import "src/assets/scss/core/cards/card-profile";
+@import "src/assets/scss/core/cards/card-plain";
+
+@import "src/assets/scss/core/plugins/animate";
+@import "src/assets/scss/core/plugins/chartist";
+@import "src/assets/scss/core/plugins/perfect-scrollbar";
+
+@import "src/assets/scss/core/responsive";
+
+@import "src/assets/scss/core/angular-modal.scss";
+@import 'src/assets/scss/'  ;

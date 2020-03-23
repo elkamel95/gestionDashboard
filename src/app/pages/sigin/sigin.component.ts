@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
-import { AuthenticationService } from 'src/app/services/helpers/authentication-service.service';
-import { AlertService } from 'src/app/services/auth/alert.service';
+import { AuthenticationService } from 'src/app/services/Auth/authentication-service.service';
+import { AlertService } from 'src/app/services/Auth/alert.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({

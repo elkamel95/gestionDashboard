@@ -12,6 +12,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import {MatButtonModule} from '@angular/material/button';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatListModule} from '@angular/material/list';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 import {MatMenuModule} from '@angular/material/menu';
 import { SidbarComponent } from 'src/app/shared/sidbar/sidbar.component';
@@ -25,6 +27,13 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { WidgetTableComponent } from 'src/app/pages/widget/widget-table/widget-table.component';
 import {MatTableModule} from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/Material'
+import { DialogBoxComponent } from 'src/app/components/dialog-box/dialog-box.component';
+import { Login2Component } from 'src/app/pages/login2/login2.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { SpinnerComponent } from 'src/app/components/spinner/spinner.component';
+import { IndicateurComponent } from '../../components/widget/indicateur/indicateur.component';
+import { AreaComponent } from 'src/app/components/widget/area/area.component';
+import { HighchartsChartModule } from 'highcharts-angular';
 
 
 @NgModule({
@@ -36,12 +45,19 @@ import { MatCheckboxModule } from '@angular/Material'
         SidbarComponent,
         SignUpComponent,
         SiginComponent,
-        WidgetTableComponent
+        WidgetTableComponent,
+        DialogBoxComponent,
+        Login2Component,
+        SpinnerComponent,
+        IndicateurComponent,
+        AreaComponent
+
   ],
   imports: [
     CommonModule,
     MatSidenavModule,
     MatTableModule,
+    MatProgressSpinnerModule,
     MatCheckboxModule,
     RouterModule,
     MatIconModule,
@@ -57,7 +73,11 @@ import { MatCheckboxModule } from '@angular/Material'
     MatInputModule,
     MatCardModule,
     MatSnackBarModule,
-    ReactiveFormsModule, FormsModule
+    ReactiveFormsModule, FormsModule,
+    MatDialogModule,
+    MatPaginatorModule,
+    HighchartsChartModule
   ],
+  entryComponents:[DialogBoxComponent ,SpinnerComponent]
 })
 export class LayoutDashboardModule { }

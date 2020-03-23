@@ -1,0 +1,33 @@
+<div>
+    <mat-card class="content matCardBackground"  fxLayout="column">
+
+      <div fxLayout="row" fxFlex = "50" fxLayoutGap="10px" >
+          <mat-card  fxFlex =50 class="widget"  style=" background-color: lightskyblue;" >
+          <div>
+            <mat-icon> import_export</mat-icon>
+          </div>
+          </mat-card>
+
+          <div fxLayout="row" fxFlex fxLayoutAlign="end center">
+            <div fxLayout="column"   >
+              <div  class="mat-caption" fxFlex  ="10">
+                <p >core user</p>
+              </div>
+                <div fxFlex ="10"  >
+                <h1 class="indicateurPosition " >{{indicateur}}</h1>
+              </div>
+          
+          </div>
+          
+          </div>
+
+    </div>
+
+
+      <p   fxFlex >
+        <mat-divider></mat-divider>
+    
+         
+        {{title}}   </p>
+    </mat-card>
+</div>

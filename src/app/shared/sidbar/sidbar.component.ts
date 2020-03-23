@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { AuthenticationService } from 'src/app/services/helpers/authentication-service.service';
+import { AuthenticationService } from 'src/app/services/Auth/authentication-service.service';
 
 @Component({
   selector: 'app-sidbar',

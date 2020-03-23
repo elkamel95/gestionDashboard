@@ -1,0 +1,41 @@
+<!-- dialog-box.component.html -->
+<h1 mat-dialog-title>: <strong>{{action}}</strong> Widget</h1>
+<div mat-dialog-content>
+  <div *ngIf="action != 'Delete'; else elseTemplate">
+    <mat-form-field >
+
+      <input placeholder="Widget Name FR" matInput [(ngModel)]="data.nameFr">
+    </mat-form-field>
+    <mat-form-field >
+
+      <input placeholder="Widget Name EN" matInput [(ngModel)]="data.nameEn">
+    </mat-form-field>
+    <mat-form-field >
+<mat-label>Description</mat-label>
+      <textarea matInput [(ngModel)]="data.description"></textarea>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+
+    <mat-label>Select Type Widget</mat-label>
+
+    <mat-select name="TypeValue"  (selectionChange)= "setType($event.value)" required >
+      <mat-option *ngFor="let type of types"  
+      [value]="type">
+        {{type.name}}
+      </mat-option>
+
+    </mat-select>
+    </mat-form-field>
+
+    
+
+  </div>
+ 
+  <ng-template #elseTemplate>
+    Sure to delete <b>{{data.nameFr}}</b>?
+  </ng-template>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="doAction()">{{action}}</button>
+  <button mat-button (click)="closeDialog()" mat-flat-button color="warn">Cancel</button>
+</div>

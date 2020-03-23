@@ -1,23 +1,22 @@
 
 <mat-nav-list >
-    <a mat-list-item routerLinkActive="list-item-active" routerLink="/widget" *ngIf="authenticationService.getRoles() === role">Gérer Widegt</a>
-    
 
-    <a mat-list-item routerLinkActive="list-item-active" routerLink="/posts">Posts</a>
-    <a mat-list-item routerLinkActive="list-item-active" routerLink="/articles">Articles</a>
+    <h2 matSubheader>
+        Widgets Control
+    </h2> 
+
+    <a mat-list-item routerLinkActive="list-item-active" routerLink=""> <mat-icon>home</mat-icon>Dashboard</a>
+    <a mat-list-item routerLinkActive="list-item-active" routerLink="/widget" 
+    *ngIf="authenticationService.getRoles() === role"><mat-icon>post_add</mat-icon>Manage widgets</a>
+    
 
     <mat-divider></mat-divider>
 
-    <h2 matSubheader>Tools</h2>
+    <h2 matSubheader>User profile management
+    </h2>
 
-    <a mat-list-item routerLinkActive="list-item-active" routerLink="/contacts">
-        <mat-icon>import_contacts</mat-icon>
-        Contacts
-    </a>
+    <a mat-list-item routerLinkActive="list-item-active" routerLink="/widget" >
+        <mat-icon>person_outline</mat-icon> Profile</a>
 
-    <a mat-list-item routerLinkActive="list-item-active" routerLink="/contacts">
-        <mat-icon>contact_phone</mat-icon>
-        Leads
-    </a>
 
 </mat-nav-list>

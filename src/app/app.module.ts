@@ -5,15 +5,17 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { LayoutDashboardModule } from './layout/layout-dashboard/layout-dashboard.module';
-import { AlertService } from './services/auth/alert.service';
+import { AlertService } from './services/Auth/alert.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { JwtInterceptor } from './services/helpers/jwt-interceptor.service';
-import { ErrorInterceptor } from './services/helpers/error-interceptor.service';
+import { JwtInterceptor } from './services/Auth/jwt-interceptor.service';
+import { ErrorInterceptor } from './services/Auth/error-interceptor.service';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
+    
+    
     
  
   ],
@@ -25,7 +27,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     LayoutDashboardModule,
     HttpClientModule
     ,ReactiveFormsModule,
-    FormsModule
+    FormsModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
