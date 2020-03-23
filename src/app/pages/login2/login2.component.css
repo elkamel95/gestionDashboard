@@ -1,32 +1,51 @@
 .backgroundImage{
-    background-image: url('../../../assets/icon/backround.jpg');
+    background-image: url('../../../assets/icon/backround6.svg');
     background-repeat: round;
+    filter: saturate(0.8);
+    background-color: #020d48;
 }
 .full-height {
-    height: 90vh;
+    height: 100vh;
 }
 .formSize{
 width: 100%;
+font-family: 'Lalezar', cursive;
+
 
 }
-
+.matCardBackground{
+  background-color:#e2910e;
+ color: white;
+}
 .LargeLabel {
-    font-size: 3em;
-    color: #0b0f2f;
-    position: absolute;
-    top: 30%;
-    left: 35%;
-    transform: translate(-50%, -20%);
+    font-size: 5em;
+    color: #e2910e;
+    margin-top: 25%;
+    margin-left: 25%;
+    font-family: 'Lalezar', cursive;
+    font-family: 'Poppins', sans-serif;
+    font-family: 'Miss Fajardose', cursive;
+    font-family: 'Mr De Haviland', cursive;
   }
+  a{
+    text-align: right;
+    text-decoration: none;
+    color: #020d48;
+}
+  mat-label{
+    color: white;
+  }
+
   .smallLabel {
-    font-size: 2em;
-    color:goldenrod;
-    position: absolute;
-    top: 50%;
-    left: 35%;
-    transform: translate(-50%, -20%);
+    font-size: 1em;
+    color:white;
+    
   }
   h1{
     text-align: center;
   }
+  .mat-raised-button.mat-accent {
+ 
+    background-color: #020d48;
+}
   

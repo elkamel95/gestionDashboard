@@ -7,7 +7,7 @@
 <div  fxFlex ="20"  *ngFor="let list of item ; let index = index  ; ">
     
     <app-indicateur *ngIf="list.type != 4"
- [indicateur] ="index" [title] ="list.nameFr" >
+ [indicateur] ="index" [title] ="list.nameFr" [backgroundColor] ="list.backgroundColor" >
 </app-indicateur>
 </div>
 

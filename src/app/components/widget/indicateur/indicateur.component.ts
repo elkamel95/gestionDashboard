@@ -7,7 +7,8 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class IndicateurComponent implements OnInit {
 @Input() indicateur =0 ;
-@Input()  title =" ;"
+@Input()  title =" ";
+@Input() backgroundColor ="";
   constructor() { }
 
   ngOnInit() {

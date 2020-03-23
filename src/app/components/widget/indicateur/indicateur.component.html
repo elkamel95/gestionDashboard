@@ -2,7 +2,7 @@
     <mat-card class="content matCardBackground"  fxLayout="column">
 
       <div fxLayout="row" fxFlex = "50" fxLayoutGap="10px" >
-          <mat-card  fxFlex =50 class="widget"  style=" background-color: lightskyblue;" >
+          <mat-card  fxFlex =50 class="widget"  [ngStyle]="{'background-color': backgroundColor}" >
           <div>
             <mat-icon> import_export</mat-icon>
           </div>
