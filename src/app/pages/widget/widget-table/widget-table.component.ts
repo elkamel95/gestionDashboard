@@ -1,11 +1,11 @@
 import {SelectionModel} from '@angular/cdk/collections';
 import {Component, ViewChild, OnInit} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
-import { MatDialog, MatPaginator } from '@angular/material';
+import { MatDialog, MatPaginator, PageEvent } from '@angular/material';
 import { DialogBoxComponent } from 'src/app/components/dialog-box/dialog-box.component';
 import { ServiceWidgetService } from 'src/app/services/widget/service-widget.service';
 import { Widget } from 'src/app/models/Widget';
-import { SpinnerComponent } from 'src/app/components/spinner/spinner.component';
+
 
 
 const types  = [ 
@@ -20,46 +20,33 @@ const types  = [
   styleUrls: ['./widget-table.component.css']
 })
 
-export class WidgetTableComponent implements OnInit {
- private ELEMENT_DATA: Widget[]  ;
- spinner =false ;
+export class WidgetTableComponent implements OnInit  {
+       pageIndex = 0 ;
+       length=0;
+       pageSizeOptions: number[] = [3,5,7,8,9, 10, 25, 100];
+       pageSize=5;
+      
+      private ELEMENT_DATA: Widget[]  ;
+ spinner =true ;
  private dataSource :MatTableDataSource<Widget> = new MatTableDataSource<Widget>();
  private selection : SelectionModel<Widget>  = new SelectionModel<Widget>(true, []);
  displayedColumns: string[] = ['select','position','icon' , 'name', 'description', 'Type' ,'date','dateUpadet'];
   nb =1 ; 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  pageEvent: PageEvent;
 
   constructor(public dialog: MatDialog ,private ws:ServiceWidgetService) {
 
     ws.refreshneeded.subscribe(()=>{
-      let dialogRef = dialog.open(SpinnerComponent,{backdropClass:'bordre' });
-
-      this.spinner =true ;
-      ws.getAllWidget().subscribe(
-        listWidget=>{
-    
-        this.ELEMENT_DATA= listWidget ;
-         this.dataSource = new MatTableDataSource<Widget>(listWidget);
-         this. selection = new SelectionModel<Widget>(true, []);
-         this.spinner =false ;
-         this.dataSource.paginator = this.paginator ;
-
-         dialogRef.close();
-      });
-
+  
+      this.getData(1,5);
     });
   
-    ws.getAllWidget().subscribe(
-        listWidget=>{
-    console.log(listWidget);
-        this.ELEMENT_DATA= listWidget ;
-         this.dataSource = new MatTableDataSource<Widget>(listWidget);
-         this.dataSource.paginator = this.paginator ;
+    this.getData(1,5);
 
-         this. selection = new SelectionModel<Widget>(true, []);
-      });
 
   }
+
   ngOnInit() {
   }
 
@@ -137,7 +124,42 @@ export class WidgetTableComponent implements OnInit {
       widget.description = widgetc.description ; 
        this.ws.postWidget(widget);
     }
- 
+    setNewData($event:PageEvent){
+if(this.pageSize!=$event.pageSize){
+  this.getData($event.pageIndex+1 ,$event.pageSize);
+
+  this.pageSize=$event.pageSize
+}
+
+     if ($event.pageIndex !=  this.pageIndex)
+   {  
+         this.getData($event.pageIndex+1,$event.pageSize);
+   this.pageIndex = $event.pageIndex;
+  
+  }
+     }
+   
+getData(nb,pageSize){
+  console.log("sd");
+
+  this.spinner =false ;
+  this.ws.getAllWidgetDashbord(nb,pageSize).subscribe(
+    listWidget=>{
+
+     this.dataSource = new MatTableDataSource<Widget>(listWidget['hydra:member']);
+     this. selection = new SelectionModel<Widget>(true, []);
+
+     this.length=  listWidget['hydra:totalItems'];
+     this.spinner =true ;
+
+
+  });
+
+  
+
+}
+
+
 }
  
 

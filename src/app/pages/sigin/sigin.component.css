@@ -16,7 +16,6 @@ html,body{height:100%;margin:0;padding:0;}
 }
 mat-card img{
     object-fit: cover; /*this makes the image in src fit to the size specified below*/
-    width: 50%; /* Here you can use wherever you want to specify the width and also the height of the <img>*/
     height: 30%;
   }
   a{
@@ -25,8 +24,10 @@ mat-card img{
       color: #999;
   }
   .backgroundImage{
-    background-image: url('../../../assets/icon/backround6.svg');
-    background-repeat: round;
+    background-image: url('../../../assets/icon/backround4.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
     filter: saturate(0.8);
     background-color: #020d48;
 }

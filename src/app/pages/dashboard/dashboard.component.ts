@@ -9,27 +9,56 @@ import { Widget } from 'src/app/models/Widget';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit  {
-listWidget : Widget [] []=[] ;
-listWidgetGraphique : Widget  []=[] ;
+WidgetIndicator : Widget [] []=[] ;
+WidgetGraphique : Widget  [][]=[] ;
+WidgetList : Widget  [][]=[] ;
+width=80;
+spinner =false;
+permute = 1;
+permutationiSActive =false ; 
+ListIndix = []
+ letters = [0 , 1 ,2] ;
 
-  constructor(private serviceWidget:ServiceWidgetService) {
-this. getWidgetIndicateur();
-    
- this. getWidgetGraphique();
+;  constructor(private serviceWidget:ServiceWidgetService) {
+    this. getWidgetWithType("?type=1","1");
+    this. getWidgetWithType("?type=3","3");
+    this. getWidgetWithType("?type=4","4");
+
   }
   
 
   ngOnInit() {
+  }
+  permutation(index){
+    if(this.permutationiSActive)
+    {var aux =0;
+    this.ListIndix.push(index);
+    console.log(this.ListIndix.length);
+
+    if(this.ListIndix.length==2)
+    
+{
+  aux=this.letters[this.ListIndix[0]]
+  console.log(this.letters[this.ListIndix[0]]);
+  console.log(this.letters[this.ListIndix[1]]);
+
+  this.letters[this.ListIndix[0]]=  this.letters[this.ListIndix[1]];
+
+  this.letters[this.ListIndix[1]]=aux
+  const element = this.letters;
+console.log(element);
+this.ListIndix = [];
+
+}
+
+}
 
   }
-  getWidgetGraphique(){
-    this.serviceWidget.getAllWidget().subscribe(widget=>{
-      this. listWidgetGraphique = widget ;
-    });
-  }
- getWidgetIndicateur() {
 
-    this.serviceWidget.getAllWidget().subscribe(widget=>{
+
+ getWidgetWithType(property,indexType) {
+
+    this.serviceWidget.getAllWidget(property).subscribe(widget=>{
     let   index = 0;
     let i =0 ;
     let widgets = new Widget  ();
@@ -39,18 +68,16 @@ this. getWidgetIndicateur();
 
       widget.forEach(function(item){  
 
-        if(index <3)
+        if(index <2)
        { 
          playStore.push(item)  ;
          index++ ;
-         console.log(index);
 
       }
       else 
        { 
         playStore.push(item)  ;
 
-        console.log(playStore);
 
         listWidget.push(playStore);
 
@@ -63,11 +90,15 @@ this. getWidgetIndicateur();
       
       ); 
         listWidget.push(playStore);
+if(indexType == 1 )
+this.WidgetIndicator=  listWidget;
+else if(indexType == 3)
+this.WidgetList=  listWidget;
+else if(indexType == 4)
+this.WidgetGraphique=  listWidget;
+this.spinner=true
 
-      this.listWidget= listWidget;
-    })
- 
- 
+    });
   }
 
 

@@ -34,6 +34,8 @@ import { SpinnerComponent } from 'src/app/components/spinner/spinner.component';
 import { IndicateurComponent } from '../../components/widget/indicateur/indicateur.component';
 import { AreaComponent } from 'src/app/components/widget/area/area.component';
 import { HighchartsChartModule } from 'highcharts-angular';
+import {DragDropModule} from '@angular/cdk/drag-drop';
+import { WidgetListComponent } from 'src/app/components/widget/widget-list/widget-list.component';
 
 
 @NgModule({
@@ -50,7 +52,10 @@ import { HighchartsChartModule } from 'highcharts-angular';
         Login2Component,
         SpinnerComponent,
         IndicateurComponent,
-        AreaComponent
+        AreaComponent,
+        WidgetListComponent,
+
+
 
   ],
   imports: [
@@ -76,7 +81,8 @@ import { HighchartsChartModule } from 'highcharts-angular';
     ReactiveFormsModule, FormsModule,
     MatDialogModule,
     MatPaginatorModule,
-    HighchartsChartModule
+    HighchartsChartModule,
+    DragDropModule
   ],
   entryComponents:[DialogBoxComponent ,SpinnerComponent]
 })

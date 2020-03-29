@@ -7,3 +7,22 @@ ul li {
   }
   mat-icon{
 height: 20px;  }
+
+.mat-menu-item {
+  color: #ffb40a !important;
+}
+
+button.mat-menu-item{
+    background-color: white;
+}
+::ng-deep .filesList .mat-menu-content{
+  padding: 300px;
+}
+button.mat-menu-item:hover {
+    background-color: #0b0f2f;
+    color: #fff !important;
+}
+.logo{
+  width: 60%;
+  margin-left: 0.5%;
+}

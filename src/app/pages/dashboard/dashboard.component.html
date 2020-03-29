@@ -1,26 +1,49 @@
 
 <mat-toolbar style="height: 7%;"><h6>Dashboard</h6> </mat-toolbar>
-<div gdGap="30px " >
-<div  gdGap="60px 60px" fxLayoutAlign="center center"> 
 
-<div fxLayout="row" fxLayoutGap="10px" *ngFor="let item of listWidget  ">
-<div  fxFlex ="20"  *ngFor="let list of item ; let index = index  ; ">
-    
-    <app-indicateur *ngIf="list.type != 4"
- [indicateur] ="index" [title] ="list.nameFr" [backgroundColor] ="list.backgroundColor" >
-</app-indicateur>
-</div>
+    <div class="example-boundary">
+        <div [hidden]="spinner " class="spinner-position">
+            <app-spinner ></app-spinner>
+          </div>
+<div  fxLayout="column" fxLayoutGap="60px" fxLayoutAlign="space-between start"> 
 
-</div>
-</div>
+    <div  (click)="permutation(0)" [fxFlexOrder]="letters[0]" cdkDragBoundary=".example-boundary" cdkDrag   fxLayout="row" style="width: 100%; " fxLayoutGap="10px" *ngFor="let item of WidgetIndicator  ">
+            <div  fxFlex ="30"  *ngFor="let list of item ; let index = index  ; "
+            cdkDragBoundary=".example-boundary" class="cursor-move"  cdkDrag
+            >
 
-<div   fxLayoutAlign="start center" > 
+                <app-indicateur 
+            [indicateur] ="index" [title] ="list.nameFr" 
+           
+            [backgroundColor] ="list.backgroundColor" >
+            </app-indicateur>
+            </div>
 
-    <div fxLayout="row" fxLayoutGap="10px"  *ngFor="let item of listWidget  ">
-    <div  fxFlex   *ngFor="let list of item ; let index = index  ; ">
-        <app-area  [title] ="list.nameFr" *ngIf="list.type == 4"></app-area>
-     
     </div>
+
+    <div (click)="permutation(1)" [fxFlexOrder]="letters[1]" cdkDragBoundary=".example-boundary" cdkDrag  fxLayout="row" fxFlexOrder="2" fxLayoutGap="10px" *ngFor="let item of WidgetList  ">
+        <div  fxFlex   *ngFor="let list of item ; let index = index  ; " class="cursor-move"
+        cdkDragBoundary=".example-boundary" cdkDrag>
+           
+             
+                <widget-list [title] ="list.nameFr" ></widget-list>
+
+
+         
+        </div>
+
+</div>
+ 
+
+    <div fxLayout="column"  (click)="permutation(2)" [fxFlexOrder]="letters[2]"  fxLayoutAlign="start center"  cdkDragBoundary=".example-boundary" cdkDrag 
+        fxLayoutGap="10px"  *ngFor="let item of WidgetGraphique  ">
+        <div  fxFlex class="cursor-move"  *ngFor="let list of item ; let index = index  ; ">
+            <app-area  [title] ="list.nameFr" 
+            class="graphique-widget" cdkDragBoundary=".example-boundary" cdkDrag  >
+            </app-area>
+        
     
     </div>
-    </div></div>
+        </div>
+    </div>
+    </div>

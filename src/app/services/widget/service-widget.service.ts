@@ -20,14 +20,17 @@ refreshneeded = new Subject<void>();
 
  
   }
-  getAllWidget() :Observable<Widget[]>{
+  getAllWidget(property) :Observable<Widget[]>{
 
-   return this.http.get<Widget[]>(this.url+"/api/widgets",{headers: this.headers}).pipe(map(data => data['hydra:member']));
+   return this.http.get<Widget[]>(this.url+"/api/widgets"+property,{headers: this.headers}).pipe(map(data => data['hydra:member']));
+
+   
   }
+  
 
-  getAllWidgetDashbord(npPage) :Observable<Widget[]>{
+  getAllWidgetDashbord(npPage,itemsPerPage) :Observable<Widget[]>{
 
-    return this.http.get<Widget[]>(this.url+"/api/widgets?page="+npPage,{headers: this.headers}).pipe(map(data => data['hydra:member']));
+    return this.http.get<Widget[]>(this.url+`/api/widgets?itemsPerPage=${itemsPerPage}&page=${npPage}`,{headers: this.headers});
    }
   getDateTime(){
     

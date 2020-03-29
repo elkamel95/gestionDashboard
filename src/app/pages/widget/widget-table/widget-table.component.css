@@ -6,13 +6,13 @@ table {
     font-style: gras;
     
 }
-  
+
 .bordre{
           border: black;
       }
 
 .mat-raised-button.mat-accent {
-        background-color: #ffb40a;
+        color: white;
     }
     h6{
       font-size: small;

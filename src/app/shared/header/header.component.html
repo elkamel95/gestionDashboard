@@ -1,11 +1,15 @@
 <mat-toolbar color="primary">
     <mat-toolbar-row>
-        <div *ngIf="authenticationService.currentUserValue ">
+        <span >      
+            
+            <img class="logo"  style="margin-top: 16%;" mat-card-image src="../../../assets/icon/logo-sf-2.png" alt="">
+        </span>
+        <div style="margin-left: -4%;" *ngIf="authenticationService.currentUserValue ">
         <button  hidden="true"mat-icon-button (click)="toggleSideBar()">
             <mat-icon>menu</mat-icon>
         </button>
     </div>
-        <span> APP LOGO </span>
+       
 
         <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
             <ul fxLayout="row" fxLayoutGap="20px">
@@ -42,11 +46,13 @@
                     <mat-menu #menu="matMenu" >
                         <ul>
                             <li *ngIf="authenticationService.currentUserValue ; else elseAuth" >
-                                <button mat-menu-item (click)="logout()"><mat-icon>person_outline</mat-icon>{{authenticationService.getUsername()}}</button><button mat-menu-item (click)="logout()">
+                                <button mat-menu-item style="margin-left: -15%;" (click)="logout()">
+                                    <mat-icon>person_outline</mat-icon>{{authenticationService.getUsername()}}</button>
+                                    <button mat-menu-item style="margin-left: -15%;" (click)="logout()">
                                 <mat-icon>exit_to_app</mat-icon>Sign out</button></li>
                             <li *ngIf="!authenticationService.currentUserValue ">
 
-                                <button mat-menu-item (click)="registre()">
+                                <button mat-menu-item style="margin-left: -15%;" (click)="registre()">
                                   <mat-icon>exit_to_app</mat-icon> 
                                   registre
                                 </button>

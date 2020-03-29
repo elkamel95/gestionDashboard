@@ -1,26 +1,19 @@
 mat-card{
-
-    height: 150px;
+  width: 100%;
+    height: 200px;
     margin-top: 10%;
     
   }
   .matCardBackground{
-        background: rgba(255,255,255,1);
-        background: -moz-linear-gradient(left, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 88%, rgba(252,252,252,1) 96%, rgba(237,237,237,1) 100%);
-        background: -webkit-gradient(left top, right top, color-stop(0%, rgba(255,255,255,1)), color-stop(88%, rgba(246,246,246,1)), color-stop(96%, rgba(252,252,252,1)), color-stop(100%, rgba(237,237,237,1)));
-        background: -webkit-linear-gradient(left, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 88%, rgba(252,252,252,1) 96%, rgba(237,237,237,1) 100%);
-        background: -o-linear-gradient(left, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 88%, rgba(252,252,252,1) 96%, rgba(237,237,237,1) 100%);
-        background: -ms-linear-gradient(left, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 88%, rgba(252,252,252,1) 96%, rgba(237,237,237,1) 100%);
-        background: linear-gradient(to right, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 88%, rgba(252,252,252,1) 96%, rgba(237,237,237,1) 100%);
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed', GradientType=1 );
+         background: linear-gradient(60deg,#ffa726,#ffa726);
+      box-shadow: 0 4px 20px 0 rgba(0,0,0,.14), 0 7px 10px -5px rgba(255,152,0,.4);
   }
   mat-card.widget{
-      margin-top: -20%;
-      height: 100px;
+      margin-top: -35px;
+      height: 125px;
       color: white;
-      -webkit-box-shadow: inset -21px -22px 45px -23px rgba(135,135,135,0.79);
-      -moz-box-shadow: inset -21px -22px 45px -23px rgba(135,135,135,0.79);
-      box-shadow: inset -21px -22px 45px -23px rgba(135,135,135,0.79);
+      background: linear-gradient(60deg,#ffa726,#fb8c00);
+      box-shadow: 0 4px 20px 0 rgba(0,0,0,.14), 0 7px 10px -5px rgba(255,152,0,.4);
   }
   mat-icon{
     font-size: 50px;
