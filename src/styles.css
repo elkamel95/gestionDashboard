@@ -4,3 +4,17 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: 'Poppins', sans-serif; font-family: 'Lalezar', cursive;}
 
+.success {
+    color: white !important;
+    background-color:darkgreen !important;
+ 
+}
+
+.error {
+    color: white !important;
+    background-color:darkred !important;
+ 
+}
+.mat-simple-snackbar-action {
+    color: white !important;
+}

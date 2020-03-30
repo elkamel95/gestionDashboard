@@ -8,8 +8,8 @@ import * as Highcharts from 'highcharts';
 })
 export class AreaComponent implements OnInit {
   @Input() title ; 
-  @Input() width =1000; 
-  chartOptions ={};
+  @Input() width =600; 
+  @Input() chartOptions ={};
   Highcharts =Highcharts ;
   constructor() { 
     
@@ -18,11 +18,11 @@ export class AreaComponent implements OnInit {
   ngOnInit() {
     this.setChartOptions(this.width);
   }
-  setChartOptions(width){
+  setChartOptions(width=800){
     this.chartOptions =  {
         chart: {
      type: 'area',
-     height: 400 ,
+     height: 200 ,
      width: width
    },
  title: {

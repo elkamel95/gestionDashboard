@@ -5,6 +5,7 @@ import { MatDialog, MatPaginator, PageEvent } from '@angular/material';
 import { DialogBoxComponent } from 'src/app/components/dialog-box/dialog-box.component';
 import { ServiceWidgetService } from 'src/app/services/widget/service-widget.service';
 import { Widget } from 'src/app/models/Widget';
+import { AuthenticationService } from 'src/app/services/Auth/authentication-service.service';
 
 
 
@@ -35,7 +36,7 @@ export class WidgetTableComponent implements OnInit  {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   pageEvent: PageEvent;
 
-  constructor(public dialog: MatDialog ,private ws:ServiceWidgetService) {
+  constructor(public dialog: MatDialog ,private authenticationService: AuthenticationService,private ws:ServiceWidgetService) {
 
     ws.refreshneeded.subscribe(()=>{
   
@@ -48,14 +49,17 @@ export class WidgetTableComponent implements OnInit  {
   }
 
   ngOnInit() {
+
   }
 
   
   openDialog(action,obj,id?) {
+    
     obj.action = action;
     obj.id=id;
     const dialogRef = this.dialog.open(DialogBoxComponent, {
-      width: '250px',
+      width: '99%',
+      height :'90%',
       data:obj,
     });
 

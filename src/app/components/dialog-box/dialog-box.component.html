@@ -1,7 +1,16 @@
 <!-- dialog-box.component.html -->
-<h1 mat-dialog-title><strong>{{action}}</strong> Widget</h1>
-<div mat-dialog-content>
-  <div *ngIf="action != 'Delete'; else elseTemplate">
+
+<div mat-dialog-title>
+  <mat-card style=" background-color: #ffa000;">
+<h1 mat-dialog-title>creér widget </h1>
+</mat-card>
+</div>
+
+<div mat-dialog-content  fxLayout="column" fxLayoutGap="15px">
+  <div *ngIf="action != 'Delete'; else elseTemplate" fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="start start">
+
+   <div fxLayout="column" style="width: 100%;" fxFlex ="20" class="border-style">
+    <h6>information</h6>
     <mat-form-field >
 
       <input placeholder="Widget Name FR" matInput [(ngModel)]="data.nameFr">
@@ -11,7 +20,7 @@
       <input placeholder="Widget Name EN" matInput [(ngModel)]="data.nameEn">
     </mat-form-field>
     <mat-form-field >
-<mat-label>Description</mat-label>
+      <mat-label>Description</mat-label>
       <textarea matInput [(ngModel)]="data.description"></textarea>
     </mat-form-field>
     <mat-form-field appearance="fill">
@@ -30,11 +39,50 @@
     
 
   </div>
- 
+  <div fxLayout="column" fxLayoutGap="2px" fxFlex  class="border-style" >
+    <h1>Style</h1>
+    <div fxLayout="row" style="width: 100%;" fxFlex ="20" fxLayoutGap="20px" class="border-style">
+
+      <mat-form-field >
+  
+        <input type="number" placeholder="Width" matInput 
+        (keyup)="setChartOptions(data.nameEn,data.nameFr)"
+        [(ngModel)]="data.nameEn">
+      </mat-form-field>
+      <mat-form-field >
+  
+        <input type="number" placeholder="Width" matInput 
+        (keyup)="setChartOptions(data.nameEn,data.nameFr,data.nameEn)"
+        [(ngModel)]="data.nameEn">
+      </mat-form-field>
+      <mat-form-field >
+  
+        <input type="number" placeholder="Width" matInput 
+        (keyup)="setChartOptions(data.nameEn,data.nameFr)"
+        [(ngModel)]="data.nameEn">
+      </mat-form-field>
+    
+  
+      
+    </div>
+  
+    <div  *ngIf="data.type == 1 " id="margin" >
+
+  <app-indicateur [backgroundColor]="data.nameFr" [title]="data.nameFr" ></app-indicateur>
+    </div>
+<div   class="border-style" *ngIf="data.type == 4">
+  <app-area [title]="data.nameFr"  [chartOptions]="chartOptions"></app-area>
+  </div>
+  </div>
+
+
+
   <ng-template #elseTemplate>
     Sure to delete <b>{{data.nameFr}}</b>?
   </ng-template>
 </div>
+
+</div> 
 <div mat-dialog-actions>
   <button mat-button (click)="doAction()">{{action}}</button>
   <button mat-button (click)="closeDialog()" mat-flat-button color="warn">Cancel</button>

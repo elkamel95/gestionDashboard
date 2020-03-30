@@ -4,7 +4,7 @@ import { UserService } from 'src/app/services/Auth/user-service.service';
 import { first } from 'rxjs/operators';
 import { User } from 'src/app/models/User';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertService } from 'src/app/services/Auth/alert.service';
+import { AlertService } from 'src/app/services/alert/alert.service';
 
 @Component({
   selector: 'app-sign-up',

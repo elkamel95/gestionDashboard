@@ -3,8 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/services/Auth/authentication-service.service';
-import { AlertService } from 'src/app/services/Auth/alert.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import { AlertService } from 'src/app/services/alert/alert.service';
 
 @Component({
   selector: 'app-sigin',
