@@ -12,6 +12,10 @@ font	:string ;
 positionLeft	:string;
 positionRight	:string;
 type	: string ; 
+width : string ; 
+height :string ;
+backgroundSmallWidget: string;
+colorSmallWidget: string;
 createAt : string;
 updateAt :string ;
 }

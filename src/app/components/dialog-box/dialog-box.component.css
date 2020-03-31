@@ -8,7 +8,10 @@
     padding: 05px;
     margin: -20px 0 0 30px;
     background: #fff;
+    color: #ffa000;
     width: fit-content;
+    font-weight: normal;
+    font-size: smaller;
 }
 
  #margin{
@@ -24,10 +27,12 @@
 }
 mat-card{
     background-color: #ffa000;
-    width: 103%;
+    width: 102%;
     height: 20px;
     margin-left: -2.8%;
     margin-top: -2.8%;
-    color: white;
+}
+.mat-form-field{
+    padding: 10px;
 }
 

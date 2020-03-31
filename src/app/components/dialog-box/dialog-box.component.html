@@ -6,15 +6,22 @@
 </mat-card>
 </div>
 
-<div mat-dialog-content  fxLayout="column" fxLayoutGap="15px">
+<div mat-dialog-content  fxLayout="column" fxLayoutGap="15px" class="mat-typography">
   <div *ngIf="action != 'Delete'; else elseTemplate" fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="start start">
 
    <div fxLayout="column" style="width: 100%;" fxFlex ="20" class="border-style">
-    <h6>information</h6>
-    <mat-form-field >
+    <h1>information</h1>
+    <mat-form-field>
+      <input placeholder="Widget Name FR" matInput [(ngModel)]="data.nameFr"
+      (keyup)="setChartOptions(data.width,data.height,
+      data.nameFr,data.textColor,data.backgroundColor,
+      data.size,data.font )"
+      >
 
-      <input placeholder="Widget Name FR" matInput [(ngModel)]="data.nameFr">
+      <mat-icon matPrefix>phone</mat-icon>
+      <mat-hint>Include area code</mat-hint>
     </mat-form-field>
+
     <mat-form-field >
 
       <input placeholder="Widget Name EN" matInput [(ngModel)]="data.nameEn">
@@ -26,14 +33,16 @@
     <mat-form-field appearance="fill">
 
     <mat-label>Select Type Widget</mat-label>
-
-    <mat-select name="TypeValue"  (selectionChange)= "setType($event.value)" required >
-      <mat-option *ngFor="let type of types"  
-      [value]="type">
-        {{type.name}}
+<form  [formGroup]="widgetControleForm">
+    <mat-select   formControlName="typeWidget" name="typeWidget" (selectionChange)= "setType($event)"  >
+      <mat-option *ngFor="let typeWidget of types"  
+      [value]="typeWidget.id"        
+>
+        {{typeWidget.name}}
       </mat-option>
 
     </mat-select>
+  </form>
     </mat-form-field>
 
     
@@ -42,35 +51,107 @@
   <div fxLayout="column" fxLayoutGap="2px" fxFlex  class="border-style" >
     <h1>Style</h1>
     <div fxLayout="row" style="width: 100%;" fxFlex ="20" fxLayoutGap="20px" class="border-style">
+      <div fxLayout="column">
+      <mat-form-field >
+  
+        <input type="number" placeholder="Width" matInput  [(ngModel)]="data.width"
+        (keyup)="setChartOptions(data.width,data.nameFr,data.textColor)">
+      </mat-form-field>
+      <mat-form-field >
+  
+        <input type="number" placeholder="height" matInput 
+        (keyup)="setChartOptions(data.width,data.height,
+      data.nameFr,data.textColor,data.backgroundColor,
+      data.size,data.font )"
+        [(ngModel)]="data.height">
+      </mat-form-field></div>
+      <div fxLayout="column">
 
-      <mat-form-field >
-  
-        <input type="number" placeholder="Width" matInput 
-        (keyup)="setChartOptions(data.nameEn,data.nameFr)"
-        [(ngModel)]="data.nameEn">
-      </mat-form-field>
-      <mat-form-field >
-  
-        <input type="number" placeholder="Width" matInput 
-        (keyup)="setChartOptions(data.nameEn,data.nameFr,data.nameEn)"
-        [(ngModel)]="data.nameEn">
-      </mat-form-field>
-      <mat-form-field >
-  
-        <input type="number" placeholder="Width" matInput 
-        (keyup)="setChartOptions(data.nameEn,data.nameFr)"
-        [(ngModel)]="data.nameEn">
-      </mat-form-field>
-    
-  
+        <mat-form-field >
+        
+          <input placeholder="textColor" matInput 
+          (keyup)="setChartOptions(data.width,data.height,
+          data.nameFr,data.textColor,data.backgroundColor,
+          data.size,data.font )"
+          [(ngModel)]="data.textColor">
+        </mat-form-field>
+        
+        <mat-form-field >
+        
+          <input placeholder="backgroundColor" matInput 
+          (keyup)="setChartOptions(data.width,data.height,
+          data.nameFr,data.textColor,data.backgroundColor,
+          data.size,data.font )"
+          [(ngModel)]="data.backgroundColor">
+        </mat-form-field>
+      </div>
       
-    </div>
-  
-    <div  *ngIf="data.type == 1 " id="margin" >
+      <div fxLayout="column"   >
+        <div>
+        <mat-form-field *ngIf="data.type == 4 " >
+        
+          <input type="number" placeholder="size" matInput 
+          (keyup)="setChartOptions(data.width,data.height,
+          data.nameFr,data.textColor,data.backgroundColor,
+          data.size,data.font )"
+          [(ngModel)]="data.size">
+        </mat-form-field>
+        <mat-form-field   *ngIf="data.type == 4 ">
+        
+          <input  placeholder="font" matInput 
+          (keyup)="setChartOptions(data.width,data.height,
+          data.nameFr,data.textColor,data.backgroundColor,
+          data.size,data.font )"
+          [(ngModel)]="data.font">
+        </mat-form-field>
+<mat-form-field  *ngIf="data.type == 1 ">
+     <mat-select  [(ngModel)]="data.size" >
 
-  <app-indicateur [backgroundColor]="data.nameFr" [title]="data.nameFr" ></app-indicateur>
+      <mat-option  *ngFor="let item of font_size" [value]="item">{{item}}</mat-option>
+     </mat-select> 
+    </mat-form-field>
+    <mat-form-field  *ngIf="data.type == 1 ">
+      <mat-select  [(ngModel)]="data.font" >
+ 
+       <mat-option  *ngFor="let item of  font_style" [value]="item">{{item}}</mat-option>
+      </mat-select> 
+     </mat-form-field>
+        </div>
+        
+            </div>
+            <div fxLayout="column"   >
+              <div>
+              <mat-form-field >
+              
+                <input  placeholder="backgroundSmallWidget" matInput 
+              
+                [(ngModel)]="data.backgroundSmallWidget">
+              </mat-form-field>
+              <mat-form-field >
+              
+                <input   matInput placeholder="colorSmallWidget"
+              
+                [(ngModel)]="data.colorSmallWidget">
+              </mat-form-field>
+              </div>
+              
+                  </div>
     </div>
-<div   class="border-style" *ngIf="data.type == 4">
+
+  
+    <div fxFlex *ngIf="data.type == 1 " id="margin" >
+
+  <app-indicateur [backgroundColor]=" data.backgroundSmallWidget "
+   [textColor] ="data.textColor"
+    [width] ="data.width"
+  [title]="data.nameFr" 
+  [size] ="data.size"
+  [font]="data.font"
+  [backgroundSmallWidget]="data.backgroundColor" [colorSmallWidget]="data.colorSmallWidget"
+  ></app-indicateur>
+  
+    </div>
+<div  fxFlex class="border-style" *ngIf="data.type == 4">
   <app-area [title]="data.nameFr"  [chartOptions]="chartOptions"></app-area>
   </div>
   </div>
@@ -83,7 +164,7 @@
 </div>
 
 </div> 
-<div mat-dialog-actions>
+<div mat-dialog-actions align = "end">
   <button mat-button (click)="doAction()">{{action}}</button>
   <button mat-button (click)="closeDialog()" mat-flat-button color="warn">Cancel</button>
 </div>

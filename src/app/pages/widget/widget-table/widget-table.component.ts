@@ -22,6 +22,7 @@ const types  = [
 })
 
 export class WidgetTableComponent implements OnInit  {
+
        pageIndex = 0 ;
        length=0;
        pageSizeOptions: number[] = [3,5,7,8,9, 10, 25, 100];
@@ -59,7 +60,6 @@ export class WidgetTableComponent implements OnInit  {
     obj.id=id;
     const dialogRef = this.dialog.open(DialogBoxComponent, {
       width: '99%',
-      height :'90%',
       data:obj,
     });
 

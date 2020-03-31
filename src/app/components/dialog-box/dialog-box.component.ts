@@ -1,7 +1,8 @@
 //dialog-box.component.ts
-import { Component, Inject, Optional } from '@angular/core';
+import { Component, Inject, Optional, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Widget } from 'src/app/models/Widget';
+import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 
 
 export interface Type {
@@ -16,7 +17,9 @@ export interface Type {
   templateUrl: './dialog-box.component.html',
   styleUrls: ['./dialog-box.component.css']
 })
-export class DialogBoxComponent {
+export class DialogBoxComponent implements OnInit{
+  nrSelect=1;
+  widgetControleForm: FormGroup;
   chartOptions ={};
     types:Type [] = [ 
     {'id':"1" , 'name':'indicateur'},
@@ -24,9 +27,16 @@ export class DialogBoxComponent {
     {'id':"3" , 'name':'liste'},
     {'id':"4" , 'name':'graphique'},
     ]
+    font_size =[
+"large","larger","medium","small","smaller","x-large","x-small","xx-large","xx-small","-webkit-xxx-large"
+    ]
+    font_style =[
+      "900","bold","bolder","inherit","initial",
+      "lighter","normal","unset"
+          ]
   action:string;
   local_data:any;
-  constructor(
+  constructor(private fb: FormBuilder,
     public dialogRef: MatDialogRef<DialogBoxComponent>,
     //@Optional() is used to prevent error if no data is passed
     @Optional() @Inject(MAT_DIALOG_DATA) public data: Widget) {
@@ -36,12 +46,22 @@ export class DialogBoxComponent {
     this.action = this.local_data.action;
 
   }
-  setType(event){
+  ngOnInit(): void {
+console.log(this.data);
+   this.widgetControleForm = new FormGroup({
+    typeWidget:new FormControl('1')
+});
+this.data.type = '1';
+}
+   
+  setType(event: { value: string; }){
     console.log(event);
-    this.data.type = event.id ;
+    this.data.type = event.value ;
     
   }
-  setChartOptions(width=800,text,height?){
+  setChartOptions(width=300,height="200",text="",colorText ="#000"
+  ,backgroundColor="#fff",size="6",font ="bold"
+  ){
     
     this.chartOptions =  {
         chart: {
@@ -52,8 +72,8 @@ export class DialogBoxComponent {
  title: {
      text: text,
      style: {
-       color: '#000',
-       font: 'bold 16px "Trebuchet MS", Verdana, sans-serif'
+       color: colorText,
+       font: `${font}+ ${size}+'px "Trebuchet MS", Verdana, sans-serif`
    },
   
  },
