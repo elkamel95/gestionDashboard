@@ -1,5 +1,5 @@
 .backgroundImage{
-    background-image: url('../../../assets/icon/backround4.jpg');
+    background-image: url('../../../assets/icon/backround5.jpg');
     background-repeat: round;
     filter: saturate(0.8);
     background-color: #020d48;
@@ -9,12 +9,12 @@
 }
 .formSize{
 width: 100%;
-font-family: 'Lalezar', cursive;
 
 
 }
 .matCardBackground{
   background-color:#e2910e;
+  padding: 10px;
  color: white;
 }
 .LargeLabel {
@@ -22,10 +22,7 @@ font-family: 'Lalezar', cursive;
     color: #e2910e;
     margin-top: 25%;
     margin-left: 25%;
-    font-family: 'Lalezar', cursive;
-    font-family: 'Poppins', sans-serif;
-    font-family: 'Miss Fajardose', cursive;
-    font-family: 'Mr De Haviland', cursive;
+
   }
   a{
     text-align: right;
