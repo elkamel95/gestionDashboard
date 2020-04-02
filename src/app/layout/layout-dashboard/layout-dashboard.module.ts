@@ -36,7 +36,12 @@ import { AreaComponent } from 'src/app/components/widget/area/area.component';
 import { HighchartsChartModule } from 'highcharts-angular';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { WidgetListComponent } from 'src/app/components/widget/widget-list/widget-list.component';
+import { MccColorPickerModule } from 'material-community-components';
+import {MatSliderModule} from '@angular/material/slider';
 
+import { MatColorPickerModule } from 'mat-color-picker';
+import { IndicateurListeComponent } from 'src/app/components/widget/indicateur-liste/indicateur-liste.component';
+import { DialogDeleteComponent } from 'src/app/components/dialog-delete/dialog-delete.component';
 
 @NgModule({
   declarations: [
@@ -54,11 +59,12 @@ import { WidgetListComponent } from 'src/app/components/widget/widget-list/widge
         IndicateurComponent,
         AreaComponent,
         WidgetListComponent,
-
-
+        IndicateurListeComponent,
+        DialogDeleteComponent
 
   ],
   imports: [
+
     CommonModule,
     MatSidenavModule,
     MatTableModule,
@@ -82,8 +88,15 @@ import { WidgetListComponent } from 'src/app/components/widget/widget-list/widge
     MatDialogModule,
     MatPaginatorModule,
     HighchartsChartModule,
-    DragDropModule
+    DragDropModule,
+ MatColorPickerModule,MatSliderModule,
+ MccColorPickerModule.forRoot({
+  empty_color: 'transparent',
+  used_colors: ['#000000', '#FFF555']
+})
+
+ 
   ],
-  entryComponents:[DialogBoxComponent ,SpinnerComponent]
+  entryComponents:[DialogBoxComponent ,DialogDeleteComponent,SpinnerComponent]
 })
 export class LayoutDashboardModule { }

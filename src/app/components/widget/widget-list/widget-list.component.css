@@ -1,15 +1,12 @@
 .matCardBackground{
-    background: linear-gradient(60deg,#ffa726,#fb8c00);
-      box-shadow: 0 4px 20px 0 rgba(0,0,0,.14), 0 7px 10px -5px rgba(255,152,0,.4);
-      color: white;
-      height: 25%;
-      position: absolute;
-      height: 50px;
-      margin-left: -5%;
-      width: 70%;
-      margin-top: -80px;
+  box-shadow: inset -6px 20px 20px 3px rgba(0,0,0,.14), 0 7px 10px -5px rgba(255,152,0,.4);
+  color: white;
+  position: absolute;
+  height: 20%;
+  margin-left: -5%;
+  width: 95%;
+  margin-top: -90px;
   }
   .title{
-    color: white;
 text-align: center; 
   }

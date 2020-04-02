@@ -19,6 +19,7 @@ export interface Type {
 })
 export class DialogBoxComponent implements OnInit{
   nrSelect=1;
+  selected ="1";
   widgetControleForm: FormGroup;
   chartOptions ={};
     types:Type [] = [ 
@@ -28,28 +29,43 @@ export class DialogBoxComponent implements OnInit{
     {'id':"4" , 'name':'graphique'},
     ]
     font_size =[
-"large","larger","medium","small","smaller","x-large","x-small","xx-large","xx-small","-webkit-xxx-large"
+    "large","larger","medium","small","smaller","x-large","x-small","xx-large","xx-small","-webkit-xxx-large"
     ]
+    size =[
+      "8","10","12","14","15","16","18","20","22","25","30"
+      ]
     font_style =[
       "900","bold","bolder","inherit","initial",
       "lighter","normal","unset"
           ]
   action:string;
   local_data:any;
+  ControleForm: FormGroup;
+  data:Widget = new Widget() ; 
   constructor(private fb: FormBuilder,
     public dialogRef: MatDialogRef<DialogBoxComponent>,
     //@Optional() is used to prevent error if no data is passed
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: Widget) {
-      console.log(data);
-
-    this.local_data = {...data};
+    @Optional() @Inject(MAT_DIALOG_DATA) public Alldata: any) {
+      console.log(this.data);
+      this.data=  Alldata.element;
+    this.local_data = {...this.Alldata};
     this.action = this.local_data.action;
 
   }
-  ngOnInit(): void {
+  selectedColor($event){
+    console.log($event) ;
+    //}   this.data.textColor = $event};
+  }
+ngOnInit(): void {  
 console.log(this.data);
    this.widgetControleForm = new FormGroup({
     typeWidget:new FormControl('1')
+});
+
+this.ControleForm = new FormGroup({
+  font:new FormControl('1'),
+  size:new FormControl('2')
+
 });
 this.data.type = '1';
 }
@@ -61,29 +77,34 @@ this.data.type = '1';
   }
   setChartOptions(width=300,height="200",text="",colorText ="#000"
   ,backgroundColor="#fff",size="6",font ="bold"
-  ){
+  )
+
+  
+  {
+
+    console.log(size+"px");
     
     this.chartOptions =  {
         chart: {
      type: 'area',
      height: height ,
-     width: width
+     width: width,
+     backgroundColor:backgroundColor
+
    },
  title: {
      text: text,
-     style: {
-       color: colorText,
-       font: `${font}+ ${size}+'px "Trebuchet MS", Verdana, sans-serif`
-   },
+     style:  { "color": colorText, "fontSize": size+"px"  }
+
   
  },
  legend: {
    itemStyle: {
        font: '9pt Trebuchet MS, Verdana, sans-serif',
-       color: 'black'
+       color: colorText
    },
    itemHoverStyle:{
-       color: 'gray'
+       color: colorText
    }   
 },
  credits :{
@@ -93,34 +114,19 @@ this.data.type = '1';
      categories: ['1750', '1800', '1850', '1900', '1950', '1999', '2050'],
      tickmarkPlacement: 'on',
      title: {
-         enabled: false
-     }
+         enabled: false,
+         style: { "color": colorText, "fontSize": "18px" }
+        }
  },
  yAxis: {
      title: {
-         text: 'Billions'
+         text: 'Billions',
+        style: { "color": colorText, "fontSize": "18px" }
      },
-     labels: {
-         formatter: function () {
-             return this.value / 1000;
-         }
-     }
+ 
  },
- tooltip: {
-     split: true,
-     valueSuffix: ' millions'
- },
- plotOptions: {
-     area: {
-         stacking: 'normal',
-         lineColor: '#666666',
-         lineWidth: 1,
-         marker: {
-             lineWidth: 1,
-             lineColor: '#666666'
-         }
-     }
- },
+
+
  series: [{
      name: 'Asia',
      data: [502, 635, 809, 947, 1402, 3634, 5268]

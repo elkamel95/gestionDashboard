@@ -14,9 +14,10 @@ export class ErrorInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request).pipe(
             tap((event: HttpEvent<any>) => {
-                if (event instanceof HttpResponse && (event.status >= 201 && event.status <= 226 ) ){
+                if (event instanceof HttpResponse && (event.status >= 200 &&(  request.method !=="GET")&& event.status <= 226 ) ){
                     this.snackbarService.open("Requête traitée avec succès",event.status+"",
                     "success");
+                    event.headers
                 }
               }),
             catchError(err => {

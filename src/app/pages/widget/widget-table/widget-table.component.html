@@ -4,7 +4,7 @@
 <div fxLayoutAlign="start start" style="padding: 0.5%;">
         <button mat-raised-button color="accent" 
         class="btn-block" 
-        style="height: 10%; width: 20%;" (click)="openDialog('Add',{})">Ajouter</button>
+        style="height: 10%; width: 20%;" (click)="openDialog('Add',{},{})">Ajouter</button>
       </div>
       
         <div [hidden]="spinner " class="spinner-position ">
@@ -46,9 +46,9 @@
         style="width: 25%;" > 
         
         <button  mat-button > <mat-icon>visibility</mat-icon></button>
-        <button  mat-button (click)="openDialog('Update',{},element.id)">   <mat-icon>edit</mat-icon></button>
+        <button  mat-button (click)="openDialog('Update',{},element)">   <mat-icon>edit</mat-icon></button>
         <button  mat-button (click)="widget_copy('copy',element)">   <mat-icon>file_copy</mat-icon></button>
-        <button  mat-button (click)="openDialog('Delete',{},element.id)">   <mat-icon> remove_circle </mat-icon></button>
+        <button  mat-button (click)="openDialog('Delete',{},element)">   <mat-icon> remove_circle </mat-icon></button>
 
 
         </td>
@@ -96,7 +96,8 @@
   <mat-paginator [length]="length"
   (page)="pageEvent = $event" style="width: 99%;" [length]="100"
   
-  [pageSizeOptions]="pageSizeOptions" showFirstLastButtons class="mat-elevation-z8"></mat-paginator>
+  [pageSizeOptions]="pageSizeOptions"   [pageSize]="5"
+  showFirstLastButtons class="mat-elevation-z8"></mat-paginator>
 </div>
 <div *ngIf="pageEvent"> 
   {{setNewData(pageEvent)}}

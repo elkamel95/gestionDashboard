@@ -27,7 +27,6 @@
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css",
               "src/theme.scss"
-
             ],
             "scripts": []
           },
@@ -93,12 +92,8 @@
             ],
             "styles": [
               "src/styles.css"
-         
             ],
-            "scripts": [
-
-
-            ]
+            "scripts": []
           }
         },
         "lint": {
@@ -129,5 +124,8 @@
       }
     }
   },
-  "defaultProject": "frontdasboard"
+  "defaultProject": "frontdasboard",
+  "cli": {
+    "analytics": "3abbb620-81a3-4c2a-80e6-8f87856e2977"
+  }
 }

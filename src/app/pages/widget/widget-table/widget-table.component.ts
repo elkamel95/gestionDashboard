@@ -6,6 +6,7 @@ import { DialogBoxComponent } from 'src/app/components/dialog-box/dialog-box.com
 import { ServiceWidgetService } from 'src/app/services/widget/service-widget.service';
 import { Widget } from 'src/app/models/Widget';
 import { AuthenticationService } from 'src/app/services/Auth/authentication-service.service';
+import { DialogDeleteComponent } from 'src/app/components/dialog-delete/dialog-delete.component';
 
 
 
@@ -54,15 +55,25 @@ export class WidgetTableComponent implements OnInit  {
   }
 
   
-  openDialog(action,obj,id?) {
-    
-    obj.action = action;
-    obj.id=id;
-    const dialogRef = this.dialog.open(DialogBoxComponent, {
+  openDialog(action,obj,element?) {
+    console.log(element) ;
+    obj.id=element.id;
+    obj.element = element ; 
+    obj.action=action;
+    var dialogRef  ;
+    if(action ==="Delete" )
+ {    dialogRef = this.dialog.open(DialogDeleteComponent, {
+  width: '400px',
+
+      data:obj,
+    });
+  
+  }else{
+    dialogRef = this.dialog.open(DialogBoxComponent, {
       width: '99%',
       data:obj,
     });
-
+  }
     dialogRef.afterClosed().subscribe(result => {
       if(result.event == 'Add'){
         console.log(result.data);
@@ -75,10 +86,7 @@ export class WidgetTableComponent implements OnInit  {
         this.deleteRowData(result.data.id);
         console.log(result.data);
       }
-      else if(result.event == 'copy'){
-      
-
-      }
+   
       
     });
   }
@@ -120,12 +128,9 @@ export class WidgetTableComponent implements OnInit  {
     this.dataSource._updateChangeSubscription();  }
 
     widget_copy(s,widgetc){
-
       var  widget = new Widget(); 
-      widget.nameEn =widgetc.nameEn ;
-      widget.nameFr =widgetc.nameFr ;
-      widget.type =widgetc.type ;
-      widget.description = widgetc.description ; 
+   widget = widgetc ;
+   widget.id =null ;
        this.ws.postWidget(widget);
     }
     setNewData($event:PageEvent){

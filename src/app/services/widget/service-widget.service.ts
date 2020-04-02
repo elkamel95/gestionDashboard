@@ -38,9 +38,10 @@ return new Date().toJSON("jj/mm/yy");;
   }
   postWidget(widget:Widget){
     console.log(widget) ;
-widget.createAt =this.getDateTime();
-widget.updateAt =this.getDateTime();
-
+widget.createAt =this.getDateTime().toString();
+widget.updateAt =this.getDateTime().toString();
+widget.width=widget.width.toString();
+widget.height=  widget.height.toString();
     this.http.post<Widget>(this.url+"/api/widgets", widget).subscribe(()=>{
       this.refreshneeded.next ();
  
@@ -57,6 +58,12 @@ this.http.delete(this.url+"/api/widgets/"+id).subscribe(rep=>{
   
   update(widget:Widget,id){ ;
 widget.updateAt =this.getDateTime()
+widget.positionLeft ="";
+widget.positionRight ="";
+widget.url ="";
+widget.visible=true;
+widget.width.toString();
+widget.height.toString();
     this.http.put(this.url+"/api/widgets/"+id, widget).subscribe(()=>{
       this.refreshneeded.next ();
  

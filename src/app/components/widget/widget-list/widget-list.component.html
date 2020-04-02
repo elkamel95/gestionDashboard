@@ -1,12 +1,14 @@
-<mat-card >
-    <mat-card-header >
-        <mat-card class="matCardBackground">
-            <mat-card-subtitle class="title">  {{title}}</mat-card-subtitle>
+<div fxLayoutAlign="center center"   fxLayout="column"  [ngStyle]="{'width': width+'%', 'height': height+'%'}" >    
+<mat-card fxFlex  fxLayout="column"  >
+ 
+  <mat-card-header fxFlex >
+        <mat-card class="matCardBackground" [ngStyle]="{'background-color': backgroundColor}">
+            <mat-card-subtitle class="title" [ngStyle]="{'color': textColor ,'font-size':size ,'font-weight':font}">  {{title}}</mat-card-subtitle>
 
         </mat-card>
     </mat-card-header>
    
-<table style="width: 100%;" mat-table [dataSource]="dataSource" >
+<table fxFlex  mat-table [dataSource]="dataSource" >
 
     <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
@@ -42,3 +44,4 @@
   [pageSize]="3"
   [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
 </mat-card>
+</div>

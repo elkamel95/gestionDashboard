@@ -12,15 +12,18 @@ export class DashboardComponent implements OnInit  {
 WidgetIndicator : Widget [] []=[] ;
 WidgetGraphique : Widget  [][]=[] ;
 WidgetList : Widget  [][]=[] ;
+WidgetIndicatorList : Widget  [][]=[] ;
+
 width=80;
 spinner =false;
 permute = 1;
 permutationiSActive =false ; 
 ListIndix = []
  letters = [0 , 1 ,2] ;
-
 ;  constructor(private serviceWidget:ServiceWidgetService) {
-    this. getWidgetWithType("?type=1","1");
+    this. getWidgetWithType("?type[]=1&type[]=2","1");
+    this. getWidgetWithType("?type=2","2");
+
     this. getWidgetWithType("?type=3","3");
     this. getWidgetWithType("?type=4","4");
 
@@ -28,7 +31,7 @@ ListIndix = []
   
 
   ngOnInit() {
-  }
+   }
   permutation(index){
     if(this.permutationiSActive)
     {var aux =0;
@@ -93,6 +96,7 @@ this.ListIndix = [];
 if(indexType == 1 )
 this.WidgetIndicator=  listWidget;
 else if(indexType == 3)
+
 this.WidgetList=  listWidget;
 else if(indexType == 4)
 this.WidgetGraphique=  listWidget;

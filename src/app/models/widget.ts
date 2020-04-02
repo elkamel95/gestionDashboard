@@ -18,4 +18,5 @@ backgroundSmallWidget: string;
 colorSmallWidget: string;
 createAt : string;
 updateAt :string ;
+visible:boolean ;
 }

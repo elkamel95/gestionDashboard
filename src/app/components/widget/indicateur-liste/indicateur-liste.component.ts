@@ -1,17 +1,18 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-indicateur',
-  templateUrl: './indicateur.component.html',
-  styleUrls: ['./indicateur.component.css']
+  selector: 'IndicateurListe',
+  templateUrl: './indicateur-liste.component.html',
+  styleUrls: ['./indicateur-liste.component.css']
 })
-export class IndicateurComponent implements OnInit {
+export class IndicateurListeComponent 
+implements OnInit {
 @Input() indicateur =0 ;
 @Input()  title =" ";
 @Input() backgroundColor ="";
 @Input() textColor ="";
-@Input() backgroundSmallWidget="#ffa000"; 
-@Input() colorSmallWidget="#000" ;
+@Input() backgroundSmallWidget="" ; 
+@Input() colorSmallWidget="" ;
 @Input() size ="";
 @Input() width ;
 @Input() height;
@@ -23,7 +24,10 @@ export class IndicateurComponent implements OnInit {
   ngOnInit() {
     this.width ="100%";
     this.height ="70%"
-
+ 
   }
 
 }
+
+
+  

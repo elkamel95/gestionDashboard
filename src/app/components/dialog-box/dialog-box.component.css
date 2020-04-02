@@ -5,6 +5,9 @@
     border-radius: 20px 20px 20px 20px;
 
 }
+.mcc-color-picker-selector-preview[_ngcontent-xyi-c28] {
+    display: none;
+}
 .border-style h1{
     float: left;
     padding: 05px;
@@ -38,3 +41,7 @@ mat-card{
     padding: 10px;
 }
 
+.text-color{
+    color: #0b0f2f;
+    font-weight: bold;
+}

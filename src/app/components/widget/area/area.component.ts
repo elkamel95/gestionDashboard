@@ -7,8 +7,13 @@ import * as Highcharts from 'highcharts';
   styleUrls: ['./area.component.css']
 })
 export class AreaComponent implements OnInit {
-  @Input() title ; 
+  @Input() title: "" ; 
   @Input() width =600; 
+  @Input() height =300; 
+  @Input()textColor="";
+  @Input()backgroundColor="";
+  @Input() size="";
+  @Input()font="";
   @Input() chartOptions ={};
   Highcharts =Highcharts ;
   constructor() { 
@@ -16,86 +21,85 @@ export class AreaComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.setChartOptions(this.width);
-  }
-  setChartOptions(width=800){
+    this.setChartOptions(this.width,
+        this.height,
+        this.title ,
+    this.textColor="",
+    this.backgroundColor="",
+    this.size="",
+    this.font="");
+    console.log(  "sdsqd"+this.title);}
+
+
+  setChartOptions(
+      width=300,
+      height=200,
+      tilte="",
+      textColor 
+    ,backgroundColor="#fff"
+    ,size="6",
+    font ="bold"
+  ){
+
     this.chartOptions =  {
         chart: {
      type: 'area',
-     height: 200 ,
-     width: width
-   },
- title: {
-     text: this.title,
-     style: {
-       color: '#000',
-       font: 'bold 16px "Trebuchet MS", Verdana, sans-serif'
-   },
+     height: height ,
+     width: width,
+     backgroundColor:backgroundColor
   
- },
- legend: {
+   },
+  title: {
+     text: tilte,
+     style:  { "color": "#000", "fontSize":"16px"  }
+  
+  
+  },
+  legend: {
    itemStyle: {
        font: '9pt Trebuchet MS, Verdana, sans-serif',
-       color: 'black'
+       color:textColor
    },
    itemHoverStyle:{
-       color: 'gray'
+       color: textColor
    }   
-},
- credits :{
+  },
+  credits :{
    enabled:false 
- }, 
- xAxis: {
+  }, 
+  xAxis: {
      categories: ['1750', '1800', '1850', '1900', '1950', '1999', '2050'],
      tickmarkPlacement: 'on',
      title: {
-         enabled: false
-     }
- },
- yAxis: {
+         enabled: false,
+         style: { "color": textColor, "fontSize": "18px" }
+        }
+  },
+  yAxis: {
      title: {
-         text: 'Billions'
+         text: 'Billions',
+        style: { "color": textColor, "fontSize": "18px" }
      },
-     labels: {
-         formatter: function () {
-             return this.value / 1000;
-         }
-     }
- },
- tooltip: {
-     split: true,
-     valueSuffix: ' millions'
- },
- plotOptions: {
-     area: {
-         stacking: 'normal',
-         lineColor: '#666666',
-         lineWidth: 1,
-         marker: {
-             lineWidth: 1,
-             lineColor: '#666666'
-         }
-     }
- },
- series: [{
+  
+  },
+  
+  
+  series: [{
      name: 'Asia',
      data: [502, 635, 809, 947, 1402, 3634, 5268]
- }, {
+  }, {
      name: 'Africa',
      data: [106, 107, 111, 133, 221, 767, 1766]
- }, {
+  }, {
      name: 'Europe',
      data: [163, 203, 276, 408, 547, 729, 628]
- }, {
+  }, {
      name: 'America',
      data: [18, 31, 54, 156, 339, 818, 1201]
- }, {
+  }, {
      name: 'Oceania',
      data: [2, 2, 2, 6, 13, 30, 46]
- }]};
-
-
- }
-
+  }]};
+  }  
   
 }

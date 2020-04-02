@@ -1,0 +1,22 @@
+<!-- dialog-box.component.html -->
+
+<div mat-dialog-title>
+    <mat-card style=" background-color: #ffa000;">
+  <h1 mat-dialog-title style="color: white;">creér widget </h1>
+  </mat-card>
+  </div>
+  
+  <div mat-dialog-content  class="mat-typography">
+           <p style="color: red;"><b >Do you really want to delete the widget :</b>
+            <b style="color: black;">"{{data.nameFr}}"</b>? </p>
+    
+   
+
+  
+
+  
+  </div> 
+  <div mat-dialog-actions align = "end">
+    <button mat-button (click)="doAction()">Delete</button>
+    <button mat-button (click)="closeDialog()" mat-flat-button color="warn">Cancel</button>
+  </div>
