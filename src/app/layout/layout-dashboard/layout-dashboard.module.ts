@@ -42,6 +42,7 @@ import {MatSliderModule} from '@angular/material/slider';
 import { MatColorPickerModule } from 'mat-color-picker';
 import { IndicateurListeComponent } from 'src/app/components/widget/indicateur-liste/indicateur-liste.component';
 import { DialogDeleteComponent } from 'src/app/components/dialog-delete/dialog-delete.component';
+import { SidbarConfigComponent } from 'src/app/shared/sidbar-config/sidbar-config.component';
 
 @NgModule({
   declarations: [
@@ -60,8 +61,8 @@ import { DialogDeleteComponent } from 'src/app/components/dialog-delete/dialog-d
         AreaComponent,
         WidgetListComponent,
         IndicateurListeComponent,
-        DialogDeleteComponent
-
+        DialogDeleteComponent,
+        SidbarConfigComponent
   ],
   imports: [
 

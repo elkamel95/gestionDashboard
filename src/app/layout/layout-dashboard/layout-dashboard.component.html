@@ -4,8 +4,9 @@
     <mat-sidenav [opened]="isOpen"  mode="side"   *ngIf="authenticationService.currentUserValue ">
         <app-sidbar ></app-sidbar>
     </mat-sidenav>
-    <mat-sidenav [opened]="isOpenConfig" mode="side" position="end" *ngIf="authenticationService.currentUserValue ">End content</mat-sidenav>
-
+    <mat-sidenav [opened]="isOpenConfig" mode="side" position="end" *ngIf="authenticationService.currentUserValue ">
+        <sidbar-config></sidbar-config>
+    </mat-sidenav>
     <router-outlet></router-outlet>
 </mat-sidenav-container>
 <!--<footer>footer</footer> !-->

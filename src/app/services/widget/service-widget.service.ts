@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { Widget } from 'src/app/models/Widget';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject,BehaviorSubject } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
@@ -11,14 +11,20 @@ export class ServiceWidgetService {
 private url :string = "http://localhost:8000" ; 
 refreshneeded = new Subject<void>();
    headers = new HttpHeaders();
-
-
+   widget  = new Widget() ;
+behaviorWidget = new BehaviorSubject<Widget>(this.widget);
+currentWidget = this.behaviorWidget.asObservable();
   constructor(private http:HttpClient) { 
     this.headers.append('Authorization', `Bearer ${localStorage.getItem('token')}`);
     this.headers.append('Content-Type', `application/json`);
     this.headers.append('Accept', `application/ld+json`);
 
  
+  }
+
+
+  setCurrentWidgetUpdate(widget:Widget){
+this.behaviorWidget.next(widget);
   }
   getAllWidget(property) :Observable<Widget[]>{
 
@@ -57,13 +63,12 @@ this.http.delete(this.url+"/api/widgets/"+id).subscribe(rep=>{
   }
   
   update(widget:Widget,id){ ;
-widget.updateAt =this.getDateTime()
-widget.positionLeft ="";
-widget.positionRight ="";
+widget.updateAt =this.getDateTime();
+
 widget.url ="";
 widget.visible=true;
-widget.width.toString();
-widget.height.toString();
+widget.width=  widget.width.toString();
+widget.height=widget.height.toString();
     this.http.put(this.url+"/api/widgets/"+id, widget).subscribe(()=>{
       this.refreshneeded.next ();
  

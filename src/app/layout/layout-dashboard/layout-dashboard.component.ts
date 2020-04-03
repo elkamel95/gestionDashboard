@@ -1,6 +1,7 @@
-import { Component, OnInit, OnDestroy, Compiler } from '@angular/core';
+import { Component, OnInit, OnDestroy, Compiler, ViewChild, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/Auth/authentication-service.service';
+
 
 @Component({
   selector: 'app-layout-dashboard',
@@ -11,13 +12,14 @@ export class LayoutDashboardComponent implements OnInit  {
   isOpen = false;
   isOpenConfig = false;
 
+
   constructor(       private router: Router,
     private authenticationService: AuthenticationService ,
     private _compiler: Compiler) { 
       this.isOpen=true ;
-
    console.log;(authenticationService.roles) ;
        }
+ 
 
   ngOnInit() {
     this._compiler.clearCache();
