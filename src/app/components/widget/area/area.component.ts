@@ -1,5 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChildren } from '@angular/core';
 import * as Highcharts from 'highcharts';
+import { ServiceWidgetService } from 'src/app/services/widget/service-widget.service';
+import { Widget } from 'src/app/models/Widget';
 
 @Component({
   selector: 'app-area',
@@ -14,50 +16,66 @@ export class AreaComponent implements OnInit {
   @Input()backgroundColor="";
   @Input() size="";
   @Input()font="";
-  @Input() chartOptions ={};
-  Highcharts =Highcharts ;
-  constructor() { 
+  @Input()    chartOptions: { };
+  
     
-  }
+
+   
+  
+   @Input() Highcharts =Highcharts ;
+  constructor(private serviceWidget:ServiceWidgetService) { 
+
+}
+
 
   ngOnInit() {
-    this.setChartOptions(this.width,
-        this.height,
-        this.title ,
-    this.textColor="",
-    this.backgroundColor="",
-    this.size="",
-    this.font="");
-    console.log(  "sdsqd"+this.title);}
+   this.chartOptions = this.setChartOptions(this.width,
+      this.height,
+      this.title ,
+  this.textColor,
+  this.backgroundColor,
+  this.size,
+  this.font);
 
+  }  ngOnInit2() {
 
-  setChartOptions(
-      width=300,
-      height=200,
-      tilte="",
-      textColor 
-    ,backgroundColor="#fff"
-    ,size="6",
-    font ="bold"
-  ){
+   this.chartOptions = this.setChartOptions(this.width,
+      this.height,
+      this.title ,
+  this.textColor,
+  this.backgroundColor,
+  this.size,
+  this.font);
 
-    this.chartOptions =  {
+  }
+updateChartOption(list:Widget){
+
+   this.chartOptions=this.setChartOptions(list.width,list.height, list.nameFr, list.textColor ,list.backgroundColor ,list.size,list
+   . font )
+
+ 
+
+}
+    setChartOptions(w,h, tilte, textColor ,background ,size="6", font ="bold" )
+    {
+       
+    return this.chartOptions =  {
         chart: {
      type: 'area',
-     height: height ,
-     width: width,
-     backgroundColor:backgroundColor
+     height: h ,
+     width: w,
+     backgroundColor:background
   
    },
   title: {
      text: tilte,
-     style:  { "color": "#000", "fontSize":"16px"  }
+     style:  { "color": textColor, "fontSize":size+"px"  }
   
   
   },
   legend: {
    itemStyle: {
-       font: '9pt Trebuchet MS, Verdana, sans-serif',
+       font: '9pt '+font+'Trebuchet MS, Verdana, sans-serif',
        color:textColor
    },
    itemHoverStyle:{
@@ -100,6 +118,7 @@ export class AreaComponent implements OnInit {
      name: 'Oceania',
      data: [2, 2, 2, 6, 13, 30, 46]
   }]};
+
   }  
   
 }

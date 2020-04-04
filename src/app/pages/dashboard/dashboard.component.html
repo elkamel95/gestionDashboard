@@ -82,9 +82,12 @@
     
      
         fxLayoutGap="10px"  *ngFor="let item of WidgetGraphique  ">
+       
+
         <div  fxFlex class="cursor-move"  *ngFor="let list of item ; "      cdkDrag   (cdkDragEnded)="setWidgetToUpdate(list,$event)"
         [ngStyle]="{'transform': 'translate(' + list.positionLeft + ', ' +  list.positionRight + ')'}" >
-            <app-area   (click)="setWidgetToUpdate(list)" 
+    
+            <app-area   
             [backgroundColor]=" list.backgroundColor "
             [textColor] ="list.textColor"
             [width] ="list.width"
@@ -92,9 +95,9 @@
            [height]="list.height"
            [size] ="list.size"
            [font]="list.font"
-    
-            
-            class="graphique-widget" cdkDragBoundary=".example-boundary" cdkDrag   >
+           (click)="setWidgetToUpdate(list) ; graphiqueComp.updateChartOption(list)"
+           
+            class="graphique-widget" cdkDragBoundary=".example-boundary" cdkDrag   #graphiqueComp>
             </app-area>
         
     

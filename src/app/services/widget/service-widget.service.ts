@@ -14,6 +14,8 @@ refreshneeded = new Subject<void>();
    widget  = new Widget() ;
 behaviorWidget = new BehaviorSubject<Widget>(this.widget);
 currentWidget = this.behaviorWidget.asObservable();
+behaviorGraphiqueType = new BehaviorSubject<any>({});
+currentGraphique= this.behaviorGraphiqueType.asObservable();
   constructor(private http:HttpClient) { 
     this.headers.append('Authorization', `Bearer ${localStorage.getItem('token')}`);
     this.headers.append('Content-Type', `application/json`);
@@ -26,6 +28,9 @@ currentWidget = this.behaviorWidget.asObservable();
   setCurrentWidgetUpdate(widget:Widget){
 this.behaviorWidget.next(widget);
   }
+  setCurrentGraphique(gp:any){
+    this.behaviorGraphiqueType.next(gp);
+      }
   getAllWidget(property) :Observable<Widget[]>{
 
    return this.http.get<Widget[]>(this.url+"/api/widgets"+property,{headers: this.headers}).pipe(map(data => data['hydra:member']));

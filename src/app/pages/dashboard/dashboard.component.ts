@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import { ServiceWidgetService } from 'src/app/services/widget/service-widget.service';
 import { Widget } from 'src/app/models/Widget';
 import { CdkDragEnd } from '@angular/cdk/drag-drop';
@@ -11,6 +11,7 @@ import { Dispositions } from 'src/app/models/Dispositions';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit  {
+  
    position:Dispositions = new Dispositions();
 
 WidgetIndicator : Widget [] []=[] ;
@@ -24,7 +25,9 @@ permute = 1;
 permutationiSActive =false ; 
 ListIndix = []
  letters = [0 , 1 ,2] ;
- 
+  chartOptions: {  };
+  @ViewChild('graphiqueComp', { static: false }) public mydiv: ElementRef;
+
 ;  constructor(private serviceWidget:ServiceWidgetService) {
     this. getWidgetWithType("?type[]=1&type[]=2","1");
     this. getWidgetWithType("?type=2","2");
@@ -35,11 +38,13 @@ ListIndix = []
   }
   
 
+
+ 
+
   ngOnInit() {
 
    }
-
-
+ 
   permutation(index){
     if(this.permutationiSActive)
     {var aux =0;
