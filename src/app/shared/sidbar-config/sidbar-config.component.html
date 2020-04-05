@@ -1,9 +1,15 @@
 
-
+  
 
 <div  fxLayout="column"    class="border-style" style=" border: 0.5px solid #0b0f2f;">
-    <h1>config</h1>
-    <div fxLayout="column"  fxFlex class="border-style"  >
+  <h1>config</h1>
+ 
+<mat-tab-group mat-align-tabs="center">
+<mat-tab >
+  <ng-template mat-tab-label>
+    style
+  </ng-template>
+      <div fxLayout="column"  fxFlex class="border-style"  >
         <h1>Text</h1>
   
         <mat-label class="text-color">Text Color <span style=" color: #ffa000;">*</span>: 
@@ -24,7 +30,8 @@
             <div>
               <ng-container *ngIf="data.type != '4'; else elseGraphiqueStyle">
                 <mat-form-field   style="padding: 1px;
-    width: 50%;
+            width: 70%;
+
     height: 50%; margin-top: -5%;" >
       <mat-label>size</mat-label>
          <mat-select  [(ngModel)]="data.size" >
@@ -34,7 +41,7 @@
         </mat-form-field>
     
         <mat-form-field   style="padding: 1px;
-        width: 50%;
+        width: 70%;
         height: 50%;margin-top: -5%;" >
           <mat-label>font</mat-label>
     
@@ -49,7 +56,7 @@
                 
     
                 <mat-form-field   style="padding: 1px;
-                width: 50%;
+                width: 70%;
                 height: 50%; margin-top: -5%;" >
                   <mat-label>size</mat-label>
                      <mat-select  [(ngModel)]="data.size" >
@@ -59,7 +66,7 @@
                     </mat-form-field>
                 
                     <mat-form-field   style="padding: 1px;
-                    width: 50%;
+                    width: 70%;
                     height: 50%;margin-top: -5%;" >
                       <mat-label>font</mat-label>
                 
@@ -140,5 +147,117 @@
                       
 
     </div>
-    <button mat-button (click)="updateWidget()" color="accent" >Update</button>
+    
+    
+    
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      dispotion
+    </ng-template>
+    <div fxLayout="column"  fxFlex class="border-style"  >
+      <h1>Dispositions</h1>
+
+      <mat-label class="text-color">Drag and Drop : 
+      
+       <button mat-button style ="min-width: 0px"(click)="ChangeToDragAndDrop()">
+        <mat-icon>control_camera</mat-icon>
+       </button>
+
+    
+        </mat-label>
+    
+      </div>
+
+      <div fxLayout="column"  fxFlex class="border-style"  >
+        <h1>Mode Layout</h1>
+  
+        <mat-label class="text-color">widget indicateur : 
+        <div fxLayout="row">
+          <button  mat-button style ="min-width: 0px;min-width: 0px;width: 45%;"
+          
+          (click)="changeModeLayout('column','1')">
+            column 
+            
+          <mat-icon>view_column</mat-icon>
+        </button>
+
+             <button   mat-button style ="min-width: 0px"(click)="changeModeLayout('row','1')">
+             row: <mat-icon>view_list</mat-icon>       
+              </button>
+
+        </div>
+       
+      
+          </mat-label>
+      
+
+          <mat-label class="text-color">widget List : 
+            <div fxLayout="row">
+              <button  mat-button style ="min-width: 0px;min-width: 0px;width: 45%;"
+          
+              (click)="changeModeLayout('column','2')">
+                column 
+                
+              <mat-icon>view_column</mat-icon>
+            </button>
+    
+                 <button   mat-button style ="min-width: 0px"(click)="changeModeLayout('row','2')">
+                 row: <mat-icon>view_list</mat-icon>       
+                  </button>
+    
+            </div>
+           
+          
+              </mat-label>
+
+
+
+              <mat-label class="text-color">widget Graphique : 
+                <div fxLayout="row">
+                  <button  mat-button style ="min-width: 0px;min-width: 0px;width: 45%;"
+          
+                  (click)="changeModeLayout('column','3')">
+                    column 
+                    
+                  <mat-icon>view_column</mat-icon>
+                </button>
+        
+                     <button   mat-button style ="min-width: 0px"(click)="changeModeLayout('row','3')">
+                     row: <mat-icon>view_list</mat-icon>       
+                      </button>
+        
+                </div>
+               
+              
+                  </mat-label>
+
+                  <mat-label class="text-color"> all widget  : 
+                    <div fxLayout="row">
+                      <button  mat-button style ="min-width: 0px;min-width: 0px;width: 45%;"
+          
+                      (click)="changeModeLayout('column','4')">
+                        column 
+                        
+                      <mat-icon>view_column</mat-icon>
+                    </button>
+            
+                         <button   mat-button style ="min-width: 0px"(click)="changeModeLayout('row','4')">
+                         row: <mat-icon>view_list</mat-icon>       
+                          </button>
+            
+                    </div>
+                   
+                  
+                      </mat-label>
+
+
+        </div>
+  </mat-tab>
+ 
+</mat-tab-group>
+<div style="padding: 10px;">
+  <button mat-raised-button (click)="updateWidget()" color="accent" >Update</button>
+
+</div>
 </div>

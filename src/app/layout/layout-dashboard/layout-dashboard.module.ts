@@ -14,7 +14,7 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatListModule} from '@angular/material/list';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatPaginatorModule} from '@angular/material/paginator';
-
+import {MatChipsModule} from '@angular/material/chips';
 import {MatMenuModule} from '@angular/material/menu';
 import { SidbarComponent } from 'src/app/shared/sidbar/sidbar.component';
 import { SiginComponent } from 'src/app/pages/sigin/sigin.component';
@@ -38,6 +38,8 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
 import { WidgetListComponent } from 'src/app/components/widget/widget-list/widget-list.component';
 import { MccColorPickerModule } from 'material-community-components';
 import {MatSliderModule} from '@angular/material/slider';
+import {MatRippleModule} from '@angular/material/core';
+import {MatTabsModule} from '@angular/material/tabs';
 
 import { MatColorPickerModule } from 'mat-color-picker';
 import { IndicateurListeComponent } from 'src/app/components/widget/indicateur-liste/indicateur-liste.component';
@@ -90,6 +92,9 @@ import { SidbarConfigComponent } from 'src/app/shared/sidbar-config/sidbar-confi
     MatPaginatorModule,
     HighchartsChartModule,
     DragDropModule,
+    MatRippleModule,
+    MatChipsModule,
+    MatTabsModule,
  MatColorPickerModule,MatSliderModule,
  MccColorPickerModule.forRoot({
   empty_color: 'transparent',

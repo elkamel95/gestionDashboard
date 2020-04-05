@@ -1,21 +1,29 @@
 
 <mat-toolbar style="height: 7%;"><h6>Dashboard</h6> </mat-toolbar>
 
-    <div class="example-boundary">
+    <div            [ngClass]="{'example-boundary': !modeLayout.drag}"
+  >
         <div [hidden]="spinner " class="spinner-position">
             <app-spinner ></app-spinner>
           </div>
 <div  fxLayout="column" fxLayoutGap="60px" fxLayoutAlign="space-between start"> 
 
-    <div  (click)="permutation(0)" [fxFlexOrder]="letters[0]" cdkDragBoundary=".example-boundary" cdkDrag   fxLayout="row" style="width: 100%; " fxLayoutGap="10px" *ngFor="let item of WidgetIndicator  ">
-            <div  fxFlex ="30" 
+    <div  (click)="permutation(0)" [fxFlexOrder]="letters[0]" cdkDragBoundary=".example-boundary"  
+      [fxLayout]="modeLayout.indicateur" style="width: 100%; " fxLayoutGap="10px" *ngFor="let item of WidgetIndicator  ">
+      <div  fxFlex ="30" 
              *ngFor="let list of item ; let index = index  ; "
-            cdkDragBoundary=".example-boundary" class="cursor-move"  cdkDrag  
-             (cdkDragEnded)="setWidgetToUpdate(list,$event)"
-             [ngStyle]="{'transform': 'translate(' + list.positionLeft + ', ' +  list.positionRight + ')'}"
+            cdkDragBoundary=".example-boundary" 
+            [ngStyle]="{'transform': 'translate(' + list.positionLeft + ', ' +  list.positionRight + ')'}" 
 
+            [ngClass]="{'cursor-move': !modeLayout.drag}"
+              cdkDrag  
+             (cdkDragEnded)="setWidgetToUpdate(list,$event)"
+               matRipple
+             matRippleColor="#00000029"
+
+             [cdkDragDisabled] ="modeLayout.drag"
            > 
-<ng-container *ngIf="list.type == 1; else elseTemplate">
+<ng-container *ngIf="list.type == 1; else elseTemplate" >
 
     <app-indicateur (click)="setWidgetToUpdate(list)"[backgroundColor]=" list.backgroundSmallWidget "
     [textColor] ="list.textColor"
@@ -51,9 +59,16 @@
 
 
     
-    <div (click)="permutation(1)" [fxFlexOrder]="letters[1]" cdkDragBoundary=".example-boundary" cdkDrag  fxLayout="row" fxFlexOrder="2" fxLayoutGap="20px" *ngFor="let item of WidgetList  ">
-        <div  fxFlex   *ngFor="let list of item ; let index = index  ; " class="cursor-move"
+    <div (click)="permutation(1)" [fxFlexOrder]="letters[1]" 
+      [fxLayout]="modeLayout.list " fxFlexOrder="2" fxLayoutGap="20px" *ngFor="let item of WidgetList  ">
+        <div  fxFlex   *ngFor="let list of item ; let index = index  ; "       
+        
+        [ngClass]="{'cursor-move': !modeLayout.drag}"
+
         cdkDragBoundary=".example-boundary" cdkDrag   
+
+        [cdkDragDisabled] ="modeLayout.drag"
+
         (cdkDragEnded)="setWidgetToUpdate(list,$event)"
         [ngStyle]="{'transform': 'translate(' + list.positionLeft + ', ' +  list.positionRight + ')'}"
         >
@@ -68,7 +83,9 @@
                [size] ="list.size"
                [font]="list.font"
                 
-                style="margin-top: 10%;" [title] ="list.nameFr" ></widget-list>
+                style="margin-top: 10%;" [title] ="list.nameFr" >
+            
+            </widget-list>
 
 
          
@@ -77,14 +94,19 @@
 </div>
  
 
-    <div fxLayout="column"  (click)="permutation(2)" [fxFlexOrder]="letters[2]"  fxLayoutAlign="start center"  cdkDragBoundary=".example-boundary"
+    <div [fxLayout]="modeLayout.graphique "  (click)="permutation(2)" [fxFlexOrder]="letters[2]"  fxLayoutAlign="start center"  cdkDragBoundary=".example-boundary"
     
     
      
-        fxLayoutGap="10px"  *ngFor="let item of WidgetGraphique  ">
+        fxLayoutGap="10px"  *ngFor="let item of WidgetGraphique  " >
        
 
-        <div  fxFlex class="cursor-move"  *ngFor="let list of item ; "      cdkDrag   (cdkDragEnded)="setWidgetToUpdate(list,$event)"
+        <div  fxFlex  cdkDrag  *ngFor="let list of item ; "     
+        
+        [ngClass]="{'cursor-move': !modeLayout.drag}"
+        [cdkDragDisabled] ="modeLayout.drag"
+        
+           (cdkDragEnded)="setWidgetToUpdate(list,$event)"
         [ngStyle]="{'transform': 'translate(' + list.positionLeft + ', ' +  list.positionRight + ')'}" >
     
             <app-area   
@@ -97,7 +119,7 @@
            [font]="list.font"
            (click)="setWidgetToUpdate(list) ; graphiqueComp.updateChartOption(list)"
            
-            class="graphique-widget" cdkDragBoundary=".example-boundary" cdkDrag   #graphiqueComp>
+            class="graphique-widget" cdkDragBoundary=".example-boundary"    #graphiqueComp>
             </app-area>
         
     

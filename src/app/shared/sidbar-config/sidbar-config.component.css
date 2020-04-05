@@ -15,3 +15,31 @@
     border-radius: 20px 20px 20px 20px;
 
 }
+.mat-tab-label {
+    min-width: 2px !important;
+    padding: 0.5px;
+    color: #0b0f2f;
+    font-weight: bold;
+    font-size: smaller;
+    opacity: 1 ;
+
+    width: fit-content;
+}
+mat-label  {
+    font-weight: bold;
+    font-size: smaller;
+    width: fit-content;
+
+}
+
+/* Styles for the active tab label */
+.mat-tab-label.mat-tab-label-active {
+    min-width: 2px !important;
+    padding: 0.5px;
+    color: #0b0f2f;
+    font-weight: 100;        width: fit-content;
+
+
+    font-weight: bold;
+
+}

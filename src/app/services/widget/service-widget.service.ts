@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { Widget } from 'src/app/models/Widget';
 import { Observable, Subject,BehaviorSubject } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { ModeDisposition } from 'src/app/models/ModeDisposition';
 @Injectable({
   providedIn: 'root'
 })
@@ -12,6 +13,11 @@ private url :string = "http://localhost:8000" ;
 refreshneeded = new Subject<void>();
    headers = new HttpHeaders();
    widget  = new Widget() ;
+   changeDispostion  = new ModeDisposition() ;
+
+   behaviorChangeDispostion= new BehaviorSubject<any>(this.changeDispostion);
+   currentDispotionRep = this.behaviorChangeDispostion.asObservable();
+
 behaviorWidget = new BehaviorSubject<Widget>(this.widget);
 currentWidget = this.behaviorWidget.asObservable();
 behaviorGraphiqueType = new BehaviorSubject<any>({});
@@ -23,7 +29,9 @@ currentGraphique= this.behaviorGraphiqueType.asObservable();
 
  
   }
-
+  setCurrentDispotionRep (changeDispostion){
+    this.behaviorChangeDispostion.next(changeDispostion);
+      }
 
   setCurrentWidgetUpdate(widget:Widget){
 this.behaviorWidget.next(widget);

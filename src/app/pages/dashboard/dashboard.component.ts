@@ -3,6 +3,7 @@ import { ServiceWidgetService } from 'src/app/services/widget/service-widget.ser
 import { Widget } from 'src/app/models/Widget';
 import { CdkDragEnd } from '@angular/cdk/drag-drop';
 import { Dispositions } from 'src/app/models/Dispositions';
+import { ModeDisposition } from 'src/app/models/ModeDisposition';
 
 
 @Component({
@@ -13,7 +14,7 @@ import { Dispositions } from 'src/app/models/Dispositions';
 export class DashboardComponent implements OnInit  {
   
    position:Dispositions = new Dispositions();
-
+  modeLayout : ModeDisposition = new ModeDisposition() ; 
 WidgetIndicator : Widget [] []=[] ;
 WidgetGraphique : Widget  [][]=[] ;
 WidgetList : Widget  [][]=[] ;
@@ -26,15 +27,23 @@ permutationiSActive =false ;
 ListIndix = []
  letters = [0 , 1 ,2] ;
   chartOptions: {  };
+  dragPermission :Boolean; 
   @ViewChild('graphiqueComp', { static: false }) public mydiv: ElementRef;
 
 ;  constructor(private serviceWidget:ServiceWidgetService) {
     this. getWidgetWithType("?type[]=1&type[]=2","1");
     this. getWidgetWithType("?type=2","2");
-
     this. getWidgetWithType("?type=3","3");
     this. getWidgetWithType("?type=4","4");
+    this.serviceWidget.currentDispotionRep.subscribe(drags=>{
+      console.log( this.modeLayout);
+        this.dragPermission=drags.drag;    
+        this.modeLayout.indicateur =drags.indicateur;
+        this.modeLayout.graphique =drags.graphique;
+        this.modeLayout.list =drags.list;
+        this.modeLayout.drag =drags.drag;
 
+         });
   }
   
 
@@ -42,9 +51,12 @@ ListIndix = []
  
 
   ngOnInit() {
+    this.dragPermission =new Boolean(true);
+
 
    }
  
+
   permutation(index){
     if(this.permutationiSActive)
     {var aux =0;
@@ -75,8 +87,10 @@ if($event)
       widget.positionRight=matrix.m42+'px';}
  
 this.WidgetToUpdate = widget ; 
-     
+   
 this.serviceWidget.setCurrentWidgetUpdate(this.WidgetToUpdate);
+
+
 
     }
 
