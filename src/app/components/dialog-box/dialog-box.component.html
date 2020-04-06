@@ -1,13 +1,13 @@
 <!-- dialog-box.component.html -->
 
 <div mat-dialog-title>
-  <mat-card style=" background-color: #ffa000;">
-<h1 mat-dialog-title style="color: white;">creér widget </h1>
+  <mat-card style=" background-color: hsl(38, 100%, 50%);">
+<h1 mat-dialog-title style="color: white;">Add widget </h1>
 </mat-card>
 </div>
 
-<div mat-dialog-content  fxLayout="column" fxLayoutGap="15px" class="mat-typography">
-  <div *ngIf="action != 'Delete'; else elseTemplate" fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="start start">
+<div mat-dialog-content  fxLayout="column" class="mat-typography">
+  <div *ngIf="action != 'Delete'; else elseTemplate" fxLayout="row" style=" margin-top: -10%;" fxLayoutGap="20px" fxLayoutAlign="start start">
 
    <div fxLayout="column" style="width: 100%;" fxFlex ="20" class="border-style">
     <h1>information</h1>
@@ -19,8 +19,7 @@
       data.size,data.font )"
       >
 
-      <mat-icon matPrefix>phone</mat-icon>
-      <mat-hint>Include area code</mat-hint>
+      
     </mat-form-field>
 
     <mat-form-field >
@@ -34,8 +33,7 @@
     <mat-form-field appearance="fill">
 
     <mat-label>Select Type Widget</mat-label>
-<form  [formGroup]="widgetControleForm">
-    <mat-select   formControlName="typeWidget" name="typeWidget" (selectionChange)= "setType($event)"  >
+    <mat-select  [(ngModel)]="data.type"  name="typeWidget" (selectionChange)= "setType($event)"  >
       <mat-option *ngFor="let typeWidget of types"  
       [value]="typeWidget.id"        
 >
@@ -43,7 +41,6 @@
       </mat-option>
 
     </mat-select>
-  </form>
     </mat-form-field>
 
     
@@ -51,7 +48,7 @@
   </div>
   <div fxLayout="column"  fxFlex  class="border-style" >
     <h1>Style</h1>
-    <div fxLayout="row" fxFlex  class="border-style">
+    <div fxLayout="row" fxFlex style="    margin-top: -1%;"  class="border-style">
       <div fxLayout="column" style="width: 100%" fxFlex>
         <ng-container *ngIf="data.type == 4; else elseSlidedrGrapique">
           <div >
@@ -75,13 +72,13 @@
   
   <mat-label class="text-color">width <span style=" color: #ffa000;">*</span>: {{data.width}}%</mat-label>
 
-  <mat-slider (input)="setChartOptions(data.width,data.nameFr,data.textColor);
+  <mat-slider  [(ngModel)]="data.width" (input)="setChartOptions(data.width,data.nameFr,data.textColor);
   selectedColor($event); data.width=$event.value"></mat-slider>
 </div>
 <div>
   <mat-label class="text-color">height <span style=" color: #ffa000;">*</span>: {{data.height}}%</mat-label>
 
-  <mat-slider (input)="setChartOptions(data.width,data.height,
+  <mat-slider  [(ngModel)]="data.height" (input)="setChartOptions(data.width,data.height,
   data.nameFr,data.textColor,data.backgroundColor,
   data.size,data.font ); data.height=$event.value"></mat-slider>
 </div>
@@ -243,7 +240,13 @@ height: 50%; margin-top: -5%;" >
 ></widget-list>
         </div>
 <div  fxFlex class="border-style" *ngIf="data.type == 4">
-  <app-area [title]="data.nameFr"  [chartOptions]="chartOptions"></app-area>
+  <app-area [title]="data.nameFr" [textColor] ="data.textColor"
+  [width] ="data.width"
+  [title]="data.nameFr" 
+  [height]="data.height"
+  [size] ="data.size"
+  [font]="data.font"
+  [backgroundColor]=" data.backgroundColor " [chartOptions]="chartOptions"></app-area>
   </div>
   </div>
 

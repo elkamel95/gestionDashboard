@@ -9,8 +9,8 @@
 <div  fxLayout="column" fxLayoutGap="60px" fxLayoutAlign="space-between start"> 
 
     <div  (click)="permutation(0)" [fxFlexOrder]="letters[0]" cdkDragBoundary=".example-boundary"  
-      [fxLayout]="modeLayout.indicateur" style="width: 100%; " fxLayoutGap="10px" *ngFor="let item of WidgetIndicator  ">
-      <div  fxFlex ="30" 
+      [fxLayout]="modeLayout.indicateur" style="width: 100%; " fxLayoutGap="15px" *ngFor="let item of WidgetIndicator  ">
+      <div  fxFlex 
              *ngFor="let list of item ; let index = index  ; "
             cdkDragBoundary=".example-boundary" 
             [ngStyle]="{'transform': 'translate(' + list.positionLeft + ', ' +  list.positionRight + ')'}" 
@@ -60,7 +60,7 @@
 
     
     <div (click)="permutation(1)" [fxFlexOrder]="letters[1]" 
-      [fxLayout]="modeLayout.list " fxFlexOrder="2" fxLayoutGap="20px" *ngFor="let item of WidgetList  ">
+      [fxLayout]="modeLayout.list "  fxLayoutGap="20px" *ngFor="let item of WidgetList  ">
         <div  fxFlex   *ngFor="let list of item ; let index = index  ; "       
         
         [ngClass]="{'cursor-move': !modeLayout.drag}"
@@ -102,7 +102,7 @@
        
 
         <div  fxFlex  cdkDrag  *ngFor="let list of item ; "     
-        
+        cdkDragBoundary=".example-boundary"  
         [ngClass]="{'cursor-move': !modeLayout.drag}"
         [cdkDragDisabled] ="modeLayout.drag"
         
@@ -119,7 +119,7 @@
            [font]="list.font"
            (click)="setWidgetToUpdate(list) ; graphiqueComp.updateChartOption(list)"
            
-            class="graphique-widget" cdkDragBoundary=".example-boundary"    #graphiqueComp>
+            class="graphique-widget"  #graphiqueComp>
             </app-area>
         
     

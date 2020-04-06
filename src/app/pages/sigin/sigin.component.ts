@@ -44,8 +44,8 @@ export class SiginComponent implements OnInit {
   // convenience getter for easy access to form fields
   get f() { return this.loginForm.controls; }
   openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, {
-      duration: 2000,
+    this._snackBar.open(message, action, {panelClass:'error',
+      duration: 2000
     });
   }
   onSubmit() {
@@ -58,7 +58,7 @@ export class SiginComponent implements OnInit {
       if (this.loginForm.invalid) {
           return;
       }
-
+console.log(this.f.username.value);
       this.loading = true;
       this.authenticationService.login(this.f.username.value, this.f.password.value)
           .pipe(first())

@@ -22,12 +22,14 @@ export class DialogBoxComponent implements OnInit{
   selected ="1";
   widgetControleForm: FormGroup;
   chartOptions ={};
+  
     types:Type [] = [ 
     {'id':"1" , 'name':'indicateur'},
     {'id':"2" , 'name':'indicateur avec liste'},
     {'id':"3" , 'name':'liste'},
     {'id':"4" , 'name':'graphique'},
     ]
+    
     font_size =[
     "large","larger","medium","small","smaller","x-large","x-small","xx-large","xx-small","-webkit-xxx-large"
     ]
@@ -57,23 +59,51 @@ export class DialogBoxComponent implements OnInit{
     //}   this.data.textColor = $event};
   }
 ngOnInit(): void {  
-console.log(this.data);
-   this.widgetControleForm = new FormGroup({
-    typeWidget:new FormControl('1')
-});
+if(this.data.id == null)
+{
+
+    this.data.type ="1";
+
+    this.data .width="100";
+    this.data .height="100";
+  
+
+  this.data.backgroundSmallWidget ="#fff";
+  this.data.textColor="#fff";
+  this.data.positionLeft="";
+  this.data.positionRight ="";
+  this.data.font ="normal";
+  this.data.colorSmallWidget ="#fff";
+  this.data.backgroundColor ="#FFA400";
+  this.data.size ="x-large";
+this.data.visible =true;
+this.data.url ="";
+ 
+}
+
 
 this.ControleForm = new FormGroup({
-  font:new FormControl('1'),
-  size:new FormControl('2')
 
 });
-this.data.type = '1';
+
+
 }
    
   setType(event: { value: string; }){
     console.log(event);
     this.data.type = event.value ;
-    
+    if(this.data.id == null)
+{
+  if(this.data.type ==='4'){
+    this.data .width="700";
+    this.data .height="300";
+    this.data.size ="20";
+    this.data.textColor="#000";
+
+    this.data.backgroundColor="#fff";
+
+
+}}
   }
   setChartOptions(width=300,height="200",text="",colorText ="#000"
   ,backgroundColor="#fff",size="6",font ="bold"

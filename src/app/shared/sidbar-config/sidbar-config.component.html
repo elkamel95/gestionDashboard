@@ -153,7 +153,7 @@
   </mat-tab>
   <mat-tab>
     <ng-template mat-tab-label>
-      dispotion
+      Layout
     </ng-template>
     <div fxLayout="column"  fxFlex class="border-style"  >
       <h1>Dispositions</h1>
@@ -174,7 +174,7 @@
   
         <mat-label class="text-color">widget indicateur : 
         <div fxLayout="row">
-          <button  mat-button style ="min-width: 0px;min-width: 0px;width: 45%;"
+          <button  mat-button style ="min-width: 0px;min-width: 0px;width: 45%; margin-left: -10%;"
           
           (click)="changeModeLayout('column','1')">
             column 
@@ -188,13 +188,18 @@
 
         </div>
        
-      
+        <mat-label class="text-color">ligne widget :
+          <input matInput type="number" #nbi (input) ="changeNbWidgetLayout(nbi,'1')" >
+
+        </mat-label>
+
+     
           </mat-label>
       
 
           <mat-label class="text-color">widget List : 
-            <div fxLayout="row">
-              <button  mat-button style ="min-width: 0px;min-width: 0px;width: 45%;"
+            <div fxLayout="row"  fxLayoutAlign="start start">
+              <button  mat-button style ="min-width: 0px;min-width: 0px;width: 45%;margin-left: -10%;"
           
               (click)="changeModeLayout('column','2')">
                 column 
@@ -207,15 +212,18 @@
                   </button>
     
             </div>
-           
+            <mat-label class="text-color">ligne widget :
+              <input matInput type="number" #nblist (input) ="changeNbWidgetLayout(nblist,'2')" >
+    
+            </mat-label>
           
               </mat-label>
 
 
 
               <mat-label class="text-color">widget Graphique : 
-                <div fxLayout="row">
-                  <button  mat-button style ="min-width: 0px;min-width: 0px;width: 45%;"
+                <div fxLayout="row" fxLayoutAlign="start start">
+                  <button  mat-button style ="min-width: 0px;min-width: 0px;width: 45%;margin-left: -10%;"
           
                   (click)="changeModeLayout('column','3')">
                     column 
@@ -228,13 +236,15 @@
                       </button>
         
                 </div>
-               
-              
+                <mat-label class="text-color">ligne widget :
+                  <input matInput type="number" #nbGh (input) ="changeNbWidgetLayout(nbGh,'3')" >
+        
+                </mat-label>
                   </mat-label>
-
+                
                   <mat-label class="text-color"> all widget  : 
-                    <div fxLayout="row">
-                      <button  mat-button style ="min-width: 0px;min-width: 0px;width: 45%;"
+                    <div fxLayout="row"  fxLayoutAlign="start start">
+                      <button  mat-button style ="min-width: 0px;min-width: 0px;width: 45%;margin-left: -10%;"
           
                       (click)="changeModeLayout('column','4')">
                         column 
@@ -247,7 +257,10 @@
                           </button>
             
                     </div>
-                   
+                    <mat-label class="text-color">ligne widget :
+                      <input matInput type="number" #nbAll (input) ="changeNbWidgetLayout(nbAll,'4')" >
+            
+                    </mat-label>
                   
                       </mat-label>
 

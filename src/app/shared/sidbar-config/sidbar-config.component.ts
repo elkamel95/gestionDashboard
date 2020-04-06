@@ -15,6 +15,7 @@ export class SidbarConfigComponent implements OnInit {
   data:Widget = new Widget() ; 
   darg = false ;
   ModeLayout = new ModeDisposition();
+
   @ViewChild('graphiqueComp', { static: false }) public mydiv: ElementRef;
 
     font_size =[
@@ -67,10 +68,40 @@ else
 this.ModeLayout.list =value;
 this.ModeLayout.graphique =value;}
 
+
   this.serviceWidget.setCurrentDispotionRep(this.ModeLayout);
 
 }
+changeNbWidgetLayout(value , type){
+  if(type === '1' )
+{ 
+  
+  this.ModeLayout.nbLigneIn =value.value;}
 
+  else   if(type === '2' )
+
+  this.ModeLayout.nbLigneList =value.value;
+
+  else if(type === '3' )
+  this.ModeLayout.nbLigneGh =value.value;
+
+else {
+
+
+  this.ModeLayout.nbLigneIn =value.value;
+
+
+  this.ModeLayout.nbLigneList =value.value;
+
+  this.ModeLayout.nbLigneGh =value.value;
+
+
+}
+
+
+  this.serviceWidget.setCurrentDispotionRep(this.ModeLayout);
+
+}
  
   ngOnInit() {
   }

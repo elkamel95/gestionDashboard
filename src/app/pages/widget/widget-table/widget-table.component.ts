@@ -1,5 +1,5 @@
 import {SelectionModel} from '@angular/cdk/collections';
-import {Component, ViewChild, OnInit} from '@angular/core';
+import {Component, ViewChild, OnInit, AfterViewChecked} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import { MatDialog, MatPaginator, PageEvent } from '@angular/material';
 import { DialogBoxComponent } from 'src/app/components/dialog-box/dialog-box.component';
@@ -10,20 +10,20 @@ import { DialogDeleteComponent } from 'src/app/components/dialog-delete/dialog-d
 
 
 
-const types  = [ 
-  {'id':1 , 'name':'indicateur'},
-  {'id':2 , 'name':'indicateur avec liste'},
-  {'id':3 , 'name':'liste'},
-  {'id':4 , 'name':'graphique'},
-  ]
+
 @Component({
   selector: 'app-widget-table',
   templateUrl: './widget-table.component.html',
   styleUrls: ['./widget-table.component.css']
 })
 
-export class WidgetTableComponent implements OnInit  {
-
+export class WidgetTableComponent implements OnInit  ,AfterViewChecked{
+   types  = [ 
+  'indicateur',
+  'indicateur avec liste',
+  'liste',
+  'graphique'
+    ]
        pageIndex = 0 ;
        length=0;
        pageSizeOptions: number[] = [3,5,7,8,9, 10, 25, 100];
@@ -48,6 +48,8 @@ export class WidgetTableComponent implements OnInit  {
     this.getData(1,5);
 
 
+  }
+  ngAfterViewChecked(): void {
   }
 
   ngOnInit() {

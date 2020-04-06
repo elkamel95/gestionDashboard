@@ -23,6 +23,7 @@ WidgetToUpdate:Widget;
 width=80;
 spinner =false;
 permute = 1;
+nbWidgetParLign=2;
 permutationiSActive =false ; 
 ListIndix = []
  letters = [0 , 1 ,2] ;
@@ -31,19 +32,39 @@ ListIndix = []
   @ViewChild('graphiqueComp', { static: false }) public mydiv: ElementRef;
 
 ;  constructor(private serviceWidget:ServiceWidgetService) {
-    this. getWidgetWithType("?type[]=1&type[]=2","1");
-    this. getWidgetWithType("?type=2","2");
-    this. getWidgetWithType("?type=3","3");
-    this. getWidgetWithType("?type=4","4");
+
+  this.modeLayout.nbLigneIn = "2";
+  this.modeLayout.nbLigneList= "2";
+  this.modeLayout.nbLigneGh ="2";
+  this.nbWidgetParLign = 4 ;
+    this. getWidgetWithType("?type[]=1&type[]=2","1", this.modeLayout.nbLigneIn);
+    this. getWidgetWithType("?type=3","3",  this.modeLayout.nbLigneList);
+    this. getWidgetWithType("?type=4","4",  this.modeLayout.graphique );
+
+    
     this.serviceWidget.currentDispotionRep.subscribe(drags=>{
-      console.log( this.modeLayout);
-        this.dragPermission=drags.drag;    
+
+      if(this.modeLayout.nbLigneIn != drags.nbLigneIn)
+      this. getWidgetWithType("?type[]=1&type[]=2","1",drags.nbLigneIn );
+      if(this.modeLayout.nbLigneList != drags.nbLigneList)
+      this. getWidgetWithType("?type=3","3",drags.nbLigneList );
+      
+      if(this.modeLayout.nbLigneGh != drags.nbLigneGh)
+      this. getWidgetWithType("?type=4","4", drags.nbLigneGh );
+
+      this.dragPermission=drags.drag;    
         this.modeLayout.indicateur =drags.indicateur;
         this.modeLayout.graphique =drags.graphique;
         this.modeLayout.list =drags.list;
         this.modeLayout.drag =drags.drag;
+        this.modeLayout.nbLigneIn = drags.nbLigneIn;
+        this.modeLayout.nbLigneList= drags.nbLigneList;
+this.modeLayout.nbLigneGh = drags.nbLigneGh ;
+
+
 
          });
+
   }
   
 
@@ -94,7 +115,7 @@ this.serviceWidget.setCurrentWidgetUpdate(this.WidgetToUpdate);
 
     }
 
- getWidgetWithType(property,indexType) {
+ getWidgetWithType(property,indexType,nbWidgetParLign) {
   this.spinner =false;
 
     this.serviceWidget.getAllWidget(property).subscribe(widget=>{
@@ -107,7 +128,7 @@ this.serviceWidget.setCurrentWidgetUpdate(this.WidgetToUpdate);
 
       widget.forEach(function(item){  
 
-        if(index <2)
+        if(index <nbWidgetParLign)
        { 
          playStore.push(item)  ;
          index++ ;
