@@ -29,14 +29,16 @@ ListIndix = []
  letters = [0 , 1 ,2] ;
   chartOptions: {  };
   dragPermission :Boolean; 
+  positionLayout :Boolean; 
   @ViewChild('graphiqueComp', { static: false }) public mydiv: ElementRef;
 
 ;  constructor(private serviceWidget:ServiceWidgetService) {
 
-  this.modeLayout.nbLigneIn = "2";
-  this.modeLayout.nbLigneList= "2";
+  this.modeLayout.nbLigneIn = "3";
+  this.modeLayout.nbLigneList= "3";
   this.modeLayout.nbLigneGh ="2";
   this.nbWidgetParLign = 4 ;
+  this.modeLayout.postions =true ;
     this. getWidgetWithType("?type[]=1&type[]=2","1", this.modeLayout.nbLigneIn);
     this. getWidgetWithType("?type=3","3",  this.modeLayout.nbLigneList);
     this. getWidgetWithType("?type=4","4",  this.modeLayout.graphique );
@@ -51,7 +53,8 @@ ListIndix = []
       
       if(this.modeLayout.nbLigneGh != drags.nbLigneGh)
       this. getWidgetWithType("?type=4","4", drags.nbLigneGh );
-
+      
+      this.positionLayout=drags.postions ;
       this.dragPermission=drags.drag;    
         this.modeLayout.indicateur =drags.indicateur;
         this.modeLayout.graphique =drags.graphique;
@@ -59,8 +62,10 @@ ListIndix = []
         this.modeLayout.drag =drags.drag;
         this.modeLayout.nbLigneIn = drags.nbLigneIn;
         this.modeLayout.nbLigneList= drags.nbLigneList;
-this.modeLayout.nbLigneGh = drags.nbLigneGh ;
+        this.modeLayout.nbLigneGh = drags.nbLigneGh ;
+this.modeLayout.postions = drags.postions ;
 
+   
 
 
          });
@@ -128,7 +133,7 @@ this.serviceWidget.setCurrentWidgetUpdate(this.WidgetToUpdate);
 
       widget.forEach(function(item){  
 
-        if(index <nbWidgetParLign)
+        if(index <nbWidgetParLign-1)
        { 
          playStore.push(item)  ;
          index++ ;

@@ -168,7 +168,47 @@
         </mat-label>
     
       </div>
+      <div fxLayout="column"  fxFlex class="border-style"  >
+        <h1>Position</h1>
+  
+        <mat-label class="text-color">absolute : 
 
+       <button  mat-button style ="min-width: 0px"(click)="changePostions(true)">
+            <ng-container *ngIf="ModeLayout.postions; else elseTemplate">
+              <mat-icon  style="background-color: #ffa000;
+              padding: 2px;">        gps_not_fixed
+              </mat-icon>
+            </ng-container>
+            <ng-template #elseTemplate>
+              <mat-icon  style="opacity: 0.5;">        gps_not_fixed
+              </mat-icon>
+            </ng-template>
+     
+       
+
+    
+       </button>
+        </mat-label>
+        <mat-label class="text-color">fixed : 
+
+       <button    mat-button  style ="min-width: 0px"(click)="changePostions(false)">
+
+        <ng-container *ngIf="ModeLayout.postions; else gps_fixed">
+          <mat-icon  style="opacity: 0.5;"
+           >        gps_fixed
+          </mat-icon>
+        </ng-container>
+        <ng-template #gps_fixed>
+          <mat-icon   style="background-color: #ffa000;
+          padding: 2px;">        gps_fixed
+          </mat-icon>
+        </ng-template>
+       </button>
+     </mat-label>
+  
+      
+      
+        </div>
       <div fxLayout="column"  fxFlex class="border-style"  >
         <h1>Mode Layout</h1>
   
@@ -188,12 +228,13 @@
 
         </div>
        
-        <mat-label class="text-color">ligne widget :
-          <input matInput type="number" #nbi (input) ="changeNbWidgetLayout(nbi,'1')" >
 
-        </mat-label>
 
-     
+        <mat-form-field class="full-width">
+          <mat-label  class="text-color">ligne widget :</mat-label>
+          <input matInput #ligne maxlength="2"  #nbi (input) ="changeNbWidgetLayout(nbi,'1')"  placeholder=number [value]="ModeLayout.nbLigneIn ">
+          <mat-hint align="end">{{ligne.value.length}} / 2</mat-hint>
+        </mat-form-field>
           </mat-label>
       
 
@@ -212,11 +253,12 @@
                   </button>
     
             </div>
-            <mat-label class="text-color">ligne widget :
-              <input matInput type="number" #nblist (input) ="changeNbWidgetLayout(nblist,'2')" >
-    
-            </mat-label>
-          
+  
+            <mat-form-field class="full-width">
+              <mat-label  class="text-color">ligne widget :</mat-label>
+              <input matInput #ligne maxlength="2" #nblist (input) ="changeNbWidgetLayout(nblist,'2')"  placeholder=number [value]="ModeLayout.nbLigneList ">
+              <mat-hint align="end">{{ligne.value.length}} / 2</mat-hint>
+            </mat-form-field>
               </mat-label>
 
 
@@ -236,10 +278,12 @@
                       </button>
         
                 </div>
-                <mat-label class="text-color">ligne widget :
-                  <input matInput type="number" #nbGh (input) ="changeNbWidgetLayout(nbGh,'3')" >
-        
-                </mat-label>
+          
+                <mat-form-field class="full-width">
+                  <mat-label  class="text-color">ligne widget :</mat-label>
+                  <input matInput #ligne maxlength="2" #nbGh (input) ="changeNbWidgetLayout(nbGh,'3')"placeholder=number [value]="ModeLayout.nbLigneGh">
+                  <mat-hint align="end">{{ligne.value.length}} / 2</mat-hint>
+                </mat-form-field>
                   </mat-label>
                 
                   <mat-label class="text-color"> all widget  : 
@@ -257,11 +301,12 @@
                           </button>
             
                     </div>
-                    <mat-label class="text-color">ligne widget :
-                      <input matInput type="number" #nbAll (input) ="changeNbWidgetLayout(nbAll,'4')" >
-            
-                    </mat-label>
-                  
+                   
+                    <mat-form-field class="full-width">
+                      <mat-label  class="text-color">ligne widget :</mat-label>
+                      <input matInput #ligne maxlength="2" #nbAll (input) ="changeNbWidgetLayout(nbAll,'4')" placeholder=number value="2">
+                      <mat-hint align="end">{{ligne.value.length}} / 2</mat-hint>
+                    </mat-form-field>
                       </mat-label>
 
 

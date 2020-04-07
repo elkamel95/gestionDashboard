@@ -40,6 +40,7 @@ import { MccColorPickerModule } from 'material-community-components';
 import {MatSliderModule} from '@angular/material/slider';
 import {MatRippleModule} from '@angular/material/core';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatRadioModule} from '@angular/material/radio';
 
 import { MatColorPickerModule } from 'mat-color-picker';
 import { IndicateurListeComponent } from 'src/app/components/widget/indicateur-liste/indicateur-liste.component';
@@ -80,6 +81,7 @@ import { SidbarConfigComponent } from 'src/app/shared/sidbar-config/sidbar-confi
     FlexLayoutModule,
     MatButtonModule,
     MatDividerModule,
+    MatRadioModule,
     MatListModule,
     MatFormFieldModule,
     MatSelectModule,

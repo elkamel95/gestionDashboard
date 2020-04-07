@@ -5,6 +5,7 @@ export class ModeDisposition{
 drag:boolean =true ;
 
 nbLigneGh :string="2";
-nbLigneIn:string="2";
-nbLigneList:string="2";
+nbLigneIn:string="3";
+nbLigneList:string="3";
+postions:boolean =false ; 
 }

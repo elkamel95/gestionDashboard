@@ -30,6 +30,8 @@ export class SidbarConfigComponent implements OnInit {
           ]
   chartOptions: { };
   constructor(private serviceWidget:ServiceWidgetService) {
+    this.ModeLayout.postions=false;
+
    serviceWidget.currentWidget.subscribe(widget=>{
 
       this.data = widget ;
@@ -103,6 +105,13 @@ else {
 
 }
  
+
+changePostions(value){
+  this.ModeLayout.postions=value;
+
+
+  this.serviceWidget.setCurrentDispotionRep(this.ModeLayout);
+}
   ngOnInit() {
   }
 

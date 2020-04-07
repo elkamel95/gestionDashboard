@@ -13,7 +13,8 @@
       <div  fxFlex 
              *ngFor="let list of item ; let index = index  ; "
             cdkDragBoundary=".example-boundary" 
-            [ngStyle]="{'transform': 'translate(' + list.positionLeft + ', ' +  list.positionRight + ')'}" 
+            [ngStyle]=" positionLayout ? {'transform': 'translate(' +  list.positionLeft+ ', ' + list.positionRight  + ')'} : null "
+
 
             [ngClass]="{'cursor-move': !modeLayout.drag}"
               cdkDrag  
@@ -58,7 +59,6 @@
     </div>
 
 
-    
     <div (click)="permutation(1)" [fxFlexOrder]="letters[1]" 
       [fxLayout]="modeLayout.list "  fxLayoutGap="20px" *ngFor="let item of WidgetList  ">
         <div  fxFlex   *ngFor="let list of item ; let index = index  ; "       
@@ -70,7 +70,7 @@
         [cdkDragDisabled] ="modeLayout.drag"
 
         (cdkDragEnded)="setWidgetToUpdate(list,$event)"
-        [ngStyle]="{'transform': 'translate(' + list.positionLeft + ', ' +  list.positionRight + ')'}"
+        [ngStyle]=" positionLayout ? {'transform': 'translate(' +  list.positionLeft+ ', ' + list.positionRight  + ')'} : '' "
         >
            
              
@@ -107,7 +107,8 @@
         [cdkDragDisabled] ="modeLayout.drag"
         
            (cdkDragEnded)="setWidgetToUpdate(list,$event)"
-        [ngStyle]="{'transform': 'translate(' + list.positionLeft + ', ' +  list.positionRight + ')'}" >
+           [ngStyle]=" positionLayout ? {'transform': 'translate(' +  list.positionLeft+ ', ' + list.positionRight  + ')'} : null "
+           >
     
             <app-area   
             [backgroundColor]=" list.backgroundColor "

@@ -18,6 +18,8 @@ mat-card{
     }
     .indicateurPosition{
       margin-top: 1%;
+      background-color: transparent;
+
     }
     .content{
         white-space:pre-wrap;

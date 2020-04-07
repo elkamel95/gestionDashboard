@@ -13,10 +13,12 @@ const routes: Routes = [
   { path: '', component: LayoutDashboardComponent    ,children:[{
     path:'' , component:DashboardComponent , canActivate: [AuthGuard] , pathMatch: 'full' }, 
     {path:'widget', component:WidgetTableComponent ,canActivate: [AuthGuard]  },
-    {path:'signup' , component:SignUpComponent },
-    {path:'sigin' , component:SiginComponent},
+  
 
   ] },
+  {path:'signup' , component:SignUpComponent },
+    {path:'sigin' , component:SiginComponent},
+
   {path:'login' , component:Login2Component},
 
 ];
