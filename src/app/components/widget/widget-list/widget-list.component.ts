@@ -1,5 +1,7 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
-import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { Component, OnInit, ViewChild, Input, Optional, Inject } from '@angular/core';
+import { MatPaginator, MatTableDataSource, MAT_DIALOG_DATA } from '@angular/material';
+import { Widget } from 'src/app/models/Widget';
+import { ServiceWidgetService } from 'src/app/services/widget/service-widget.service';
 export interface PeriodicElement {
   name: string;
   position: number;
@@ -8,7 +10,7 @@ export interface PeriodicElement {
 }
 
 
-const ELEMENT_DATA: PeriodicElement[] = [
+const ELEMENT_DATA: any[] = [
   {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
   {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
   {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
@@ -25,7 +27,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 
 export class WidgetListComponent implements OnInit {
-  @Input() indicateur =0 ;
+
 @Input()  title =" ";
 @Input() backgroundColor ="";
 @Input() textColor ="";
@@ -33,20 +35,63 @@ export class WidgetListComponent implements OnInit {
 @Input() width ;
 @Input() height;
 @Input() font;
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+@Input() url;
+progressBar = false ; 
+list  = [] ; 
+  displayedColumns: string[] = [];
   private dataSource :MatTableDataSource<any> = new MatTableDataSource<any>();
-
+ 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  constructor(
+    @Optional() @Inject(MAT_DIALOG_DATA) public Alldata: Widget , private serviceWidget:ServiceWidgetService
 
-  constructor() { 
+
+  ) {
+if(Alldata !=null){
+  console.log(Alldata);
+  this.title = Alldata.nameFr;
   
+this.backgroundColor =Alldata.backgroundColor;
+this.size=Alldata.size;
+this.textColor =Alldata.textColor;
+this.url = Alldata.url ;
+
+  this.getDataFromUrl(this.url);
+
+}
+
 
   }
-
+ 
   ngOnInit() {
-    this.dataSource=new MatTableDataSource<PeriodicElement>(ELEMENT_DATA); 
+    this.getDataFromUrl(this.url);
 
-    this.dataSource.paginator = this.paginator ;
   }
+
+getDataFromUrl(url){
+
+  this.serviceWidget.getAnything(url).subscribe(list=>{
+    var header = [];
+      for(var i in list[0]) {
+        if(i.toString().charAt(0) !=='@')
+        header.push(i)
+      
+      }
+     
+      
+      this.displayedColumns =header;
+    
+      this.dataSource=new MatTableDataSource<any>(list); 
+  
+    
+      this.list= list ;
+      this.dataSource.paginator = this.paginator ;
+
+
+    },()=>{}, () => {
+      this.progressBar = true;
+
+ });
+}
 
 }

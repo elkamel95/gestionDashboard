@@ -15,7 +15,7 @@ export class SidbarConfigComponent implements OnInit {
   data:Widget = new Widget() ; 
   darg = false ;
   ModeLayout = new ModeDisposition();
-
+typePermut ="";
   @ViewChild('graphiqueComp', { static: false }) public mydiv: ElementRef;
 
     font_size =[
@@ -31,11 +31,14 @@ export class SidbarConfigComponent implements OnInit {
   chartOptions: { };
   constructor(private serviceWidget:ServiceWidgetService) {
     this.ModeLayout.postions=false;
-
+    this.ModeLayout.indicePermutation = 1 ;
    serviceWidget.currentWidget.subscribe(widget=>{
 
       this.data = widget ;
    });
+
+
+    
 
   }
 
@@ -52,7 +55,32 @@ ChangeToDragAndDrop(){
   
 
    });
+
+
    this.ModeLayout.drag=!this.ModeLayout.drag
+   this.serviceWidget.setCurrentDispotionRep( this.ModeLayout);
+
+ 
+}
+ChangePermutation(){
+  
+  this.serviceWidget.currentDispotionRep.subscribe(layout=>{
+    this.ModeLayout.permutation = layout.permutation ;
+    this.ModeLayout.indicePermutation = layout.indicePermutation ;
+    if(layout.indicePermutation == 0 )
+    this.typePermut ="indicator" ;
+    else if (layout.indicePermutation == 1 )
+
+    this.typePermut ="  list " ;
+    else if(layout.indicePermutation ==2 )
+    this.typePermut ="graphic" ;
+else 
+this.typePermut ="" ;
+
+   });
+
+
+   this.ModeLayout.permutation=!this.ModeLayout.permutation
    this.serviceWidget.setCurrentDispotionRep( this.ModeLayout);
 
  

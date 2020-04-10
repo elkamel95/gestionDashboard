@@ -149,6 +149,11 @@ if(this.pageSize!=$event.pageSize){
   
   }
      }
+
+     applyFilter(event: Event) {
+      const filterValue = (event.target as HTMLInputElement).value;
+      this.dataSource.filter = filterValue.trim().toLowerCase();
+    }
    
 getData(nb,pageSize){
   console.log("sd");
@@ -156,15 +161,26 @@ getData(nb,pageSize){
   this.spinner =false ;
   this.ws.getAllWidgetDashbord(nb,pageSize).subscribe(
     listWidget=>{
-
-     this.dataSource = new MatTableDataSource<Widget>(listWidget['hydra:member']);
+if(listWidget.length != 0 )
+   {  this.dataSource = new MatTableDataSource<Widget>(listWidget['hydra:member']);
      this. selection = new SelectionModel<Widget>(true, []);
 
      this.length=  listWidget['hydra:totalItems'];
-     this.spinner =true ;
+}
+
+  }, error=>{
 
 
-  });
+  },()=>{
+
+    this.spinner =true ;
+
+
+
+  }
+  
+  
+  );
 
   
 

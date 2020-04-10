@@ -1,4 +1,4 @@
-
+{{ListIndix}}
 <mat-toolbar style="height: 7%;"><h6>Dashboard</h6> </mat-toolbar>
 
     <div            [ngClass]="{'example-boundary': !modeLayout.drag}"
@@ -8,8 +8,14 @@
           </div>
 <div  fxLayout="column" fxLayoutGap="60px" fxLayoutAlign="space-between start"> 
 
-    <div  (click)="permutation(0)" [fxFlexOrder]="letters[0]" cdkDragBoundary=".example-boundary"  
-      [fxLayout]="modeLayout.indicateur" style="width: 100%; " fxLayoutGap="15px" *ngFor="let item of WidgetIndicator  ">
+    <div   [ngClass]="{'border-permutation': modeLayout.permutation}"
+    
+    (click)="permutation(0)"
+     [fxFlexOrder]="letters[0]" cdkDragBoundary=".example-boundary"  
+      [fxLayout]="modeLayout.indicateur" style="width: 100%; " fxLayoutGap="15px" 
+
+    
+      *ngFor="let item of WidgetIndicator  ">
       <div  fxFlex 
              *ngFor="let list of item ; let index = index  ; "
             cdkDragBoundary=".example-boundary" 
@@ -48,6 +54,7 @@
    [font]="list.font"
    [backgroundSmallWidget]="list.backgroundColor"
   [colorSmallWidget]="list.colorSmallWidget"
+  [url] ="list.url"
     
     ></IndicateurListe>
 
@@ -59,10 +66,10 @@
     </div>
 
 
-    <div (click)="permutation(1)" [fxFlexOrder]="letters[1]" 
-      [fxLayout]="modeLayout.list "  fxLayoutGap="20px" *ngFor="let item of WidgetList  ">
+    <div  [ngClass]="{'border-permutation': modeLayout.permutation}"     (click)="permutation(1)" [fxFlexOrder]="letters[1]"   
+      [fxLayout]="modeLayout.list " fxLayoutGap="20px" *ngFor="let item of WidgetList  ">
         <div  fxFlex   *ngFor="let list of item ; let index = index  ; "       
-        
+        [fxFlexOrder]="letters[index+1]"
         [ngClass]="{'cursor-move': !modeLayout.drag}"
 
         cdkDragBoundary=".example-boundary" cdkDrag   
@@ -74,7 +81,8 @@
         >
            
              
-                <widget-list   (click)="setWidgetToUpdate(list)" 
+                <widget-list     matRipple
+                matRippleColor="#00000029" (click)="setWidgetToUpdate(list)" 
                 [backgroundColor]=" list.backgroundColor "
                 [textColor] ="list.textColor"
                 [width] ="list.width"
@@ -82,7 +90,8 @@
                [height]="list.height"
                [size] ="list.size"
                [font]="list.font"
-                
+              url ="api/as"
+
                 style="margin-top: 10%;" [title] ="list.nameFr" >
             
             </widget-list>
@@ -94,7 +103,7 @@
 </div>
  
 
-    <div [fxLayout]="modeLayout.graphique "  (click)="permutation(2)" [fxFlexOrder]="letters[2]"  fxLayoutAlign="start center"  cdkDragBoundary=".example-boundary"
+    <div [fxLayout]="modeLayout.graphique " [ngClass]="{'border-permutation': modeLayout.permutation}"    (click)="permutation(2)" [fxFlexOrder]="letters[2]"  fxLayoutAlign="start center"  cdkDragBoundary=".example-boundary"
     
     
      

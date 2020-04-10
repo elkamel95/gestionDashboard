@@ -7,11 +7,18 @@
         style="height: 10%; width: 20%;" (click)="openDialog('Add',{},{})">Add</button>
       </div>
       
+
+
         <div [hidden]="spinner " class="spinner-position ">
           <app-spinner ></app-spinner>
         </div>
-     
+        <mat-form-field style="width: 50%;margin-left: 25%;">
+          <mat-label>
+            Search by title</mat-label>
+          <input matInput (keyup)="applyFilter($event)" placeholder="title">
+        </mat-form-field>
 <div fxLayoutAlign="center center" fxLayout="column" class="mat-elevation-z8" >
+
   
 <table   mat-table [dataSource]="dataSource" class="mat-elevation-z8" >
 

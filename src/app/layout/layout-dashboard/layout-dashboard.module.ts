@@ -46,6 +46,7 @@ import { MatColorPickerModule } from 'mat-color-picker';
 import { IndicateurListeComponent } from 'src/app/components/widget/indicateur-liste/indicateur-liste.component';
 import { DialogDeleteComponent } from 'src/app/components/dialog-delete/dialog-delete.component';
 import { SidbarConfigComponent } from 'src/app/shared/sidbar-config/sidbar-config.component';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [
@@ -97,6 +98,7 @@ import { SidbarConfigComponent } from 'src/app/shared/sidbar-config/sidbar-confi
     MatRippleModule,
     MatChipsModule,
     MatTabsModule,
+    MatProgressBarModule,
  MatColorPickerModule,MatSliderModule,
  MccColorPickerModule.forRoot({
   empty_color: 'transparent',
@@ -105,6 +107,6 @@ import { SidbarConfigComponent } from 'src/app/shared/sidbar-config/sidbar-confi
 
  
   ],
-  entryComponents:[DialogBoxComponent ,DialogDeleteComponent,SpinnerComponent]
+  entryComponents:[DialogBoxComponent ,WidgetListComponent,DialogDeleteComponent,SpinnerComponent]
 })
 export class LayoutDashboardModule { }

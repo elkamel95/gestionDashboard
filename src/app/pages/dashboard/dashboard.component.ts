@@ -24,7 +24,6 @@ width=80;
 spinner =false;
 permute = 1;
 nbWidgetParLign=2;
-permutationiSActive =false ; 
 ListIndix = []
  letters = [0 , 1 ,2] ;
   chartOptions: {  };
@@ -44,27 +43,28 @@ ListIndix = []
     this. getWidgetWithType("?type=4","4",  this.modeLayout.graphique );
 
     
-    this.serviceWidget.currentDispotionRep.subscribe(drags=>{
+    this.serviceWidget.currentDispotionRep.subscribe(layout=>{
 
-      if(this.modeLayout.nbLigneIn != drags.nbLigneIn)
-      this. getWidgetWithType("?type[]=1&type[]=2","1",drags.nbLigneIn );
-      if(this.modeLayout.nbLigneList != drags.nbLigneList)
-      this. getWidgetWithType("?type=3","3",drags.nbLigneList );
+      if(this.modeLayout.nbLigneIn != layout.nbLigneIn)
+      this. getWidgetWithType("?type[]=1&type[]=2","1",layout.nbLigneIn );
+      if(this.modeLayout.nbLigneList != layout.nbLigneList)
+      this. getWidgetWithType("?type=3","3",layout.nbLigneList );
       
-      if(this.modeLayout.nbLigneGh != drags.nbLigneGh)
-      this. getWidgetWithType("?type=4","4", drags.nbLigneGh );
+      if(this.modeLayout.nbLigneGh != layout.nbLigneGh)
+      this. getWidgetWithType("?type=4","4", layout.nbLigneGh );
       
-      this.positionLayout=drags.postions ;
-      this.dragPermission=drags.drag;    
-        this.modeLayout.indicateur =drags.indicateur;
-        this.modeLayout.graphique =drags.graphique;
-        this.modeLayout.list =drags.list;
-        this.modeLayout.drag =drags.drag;
-        this.modeLayout.nbLigneIn = drags.nbLigneIn;
-        this.modeLayout.nbLigneList= drags.nbLigneList;
-        this.modeLayout.nbLigneGh = drags.nbLigneGh ;
-this.modeLayout.postions = drags.postions ;
+      this.positionLayout=layout.postions ;
+      this.dragPermission=layout.drag;    
+        this.modeLayout.indicateur =layout.indicateur;
+        this.modeLayout.graphique =layout.graphique;
+        this.modeLayout.list =layout.list;
+        this.modeLayout.drag =layout.drag;
+        this.modeLayout.nbLigneIn = layout.nbLigneIn;
+        this.modeLayout.nbLigneList= layout.nbLigneList;
+        this.modeLayout.nbLigneGh = layout.nbLigneGh ;
+this.modeLayout.postions = layout.postions ;
 
+this.modeLayout.permutation = layout.permutation;
    
 
 
@@ -84,7 +84,7 @@ this.modeLayout.postions = drags.postions ;
  
 
   permutation(index){
-    if(this.permutationiSActive)
+    if(this.modeLayout.permutation)
     {var aux =0;
     this.ListIndix.push(index);
 
@@ -98,11 +98,16 @@ this.modeLayout.postions = drags.postions ;
   this.letters[this.ListIndix[1]]=aux
   const element = this.letters;
 this.ListIndix = [];
-
+this.modeLayout.indicePermutation = 5 ;
 }
 
 }
+  if(this.modeLayout.permutation)
+{this.modeLayout.indicePermutation =index;
 
+this.serviceWidget.setCurrentDispotionRep( this.modeLayout);}
+
+console.log(this.ListIndix);
   }
   
   setWidgetToUpdate(widget?:Widget,$event?: CdkDragEnd) {
@@ -130,7 +135,9 @@ this.serviceWidget.setCurrentWidgetUpdate(this.WidgetToUpdate);
    let  playStore : Widget[] =[] ;
 
     let listWidget : Widget[] [] =[] ;
-
+    if(widget.length !=0)
+      
+    {   
       widget.forEach(function(item){  
 
         if(index <nbWidgetParLign-1)
@@ -154,6 +161,7 @@ this.serviceWidget.setCurrentWidgetUpdate(this.WidgetToUpdate);
       }
       
       ); 
+      if(playStore.length != 0)
         listWidget.push(playStore);
 if(indexType == 1 )
 {this.WidgetIndicator=  listWidget;
@@ -168,9 +176,12 @@ else if(indexType == 4)
 
 
 }
+console.log(this.WidgetIndicator);
 
 
-this.spinner=true;
+    }},()=>{},()=>{
+
+      this.spinner=true;
 
     });
   }

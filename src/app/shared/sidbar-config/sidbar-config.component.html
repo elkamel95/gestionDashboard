@@ -19,8 +19,8 @@
           </mcc-color-picker> 
       
           </mat-label>
-        <div>
-            <mat-label  class="text-color">indicator  <span style=" color: #ffa000;"></span>: </mat-label>
+        <div  *ngIf="data.type === '1'"> 
+            <mat-label  class="text-color" >indicator  <span style=" color: #ffa000;"></span>: </mat-label>
 
             <mcc-color-picker  hideButtons="true"  [selectedColor]="data.colorSmallWidget"  (selected)=" data.colorSmallWidget =$event ;  "></mcc-color-picker> 
           
@@ -28,22 +28,22 @@
           </div>
         <div fxLayout="column"   fxFlex>
             <div>
-              <ng-container *ngIf="data.type != '4'; else elseGraphiqueStyle">
-                <mat-form-field   style="padding: 1px;
-            width: 70%;
+              <ng-container   *ngIf="data.type != '4'; else elseGraphiqueStyle">
+                <mat-label  class="text-color">size  <span style=" color: #ffa000;">*</span>: </mat-label>
 
-    height: 50%; margin-top: -5%;" >
-      <mat-label>size</mat-label>
-         <mat-select  [(ngModel)]="data.size" >
+                <mat-form-field   style="width: 80%;    margin-top: -8%;" >     
+                      <mat-select  [(ngModel)]="data.size" >
           <mat-option  value="1" > size</mat-option>
           <mat-option  *ngFor="let item of font_size" [value]="item">{{item}}</mat-option>
          </mat-select> 
         </mat-form-field>
-    
-        <mat-form-field   style="padding: 1px;
-        width: 70%;
-        height: 50%;margin-top: -5%;" >
-          <mat-label>font</mat-label>
+
+        <div  fxLayout="column"   >
+        <mat-label  class="text-color">font
+            <span style=" color: #ffa000;">*</span>:
+           </mat-label>
+
+        <mat-form-field   style="width: 80%;    margin-top: -8%;" >
     
           <mat-select  [(ngModel)]="data.font" >
             <mat-option  value="font" >font</mat-option>
@@ -51,24 +51,27 @@
            <mat-option  *ngFor="let item of  font_style" [value]="item">{{item}}</mat-option>
           </mat-select> 
          </mat-form-field>
+        </div>
               </ng-container>
               <ng-template #elseGraphiqueStyle>
-                
-    
+              <div  fxLayout="column" >
+                <mat-label  class="text-color">size  <span style=" color: #ffa000;">*</span>: </mat-label>
+
                 <mat-form-field   style="padding: 1px;
                 width: 70%;
-                height: 50%; margin-top: -5%;" >
-                  <mat-label>size</mat-label>
-                     <mat-select  [(ngModel)]="data.size" >
+                height: 50%; margin-top: -5%;" >                     <mat-select  [(ngModel)]="data.size" >
                       <mat-option  value="1" > size</mat-option>
                       <mat-option  *ngFor="let item of size" [value]="item">{{item}}</mat-option>
                      </mat-select> 
                     </mat-form-field>
-                
+                  </div>  
+                <div fxLayout="column">
+                  <mat-label  class="text-color">font
+                    <span style=" color: #ffa000;">*</span>:
+                   </mat-label>
                     <mat-form-field   style="padding: 1px;
                     width: 70%;
                     height: 50%;margin-top: -5%;" >
-                      <mat-label>font</mat-label>
                 
                       <mat-select  [(ngModel)]="data.font" >
                         <mat-option  value="font" >font</mat-option>
@@ -76,7 +79,7 @@
                        <mat-option  *ngFor="let item of  font_style" [value]="item">{{item}}</mat-option>
                       </mat-select> 
                      </mat-form-field>
-    
+                    </div>
               </ng-template>
               
     
@@ -93,13 +96,13 @@
                  <ng-container *ngIf="data.type == 4; else elseSlidedrGrapique">
                     <div >
 
-                        <mat-label class="text-color">width <span style=" color: #ffa000;">*</span>: {{data.width}}px</mat-label>
+                        <mat-label class="text-color">width <span style=" color: #ffa000;"></span>: {{data.width}}px</mat-label>
                 
                         <mat-slider min="300" step="0.5" [(ngModel)]="data.width"  max="1000" value="400" >
                         </mat-slider>
                     </div>
                     <div>
-                        <mat-label class="text-color">height <span style=" color: #ffa000;">*</span>: {{data.height}}px</mat-label>
+                        <mat-label class="text-color">height <span style=" color: #ffa000;"></span>: {{data.height}}px</mat-label>
                 
                         <mat-slider min="100" step="0.5"  max="400" value="300"  [(ngModel)]="data.height" (input)=" data.height=$event.value">
                        </mat-slider>
@@ -109,12 +112,12 @@
                     
                         <div >
 
-                        <mat-label class="text-color">width <span style=" color: #ffa000;">*</span>: {{data.width}}%</mat-label>
+                        <mat-label class="text-color">width <span style=" color: #ffa000;"></span>: {{data.width}}%</mat-label>
 
                         <mat-slider [(ngModel)]="data.width" (input)="data.width=$event.value"></mat-slider>
                         </div>
                         <div>
-                        <mat-label class="text-color">height <span style=" color: #ffa000;">*</span>: {{data.height}}%</mat-label>
+                        <mat-label class="text-color">height <span style=" color: #ffa000;"></span>: {{data.height}}%</mat-label>
 
                         <mat-slider [(ngModel)]="data.height" (input)=" data.height=$event.value"></mat-slider>
                         </div>
@@ -137,9 +140,9 @@
                       </mat-label>
                       </div>
                       
-                      <div fxLayout="row">
+                      <div fxLayout="row" *ngIf="data.type === '1'">
          
-                        <mat-label class="text-color"> Small Card <span style=" color: #ffa000;"></span>: </mat-label>
+                        <mat-label class="text-color"  > Small Card <span style=" color: #ffa000;"></span>: </mat-label>
                         
                           <mcc-color-picker usedColorLabel="backgroundSmallWidget " [selectedColor]="data.backgroundSmallWidget"  hideButtons="true" (selected)=" data.backgroundSmallWidget =$event ;  "></mcc-color-picker> 
                         
@@ -168,6 +171,21 @@
         </mat-label>
     
       </div>
+      <div fxLayout="column"  fxFlex class="border-style"  >
+        <h1>Permutation</h1>
+  
+        <mat-label class="text-color">change orders: 
+        
+         <button mat-button style ="min-width: 0px"(click)="ChangePermutation()">
+          <mat-icon>      swap_vertical_circle
+          </mat-icon>
+          Widget : {{typePermut}}
+         </button>
+  
+      
+          </mat-label>
+      
+        </div>
       <div fxLayout="column"  fxFlex class="border-style"  >
         <h1>Position</h1>
   

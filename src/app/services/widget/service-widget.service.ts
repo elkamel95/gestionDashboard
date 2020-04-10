@@ -89,4 +89,8 @@ widget.height=widget.height.toString();
       console.log(error);
     }); ;
   }
+  getAnything(generiqueUrl,property=""){
+    return this.http.get<Widget[]>(this.url+"/"+generiqueUrl+property,{headers: this.headers}).pipe(map(data => data['hydra:member']));
+
+  }
 }
