@@ -7,7 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from 'src/app/services/alert/alert.service';
 
 @Component({
-  selector: 'app-sign-up',
+  selector: 'sign-up',
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.css']
 })
@@ -19,6 +19,7 @@ export class SignUpComponent implements OnInit {
   user:User = new User();
   returnUrl: string;
 repEmail = 0;
+private notSame  =false ; 
   constructor(private formBuilder: FormBuilder,
     private userService:UserService,
     private route: ActivatedRoute,
@@ -26,12 +27,26 @@ repEmail = 0;
     private alertService: AlertService
 
     ) { }
+    checkPasswords(passs?:string , confirmPasss?:string) { // here we have the 'passwords' group
+    if(passs == null)
+    passs="" ; 
+    if(confirmPasss == null)
+    confirmPasss=""
+    let pass = passs;
+    let confirmPass = confirmPasss;
+  console.log(confirmPass);
+    return pass === confirmPass ? this.notSame=true :  this.notSame=false     
+  }
+
 
   ngOnInit() {
     this.RegistreForm = this.formBuilder.group({
       username: ['', Validators.required],
       email: ['', [Validators.email , Validators.required]],
       password: ['', [Validators.required,Validators.minLength(8)] ],
+      confirm: ['', [Validators.required,Validators.minLength(8)] ],
+
+
       fullname : ['',Validators.required],
       roles : ['',Validators.required]
 

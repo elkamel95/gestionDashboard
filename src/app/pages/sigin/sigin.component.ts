@@ -17,6 +17,9 @@ export class SiginComponent implements OnInit {
   submitted = false;
   returnUrl: string;
   isValide = false ; 
+  openNow  =true ;
+  openNowLogin: boolean =false;
+  openNowSigin: boolean =false;
   constructor(
       private formBuilder: FormBuilder,
       private route: ActivatedRoute,
@@ -72,5 +75,13 @@ console.log(this.f.username.value);
                  this. openSnackBar("inValid email or password ","Erreur") ;
               });
   }
+
+  openLogIn(){
+    this.openNowLogin = true ; 
+    this.openNowSigin =false ; 
+  }
+  openSigin(){
+    this.openNowLogin = false ; 
+    this.openNowSigin =true ;   }
 }
 

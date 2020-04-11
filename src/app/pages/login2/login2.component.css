@@ -1,5 +1,5 @@
 .backgroundImage{
-    background-image: url('../../../assets/icon/backround5.jpg');
+    background-image: linear-gradient(rgb(0,0,0,0.5),rgb(0,0,0,0.5)),url('../../../assets/icon/backround5.jpg');
     background-repeat: round;
     filter: saturate(0.8);
     background-color: #020d48;

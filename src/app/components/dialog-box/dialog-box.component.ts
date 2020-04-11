@@ -48,14 +48,12 @@ export class DialogBoxComponent implements OnInit{
     public dialogRef: MatDialogRef<DialogBoxComponent>,
     //@Optional() is used to prevent error if no data is passed
     @Optional() @Inject(MAT_DIALOG_DATA) public Alldata: any) {
-      console.log(this.data);
       this.data=  Alldata.element;
     this.local_data = {...this.Alldata};
     this.action = this.local_data.action;
 
   }
   selectedColor($event){
-    console.log($event) ;
     //}   this.data.textColor = $event};
   }
 ngOnInit(): void {  
@@ -90,7 +88,6 @@ this.ControleForm = new FormGroup({
 }
    
   setType(event: { value: string; }){
-    console.log(event);
     this.data.type = event.value ;
     if(this.data.id == null)
 {

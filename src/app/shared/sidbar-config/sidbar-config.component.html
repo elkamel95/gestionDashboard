@@ -19,7 +19,7 @@
           </mcc-color-picker> 
       
           </mat-label>
-        <div  *ngIf="data.type === '1'"> 
+        <div  *ngIf="(data.type === '1'  || data.type === '2')"> 
             <mat-label  class="text-color" >indicator  <span style=" color: #ffa000;"></span>: </mat-label>
 
             <mcc-color-picker  hideButtons="true"  [selectedColor]="data.colorSmallWidget"  (selected)=" data.colorSmallWidget =$event ;  "></mcc-color-picker> 
@@ -140,7 +140,7 @@
                       </mat-label>
                       </div>
                       
-                      <div fxLayout="row" *ngIf="data.type === '1'">
+                      <div fxLayout="row"  *ngIf="(data.type === '1'  || data.type === '2')">
          
                         <mat-label class="text-color"  > Small Card <span style=" color: #ffa000;"></span>: </mat-label>
                         

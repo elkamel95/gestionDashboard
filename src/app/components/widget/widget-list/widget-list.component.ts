@@ -54,9 +54,16 @@ if(Alldata !=null){
 this.backgroundColor =Alldata.backgroundColor;
 this.size=Alldata.size;
 this.textColor =Alldata.textColor;
-this.url = Alldata.url ;
+if(Alldata.url !=undefined)
 
-  this.getDataFromUrl(this.url);
+
+
+{
+  
+  console.log("d");
+  this.url = Alldata.url ;
+
+  this.getDataFromUrl(this.url);}
 
 }
 
@@ -64,7 +71,9 @@ this.url = Alldata.url ;
   }
  
   ngOnInit() {
-    this.getDataFromUrl(this.url);
+    if(this.url !=undefined)
+{   console.log(this.url);
+this.getDataFromUrl(this.url);}
 
   }
 

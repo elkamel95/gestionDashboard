@@ -1,4 +1,3 @@
-<div class="login-wrapper backgroundImage" fxLayout="row" fxLayoutAlign="center center">
     <mat-card class="box">
       <mat-card-header>
         <mat-card-title>Register</mat-card-title>
@@ -52,17 +51,29 @@
           <mat-form-field class="example-full-width">
             <input matInput placeholder="Password" formControlName="password"
             [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
-           type="password" >
+           type="password" (input)="checkPasswords(f.confirm.value,f.password.value)">
             <mat-error *ngIf="f.password.errors">
                 <div *ngIf="f.password.errors.required">Password is required</div>
                 <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
 
             </mat-error>
           </mat-form-field>
-  
-        
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Password" formControlName="confirm"
+            [ngClass]="{ 'is-invalid': submitted && f.confirm.errors }"
+           type="password"   (input)="checkPasswords(f.confirm.value,f.password.value)">
+            <mat-error *ngIf="f.confirm.errors">
+                <div *ngIf="f.confirm.errors.required">Password is required</div>
+                <div *ngIf="f.confirm.errors.minlength">Password must be at least 6 characters</div>
+
+            </mat-error>
+       
+              <div  *ngIf="notSame" >Password  invalid</div>
+             
+          </mat-form-field>
+
           <div fxLayoutAlign="end end" fxLayout="column">
-            <button mat-raised-button color="accent" fxFlex="30" class="btn-block">Log in</button>
+            <button mat-raised-button color="accent" fxFlex="30" [disabled]="!submitted" class="btn-block">Log in</button>
             <a [routerLink]="['/sigin']">log into existing account</a>
           </div>
         </mat-card-content>
@@ -70,4 +81,3 @@
   
       </form>
     </mat-card>
-  </div>

@@ -1,5 +1,26 @@
-<div class="login-wrapper backgroundImage" fxLayout="row" fxLayoutAlign="center center">
-  <mat-card class="box">
+<video autoplay muted loop id="myVideo">
+  <source src="../../../assets/img/b.mp4" type="video/mp4">
+  Your browser does not support HTML5 video.
+</video>
+
+<div  class="login-wrapper backgroundImage" fxLayout="row" fxLayoutAlign="center center">
+
+
+
+<div class="title" fxLayoutAlign="center center" fxLayout="column " style="margin-left: 1%;">
+<span  ><img src="../../../assets/icon/logo-sf-2.png" alt=""></span>
+<h1>Procure-to-Pay – Votre logiciel Achat</h1>
+<h3>Digitalisez l’intégralité de votre gestion Achats !</h3>
+<div fxLayout="row" fxLayoutGap="10px">
+  <button mat-flat-button color="primary" (click)="openLogIn()">log in </button>
+  <button mat-flat-button color="accent"   (click)="openSigin()" >Sign Up
+</button>
+
+</div>
+</div>
+  
+<div [hidden]="!openNowLogin" style="margin-left: 1.5%;">
+  <mat-card class="box"  >
     <mat-card-header>
       <img mat-card-image src="../../../assets/icon/sour.png" alt="">
     </mat-card-header>
@@ -29,4 +50,8 @@
 
 
 
+</div>
+<div style="margin-left: 5%;" [hidden]="!openNowSigin">
+
+<sign-up></sign-up>
 </div>
