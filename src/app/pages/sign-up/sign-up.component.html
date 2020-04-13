@@ -1,6 +1,6 @@
     <mat-card class="box">
-      <mat-card-header>
-        <mat-card-title>Register</mat-card-title>
+      <mat-card-header style="    margin-top: -20%;" fxLayoutAlign="center center">
+        <mat-card-title ><h3>Register</h3></mat-card-title>
       </mat-card-header>
   
       <form class="example-form" [formGroup]="RegistreForm" (ngSubmit)="onSubmit()" >
@@ -25,18 +25,16 @@
             </mat-error>
           </mat-form-field>
           <mat-form-field class="example-full-width">
-            <input matInput placeholder="Email" formControlName="email"
-            [ngClass]="{ 'is-invalid': true && f.email.errors }" (change)="checkEmail(f.email.value)"
+            <input matInput placeholder="Email" formControlName="email" 
+            [ngClass]="{ 'is-invalid': true && f.email.errors }" EmailChecker
             >
-            <div *ngIf=" repEmail > 0" >
-                <mat-error> 
-                    This Email is already used. Try another .</mat-error>
-              </div>
 
-            <mat-error *ngIf="f.email.errors">
 
-                <div *ngIf="f.email.errors.required">Email is required</div>  
-                <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+            <mat-error *ngIf="f.email.invalid && (f.email.touched ||f.email.dirty )  ">
+            <div *ngIf="(f.email.errors?.uniqueEmail)"> This Email is already used. Try another .</div>  
+
+                <div *ngIf="f.email.errors?.required">Email is required</div>  
+                <div *ngIf="f.email.errors?.email">Email must be a valid email address</div>
             </mat-error>
 
          
@@ -51,7 +49,7 @@
           <mat-form-field class="example-full-width">
             <input matInput placeholder="Password" formControlName="password"
             [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
-           type="password" (input)="checkPasswords(f.confirm.value,f.password.value)">
+           type="password">
             <mat-error *ngIf="f.password.errors">
                 <div *ngIf="f.password.errors.required">Password is required</div>
                 <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
@@ -60,21 +58,18 @@
           </mat-form-field>
           <mat-form-field class="example-full-width">
             <input matInput placeholder="Password" formControlName="confirm"
-            [ngClass]="{ 'is-invalid': submitted && f.confirm.errors }"
-           type="password"   (input)="checkPasswords(f.confirm.value,f.password.value)">
-            <mat-error *ngIf="f.confirm.errors">
-                <div *ngIf="f.confirm.errors.required">Password is required</div>
-                <div *ngIf="f.confirm.errors.minlength">Password must be at least 6 characters</div>
+           type="password"   EqualsField="password"             [ngClass]="{ 'is-invalid': submitted && f.confirm.errors }"
+           >
+              <mat-error  *ngIf="f.confirm.touched && f.confirm.errors">
+                <div *ngIf=" f.confirm.errors?.notEquals && !( f.password.errors?.minlength)" >Password  and confirm Password does not match</div>
+                <div *ngIf="f.password.errors?.required">Password is required</div>
+                <div *ngIf="f.password.errors?.minlength">Password must be at least 6 characters</div>
 
             </mat-error>
-       
-              <div  *ngIf="notSame" >Password  invalid</div>
-             
           </mat-form-field>
 
           <div fxLayoutAlign="end end" fxLayout="column">
-            <button mat-raised-button color="accent" fxFlex="30" [disabled]="!submitted" class="btn-block">Log in</button>
-            <a [routerLink]="['/sigin']">log into existing account</a>
+            <button mat-raised-button color="accent" fxFlex="30" [disabled]="submitted" class="btn-block">Log in</button>
           </div>
         </mat-card-content>
   

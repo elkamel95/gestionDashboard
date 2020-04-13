@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChildren } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UserService } from 'src/app/services/Auth/user-service.service';
 import { first } from 'rxjs/operators';
@@ -27,26 +27,15 @@ private notSame  =false ;
     private alertService: AlertService
 
     ) { }
-    checkPasswords(passs?:string , confirmPasss?:string) { // here we have the 'passwords' group
-    if(passs == null)
-    passs="" ; 
-    if(confirmPasss == null)
-    confirmPasss=""
-    let pass = passs;
-    let confirmPass = confirmPasss;
-  console.log(confirmPass);
-    return pass === confirmPass ? this.notSame=true :  this.notSame=false     
-  }
-
+ 
 
   ngOnInit() {
+    
     this.RegistreForm = this.formBuilder.group({
       username: ['', Validators.required],
       email: ['', [Validators.email , Validators.required]],
       password: ['', [Validators.required,Validators.minLength(8)] ],
       confirm: ['', [Validators.required,Validators.minLength(8)] ],
-
-
       fullname : ['',Validators.required],
       roles : ['',Validators.required]
 
@@ -62,6 +51,7 @@ private notSame  =false ;
   get f() { return this.RegistreForm.controls; }
 
   onSubmit() {
+    
       this.submitted = true;
 
       // reset alerts on submit
@@ -70,12 +60,14 @@ private notSame  =false ;
       if (this.RegistreForm.invalid) {
           return;
       }
+
+
+
 this.user.email =   this.f.email.value
 this.user.username =   this.f.username.value
 this.user.fullname =   this.f.fullname.value
 this.user.plainPassword =   this.f.password.value
 this.user.roles.push(this.f. roles.value ); 
-console.log(this.user.roles) ;
 
       this.loading = true;
     
@@ -90,14 +82,7 @@ console.log(this.user.roles) ;
             this.loading = false;
         });   
   }
-  checkEmail(email){
-  this.userService.getUsersBy(email).subscribe(rep=>{
-    this.repEmail=rep.length;
-    console.log(this.f.email.errors);
-  if(  this.repEmail >0) this.submitted = true   ; 
-
-  });
-}
+  
 
 }
 

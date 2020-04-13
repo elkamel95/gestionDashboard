@@ -1,4 +1,4 @@
-<div  [ngStyle]="{'width': width+'%', 'height': height+'%'}" (click)="openList('')">
+<div  [ngStyle]="{'width': width+'%', 'height': height+'%'}">
     <mat-card class="content matCardBackground" [ngStyle]="{'background-color': backgroundSmallWidget , 'color':colorSmallWidget} " fxLayout="column">
 <!--        background: linear-gradient(60deg,#ffa726,#ffa726);
 -->
@@ -34,7 +34,7 @@
    </p>
 </div>
 <div fxLayoutAlign="end end" style="margin-right: 10px;
-margin-bottom: 10px;"><mat-icon> assessment</mat-icon>
+margin-bottom: 10px;"  (click)="openList()"><mat-icon> assessment</mat-icon>
 </div>
     </mat-card>
 </div>

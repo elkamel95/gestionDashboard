@@ -36,9 +36,9 @@ export class SiginComponent implements OnInit {
 
   ngOnInit() {
       this.loginForm = this.formBuilder.group({
-          username: ['', Validators.required],
-          password: ['', Validators.required]
-      });
+          username: ['',[ Validators.required , Validators.email]],
+          password: ['', [Validators.required,Validators.minLength(8)] ],
+        });
 
       // get return url from route parameters or default to '/'
       this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';

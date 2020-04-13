@@ -57,3 +57,10 @@ font-size: 40px;
     font-size: 25px;   
     margin-top: -2%;
 }
+.mat-stroked-button.mat-accent {
+    background-color: #ffb40a00 !important;
+}
+.mat-stroked-button.mat-primary {
+    background-color: #ffb40a00 !important;
+}
+

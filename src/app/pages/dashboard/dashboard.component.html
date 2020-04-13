@@ -16,7 +16,7 @@
 
     
       *ngFor="let item of WidgetIndicator  ">
-      <div  fxFlex 
+      <div  fxFlex ="30"
              *ngFor="let list of item ; let index = index  ; "
             cdkDragBoundary=".example-boundary" 
             [ngStyle]=" positionLayout ? {'transform': 'translate(' +  list.positionLeft+ ', ' + list.positionRight  + ')'} : null "

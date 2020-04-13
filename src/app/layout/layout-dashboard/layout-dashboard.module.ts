@@ -47,6 +47,9 @@ import { IndicateurListeComponent } from 'src/app/components/widget/indicateur-l
 import { DialogDeleteComponent } from 'src/app/components/dialog-delete/dialog-delete.component';
 import { SidbarConfigComponent } from 'src/app/shared/sidbar-config/sidbar-config.component';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { ValidatorEquals } from '../../shared/custom-validator/ValidatorEquals.directive';
+import { ValidatorEmailCheckerdirective } from 'src/app/shared/custom-validator/ValidatorEmailCheckerdirective';
+import { ValidatorRequired } from 'src/app/shared/custom-validator/ValidatorRequired';
 
 @NgModule({
   declarations: [
@@ -66,7 +69,10 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
         WidgetListComponent,
         IndicateurListeComponent,
         DialogDeleteComponent,
-        SidbarConfigComponent
+        SidbarConfigComponent,
+        ValidatorEquals,
+        ValidatorEmailCheckerdirective,
+        ValidatorRequired
   ],
   imports: [
 
@@ -107,6 +113,11 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 
  
   ],
-  entryComponents:[DialogBoxComponent ,WidgetListComponent,DialogDeleteComponent,SpinnerComponent]
+  entryComponents:[
+    DialogBoxComponent ,
+    WidgetListComponent,
+    DialogDeleteComponent,
+    SpinnerComponent,
+    ]
 })
 export class LayoutDashboardModule { }
