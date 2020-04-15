@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, EventEmitter, Output } from '@angular/core';
 import { AuthenticationService } from 'src/app/services/Auth/authentication-service.service';
 
 @Component({
@@ -8,10 +8,14 @@ import { AuthenticationService } from 'src/app/services/Auth/authentication-serv
 })
 export class SidbarComponent implements OnInit {
   role ='"ROLE_ADMIN"'
+  
+  @Output() hiddenConfigB :EventEmitter<any> =new EventEmitter<any>() ;
   constructor(private authenticationService:AuthenticationService) { 
    console.log( this.role);
   }
- 
+  hiddenConfig(event){
+    this.hiddenConfigB.emit(event); 
+  }
 
   ngOnInit() {
   }

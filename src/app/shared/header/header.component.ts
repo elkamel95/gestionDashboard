@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/Auth/authentication-service.service';
 
@@ -10,6 +10,7 @@ import { AuthenticationService } from 'src/app/services/Auth/authentication-serv
 export class HeaderComponent implements OnInit {
   @Output() toggleSideBarForMe: EventEmitter<any> = new EventEmitter();
 @Output() IsOpenConfigEm : EventEmitter<any> = new EventEmitter() ;
+@Input() hiddenBarConfig =false ; 
 constructor(       private router: Router,
   private authenticationService: AuthenticationService) { }
   ngOnInit() { }
