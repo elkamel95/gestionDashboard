@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, Compiler, ViewChild, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/Auth/authentication-service.service';
+import { ServiceWidgetService } from 'src/app/services/widget/service-widget.service';
 
 
 @Component({
@@ -11,14 +12,21 @@ import { AuthenticationService } from 'src/app/services/Auth/authentication-serv
 export class LayoutDashboardComponent implements OnInit  {
   isOpen = false;
   isOpenConfig = false;
+isRun =false;
 
-
-  constructor(       private router: Router,
+  constructor(  private serviceWidget:ServiceWidgetService,   private router: Router,
     private authenticationService: AuthenticationService ,
     private _compiler: Compiler) { 
       this.isOpen=true ;
-   console.log;(authenticationService.roles) ;
-       }
+      this.serviceWidget.currentDispotionRep.subscribe(drags=>{
+        if(this.isRun)
+      {  this.isOpen = drags.drag ;
+        this.isOpenConfig =drags.drag ;}
+    
+       });
+    
+    
+    }
  
 
   ngOnInit() {
@@ -26,8 +34,11 @@ export class LayoutDashboardComponent implements OnInit  {
   }
   isOpenBar(){
 this.isOpen= !this.isOpen;
+this.isRun=true;
   }
   isOpenBarConfig(){
+    this.isRun=true;
+
 this.isOpenConfig= !this.isOpenConfig;
   }
 

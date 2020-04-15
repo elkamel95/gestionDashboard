@@ -58,7 +58,6 @@ this.behaviorWidget.next(widget);
 return new Date().toJSON("jj/mm/yy");;
   }
   postWidget(widget:Widget){
-    console.log(widget) ;
 widget.createAt =this.getDateTime().toString();
 widget.updateAt =this.getDateTime().toString();
 widget.width=widget.width.toString();
@@ -71,7 +70,6 @@ widget.height=  widget.height.toString();
     }); ;
   }
   remove(id){
-    console.log(id);
 this.http.delete(this.url+"/api/widgets/"+id).subscribe(rep=>{
   this.refreshneeded.next ();
 });
@@ -84,6 +82,9 @@ widget.url ="";
 widget.visible=true;
 widget.width=  widget.width.toString();
 widget.height=widget.height.toString();
+widget.positionLeft==null?widget.positionLeft="":widget.positionLeft=widget.positionLeft;
+widget.positionRight==null?widget.positionRight="":widget.positionRight=widget.positionRight;
+
     this.http.put(this.url+"/api/widgets/"+id, widget).subscribe(()=>{
       this.refreshneeded.next ();
  
