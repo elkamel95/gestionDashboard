@@ -6,8 +6,8 @@
 
 <div  fxLayout="column" fxLayoutGap="60px" fxLayoutAlign="space-between start"> 
 
-    <div   [ngClass]="{'border-permutation': modeLayout.permutation}"
-    
+    <div   
+    [ngClass]="{'border-permutation': modeLayout.permutation}"
     (click)="permutation(0)"
      [fxFlexOrder]="letters[0]" cdkDragBoundary=".example-boundary"  
       [fxLayout]="modeLayout.indicateur" style="width: 100%; " fxLayoutGap="15px" 

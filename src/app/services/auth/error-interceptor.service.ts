@@ -12,10 +12,19 @@ export class ErrorInterceptor implements HttpInterceptor {
         ) {}
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        var action    ="Add"
         return next.handle(request).pipe(
             tap((event: HttpEvent<any>) => {
                 if (event instanceof HttpResponse && (event.status >= 200 &&(  request.method !=="GET")&& event.status <= 226 ) ){
-                    this.snackbarService.open("Requête traitée avec succès",event.status+"",
+                   if(request.method ==="POST")
+                   action = "add" ;
+                   else if(request.method ==="PUT")
+                   action = "update" ;
+                    else
+                    action = "Delete" ;
+
+          
+                    this.snackbarService.open("Requête traitée avec succès",action+"",
                     "success");
                     event.headers
                 }
