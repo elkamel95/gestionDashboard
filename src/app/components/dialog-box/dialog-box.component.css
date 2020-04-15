@@ -45,3 +45,10 @@ mat-card{
     color: #0b0f2f;
     font-weight: bold;
 }
+.ng-valid[required], .ng-valid.required  {
+    border-left:3px solid #42A948; /* green */
+  }
+  
+.ng-invalid:not(form)  {
+    border-left:3px solid #e74c3c !important; 
+}

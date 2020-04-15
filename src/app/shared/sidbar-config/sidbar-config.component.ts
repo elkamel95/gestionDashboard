@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, ViewEncapsulation } from '@an
 import { Widget } from 'src/app/models/Widget';
 import { ServiceWidgetService } from 'src/app/services/widget/service-widget.service';
 import { ModeDisposition } from 'src/app/models/ModeDisposition';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
 
@@ -13,8 +14,7 @@ import { ModeDisposition } from 'src/app/models/ModeDisposition';
 })
 export class SidbarConfigComponent implements OnInit {
   data:Widget = new Widget() ; 
-  darg = false ;
-  ModeLayout = new ModeDisposition();
+  ModeLayout : ModeDisposition;
 typePermut ="";
   @ViewChild('graphiqueComp', { static: false }) public mydiv: ElementRef;
 
@@ -29,9 +29,10 @@ typePermut ="";
       "lighter","normal","unset"
           ]
   chartOptions: { };
-  constructor(private serviceWidget:ServiceWidgetService) {
-    this.ModeLayout.postions=false;
-    this.ModeLayout.indicePermutation = 1 ;
+  constructor(private serviceWidget:ServiceWidgetService,private cookieService: CookieService) {
+
+
+
    serviceWidget.currentWidget.subscribe(widget=>{
 
       this.data = widget ;
@@ -97,7 +98,9 @@ else
 {this.ModeLayout.indicateur =value;
 this.ModeLayout.list =value;
 this.ModeLayout.graphique =value;}
-
+this.cookieService.set( 'modeLayoutGraphique',this.ModeLayout.graphique);
+this.cookieService.set( 'modeLayoutIndicateur',this.ModeLayout.indicateur);
+this.cookieService.set( 'modeLayoutList',this.ModeLayout.list);
 
   this.serviceWidget.setCurrentDispotionRep(this.ModeLayout);
 
@@ -129,8 +132,11 @@ else {
 }
 
 
-  this.serviceWidget.setCurrentDispotionRep(this.ModeLayout);
 
+  this.serviceWidget.setCurrentDispotionRep(this.ModeLayout);
+  this.cookieService.set( 'nbLigneGh',this.ModeLayout.nbLigneGh);
+  this.cookieService.set( 'nbLigneIn',this.ModeLayout.nbLigneIn);
+  this.cookieService.set( 'nbLigneList',this.ModeLayout.nbLigneList);
 }
  
 
@@ -139,8 +145,19 @@ changePostions(value){
 
 
   this.serviceWidget.setCurrentDispotionRep(this.ModeLayout);
+
 }
   ngOnInit() {
+
+    
+    this.ModeLayout = new ModeDisposition() ; 
+ 
+    this.ModeLayout.nbLigneGh= this.cookieService.get( 'nbLigneGh') ? this.cookieService.get( 'nbLigneGh') : '2' ;
+    this.ModeLayout.nbLigneIn= this.cookieService.get( 'nbLigneIn')? this.cookieService.get( 'nbLigneIn') : '3' ;
+    this.ModeLayout.nbLigneList= this.cookieService.get( 'nbLigneList')? this.cookieService.get( 'nbLigneList') : '3' ;
+    this.ModeLayout.graphique= this.cookieService.get( 'modeLayoutGraphique')? this.cookieService.get( 'modeLayoutGraphique') : 'column' ;
+    this.ModeLayout.indicateur= this.cookieService.get( 'modeLayoutIndicateur')? this.cookieService.get( 'modeLayoutIndicateur') : 'row' ;
+    this.ModeLayout.list= this.cookieService.get( 'modeLayoutList')? this.cookieService.get( 'modeLayoutList') : 'row' ;
   }
 
 }

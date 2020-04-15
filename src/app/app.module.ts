@@ -9,6 +9,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './services/Auth/jwt-interceptor.service';
 import { ErrorInterceptor } from './services/Auth/error-interceptor.service';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-
+   CookieService
     // provider used to create fake backend
     ],
   bootstrap: [AppComponent]

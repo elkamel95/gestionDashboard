@@ -11,29 +11,44 @@
 
    <div fxLayout="column" style="width: 100%;" fxFlex ="20" class="border-style">
     <h1>information</h1>
-    <mat-form-field>
+    <mat-form-field    >
 
       <input placeholder="Widget Name FR" matInput  [(ngModel)]="data.nameFr"
       (keyup)="setChartOptions(data.width,data.height,
       data.nameFr,data.textColor,data.backgroundColor,
-      data.size,data.font )"
+      data.size,data.font )" #name="ngModel"
+required  
       >
 
-      
+          <mat-error  *ngIf="(name.touched || name.dirty) && name.errors">
+ 
+        <div  *ngIf="name.errors?.required"> name is required </div>
+
+          </mat-error>
     </mat-form-field>
 
     <mat-form-field >
 
-      <input placeholder="Widget Name EN" matInput [(ngModel)]="data.nameEn">
+      <input placeholder="Widget Name EN" matInput [(ngModel)]="data.nameEn" #nameEn="ngModel" required>
+      <mat-error  *ngIf="(nameEn.touched || nameEn.dirty) && nameEn.errors">
+   
+        <div  *ngIf="nameEn.errors?.required"> name EN is required </div>
+
+          </mat-error>
     </mat-form-field>
     <mat-form-field >
       <mat-label>Description</mat-label>
-      <textarea matInput [(ngModel)]="data.description"></textarea>
+      <textarea matInput [(ngModel)]="data.description" #extarea="ngModel" required></textarea>
+      <mat-error  *ngIf="(extarea.touched || extarea.dirty) && extarea.errors">
+   
+        <div  *ngIf="extarea.errors?.required"> Description is required </div>
+
+          </mat-error>
     </mat-form-field>
     <mat-form-field appearance="fill">
 
     <mat-label>Select Type Widget</mat-label>
-    <mat-select  [(ngModel)]="data.type"  name="typeWidget" (selectionChange)= "setType($event)"  >
+    <mat-select required [(ngModel)]="data.type"  name="typeWidget" (selectionChange)= "setType($event)"  >
       <mat-option *ngFor="let typeWidget of types"  
       [value]="typeWidget.id"        
 >
@@ -259,6 +274,6 @@ height: 50%; margin-top: -5%;" >
 
 </div> 
 <div mat-dialog-actions align = "end">
-  <button mat-button (click)="doAction()">{{action}}</button>
+  <button  mat-button (click)="doAction()">{{action}}</button>
   <button mat-button (click)="closeDialog()" mat-flat-button color="warn">Cancel</button>
 </div>

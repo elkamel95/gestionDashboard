@@ -2,7 +2,8 @@
 import { Component, Inject, Optional, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Widget } from 'src/app/models/Widget';
-import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { ValidatorRequired } from 'src/app/shared/custom-validator/ValidatorRequired';
 
 
 export interface Type {
@@ -44,6 +45,7 @@ export class DialogBoxComponent implements OnInit{
   local_data:any;
   ControleForm: FormGroup;
   data:Widget = new Widget() ; 
+  submitted = true;
   constructor(private fb: FormBuilder,
     public dialogRef: MatDialogRef<DialogBoxComponent>,
     //@Optional() is used to prevent error if no data is passed
@@ -80,9 +82,6 @@ this.data.url ="";
 }
 
 
-this.ControleForm = new FormGroup({
-
-});
 
 
 }
@@ -174,6 +173,9 @@ this.ControleForm = new FormGroup({
 
  }
   doAction(){
+
+
+if(this.data.nameFr&&this.data.nameEn && this.data.description)
     this.dialogRef.close({event:this.action,data:this.data});
   }
 

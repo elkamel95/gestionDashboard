@@ -105,7 +105,8 @@ import { ValidatorRequired } from 'src/app/shared/custom-validator/ValidatorRequ
     MatChipsModule,
     MatTabsModule,
     MatProgressBarModule,
- MatColorPickerModule,MatSliderModule,
+ MatColorPickerModule
+ ,MatSliderModule,
  MccColorPickerModule.forRoot({
   empty_color: 'transparent',
   used_colors: ['#000000', '#FFF555']

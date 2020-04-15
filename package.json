@@ -30,7 +30,7 @@
     "highcharts-angular": "^2.4.0",
     "mat-color-picker": "^1.4.3",
     "material-community-components": "3.4.0",
-    "ngx-cookie-service": "^3.0.2",
+    "ngx-cookie-service": "^2.2.0",
     "rxjs": "~6.4.0",
     "rxjs-compat": "^6.5.4",
     "tslib": "^1.10.0",

@@ -18,3 +18,7 @@ table {
       font-size: small;
       font-style: oblique;
   }
+
+  .mat-flat-button.mat-primary, .mat-raised-button.mat-primary, .mat-fab.mat-primary, .mat-mini-fab.mat-primary {
+    background-color: #0b0f2f;
+}

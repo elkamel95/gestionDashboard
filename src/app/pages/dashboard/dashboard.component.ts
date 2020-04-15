@@ -4,6 +4,7 @@ import { Widget } from 'src/app/models/Widget';
 import { CdkDragEnd } from '@angular/cdk/drag-drop';
 import { Dispositions } from 'src/app/models/Dispositions';
 import { ModeDisposition } from 'src/app/models/ModeDisposition';
+import { CookieService } from 'ngx-cookie-service';
 
 
 @Component({
@@ -30,27 +31,45 @@ ListIndix = []
   dragPermission :Boolean; 
   positionLayout :Boolean; 
   @ViewChild('graphiqueComp', { static: false }) public mydiv: ElementRef;
+  cookieValue: any;
 
-;  constructor(private serviceWidget:ServiceWidgetService) {
+;  constructor(private serviceWidget:ServiceWidgetService,private cookieService: CookieService) {
 
-  this.modeLayout.nbLigneIn = "3";
-  this.modeLayout.nbLigneList= "3";
-  this.modeLayout.nbLigneGh ="2";
-  this.nbWidgetParLign = 4 ;
-  this.modeLayout.postions =true ;
+
+
+  this.modeLayout.nbLigneGh= this.cookieService.get( 'nbLigneGh') ? this.cookieService.get( 'nbLigneGh') : '2' ;
+  this.modeLayout.nbLigneIn= this.cookieService.get( 'nbLigneIn')? this.cookieService.get( 'nbLigneIn') : '3' ;
+  this.modeLayout.nbLigneList= this.cookieService.get( 'nbLigneList')? this.cookieService.get( 'nbLigneList') : '3' ;
+
+  this.modeLayout.graphique= this.cookieService.get( 'modeLayoutGraphique')? this.cookieService.get( 'modeLayoutGraphique') : 'column' ;
+  this.modeLayout.indicateur= this.cookieService.get( 'modeLayoutIndicateur')? this.cookieService.get( 'modeLayoutIndicateur') : 'row' ;
+  this.modeLayout.list= this.cookieService.get( 'modeLayoutList')? this.cookieService.get( 'modeLayoutList') : 'row' ;
+  this.modeLayout.postions=     false ;
+
+
     this. getWidgetWithType("?type[]=1&type[]=2","1", this.modeLayout.nbLigneIn);
     this. getWidgetWithType("?type=3","3",  this.modeLayout.nbLigneList);
     this. getWidgetWithType("?type=4","4",  this.modeLayout.graphique );
 
     
-    this.serviceWidget.currentDispotionRep.subscribe(layout=>{
+ 
 
-      if(this.modeLayout.nbLigneIn != layout.nbLigneIn)
+  }
+  
+
+
+ 
+
+  ngOnInit() {
+
+    this.serviceWidget.currentDispotionRep.subscribe(layout=>{
+console.log(layout.nbLigneIn);
+      if(layout.nbLigneIn && this.modeLayout.nbLigneIn != layout.nbLigneIn)
       this. getWidgetWithType("?type[]=1&type[]=2","1",layout.nbLigneIn );
-      if(this.modeLayout.nbLigneList != layout.nbLigneList)
+      if(layout.nbLigneList&&this.modeLayout.nbLigneList != layout.nbLigneList)
       this. getWidgetWithType("?type=3","3",layout.nbLigneList );
       
-      if(this.modeLayout.nbLigneGh != layout.nbLigneGh)
+      if(layout.nbLigneGh &&this.modeLayout.nbLigneGh != layout.nbLigneGh)
       this. getWidgetWithType("?type=4","4", layout.nbLigneGh );
       
       this.positionLayout=layout.postions ;
@@ -70,15 +89,7 @@ this.modeLayout.permutation = layout.permutation;
 
          });
 
-  }
-  
-
-
- 
-
-  ngOnInit() {
-    this.dragPermission =new Boolean(true);
-
+console.log(this.cookieService.get( 'nbLigneIn'));
 
    }
  

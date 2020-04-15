@@ -47,9 +47,11 @@ this.behaviorWidget.next(widget);
   }
   
 
-  getAllWidgetDashbord(npPage,itemsPerPage) :Observable<Widget[]>{
+  getAllWidgetDashbord(npPage,itemsPerPage,GroupeBy?, order?,title?) :Observable<Widget[]>{
 
-    return this.http.get<Widget[]>(this.url+`/api/widgets?itemsPerPage=${itemsPerPage}&page=${npPage}`,{headers: this.headers});
+    return this.http.get<Widget[]>(this.url+`/api/widgets?itemsPerPage=${itemsPerPage}
+    &page=${npPage}&order[${GroupeBy}]=${order}&&name_fr=${title}`
+    ,{headers: this.headers});
    }
   getDateTime(){
     

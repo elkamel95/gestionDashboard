@@ -9,16 +9,58 @@
       
 
 
-        <div [hidden]="spinner " class="spinner-position ">
-          <app-spinner ></app-spinner>
-        </div>
-        <mat-form-field style="width: 50%;margin-left: 25%;">
-          <mat-label>
-            Search by title</mat-label>
-          <input matInput (keyup)="applyFilter($event)" placeholder="title">
-        </mat-form-field>
-<div fxLayoutAlign="center center" fxLayout="column" class="mat-elevation-z8" >
+    
+     <mat-card class="mat-elevation-z8" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="20px" >
+      <mat-form-field style="width: 50%;margin-left: 25%;">
+        <mat-label>
+          Search by title</mat-label>
+        <input matInput #title placeholder="title">
 
+
+
+
+      </mat-form-field>
+
+      <button mat-fab color="primary" (click)="search(title)" aria-label="Example icon button with a delete icon">
+        <mat-icon>search</mat-icon>
+      </button>
+       
+      <mat-form-field>
+        <mat-label>group by
+          : </mat-label>
+        <mat-select   #groupe (selectionChange)="getGroupe(groupe.value)">
+          <mat-option  value="updateAt" >
+             Update Date
+          </mat-option  >
+          <mat-option value="create_at">
+            Creation Date
+         </mat-option>
+     
+        </mat-select>
+      </mat-form-field>
+      
+      <mat-form-field>
+        <mat-label>order by : </mat-label>
+        <mat-select #order (selectionChange)="getOrder(order.value)">
+          <mat-option  value='asc'>
+            Ascending      
+  </mat-option >
+
+
+
+          <mat-option value='desc' >
+            descending      </mat-option>
+     
+        </mat-select>
+      </mat-form-field>
+
+    </mat-card>
+
+    <div fxFlexOrder="1" [hidden]="spinner " class="spinner-position ">
+      <app-spinner ></app-spinner>
+    </div>
+<div fxLayoutAlign="center center" fxLayout="column" class="mat-elevation-z8" >
+  
   
 <table   mat-table [dataSource]="dataSource" class="mat-elevation-z8" >
 
@@ -93,10 +135,14 @@
       </td>
     </ng-container>
     <ng-container matColumnDef="dateUpadet">
-      <th mat-header-cell *matHeaderCellDef >     update at      </th>
-      <td mat-cell *matCellDef="let element"  style="width: 10%;">  {{element.updateAt | date: 'dd/MM/yyyy'}}
+      <th mat-header-cell *matHeaderCellDef  >    
+         update at 
+
+    </th>
+      <td mat-cell *matCellDef="let element"  > {{element.updateAt | date: 'dd/MM/yyyy'}}
       </td>
     </ng-container>
+
   </table>
   <mat-paginator [length]="length"
   (page)="pageEvent = $event" style="width: 99%;" [length]="100"

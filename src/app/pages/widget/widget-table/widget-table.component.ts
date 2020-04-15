@@ -37,7 +37,9 @@ export class WidgetTableComponent implements OnInit  ,AfterViewChecked{
   nb =1 ; 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   pageEvent: PageEvent;
-
+order ="desc";
+groupe ="updateAt";
+title ="";
   constructor(public dialog: MatDialog ,private authenticationService: AuthenticationService,private ws:ServiceWidgetService) {
 
     ws.refreshneeded.subscribe(()=>{
@@ -150,16 +152,30 @@ if(this.pageSize!=$event.pageSize){
   }
      }
 
-     applyFilter(event: Event) {
-      const filterValue = (event.target as HTMLInputElement).value;
-      this.dataSource.filter = filterValue.trim().toLowerCase();
+     search(event) {
+      this.title = event.value.trim().toLowerCase() ;
+
+ this.getData(1,5);
     }
-   
+   getOrder(order='desc') {
+
+this.order = order ;
+this.getData(1,5);
+
+    }
+    getGroupe(groupe='asc'){
+console.log(groupe);
+      this.groupe = groupe;
+      this.getData(1,5);
+
+    }
+
+
 getData(nb,pageSize){
   console.log("sd");
 
   this.spinner =false ;
-  this.ws.getAllWidgetDashbord(nb,pageSize).subscribe(
+  this.ws.getAllWidgetDashbord(nb,pageSize,this.groupe,this.order,this.title).subscribe(
     listWidget=>{
 if(listWidget.length != 0 )
    {  this.dataSource = new MatTableDataSource<Widget>(listWidget['hydra:member']);

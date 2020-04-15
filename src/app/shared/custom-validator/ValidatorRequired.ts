@@ -6,7 +6,7 @@ import { Input, Directive } from '@angular/core';
 selector : '[requiredField]', 
 providers: [{
 provide: NG_VALIDATORS ,
-useExisting: ValidatorRequired ,
+useClass: ValidatorRequired ,
 multi:true 
 
 
@@ -14,16 +14,13 @@ multi:true
 
 })
 export class ValidatorRequired implements Validator{
-
     validate(control: AbstractControl):{[key:string]:any} | null  {
-
-
-if( control.value !=="")
+console.log(control);
+if( control.value != null &&control.value.length === 0 )
 {
-
 return {'required' :true }; 
-
 }
+
 return null  ;
 
     }
