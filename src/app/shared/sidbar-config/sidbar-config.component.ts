@@ -29,9 +29,10 @@ typePermut ="";
       "lighter","normal","unset"
           ]
   chartOptions: { };
+  screenWidth: number;
   constructor(private serviceWidget:ServiceWidgetService,private cookieService: CookieService) {
 
-
+    this.screenWidth= serviceWidget.screenWidth - (10* serviceWidget.screenWidth/100);
 
    serviceWidget.currentWidget.subscribe(widget=>{
 

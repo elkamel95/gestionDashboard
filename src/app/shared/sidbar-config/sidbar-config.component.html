@@ -98,7 +98,7 @@
 
                         <mat-label class="text-color">width <span style=" color: #ffa000;"></span>: {{data.width}}px</mat-label>
                 
-                        <mat-slider min="300" step="0.5" [(ngModel)]="data.width"  max="1000" value="400" >
+                        <mat-slider min="300" step="0.5" [(ngModel)]="data.width"  [max]="screenWidth" value="400" >
                         </mat-slider>
                     </div>
                     <div>

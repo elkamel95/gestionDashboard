@@ -4,7 +4,7 @@
   >
      
 
-<div  fxLayout="column" fxLayoutGap="60px" fxLayoutAlign="space-between start"> 
+<div  fxLayout="column" fxFlexOffset="20px" fxLayoutGap="60px" fxLayoutAlign="space-between start"> 
 
     <div   
     [ngClass]="{'border-permutation': modeLayout.permutation}"
@@ -65,7 +65,7 @@
 
 
     <div  [ngClass]="{'border-permutation': modeLayout.permutation}"     (click)="permutation(1)" [fxFlexOrder]="letters[1]"   
-      [fxLayout]="modeLayout.list " fxLayoutGap="20px" *ngFor="let item of WidgetList  ">
+      [fxLayout]="modeLayout.list " fxLayoutGap="50px" *ngFor="let item of WidgetList  ">
         <div  fxFlex ="30"  *ngFor="let list of item ; let index = index  ; "       
         [fxFlexOrder]="letters[index+1]"
         [ngClass]="{'cursor-move': !modeLayout.drag}"
@@ -88,7 +88,7 @@
                [height]="list.height"
                [size] ="list.size"
                [font]="list.font"
-              url ="api/as"
+               [url] ="list.url ? list.url :'api/as'"
 
                 style="margin-top: 10%;" [title] ="list.nameFr" >
             

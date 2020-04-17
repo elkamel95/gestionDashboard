@@ -20,9 +20,9 @@ hiddenIconConfig=false;
     private _compiler: Compiler) { 
       this.isOpen=true ;
       this.serviceWidget.currentDispotionRep.subscribe(drags=>{
-        if(this.isRun)
-      {  this.isOpen = drags.drag ;
-        this.isOpenConfig =drags.drag ;}
+        if(this.isRun && !drags.drag )
+      {  this.isOpen = false ;
+        this.isOpenConfig =false ;}
     
        });
     
@@ -36,7 +36,6 @@ hiddenIconConfig=false;
   isOpenBar(){
 this.isOpen= !this.isOpen;
 this.isRun=true;
-this.isOpenConfig= false;
   }
   isOpenBarConfig(){
     this.isRun=true;

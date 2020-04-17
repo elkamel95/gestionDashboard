@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Widget } from 'src/app/models/Widget';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ValidatorRequired } from 'src/app/shared/custom-validator/ValidatorRequired';
+import { ServiceWidgetService } from 'src/app/services/widget/service-widget.service';
 
 
 export interface Type {
@@ -23,7 +24,7 @@ export class DialogBoxComponent implements OnInit{
   selected ="1";
   widgetControleForm: FormGroup;
   chartOptions ={};
-  
+  screenWidth :number ;
     types:Type [] = [ 
     {'id':"1" , 'name':'indicateur'},
     {'id':"2" , 'name':'indicateur avec liste'},
@@ -47,12 +48,13 @@ export class DialogBoxComponent implements OnInit{
   data:Widget = new Widget() ; 
   submitted = true;
   constructor(private fb: FormBuilder,
-    public dialogRef: MatDialogRef<DialogBoxComponent>,
+    public dialogRef: MatDialogRef<DialogBoxComponent>,private serviceWidge:ServiceWidgetService,
     //@Optional() is used to prevent error if no data is passed
     @Optional() @Inject(MAT_DIALOG_DATA) public Alldata: any) {
       this.data=  Alldata.element;
     this.local_data = {...this.Alldata};
     this.action = this.local_data.action;
+
 
   }
   selectedColor($event){
@@ -64,8 +66,8 @@ if(this.data.id == null)
 
     this.data.type ="1";
 
-    this.data .width="100";
-    this.data .height="100";
+    this.data .width=100;
+    this.data .height=100;
   
 
   this.data.backgroundSmallWidget ="#fff";
@@ -91,8 +93,9 @@ this.data.url ="";
     if(this.data.id == null)
 {
   if(this.data.type ==='4'){
-    this.data .width="700";
-    this.data .height="300";
+    this.screenWidth=this.serviceWidge.screenWidth - (10*this.serviceWidge.screenWidth/100);
+    this.data .width=1000;
+    this.data .height=300;
     this.data.size ="20";
     this.data.textColor="#000";
 
@@ -101,6 +104,7 @@ this.data.url ="";
 
 }}
   }
+
   setChartOptions(width=300,height="200",text="",colorText ="#000"
   ,backgroundColor="#fff",size="6",font ="bold"
   )
@@ -108,7 +112,6 @@ this.data.url ="";
   
   {
 
-    console.log(size+"px");
     
     this.chartOptions =  {
         chart: {

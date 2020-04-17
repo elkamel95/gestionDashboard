@@ -63,7 +63,6 @@ ListIndix = []
   ngOnInit() {
 
     this.serviceWidget.currentDispotionRep.subscribe(layout=>{
-console.log(layout.nbLigneIn);
       if(layout.nbLigneIn && this.modeLayout.nbLigneIn != layout.nbLigneIn)
       this. getWidgetWithType("?type[]=1&type[]=2","1",layout.nbLigneIn );
       if(layout.nbLigneList&&this.modeLayout.nbLigneList != layout.nbLigneList)
@@ -89,7 +88,6 @@ this.modeLayout.permutation = layout.permutation;
 
          });
 
-console.log(this.cookieService.get( 'nbLigneIn'));
 
    }
  
@@ -118,7 +116,6 @@ this.modeLayout.indicePermutation = 5 ;
 
 this.serviceWidget.setCurrentDispotionRep( this.modeLayout);}
 
-console.log(this.ListIndix);
   }
   
   setWidgetToUpdate(widget?:Widget,$event?: CdkDragEnd) {
@@ -187,7 +184,6 @@ else if(indexType == 4)
 
 
 }
-console.log(this.WidgetIndicator);
 
 
     }},()=>{},()=>{

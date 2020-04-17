@@ -75,14 +75,14 @@ required
   </div>
   <div fxLayout="column"  fxFlex  class="border-style" >
     <h1>Style</h1>
-    <div fxLayout="row" fxFlex style="    margin-top: -1%;"  class="border-style">
-      <div fxLayout="column" style="width: 100%" fxFlex>
+    <div fxLayout="row" fxFlex style="margin-top: -1%;"  class="border-style">
+      <div fxLayout="column" style="width: 100% ;margin-top: -2%;" fxFlex>
         <ng-container *ngIf="data.type == 4; else elseSlidedrGrapique">
           <div >
 
             <mat-label class="text-color">width <span style=" color: #ffa000;">*</span>: {{data.width}}px</mat-label>
     
-            <mat-slider min="300" step="0.5" [(ngModel)]="data.width"  max="1000" value="400" (input)="setChartOptions(data.width,data.nameFr,data.textColor);
+            <mat-slider min="300" step="0.5" [(ngModel)]="data.width"  [max]="screenWidth" value="400" (input)="setChartOptions(data.width,data.nameFr,data.textColor);
             selectedColor($event); data.width=$event.value"></mat-slider>
           </div>
           <div>

@@ -4,64 +4,73 @@ import { Widget } from 'src/app/models/Widget';
 import { Observable, Subject,BehaviorSubject } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { ModeDisposition } from 'src/app/models/ModeDisposition';
+import { HostListener } from "@angular/core";
+
 @Injectable({
   providedIn: 'root'
 })
 
 export class ServiceWidgetService {
 private url :string = "http://localhost:8000" ; 
-refreshneeded = new Subject<void>();
-   headers = new HttpHeaders();
-   widget  = new Widget() ;
-   changeDispostion  = new ModeDisposition() ;
+screenHeight: number;
+screenWidth: number;
 
-   behaviorChangeDispostion= new BehaviorSubject<any>(this.changeDispostion);
-   currentDispotionRep = this.behaviorChangeDispostion.asObservable();
+    refreshneeded = new Subject<void>();
+    headers = new HttpHeaders();
+    widget  = new Widget() ;
+    changeDispostion  = new ModeDisposition() ;
+    behaviorChangeDispostion= new BehaviorSubject<any>(this.changeDispostion);
+    currentDispotionRep = this.behaviorChangeDispostion.asObservable();
+    behaviorWidget = new BehaviorSubject<Widget>(this.widget);
+    currentWidget = this.behaviorWidget.asObservable();
+    behaviorGraphiqueType = new BehaviorSubject<any>({});
+    currentGraphique= this.behaviorGraphiqueType.asObservable();
 
-behaviorWidget = new BehaviorSubject<Widget>(this.widget);
-currentWidget = this.behaviorWidget.asObservable();
-behaviorGraphiqueType = new BehaviorSubject<any>({});
-currentGraphique= this.behaviorGraphiqueType.asObservable();
+
   constructor(private http:HttpClient) { 
     this.headers.append('Authorization', `Bearer ${localStorage.getItem('token')}`);
     this.headers.append('Content-Type', `application/json`);
     this.headers.append('Accept', `application/ld+json`);
+    this.getScreenSize();
 
- 
   }
+
   setCurrentDispotionRep (changeDispostion){
     this.behaviorChangeDispostion.next(changeDispostion);
-      }
+   }
+
 
   setCurrentWidgetUpdate(widget:Widget){
 this.behaviorWidget.next(widget);
   }
+  
   setCurrentGraphique(gp:any){
     this.behaviorGraphiqueType.next(gp);
-      }
+ }
+
+
   getAllWidget(property) :Observable<Widget[]>{
 
    return this.http.get<Widget[]>(this.url+"/api/widgets"+property,{headers: this.headers}).pipe(map(data => data['hydra:member']));
-
-   
   }
   
 
   getAllWidgetDashbord(npPage,itemsPerPage,GroupeBy?, order?,title?) :Observable<Widget[]>{
 
-    return this.http.get<Widget[]>(this.url+`/api/widgets?itemsPerPage=${itemsPerPage}
-    &page=${npPage}&order[${GroupeBy}]=${order}&&name_fr=${title}`
+    return this.http.get<Widget[]>(this.url+`/api/widgets?itemsPerPage=${itemsPerPage}&page=${npPage}&order[${GroupeBy}]=${order}&&name_fr=${title}`
     ,{headers: this.headers});
    }
   getDateTime(){
     
 return new Date().toJSON("jj/mm/yy");;
   }
+
+
+
   postWidget(widget:Widget){
 widget.createAt =this.getDateTime().toString();
 widget.updateAt =this.getDateTime().toString();
-widget.width=widget.width.toString();
-widget.height=  widget.height.toString();
+
     this.http.post<Widget>(this.url+"/api/widgets", widget).subscribe(()=>{
       this.refreshneeded.next ();
  
@@ -77,13 +86,9 @@ this.http.delete(this.url+"/api/widgets/"+id).subscribe(rep=>{
   
   update(widget:Widget,id){ ;
 widget.updateAt =this.getDateTime();
+widget.url =widget.url ? widget.url : "";
 
-widget.url ="";
-widget.visible=true;
-widget.width=  widget.width.toString();
-widget.height=widget.height.toString();
-widget.positionLeft==null?widget.positionLeft="":widget.positionLeft=widget.positionLeft;
-widget.positionRight==null?widget.positionRight="":widget.positionRight=widget.positionRight;
+
 
     this.http.put(this.url+"/api/widgets/"+id, widget).subscribe(()=>{
       this.refreshneeded.next ();
@@ -96,4 +101,12 @@ widget.positionRight==null?widget.positionRight="":widget.positionRight=widget.p
     return this.http.get<Widget[]>(this.url+"/"+generiqueUrl+property,{headers: this.headers}).pipe(map(data => data['hydra:member']));
 
   }
+
+
+  @HostListener('window:resize', ['$event'])
+    getScreenSize(event?) {
+          this.screenHeight = window.innerHeight;
+          this.screenWidth = window.innerWidth;
+          console.log(this.screenHeight, this.screenWidth);
+    }
 }
