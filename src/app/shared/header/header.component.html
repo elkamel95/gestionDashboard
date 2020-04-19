@@ -13,6 +13,12 @@
 
         <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
             <ul fxLayout="row" fxLayoutGap="20px">
+                <li   *ngIf="authenticationService.currentUserValue && hiddenBarConfig === false "> 
+                    <div style="margin-top: 12%;"  fxLayout="column" fxLayoutAlign="center center">
+
+                     <button mat-raised-button (click)="updateWidgetAll()" color="accent" ><span style="color: white;">Update All</span></button>
+                     </div>
+                </li>
                 <li     *ngIf="authenticationService.currentUserValue ">
                     <div fxLayout="column" fxLayoutAlign="center center">
 

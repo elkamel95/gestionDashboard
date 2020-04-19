@@ -14,7 +14,9 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class SidbarConfigComponent implements OnInit {
   data:Widget = new Widget() ; 
+  allWidgetToBeConfigured : any[] =[new Widget()];
   ModeLayout : ModeDisposition;
+  removeYes =false ;
 typePermut ="";
   @ViewChild('graphiqueComp', { static: false }) public mydiv: ElementRef;
 
@@ -31,15 +33,37 @@ typePermut ="";
   chartOptions: { };
   screenWidth: number;
   constructor(private serviceWidget:ServiceWidgetService,private cookieService: CookieService) {
-
     this.screenWidth= serviceWidget.screenWidth - (10* serviceWidget.screenWidth/100);
-
+    
    serviceWidget.currentWidget.subscribe(widget=>{
+    this.data = widget ;
 
-      this.data = widget ;
-   });
+  if(this.allWidgetToBeConfigured[0].id == '')
+  this.allWidgetToBeConfigured[0]=this.data;
+
+var addAndRemove =true ; 
+for (var i= 0 ; i <this.allWidgetToBeConfigured.length;i++){
+ 
+  if(this.allWidgetToBeConfigured[i].id === this.data.id)
+{
+  addAndRemove=false ;
+}
+
+}
+   
+   
+if(addAndRemove)
+this.allWidgetToBeConfigured.push(this.data);
+  
+    
+  console.log (this.allWidgetToBeConfigured);
+
+}
+   
+  );
 
 
+  
     
 
   }
@@ -47,8 +71,12 @@ typePermut ="";
    
 
    updateWidget(){
-     this.serviceWidget.update(this.data,this.data.id);
+     this.serviceWidget.update(this.data);
    }
+   updateWidgetAll(){
+     this.allWidgetToBeConfigured.forEach((widget)=>{this.serviceWidget.update(widget);})
+    
+  }
 
 ChangeToDragAndDrop(){
   
@@ -150,7 +178,6 @@ changePostions(value){
 }
   ngOnInit() {
 
-    
     this.ModeLayout = new ModeDisposition() ; 
  
     this.ModeLayout.nbLigneGh= this.cookieService.get( 'nbLigneGh') ? this.cookieService.get( 'nbLigneGh') : '2' ;
@@ -161,4 +188,10 @@ changePostions(value){
     this.ModeLayout.list= this.cookieService.get( 'modeLayoutList')? this.cookieService.get( 'modeLayoutList') : 'row' ;
   }
 
+  updatePositionByType(type){
+    this.serviceWidget.updatePositionWidgetByType(type);
+  }
+  updatePositionAll(){
+    this.serviceWidget.updatePositionWidgetAll();
+  }
 }

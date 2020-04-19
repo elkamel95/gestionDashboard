@@ -10,7 +10,9 @@ import { AuthenticationService } from 'src/app/services/Auth/authentication-serv
 export class HeaderComponent implements OnInit {
   @Output() toggleSideBarForMe: EventEmitter<any> = new EventEmitter();
 @Output() IsOpenConfigEm : EventEmitter<any> = new EventEmitter() ;
+@Output() upadteAllWidget :EventEmitter<any> = new EventEmitter();
 @Input() hiddenBarConfig =false ; 
+
 constructor(       private router: Router,
   private authenticationService: AuthenticationService) { }
   ngOnInit() { }
@@ -32,5 +34,10 @@ constructor(       private router: Router,
   logout() {
     this.authenticationService.logout();
     this.router.navigate(['/sigin']);
+}
+updateWidgetAll(){
+  this.upadteAllWidget.emit();
+
+
 }
 }

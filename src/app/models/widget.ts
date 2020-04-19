@@ -1,7 +1,7 @@
 
 export class Widget {
- id : string ;
-nameFr	:string ; 
+ id : string ="";
+nameFr	:string  ; 
 nameEn	:string ; 
 description	:string ; 
 url	:string ; 

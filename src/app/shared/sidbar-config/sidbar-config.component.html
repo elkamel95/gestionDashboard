@@ -240,7 +240,7 @@
           <mat-icon>view_column</mat-icon>
         </button>
 
-             <button   mat-button style ="min-width: 0px"(click)="changeModeLayout('row','1')">
+             <button   mat-button style ="min-width: 0px ;margin-left: -7%;"(click)="changeModeLayout('row','1')">
              row: <mat-icon>view_list</mat-icon>       
               </button>
 
@@ -248,12 +248,23 @@
        
 
 
+
+<div fxLayout="row">
         <mat-form-field class="full-width">
           <mat-label  class="text-color">ligne widget :</mat-label>
           <input matInput #ligne maxlength="2"  #nbi (input) ="changeNbWidgetLayout(nbi,'1')"  placeholder=number [value]="ModeLayout.nbLigneIn ">
           <mat-hint align="end">{{ligne.value.length}} / 2</mat-hint>
         </mat-form-field>
+        <div>
+          <button   mat-button (click)="updatePositionByType(1)">
+            <img src="../../../assets/icon/reset-icon.png" style="width: 20px;"/>
+          </button>
+        </div>
+
+      </div>
+
           </mat-label>
+
       
 
           <mat-label class="text-color">widget List : 
@@ -266,17 +277,25 @@
               <mat-icon>view_column</mat-icon>
             </button>
     
-                 <button   mat-button style ="min-width: 0px"(click)="changeModeLayout('row','2')">
+                 <button   mat-button style ="min-width: 0px;margin-left: -7%"(click)="changeModeLayout('row','2')">
                  row: <mat-icon>view_list</mat-icon>       
                   </button>
     
             </div>
-  
+  <div fxLayout="row">
             <mat-form-field class="full-width">
               <mat-label  class="text-color">ligne widget :</mat-label>
               <input matInput #ligne maxlength="2" #nblist (input) ="changeNbWidgetLayout(nblist,'2')"  placeholder=number [value]="ModeLayout.nbLigneList ">
               <mat-hint align="end">{{ligne.value.length}} / 2</mat-hint>
             </mat-form-field>
+
+            <div>
+              <button   mat-button (click)="updatePositionByType(3)">
+                <img src="../../../assets/icon/reset-icon.png" style="width: 20px;"/>
+              </button>
+            </div>
+          </div>
+
               </mat-label>
 
 
@@ -291,17 +310,26 @@
                   <mat-icon>view_column</mat-icon>
                 </button>
         
-                     <button   mat-button style ="min-width: 0px"(click)="changeModeLayout('row','3')">
+                     <button   mat-button style ="min-width: 0px;margin-left: -7%"(click)="changeModeLayout('row','3')">
                      row: <mat-icon>view_list</mat-icon>       
                       </button>
         
                 </div>
-          
+          <div fxLayout="row">
                 <mat-form-field class="full-width">
                   <mat-label  class="text-color">ligne widget :</mat-label>
                   <input matInput #ligne maxlength="2" #nbGh (input) ="changeNbWidgetLayout(nbGh,'3')"placeholder=number [value]="ModeLayout.nbLigneGh">
                   <mat-hint align="end">{{ligne.value.length}} / 2</mat-hint>
                 </mat-form-field>
+
+
+                <div>
+                  <button   mat-button (click)="updatePositionByType(4)">
+                    <img src="../../../assets/icon/reset-icon.png" style="width: 20px;"/>
+                  </button>
+                </div>
+
+              </div>
                   </mat-label>
                 
                   <mat-label class="text-color"> all widget  : 
@@ -314,17 +342,25 @@
                       <mat-icon>view_column</mat-icon>
                     </button>
             
-                         <button   mat-button style ="min-width: 0px"(click)="changeModeLayout('row','4')">
+                         <button   mat-button style ="min-width: 0px;margin-left: -7%"(click)="changeModeLayout('row','4')">
                          row: <mat-icon>view_list</mat-icon>       
                           </button>
             
                     </div>
-                   
+                   <div fxLayout="row">
                     <mat-form-field class="full-width">
                       <mat-label  class="text-color">ligne widget :</mat-label>
                       <input matInput #ligne maxlength="2" #nbAll (input) ="changeNbWidgetLayout(nbAll,'4')" placeholder=number value="2">
                       <mat-hint align="end">{{ligne.value.length}} / 2</mat-hint>
                     </mat-form-field>
+
+                    <div>
+                      <button   mat-button (click)="updatePositionAll()">
+                        <img src="../../../assets/icon/reset-icon.png" style="width: 20px;"/>
+                      </button>
+                    </div>
+
+                  </div>
                       </mat-label>
 
 
@@ -332,8 +368,9 @@
   </mat-tab>
  
 </mat-tab-group>
-<div style="padding: 10px;">
-  <button mat-raised-button (click)="updateWidget()" color="accent" >Update</button>
+<div style="padding: 10px;" fxLayoutGap="20px" fxLayout="column">
+  <button mat-raised-button (click)="updateWidget()" color="accent" ><span style="color: white;">Update</span></button>
+  <button mat-raised-button (click)="updateWidgetAll()" color="accent" ><span style="color: white;">Update All</span></button>
 
 </div>
 </div>

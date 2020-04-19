@@ -84,13 +84,13 @@ this.http.delete(this.url+"/api/widgets/"+id).subscribe(rep=>{
 });
   }
   
-  update(widget:Widget,id){ ;
+  update(widget:Widget){ ;
 widget.updateAt =this.getDateTime();
 widget.url =widget.url ? widget.url : "";
 
 
 
-    this.http.put(this.url+"/api/widgets/"+id, widget).subscribe(()=>{
+    this.http.put(this.url+"/api/widgets/"+widget.id, widget).subscribe(()=>{
       this.refreshneeded.next ();
  
     },error=>{
@@ -109,4 +109,17 @@ widget.url =widget.url ? widget.url : "";
           this.screenWidth = window.innerWidth;
           console.log(this.screenHeight, this.screenWidth);
     }
-}
+
+    updatePositionWidgetByType(type){
+
+this.http.put(`${this.url}/api/reset/position/${type}`,type).subscribe(()=>{
+
+
+
+});
+
+    }
+
+    updatePositionWidgetAll(){
+      this.http.put(`${this.url}/api/reset/position/all`,"update").subscribe(()=>{});
+}}
