@@ -61,6 +61,8 @@ export class DialogBoxComponent implements OnInit{
     //}   this.data.textColor = $event};
   }
 ngOnInit(): void {  
+  this.screenWidth=this.serviceWidge.screenWidth - (10*this.serviceWidge.screenWidth/100);
+
 if(this.data.id == null)
 {
 
@@ -93,7 +95,6 @@ this.data.url ="";
     if(this.data.id == null)
 {
   if(this.data.type ==='4'){
-    this.screenWidth=this.serviceWidge.screenWidth - (10*this.serviceWidge.screenWidth/100);
     this.data .width=1000;
     this.data .height=300;
     this.data.size ="20";

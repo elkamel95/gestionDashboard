@@ -77,7 +77,7 @@ required
     <h1>Style</h1>
     <div fxLayout="row" fxFlex style="margin-top: -1%;"  class="border-style">
       <div fxLayout="column" style="width: 100% ;margin-top: -2%;" fxFlex>
-        <ng-container *ngIf="data.type == 4; else elseSlidedrGrapique">
+        <ng-container *ngIf="( data.type == 4 || data.type == 3 ); else elseSlidedrGrapique">
           <div >
 
             <mat-label class="text-color">width <span style=" color: #ffa000;">*</span>: {{data.width}}px</mat-label>
@@ -99,13 +99,13 @@ required
   
   <mat-label class="text-color">width <span style=" color: #ffa000;">*</span>: {{data.width}}%</mat-label>
 
-  <mat-slider  [(ngModel)]="data.width" (input)="setChartOptions(data.width,data.nameFr,data.textColor);
+  <mat-slider min="10" step="0.1"  max="100" value="100" [(ngModel)]="data.width" (input)="setChartOptions(data.width,data.nameFr,data.textColor);
   selectedColor($event); data.width=$event.value"></mat-slider>
 </div>
 <div>
   <mat-label class="text-color">height <span style=" color: #ffa000;">*</span>: {{data.height}}%</mat-label>
 
-  <mat-slider  [(ngModel)]="data.height" (input)="setChartOptions(data.width,data.height,
+  <mat-slider  min="10" step="0.1"  max="100" value="100" [(ngModel)]="data.height" (input)="setChartOptions(data.width,data.height,
   data.nameFr,data.textColor,data.backgroundColor,
   data.size,data.font ); data.height=$event.value"></mat-slider>
 </div>
@@ -266,7 +266,7 @@ height: 50%; margin-top: -5%;" >
 [backgroundColor]=" data.backgroundColor "
 ></widget-list>
         </div>
-<div  fxFlex class="border-style" *ngIf="data.type == 4">
+<div  fxFlex class="border-style" style="margin-top: 0.5%;" *ngIf="data.type == 4">
   <app-area [title]="data.nameFr" [textColor] ="data.textColor"
   [width] ="data.width"
   [title]="data.nameFr" 

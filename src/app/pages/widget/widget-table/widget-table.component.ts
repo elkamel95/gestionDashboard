@@ -60,7 +60,6 @@ title ="";
 
   
   openDialog(action,obj,element?) {
-    console.log(element) ;
     obj.id=element.id;
     obj.element = element ; 
     obj.action=action;
@@ -80,7 +79,6 @@ title ="";
   }
     dialogRef.afterClosed().subscribe(result => {
       if(result.event == 'Add'){
-        console.log(result.data);
         this.ws.postWidget(result.data);
       }
       else if(result.event == 'Update'){
@@ -88,15 +86,13 @@ title ="";
       }else if(result.event == 'Delete'){
         
         this.deleteRowData(result.data.id);
-        console.log(result.data);
       }
    
       
     });
   }
   updateRowData(data) {
-    console.log("c:"+data);
-    this.ws.update(data,data.id);
+    this.ws.update(data);
   }
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
@@ -164,7 +160,6 @@ this.getData(1,5);
 
     }
     getGroupe(groupe='asc'){
-console.log(groupe);
       this.groupe = groupe;
       this.getData(1,5);
 
@@ -172,7 +167,6 @@ console.log(groupe);
 
 
 getData(nb,pageSize){
-  console.log("sd");
 
   this.spinner =false ;
   this.ws.getAllWidgetDashbord(nb,pageSize,this.groupe,this.order,this.title).subscribe(

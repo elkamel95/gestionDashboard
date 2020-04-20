@@ -1,15 +1,13 @@
 mat-card{
   width: 100%;
-  height: fit-content;
+    height: fit-content;
   margin-top: 10%;
     
   }
-  .matCardBackground{
-    box-shadow:  0px 4px 20px 1px #fafafa54, 0 7px 10px -5px rgb(0, 0, 0);
-  }
+
   mat-card.widget{
       margin-top: -35px;
-      height: 125px;
+      height: 156px;
    
       box-shadow:  0px 4px 20px 1px #fafafa54, 0 7px 10px -5px rgb(0, 0, 0);
   }
@@ -22,7 +20,6 @@ mat-card{
   }
   .content{
       white-space:pre-wrap;
-  
       word-wrap:break-word;
   }
 
@@ -30,4 +27,7 @@ mat-card{
       float:left;
       width:98%;
       height: fit-content;
+      }
+      .matCardBackground{
+        box-shadow:  0px 4px 20px 1px #fafafa54, 0 7px 10px -5px rgb(0, 0, 0) !important;
       }

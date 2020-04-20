@@ -1,0 +1,33 @@
+
+<div mat-dialog-title>
+    <mat-card style=" background-color: #ffa000;">
+  <h1 mat-dialog-title style="color: white;">Delete  widget </h1>
+  </mat-card>
+  </div>
+  
+  <div mat-dialog-content  class="mat-typography">
+      <div *ngIf="data.name =='all'">
+       
+      </div>
+         
+    
+   <ng-container *ngIf="data.name =='All'; else elseTemplate">
+    <p style="color: red;"><b > Are you sure to reset all positions of all types
+    </b>
+   
+
+   </ng-container>
+   <ng-template #elseTemplate>
+    <p style="color: red;"><b > Are you sure you want to reset positions of this type  :</b>
+        <b style="color: black;">"{{data.name}}"</b>? </p>
+   </ng-template>
+   
+
+  
+
+  
+  </div> 
+  <div mat-dialog-actions align = "end">
+    <button  (click)="doAction()"  mat-flat-button color="primary">Reset</button>
+    <button  (click)="closeDialog()" mat-flat-button color="warn">Cancel</button>
+  </div>

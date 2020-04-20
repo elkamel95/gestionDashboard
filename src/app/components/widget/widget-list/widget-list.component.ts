@@ -48,7 +48,6 @@ list  = [] ;
 
   ) {
 if(Alldata !=null){
-  console.log(Alldata);
   this.title = Alldata.nameFr;
   
 this.backgroundColor =Alldata.backgroundColor;
@@ -60,7 +59,6 @@ if(Alldata.url !=undefined)
 
 {
   
-  console.log("d");
   this.url = Alldata.url ;
 
   this.getDataFromUrl(this.url);}
@@ -72,7 +70,7 @@ if(Alldata.url !=undefined)
  
   ngOnInit() {
     if(this.url !=undefined)
-{   console.log(this.url);
+{  
 this.getDataFromUrl(this.url);}
 
   }

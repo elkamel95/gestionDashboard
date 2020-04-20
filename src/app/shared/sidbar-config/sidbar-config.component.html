@@ -93,12 +93,13 @@
                 <div fxLayout="column"  fxFlex class="border-style"  >
                     <h1>size</h1>
 
-                 <ng-container *ngIf="data.type == 4; else elseSlidedrGrapique">
+
+                 <ng-container *ngIf="(data.type == 4 || data.type == 3); else elseSlidedrGrapique">
                     <div >
 
                         <mat-label class="text-color">width <span style=" color: #ffa000;"></span>: {{data.width}}px</mat-label>
                 
-                        <mat-slider min="300" step="0.5" [(ngModel)]="data.width"  [max]="screenWidth" value="400" >
+                        <mat-slider    min="data.type=4 ? 300 : 100" step="0.5" [(ngModel)]="data.width"  [max]="screenWidth" value="400" >
                         </mat-slider>
                     </div>
                     <div>
@@ -256,7 +257,7 @@
           <mat-hint align="end">{{ligne.value.length}} / 2</mat-hint>
         </mat-form-field>
         <div>
-          <button   mat-button (click)="updatePositionByType(1)">
+          <button   mat-button (click)="openReste('indicator')">
             <img src="../../../assets/icon/reset-icon.png" style="width: 20px;"/>
           </button>
         </div>
@@ -290,7 +291,7 @@
             </mat-form-field>
 
             <div>
-              <button   mat-button (click)="updatePositionByType(3)">
+              <button   mat-button (click)="openReste('list')">
                 <img src="../../../assets/icon/reset-icon.png" style="width: 20px;"/>
               </button>
             </div>
@@ -324,7 +325,7 @@
 
 
                 <div>
-                  <button   mat-button (click)="updatePositionByType(4)">
+                  <button   mat-button (click)="openReste('graphe')">
                     <img src="../../../assets/icon/reset-icon.png" style="width: 20px;"/>
                   </button>
                 </div>
@@ -355,7 +356,7 @@
                     </mat-form-field>
 
                     <div>
-                      <button   mat-button (click)="updatePositionAll()">
+                      <button   mat-button (click)="openReste('All')">
                         <img src="../../../assets/icon/reset-icon.png" style="width: 20px;"/>
                       </button>
                     </div>

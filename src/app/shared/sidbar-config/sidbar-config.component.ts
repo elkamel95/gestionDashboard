@@ -3,6 +3,8 @@ import { Widget } from 'src/app/models/Widget';
 import { ServiceWidgetService } from 'src/app/services/widget/service-widget.service';
 import { ModeDisposition } from 'src/app/models/ModeDisposition';
 import { CookieService } from 'ngx-cookie-service';
+import { MatDialog } from '@angular/material';
+import { DialogResetComponent } from 'src/app/components/dialog-reset/dialog-reset.component';
 
 @Component({
 
@@ -18,6 +20,7 @@ export class SidbarConfigComponent implements OnInit {
   ModeLayout : ModeDisposition;
   removeYes =false ;
 typePermut ="";
+
   @ViewChild('graphiqueComp', { static: false }) public mydiv: ElementRef;
 
     font_size =[
@@ -32,7 +35,7 @@ typePermut ="";
           ]
   chartOptions: { };
   screenWidth: number;
-  constructor(private serviceWidget:ServiceWidgetService,private cookieService: CookieService) {
+  constructor(private serviceWidget:ServiceWidgetService,private cookieService: CookieService,public dialog: MatDialog) {
     this.screenWidth= serviceWidget.screenWidth - (10* serviceWidget.screenWidth/100);
     
    serviceWidget.currentWidget.subscribe(widget=>{
@@ -68,14 +71,47 @@ this.allWidgetToBeConfigured.push(this.data);
 
   }
 
-   
 
+   
+  openReste(element?) {
+
+    var dialogRef  ;
+    dialogRef = this.dialog.open(DialogResetComponent, {
+  width: '400px',
+
+      data: {name: element},
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result.event.name.toString() === 'indicator'){
+      this.resetPositionByType(1);
+      this.resetPositionByType(2);
+      }else if(result.event.name.toString()=== 'list'){
+        this.resetPositionByType(3);
+
+      }else if(result.event.name.toString() === 'graphe'){
+        this.resetPositionByType(4);
+
+      }else {
+
+        this.resetPositionAll();
+
+      }
+    
+    
+    });
+  }
    updateWidget(){
      this.serviceWidget.update(this.data);
    }
    updateWidgetAll(){
-     this.allWidgetToBeConfigured.forEach((widget)=>{this.serviceWidget.update(widget);})
-    
+     var count = 0; ;
+     this.allWidgetToBeConfigured.forEach((widget)=>{
+       count ++;
+       this.serviceWidget.update(widget);
+      });
+if(count >= this.allWidgetToBeConfigured.length)
+this.allWidgetToBeConfigured =[new Widget()];
+
   }
 
 ChangeToDragAndDrop(){
@@ -126,11 +162,12 @@ else
 
 {this.ModeLayout.indicateur =value;
 this.ModeLayout.list =value;
-this.ModeLayout.graphique =value;}
+this.ModeLayout.graphique =value;
+}
+
 this.cookieService.set( 'modeLayoutGraphique',this.ModeLayout.graphique);
 this.cookieService.set( 'modeLayoutIndicateur',this.ModeLayout.indicateur);
 this.cookieService.set( 'modeLayoutList',this.ModeLayout.list);
-
   this.serviceWidget.setCurrentDispotionRep(this.ModeLayout);
 
 }
@@ -188,10 +225,11 @@ changePostions(value){
     this.ModeLayout.list= this.cookieService.get( 'modeLayoutList')? this.cookieService.get( 'modeLayoutList') : 'row' ;
   }
 
-  updatePositionByType(type){
+  resetPositionByType(type){
     this.serviceWidget.updatePositionWidgetByType(type);
   }
-  updatePositionAll(){
+  resetPositionAll(){
     this.serviceWidget.updatePositionWidgetAll();
+    
   }
 }

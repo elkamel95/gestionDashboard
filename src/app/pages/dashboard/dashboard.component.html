@@ -1,7 +1,6 @@
 <mat-toolbar style="height: 7%;"><h6>Dashboard</h6> </mat-toolbar>
 
-    <div            [ngClass]="{'example-boundary': !modeLayout.drag}"
-  >
+    <div        [ngClass]="{'example-boundary': !modeLayout.drag}"  >
      
 
 <div  fxLayout="column" fxFlexOffset="20px" fxLayoutGap="60px" fxLayoutAlign="space-between start"> 
@@ -10,27 +9,26 @@
     [ngClass]="{'border-permutation': modeLayout.permutation}"
     (click)="permutation(0)"
      [fxFlexOrder]="letters[0]" cdkDragBoundary=".example-boundary"  
-      [fxLayout]="modeLayout.indicateur" style="width: 100%; " fxLayoutGap="15px" 
+           [fxLayout]="modeLayout.indicateur"  fxLayoutGap="15px" 
+           style="width: 100%;"
 
-    
-      *ngFor="let item of WidgetIndicator  ">
-      <div  fxFlex ="30"
-             *ngFor="let list of item ; let index = index  ; "
-            cdkDragBoundary=".example-boundary" 
-            [ngStyle]="   modeLayout.postions ? {'transform': 'translate(' +  list.positionLeft+ ', ' + list.positionRight  + ')'} : null "
+      *ngFor="let item of WidgetIndicator  "  >
+      <div 
+             *ngFor="let list of item ; let index = index  ; "      
+fxFlex="30"
 
-
+            cdkDragBoundary=".example-boundary"
             [ngClass]="{'cursor-move': !modeLayout.drag}"
               cdkDrag  
              (cdkDragEnded)="setWidgetToUpdate(list,$event)"
-               matRipple
-             matRippleColor="#00000029"
-
              [cdkDragDisabled] ="modeLayout.drag"
+             [ngStyle]="   modeLayout.postions ? {'transform': 'translate(' +  list.positionLeft+ ', ' + list.positionRight  + ')', order:'' } : null "
+
            > 
 <ng-container *ngIf="list.type == 1; else elseTemplate" >
 
-    <app-indicateur (click)="setWidgetToUpdate(list)"[backgroundColor]=" list.backgroundSmallWidget "
+    <app-indicateur  matRipple
+    matRippleColor="#00000029" (click)="setWidgetToUpdate(list)"[backgroundColor]=" list.backgroundSmallWidget "
     [textColor] ="list.textColor"
      [width] ="list.width"
    [title]="list.nameFr" 
@@ -53,7 +51,8 @@
    [backgroundSmallWidget]="list.backgroundColor"
   [colorSmallWidget]="list.colorSmallWidget"
   [url] ="list.url"
-    
+  matRipple
+  matRippleColor="#00000029"
     ></IndicateurListe>
 
 </ng-template>
@@ -63,11 +62,9 @@
 
     </div>
 
-
     <div  [ngClass]="{'border-permutation': modeLayout.permutation}"     (click)="permutation(1)" [fxFlexOrder]="letters[1]"   
       [fxLayout]="modeLayout.list " fxLayoutGap="50px" *ngFor="let item of WidgetList  ">
-        <div  fxFlex ="30"  *ngFor="let list of item ; let index = index  ; "       
-        [fxFlexOrder]="letters[index+1]"
+        <div  fxFlex   *ngFor="let list of item ; let index = index  ; "       
         [ngClass]="{'cursor-move': !modeLayout.drag}"
 
         cdkDragBoundary=".example-boundary" cdkDrag   
@@ -75,7 +72,7 @@
         [cdkDragDisabled] ="modeLayout.drag"
 
         (cdkDragEnded)="setWidgetToUpdate(list,$event)"
-        [ngStyle]="   modeLayout.postions ? {'transform': 'translate(' +  list.positionLeft+ ', ' + list.positionRight  + ')'} : null "
+        [ngStyle]="   modeLayout.postions ? {'transform': 'translate(' +  list.positionLeft+ ', ' + list.positionRight  + ')', order:''} : null "
         >
            
              
@@ -114,7 +111,7 @@
         [cdkDragDisabled] ="modeLayout.drag"
         
            (cdkDragEnded)="setWidgetToUpdate(list,$event)"
-           [ngStyle]="   modeLayout.postions? {'transform': 'translate(' +  list.positionLeft+ ', ' + list.positionRight  + ')'} : null "
+           [ngStyle]="   modeLayout.postions ? {'transform': 'translate(' +  list.positionLeft+ ', ' + list.positionRight  + ')' , order:''} : null "
            >
     
             <app-area   

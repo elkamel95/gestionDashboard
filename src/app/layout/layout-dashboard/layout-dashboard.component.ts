@@ -53,7 +53,5 @@ console.log( this. hiddenIconConfig);
 updateALLwidget(){
  this.updateAllWidgetFuncs.updateWidgetAll();
   
-  console.log( "dfsdf:"+this.updateAllWidgetFunc
-  );
 }
 }

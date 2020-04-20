@@ -87,9 +87,6 @@ this.http.delete(this.url+"/api/widgets/"+id).subscribe(rep=>{
   update(widget:Widget){ ;
 widget.updateAt =this.getDateTime();
 widget.url =widget.url ? widget.url : "";
-
-
-
     this.http.put(this.url+"/api/widgets/"+widget.id, widget).subscribe(()=>{
       this.refreshneeded.next ();
  
@@ -107,13 +104,13 @@ widget.url =widget.url ? widget.url : "";
     getScreenSize(event?) {
           this.screenHeight = window.innerHeight;
           this.screenWidth = window.innerWidth;
-          console.log(this.screenHeight, this.screenWidth);
     }
 
     updatePositionWidgetByType(type){
 
 this.http.put(`${this.url}/api/reset/position/${type}`,type).subscribe(()=>{
 
+  this.refreshneeded.next ();
 
 
 });
@@ -121,5 +118,6 @@ this.http.put(`${this.url}/api/reset/position/${type}`,type).subscribe(()=>{
     }
 
     updatePositionWidgetAll(){
-      this.http.put(`${this.url}/api/reset/position/all`,"update").subscribe(()=>{});
+      this.http.put(`${this.url}/api/reset/position/all`,"update").subscribe(()=>{      this.refreshneeded.next ();
+});
 }}

@@ -11,7 +11,6 @@ export class SidbarComponent implements OnInit {
   
   @Output() hiddenConfigB :EventEmitter<any> =new EventEmitter<any>() ;
   constructor(private authenticationService:AuthenticationService) { 
-   console.log( this.role);
   }
   hiddenConfig(event){
     this.hiddenConfigB.emit(event); 

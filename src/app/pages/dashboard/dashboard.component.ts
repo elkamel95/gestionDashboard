@@ -12,7 +12,7 @@ import { CookieService } from 'ngx-cookie-service';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit  {
+export class DashboardComponent implements OnInit    {
   
    position:Dispositions = new Dispositions();
   modeLayout : ModeDisposition = new ModeDisposition() ; 
@@ -35,8 +35,6 @@ ListIndix = []
 
 ;  constructor(private serviceWidget:ServiceWidgetService,private cookieService: CookieService) {
 
-
-
   this.modeLayout.nbLigneGh= this.cookieService.get( 'nbLigneGh') ? this.cookieService.get( 'nbLigneGh') : '2' ;
   this.modeLayout.nbLigneIn= this.cookieService.get( 'nbLigneIn')? this.cookieService.get( 'nbLigneIn') : '3' ;
   this.modeLayout.nbLigneList= this.cookieService.get( 'nbLigneList')? this.cookieService.get( 'nbLigneList') : '3' ;
@@ -44,6 +42,8 @@ ListIndix = []
   this.modeLayout.graphique= this.cookieService.get( 'modeLayoutGraphique')? this.cookieService.get( 'modeLayoutGraphique') : 'column' ;
   this.modeLayout.indicateur= this.cookieService.get( 'modeLayoutIndicateur')? this.cookieService.get( 'modeLayoutIndicateur') : 'row' ;
   this.modeLayout.list= this.cookieService.get( 'modeLayoutList')? this.cookieService.get( 'modeLayoutList') : 'row' ;
+
+
   this.modeLayout.postions=     false ;
 
 
@@ -52,16 +52,26 @@ ListIndix = []
     this. getWidgetWithType("?type=4","4",  this.modeLayout.graphique );
 
     
- 
 
   }
-  
+
 
 
  
 
   ngOnInit() {
+this.serviceWidget.refreshneeded.subscribe(()=>{
+  if( this.modeLayout.nbLigneIn )
+  this. getWidgetWithType("?type[]=1&type[]=2","1", this.modeLayout.nbLigneIn);
+  if(this.modeLayout.nbLigneList )
+  this. getWidgetWithType("?type=3","3",this.modeLayout.nbLigneList);
+  
+  if(this.modeLayout.nbLigneGh )
+  this. getWidgetWithType("?type=4","4", this.modeLayout.nbLigneList );
+  
 
+
+});
     this.serviceWidget.currentDispotionRep.subscribe(layout=>{
       if(layout.nbLigneIn && this.modeLayout.nbLigneIn != layout.nbLigneIn)
       this. getWidgetWithType("?type[]=1&type[]=2","1",layout.nbLigneIn );
@@ -73,15 +83,21 @@ ListIndix = []
       
       this.positionLayout=layout.postions ;
       this.dragPermission=layout.drag;    
+      if(layout.indicateur)
         this.modeLayout.indicateur =layout.indicateur;
+        if(layout.graphique)
         this.modeLayout.graphique =layout.graphique;
+        if(layout.list)
         this.modeLayout.list =layout.list;
         this.modeLayout.drag =layout.drag;
+        if(layout.nbLigneIn)
         this.modeLayout.nbLigneIn = layout.nbLigneIn;
+        if(layout.nbLigneList)
         this.modeLayout.nbLigneList= layout.nbLigneList;
+        if(layout.nbLigneGh)
         this.modeLayout.nbLigneGh = layout.nbLigneGh ;
 this.modeLayout.postions = layout.postions ;
-
+if(layout.permutation)
 this.modeLayout.permutation = layout.permutation;
    
 

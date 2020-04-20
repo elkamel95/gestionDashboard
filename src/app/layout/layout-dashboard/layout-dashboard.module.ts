@@ -50,6 +50,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { ValidatorEquals } from '../../shared/custom-validator/ValidatorEquals.directive';
 import { ValidatorEmailCheckerdirective } from 'src/app/shared/custom-validator/ValidatorEmailCheckerdirective';
 import { ValidatorRequired } from 'src/app/shared/custom-validator/ValidatorRequired';
+import { DialogResetComponent } from 'src/app/components/dialog-reset/dialog-reset.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,8 @@ import { ValidatorRequired } from 'src/app/shared/custom-validator/ValidatorRequ
         WidgetListComponent,
         IndicateurListeComponent,
         DialogDeleteComponent,
+        DialogResetComponent,
+
         SidbarConfigComponent,
         ValidatorEquals,
         ValidatorEmailCheckerdirective,
@@ -119,6 +122,7 @@ import { ValidatorRequired } from 'src/app/shared/custom-validator/ValidatorRequ
     WidgetListComponent,
     DialogDeleteComponent,
     SpinnerComponent,
+    DialogResetComponent
     ]
 })
 export class LayoutDashboardModule { }
