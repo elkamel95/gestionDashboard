@@ -45,6 +45,7 @@ title ="";
     ws.refreshneeded.subscribe(()=>{
   
       this.getData(1,5);
+      this.paginator.firstPage();
     });
   
     this.getData(1,5);

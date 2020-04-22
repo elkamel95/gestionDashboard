@@ -24,7 +24,7 @@ export class ErrorInterceptor implements HttpInterceptor {
                     action = "Delete" ;
 
           
-                    this.snackbarService.open("Requête traitée avec succès",action+"",
+                    this.snackbarService.open("Request successfully processed",action+"",
                     "success");
                     event.headers
                 }

@@ -53,6 +53,7 @@ if(Alldata !=null){
 this.backgroundColor =Alldata.backgroundColor;
 this.size=Alldata.size;
 this.textColor =Alldata.textColor;
+this.width = Alldata.width ;
 if(Alldata.url !=undefined)
 
 

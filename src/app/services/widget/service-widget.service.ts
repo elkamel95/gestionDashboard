@@ -16,6 +16,8 @@ screenHeight: number;
 screenWidth: number;
 
     refreshneeded = new Subject<void>();
+    refreshneededDataReset= new BehaviorSubject<any>("");
+
     headers = new HttpHeaders();
     widget  = new Widget() ;
     changeDispostion  = new ModeDisposition() ;
@@ -108,16 +110,10 @@ widget.url =widget.url ? widget.url : "";
 
     updatePositionWidgetByType(type){
 
-this.http.put(`${this.url}/api/reset/position/${type}`,type).subscribe(()=>{
-
-  this.refreshneeded.next ();
-
-
-});
+this.http.put(`${this.url}/api/reset/position/${type}`,type).subscribe(()=>{this.refreshneededDataReset.next('')});
 
     }
 
     updatePositionWidgetAll(){
-      this.http.put(`${this.url}/api/reset/position/all`,"update").subscribe(()=>{      this.refreshneeded.next ();
-});
+      this.http.put(`${this.url}/api/reset/position/all`,"update").subscribe(()=>{this.refreshneededDataReset.next('') });
 }}

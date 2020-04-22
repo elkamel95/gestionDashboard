@@ -41,8 +41,12 @@ typePermut ="";
    serviceWidget.currentWidget.subscribe(widget=>{
     this.data = widget ;
 
+    
   if(this.allWidgetToBeConfigured[0].id == '')
   this.allWidgetToBeConfigured[0]=this.data;
+if(this.allWidgetToBeConfigured[0].id == this.data.id)
+this.allWidgetToBeConfigured[0]=this.data;
+
 
 var addAndRemove =true ; 
 for (var i= 0 ; i <this.allWidgetToBeConfigured.length;i++){
@@ -219,7 +223,7 @@ changePostions(value){
  
     this.ModeLayout.nbLigneGh= this.cookieService.get( 'nbLigneGh') ? this.cookieService.get( 'nbLigneGh') : '2' ;
     this.ModeLayout.nbLigneIn= this.cookieService.get( 'nbLigneIn')? this.cookieService.get( 'nbLigneIn') : '3' ;
-    this.ModeLayout.nbLigneList= this.cookieService.get( 'nbLigneList')? this.cookieService.get( 'nbLigneList') : '3' ;
+    this.ModeLayout.nbLigneList= this.cookieService.get( 'nbLigneList')? this.cookieService.get( 'nbLigneList') : '2' ;
     this.ModeLayout.graphique= this.cookieService.get( 'modeLayoutGraphique')? this.cookieService.get( 'modeLayoutGraphique') : 'column' ;
     this.ModeLayout.indicateur= this.cookieService.get( 'modeLayoutIndicateur')? this.cookieService.get( 'modeLayoutIndicateur') : 'row' ;
     this.ModeLayout.list= this.cookieService.get( 'modeLayoutList')? this.cookieService.get( 'modeLayoutList') : 'row' ;

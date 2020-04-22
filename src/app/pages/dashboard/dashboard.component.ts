@@ -34,10 +34,10 @@ ListIndix = []
   cookieValue: any;
 
 ;  constructor(private serviceWidget:ServiceWidgetService,private cookieService: CookieService) {
-
-  this.modeLayout.nbLigneGh= this.cookieService.get( 'nbLigneGh') ? this.cookieService.get( 'nbLigneGh') : '2' ;
   this.modeLayout.nbLigneIn= this.cookieService.get( 'nbLigneIn')? this.cookieService.get( 'nbLigneIn') : '3' ;
-  this.modeLayout.nbLigneList= this.cookieService.get( 'nbLigneList')? this.cookieService.get( 'nbLigneList') : '3' ;
+  this.modeLayout.nbLigneList= this.cookieService.get( 'nbLigneList')? this.cookieService.get( 'nbLigneList') : '2' ;
+  this.modeLayout.nbLigneGh= this.cookieService.get( 'nbLigneGh') ? this.cookieService.get( 'nbLigneGh') : '2' ;
+
 
   this.modeLayout.graphique= this.cookieService.get( 'modeLayoutGraphique')? this.cookieService.get( 'modeLayoutGraphique') : 'column' ;
   this.modeLayout.indicateur= this.cookieService.get( 'modeLayoutIndicateur')? this.cookieService.get( 'modeLayoutIndicateur') : 'row' ;
@@ -47,9 +47,7 @@ ListIndix = []
   this.modeLayout.postions=     false ;
 
 
-    this. getWidgetWithType("?type[]=1&type[]=2","1", this.modeLayout.nbLigneIn);
-    this. getWidgetWithType("?type=3","3",  this.modeLayout.nbLigneList);
-    this. getWidgetWithType("?type=4","4",  this.modeLayout.graphique );
+   
 
     
 
@@ -60,18 +58,18 @@ ListIndix = []
  
 
   ngOnInit() {
-this.serviceWidget.refreshneeded.subscribe(()=>{
-  if( this.modeLayout.nbLigneIn )
-  this. getWidgetWithType("?type[]=1&type[]=2","1", this.modeLayout.nbLigneIn);
-  if(this.modeLayout.nbLigneList )
-  this. getWidgetWithType("?type=3","3",this.modeLayout.nbLigneList);
-  
-  if(this.modeLayout.nbLigneGh )
-  this. getWidgetWithType("?type=4","4", this.modeLayout.nbLigneList );
-  
-
-
-});
+    this.serviceWidget.refreshneededDataReset.subscribe(()=>{
+      if( this.modeLayout.nbLigneIn )
+      this. getWidgetWithType("?type[]=1&type[]=2","1", this.modeLayout.nbLigneIn);
+      if(this.modeLayout.nbLigneList )
+      this. getWidgetWithType("?type=3","3",this.modeLayout.nbLigneList);
+      
+      if(this.modeLayout.nbLigneGh )
+      this. getWidgetWithType("?type=4","4", this.modeLayout.nbLigneList );
+      
+    
+    
+    });
     this.serviceWidget.currentDispotionRep.subscribe(layout=>{
       if(layout.nbLigneIn && this.modeLayout.nbLigneIn != layout.nbLigneIn)
       this. getWidgetWithType("?type[]=1&type[]=2","1",layout.nbLigneIn );
@@ -208,6 +206,8 @@ else if(indexType == 4)
 
     });
   }
+resetData(){
 
+}
 
 }
