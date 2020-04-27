@@ -1,7 +1,7 @@
 import {SelectionModel} from '@angular/cdk/collections';
 import {Component, ViewChild, OnInit, AfterViewChecked} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
-import { MatDialog, MatPaginator, PageEvent } from '@angular/material';
+import { MatDialog, MatPaginator, PageEvent, MatDialogConfig } from '@angular/material';
 import { DialogBoxComponent } from 'src/app/components/dialog-box/dialog-box.component';
 import { ServiceWidgetService } from 'src/app/services/widget/service-widget.service';
 import { Widget } from 'src/app/models/Widget';
@@ -65,18 +65,24 @@ title ="";
     obj.element = element ; 
     obj.action=action;
     var dialogRef  ;
+
+
     if(action ==="Delete" )
  {    dialogRef = this.dialog.open(DialogDeleteComponent, {
   width: '400px',
 
       data:obj,
+      
     });
   
   }else{
     dialogRef = this.dialog.open(DialogBoxComponent, {
       width: '99%',
+      maxWidth:'100%',
+      maxHeight:'100%',
+      height:'95%',
       data:obj,
-    });
+    },);
   }
     dialogRef.afterClosed().subscribe(result => {
       if(result.event == 'Add'){

@@ -9,7 +9,7 @@
     <mat-sidenav [opened]="isOpen"  mode="side"   *ngIf="authenticationService.currentUserValue ">
         <app-sidbar (hiddenConfigB) ="hiddenConfig($event)" ></app-sidbar>
     </mat-sidenav>
-    <mat-sidenav [opened]="isOpenConfig" mode="side" position="end" *ngIf="authenticationService.currentUserValue ">
+    <mat-sidenav style="width: 20%;" [opened]="isOpenConfig" mode="side" position="end" *ngIf="authenticationService.currentUserValue ">
         <sidbar-config #config></sidbar-config>
     </mat-sidenav>
     <router-outlet></router-outlet>

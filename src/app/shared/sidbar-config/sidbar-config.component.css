@@ -47,3 +47,8 @@ mat-label  {
 .full-width{
     width: 30%;
 }
+.mat-form-field {
+    font-size: small;
+    font-weight: normal;
+    line-height: 1.125;
+}

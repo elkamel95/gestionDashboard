@@ -9,7 +9,7 @@ ul li {
 height: 20px;  }
 
 .mat-menu-item {
-  color: #ffb40a !important;
+  color: #0b0f2f!important;
 }
 
 button.mat-menu-item{
@@ -20,8 +20,14 @@ button.mat-menu-item{
 }
 button.mat-menu-item:hover {
     background-color: #0b0f2f;
-    color: #fff !important;
+    color: #ffb40a  !important;
 }
+.mat-menu-item .mat-icon{
+  color: #ffb40a  !important;
+
+}
+
+
 .logo{
   width: 60%;
   margin-left: 0.5%;

@@ -9,69 +9,70 @@
   <ng-template mat-tab-label>
     style
   </ng-template>
-      <div fxLayout="column"  fxFlex class="border-style"  >
+      <div fxLayout="column" fxLayoutGap="20px" fxFlex class="border-style"  >
         <h1>Text</h1>
+        <div fxLayout="row"  fxFlex   >
+
+
+          <div fxFlex>
   
-        <mat-label class="text-color">Text Color <span style=" color: #ffa000;">*</span>: 
-        
-            <mcc-color-picker  hideButtons="true"  [selectedColor]="data.textColor" (selected)=" data.textColor =$event ;
-          ">
-          </mcc-color-picker> 
-      
-          </mat-label>
-        <div  *ngIf="(data.type === '1'  || data.type === '2')"> 
-            <mat-label  class="text-color" >indicator  <span style=" color: #ffa000;"></span>: </mat-label>
+            <mat-label class="text-color">text Color :
+            
+                <mcc-color-picker  hideButtons="true"  [selectedColor]="data.textColor" (selected)=" data.textColor =$event ;
+              ">
+              </mcc-color-picker> 
+          
+              </mat-label>
+          </div>
+        <div  fxFlex *ngIf="(data.type === '1'  || data.type === '2')"> 
+            <mat-label  class="text-color" >indicator  : </mat-label>
 
             <mcc-color-picker  hideButtons="true"  [selectedColor]="data.colorSmallWidget"  (selected)=" data.colorSmallWidget =$event ;  "></mcc-color-picker> 
           
       
           </div>
-        <div fxLayout="column"   fxFlex>
+        </div>
+        <div fxLayout="row"   fxFlex>
             <div>
               <ng-container   *ngIf="data.type != '4'; else elseGraphiqueStyle">
-                <mat-label  class="text-color">size  <span style=" color: #ffa000;">*</span>: </mat-label>
+                <div  fxLayout="row"   >
 
-                <mat-form-field   style="width: 80%;    margin-top: -8%;" >     
-                      <mat-select  [(ngModel)]="data.size" >
-          <mat-option  value="1" > size</mat-option>
-          <mat-option  *ngFor="let item of font_size" [value]="item">{{item}}</mat-option>
-         </mat-select> 
-        </mat-form-field>
+                <mat-label  class="text-color" fxFlex="30" >size  :</mat-label>
 
-        <div  fxLayout="column"   >
-        <mat-label  class="text-color">font
-            <span style=" color: #ffa000;">*</span>:
-           </mat-label>
+                <mat-form-field fxFlex="50"  style="margin-top: -10%;">     
+                 <mat-select  [(ngModel)]="data.size" >
+                    <mat-option  *ngFor="let item of font_size" [value]="item">{{item}}</mat-option>
+                  </mat-select> 
+                  </mat-form-field>
+                </div>
+            <div  fxLayout="row"   >
+                  <mat-label fxFlex="30"  class="text-color">font : </mat-label>
 
-        <mat-form-field   style="width: 80%;    margin-top: -8%;" >
-    
-          <mat-select  [(ngModel)]="data.font" >
-            <mat-option  value="font" >font</mat-option>
-    
-           <mat-option  *ngFor="let item of  font_style" [value]="item">{{item}}</mat-option>
-          </mat-select> 
-         </mat-form-field>
-        </div>
+                  <mat-form-field fxFlex="50"  style="margin-top: -10%;" >
+              
+                    <mat-select  [(ngModel)]="data.font" >
+                    <mat-option  *ngFor="let item of  font_style" [value]="item">{{item}}</mat-option>
+                    </mat-select> 
+                  </mat-form-field>
+            </div>
               </ng-container>
               <ng-template #elseGraphiqueStyle>
-              <div  fxLayout="column" >
-                <mat-label  class="text-color">size  <span style=" color: #ffa000;">*</span>: </mat-label>
+                <div  fxLayout="column" >
 
-                <mat-form-field   style="padding: 1px;
-                width: 70%;
-                height: 50%; margin-top: -5%;" >                     <mat-select  [(ngModel)]="data.size" >
-                      <mat-option  value="1" > size</mat-option>
+              <div  fxLayout="row" >
+                <mat-label fxFlex="30"  class="text-color">size  : </mat-label>
+
+                <mat-form-field  fxFlex="50"  style="margin-top: -10%;" > 
+                  
+                  <mat-select  [(ngModel)]="data.size" >
                       <mat-option  *ngFor="let item of size" [value]="item">{{item}}</mat-option>
                      </mat-select> 
                     </mat-form-field>
                   </div>  
-                <div fxLayout="column">
-                  <mat-label  class="text-color">font
-                    <span style=" color: #ffa000;">*</span>:
-                   </mat-label>
-                    <mat-form-field   style="padding: 1px;
-                    width: 70%;
-                    height: 50%;margin-top: -5%;" >
+                <div fxLayout="row">
+                  <mat-label fxFlex="30"  class="text-color">font : </mat-label>
+
+                  <mat-form-field fxFlex="50"  style="margin-top: -10%;" >
                 
                       <mat-select  [(ngModel)]="data.font" >
                         <mat-option  value="font" >font</mat-option>
@@ -80,11 +81,11 @@
                       </mat-select> 
                      </mat-form-field>
                     </div>
+                </div>
               </ng-template>
               
     
             </div>
-            
                 </div>
        
 
@@ -94,38 +95,45 @@
                     <h1>size</h1>
 
 
-                 <ng-container *ngIf="(data.type == 4 || data.type == 3); else elseSlidedrGrapique">
+                    <div fxLayout="column">
+                      <div fxLayout="row">
+ 
+                      <div  fxLayout="row">
+                        <mat-label class="text-color" fxFlex="40">Auto:</mat-label>
+                        <button style="    margin-top: -10%;" mat-button fxFlex="50">
+                          <mat-icon>autorenew</mat-icon>
+                                                 </button>
+                      </div>
+                      <div  fxLayout="row">
+                        <mat-label class="text-color" fxFlex="40">custom: </mat-label>
+                        <button style="    margin-top: -10%;"  mat-button fxFlex="50">
+                          <mat-icon>settings_overscan</mat-icon>
+                        </button>
+                      </div>
+                      </div>
+                      <div fxLayout="row">
+
+                        <mat-label > <span class="text-color" fxFlex="30">width : {{data.width}}px</span>
+                        
+                          <mat-slider  fxFlex="50"  min="data.type=4 ? 300 : 100" step="0.5" [(ngModel)]="data.width"  [max]="screenWidth" value="400" >
+                          </mat-slider>
+                        </mat-label>
+                
+                     
+                    </div>
                     <div >
-
-                        <mat-label class="text-color">width <span style=" color: #ffa000;"></span>: {{data.width}}px</mat-label>
-                
-                        <mat-slider    min="data.type=4 ? 300 : 100" step="0.5" [(ngModel)]="data.width"  [max]="screenWidth" value="400" >
+                      <mat-label  fxLayout="row" > <span class="text-color" fxFlex="30">height : {{data.height}}px</span>
+                      
+                      
+                        <mat-slider fxFlex="50" min="100" step="0.5"  max="400" value="300"  [(ngModel)]="data.height" (input)=" data.height=$event.value">
                         </mat-slider>
-                    </div>
-                    <div>
-                        <mat-label class="text-color">height <span style=" color: #ffa000;"></span>: {{data.height}}px</mat-label>
+                      </mat-label>
                 
-                        <mat-slider min="100" step="0.5"  max="400" value="300"  [(ngModel)]="data.height" (input)=" data.height=$event.value">
-                       </mat-slider>
                     </div>
-                  </ng-container>
-                <ng-template #elseSlidedrGrapique>
-                    
-                        <div >
-
-                        <mat-label class="text-color">width <span style=" color: #ffa000;"></span>: {{data.width}}%</mat-label>
-
-                        <mat-slider [(ngModel)]="data.width" (input)="data.width=$event.value"></mat-slider>
-                        </div>
-                        <div>
-                        <mat-label class="text-color">height <span style=" color: #ffa000;"></span>: {{data.height}}%</mat-label>
-
-                        <mat-slider [(ngModel)]="data.height" (input)=" data.height=$event.value"></mat-slider>
-                        </div>
-                </ng-template> 
+         
                 
             
-
+</div>
 
             
             </div>
@@ -133,8 +141,10 @@
 
 <div fxLayout="column"  fxFlex class="border-style"  >
                     <h1>color</h1>
+                    <div fxLayout="row"  fxFlex class="border-style"  >
+
                     <div fxLayout="row">        
-                        <mat-label class="text-color">background<span style=" color: #ffa000;"></span>: 
+                        <mat-label  class="text-color">background: 
                           <mcc-color-picker [selectedColor]="data.backgroundColor" hideButtons="true" (selected)=" data.backgroundColor =$event ;">
                         </mcc-color-picker> 
                       
@@ -143,12 +153,14 @@
                       
                       <div fxLayout="row"  *ngIf="(data.type === '1'  || data.type === '2')">
          
-                        <mat-label class="text-color"  > Small Card <span style=" color: #ffa000;"></span>: </mat-label>
-                        
+                        <mat-label class="text-color" > Small Card :
                           <mcc-color-picker usedColorLabel="backgroundSmallWidget " [selectedColor]="data.backgroundSmallWidget"  hideButtons="true" (selected)=" data.backgroundSmallWidget =$event ;  "></mcc-color-picker> 
+  
+                        </mat-label>
+                        
                         
                         </div>
-                      
+                      </div>
 
     </div>
     

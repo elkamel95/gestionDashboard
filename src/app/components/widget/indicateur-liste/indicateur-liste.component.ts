@@ -7,7 +7,7 @@ import { ServiceWidgetService } from 'src/app/services/widget/service-widget.ser
 @Component({
   selector: 'IndicateurListe',
   templateUrl: './indicateur-liste.component.html',
-  styleUrls: ['./indicateur-liste.component.css']
+  styleUrls: ['./indicateur-liste.component.scss']
 })
 export class IndicateurListeComponent 
 implements OnInit {
@@ -29,6 +29,7 @@ data:Widget = new Widget();
   constructor(public dialog: MatDialog,private serviceWidget:ServiceWidgetService) { 
     this.screenWidth= serviceWidget.screenWidth - (10* serviceWidget.screenWidth/100);
 this.screenHeight = serviceWidget.screenHeight - (10* serviceWidget.screenWidth/100);
+
   }
 
   ngOnInit() {
@@ -49,11 +50,10 @@ this.data.width=  this.screenWidth ;
 
     const dialogRef = this.dialog.open(WidgetListComponent,{
  width:this.serviceWidget.screenWidth +"px",
- maxWidth: this.serviceWidget.screenWidth +"px",
+ maxWidth:     this.screenWidth+"px",
     maxHeight: this.serviceWidget.screenHeight +"px",
     height:'80%' ,
 data:this.data,
-
     });
     console.log("qsd");
  }

@@ -47,6 +47,7 @@ export class DialogBoxComponent implements OnInit{
   ControleForm: FormGroup;
   data:Widget = new Widget() ; 
   submitted = true;
+  next='flex' ; 
   constructor(private fb: FormBuilder,
     public dialogRef: MatDialogRef<DialogBoxComponent>,private serviceWidge:ServiceWidgetService,
     //@Optional() is used to prevent error if no data is passed
@@ -68,7 +69,7 @@ if(this.data.id == null)
 
     this.data.type ="1";
 
-    this.data .width=100;
+    this.data .width=400;
     this.data .height=100;
   
 
@@ -177,8 +178,8 @@ this.data.url ="";
 
  }
   doAction(){
-
-
+    this.next='none';
+console.log(this.next);
 if(this.data.nameFr&&this.data.nameEn && this.data.description)
     this.dialogRef.close({event:this.action,data:this.data});
   }

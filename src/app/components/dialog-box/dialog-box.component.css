@@ -11,12 +11,13 @@
 .border-style h1{
     float: left;
     padding: 05px;
-    margin: -20px 0 0 30px;
+    margin: -25px 0 0 30px;
     background: #fff;
     color: #ffa000;
     width: fit-content;
+    font-family: none;
     font-weight: normal;
-    font-size: smaller;
+    font-size: larger;
 }
 
  #margin{
@@ -43,10 +44,9 @@ mat-card{
 
 .text-color{
     color: #0b0f2f;
-    font-weight: bold;
-}
+    font-weight: normal;
+    font-size: smaller;}
 
-  
 
 .mat-flat-button.mat-primary, .mat-raised-button.mat-primary, .mat-fab.mat-primary, .mat-mini-fab.mat-primary {
     background-color: #070a20;

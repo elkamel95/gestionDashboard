@@ -122,7 +122,7 @@ import { DialogResetComponent } from 'src/app/components/dialog-reset/dialog-res
     WidgetListComponent,
     DialogDeleteComponent,
     SpinnerComponent,
-    DialogResetComponent
+    DialogResetComponent,
     ]
 })
 export class LayoutDashboardModule { }

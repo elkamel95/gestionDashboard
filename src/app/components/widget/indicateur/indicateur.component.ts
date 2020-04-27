@@ -21,7 +21,6 @@ export class IndicateurComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.width ="100%";
     this.height ="70%"
 
   }
