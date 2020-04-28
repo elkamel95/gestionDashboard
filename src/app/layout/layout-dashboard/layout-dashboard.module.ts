@@ -51,6 +51,7 @@ import { ValidatorEquals } from '../../shared/custom-validator/ValidatorEquals.d
 import { ValidatorEmailCheckerdirective } from 'src/app/shared/custom-validator/ValidatorEmailCheckerdirective';
 import { ValidatorRequired } from 'src/app/shared/custom-validator/ValidatorRequired';
 import { DialogResetComponent } from 'src/app/components/dialog-reset/dialog-reset.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -93,6 +94,7 @@ import { DialogResetComponent } from 'src/app/components/dialog-reset/dialog-res
     MatDividerModule,
     MatRadioModule,
     MatListModule,
+    MatTooltipModule,
     MatFormFieldModule,
     MatSelectModule,
     MatFormFieldModule, 

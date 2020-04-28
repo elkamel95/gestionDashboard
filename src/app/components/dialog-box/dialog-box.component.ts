@@ -5,6 +5,7 @@ import { Widget } from 'src/app/models/Widget';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ValidatorRequired } from 'src/app/shared/custom-validator/ValidatorRequired';
 import { ServiceWidgetService } from 'src/app/services/widget/service-widget.service';
+import { XmlService } from 'src/app/services/XmlData/xml.service';
 
 
 export interface Type {
@@ -47,9 +48,9 @@ export class DialogBoxComponent implements OnInit{
   ControleForm: FormGroup;
   data:Widget = new Widget() ; 
   submitted = true;
-  next='flex' ; 
+  next=true ; 
   constructor(private fb: FormBuilder,
-    public dialogRef: MatDialogRef<DialogBoxComponent>,private serviceWidge:ServiceWidgetService,
+    public dialogRef: MatDialogRef<DialogBoxComponent>,private xml:XmlService,private serviceWidge:ServiceWidgetService,
     //@Optional() is used to prevent error if no data is passed
     @Optional() @Inject(MAT_DIALOG_DATA) public Alldata: any) {
       this.data=  Alldata.element;
@@ -62,6 +63,7 @@ export class DialogBoxComponent implements OnInit{
     //}   this.data.textColor = $event};
   }
 ngOnInit(): void {  
+  console.log(this.xml.xmlItems);
   this.screenWidth=this.serviceWidge.screenWidth - (10*this.serviceWidge.screenWidth/100);
 
 if(this.data.id == null)
@@ -178,7 +180,7 @@ this.data.url ="";
 
  }
   doAction(){
-    this.next='none';
+    this.next=false;
 console.log(this.next);
 if(this.data.nameFr&&this.data.nameEn && this.data.description)
     this.dialogRef.close({event:this.action,data:this.data});
@@ -188,4 +190,13 @@ if(this.data.nameFr&&this.data.nameEn && this.data.description)
     this.dialogRef.close({event:'Cancel'});
   }
 
+
+
+
+
+
+
+
+
+  
 }

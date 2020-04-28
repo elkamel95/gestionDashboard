@@ -1,0 +1,227 @@
+<!-- dialog-box.component.html -->
+
+<div mat-dialog-title>
+    <mat-card style=" background-color: hsl(38, 100%, 50%);">
+    <h1 mat-dialog-title style="color: white;">Add widget </h1>
+    </mat-card>
+    </div>
+    <div fxLayout="column" >
+    
+    <div mat-dialog-content  fxFlex="90"
+    fxLayout="column" >
+    <div *ngIf="action != 'Delete'; else elseTemplate" fxLayout="row"
+    style=" margin-top: -9%;" 
+    fxLayoutGap="20px"
+    
+    fxLayoutAlign="start start">
+    
+    
+    <div fxLayout="column"  fxFlex  class="border-style" >
+    <h1>Style</h1>
+    <div fxLayout="row"  style="margin-top: -0.5%;" fxFlex="50"  class="border-style">
+    
+    
+      <div fxLayout="column" style="margin-top: 0.5%;" fxLayoutGap="20px" fxFlex >
+      <div fxLayout="row"    >
+    
+            <mat-label  fxFlex="50"class="text-color">Width <span style=" color: #ffa000;">*</span>: {{data.width}}px</mat-label>
+            <mat-slider fxFlex="50" fxFlexAlign="end" style="margin-top: -6%;" min="300" step="0.5" [(ngModel)]="data.width"  [max]="screenWidth" value="400" (input)="setChartOptions(data.width,data.nameFr,data.textColor);
+            selectedColor($event); data.width=$event.value"></mat-slider>
+            </div>
+            
+            <div fxLayout="row"  >
+    
+            <mat-label  fxFlex="50" class="text-color">Height <span style=" color: #ffa000;">*</span>: {{data.height}}px</mat-label>
+    
+    
+            <mat-slider  fxFlex="50" min="100" step="0.5" fxFlexAlign="end" style="margin-top: -5%;"  max="400" value="300" (input)="setChartOptions(data.width,data.height,
+            data.nameFr,data.textColor,data.backgroundColor,
+            data.size,data.font ); data.height=$event.value"></mat-slider>
+    
+    </div>
+    
+    
+    
+    
+    </div>
+    <div fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center center" style="margin-top: -1%;"  fxFlex>
+    
+        <div fxLayout="row"  >
+    
+    
+        <mat-label class="text-color">Text Color <span style=" color: #ffa000;">*</span>: 
+    
+        <mcc-color-picker  hideButtons="true"  [selectedColor]="data.textColor" (selected)=" data.textColor =$event ;setChartOptions(data.width,data.height,
+        data.nameFr,data.textColor,data.backgroundColor,
+        data.size,data.font ) ;  ">
+        </mcc-color-picker> 
+    
+        </mat-label>
+    
+    
+    
+        </div>
+    
+        <div fxLayout="row">        
+        <mat-label fxFlex="100" class="text-color">Background  <span style=" color: #ffa000;">*</span>: 
+        <mcc-color-picker fxFlex="5" [selectedColor]="data.backgroundColor" hideButtons="true" (selected)=" data.backgroundColor =$event ;setChartOptions(data.width,data.height,
+        data.nameFr,data.textColor,data.backgroundColor,
+        data.size,data.font ) ;  "></mcc-color-picker> 
+    
+        </mat-label>
+        </div>
+    
+    
+    
+    </div>
+    
+    <div fxLayout="column"   fxFlex>
+    <ng-container  fxLayoutGap="20px" *ngIf="data.type != '4'; else elseGraphiqueStyle">
+      <div fxLayout="row"   >
+    
+          <mat-label class="text-color">Size <span style=" color: #ffa000;">*</span>: </mat-label>
+    
+          <mat-form-field   style="padding: 1px;
+          width: 50%;
+          height: 50%; margin-top: -3%; margin-left: 5%;" >
+          <mat-select  [(ngModel)]="data.size" >
+          <mat-option  *ngFor="let item of font_size" [value]="item">{{item}}</mat-option>
+          </mat-select> 
+          </mat-form-field>
+    </div>
+    
+    <div fxLayout="row"   >
+    
+    <mat-label class="text-color">Font <span style=" color: #ffa000;">*</span>: </mat-label>
+    
+    <mat-form-field   style="padding: 1px;
+    width: 50%;
+    height: 50%;margin-top: -3%; margin-left: 5%;" >
+    
+    <mat-select  [(ngModel)]="data.font" >
+    <mat-option  *ngFor="let item of  font_style" [value]="item">{{item}}</mat-option>
+    </mat-select> 
+    </mat-form-field>
+    </div>
+    </ng-container>
+    <ng-template #elseGraphiqueStyle>
+    
+    
+    <mat-form-field   style="padding: 1px;
+    width: 50%;
+    height: 50%; margin-top: -5%;" >
+    <mat-label>size</mat-label>
+    <mat-select  [(ngModel)]="data.size"   (selectionChange)="setChartOptions(data.width,data.height,
+    data.nameFr,data.textColor,data.backgroundColor,
+    data.size,data.font)">
+    <mat-option  value="1" > size</mat-option>
+    <mat-option  *ngFor="let item of size" [value]="item">{{item}}</mat-option>
+    </mat-select> 
+    </mat-form-field>
+    
+    <mat-form-field   style="padding: 1px;
+    width: 50%;
+    height: 50%;margin-top: -5%;" >
+    <mat-label>font</mat-label>
+    
+    <mat-select  [(ngModel)]="data.font" >
+    <mat-option  value="font" >font</mat-option>
+    
+    <mat-option  *ngFor="let item of  font_style" [value]="item">{{item}}</mat-option>
+    </mat-select> 
+    </mat-form-field>
+    
+    </ng-template>
+    
+    
+    </div>
+    
+    <div fxLayout="column"  fxLayoutGap="10px"   *ngIf="(data.type == 1)||(data.type == 2)">
+    <div>
+    
+    <mat-label class="text-color">Background Small Card <span style=" color: #ffa000;">*</span>: </mat-label>
+    
+    <mcc-color-picker usedColorLabel="backgroundSmallWidget " [selectedColor]="data.backgroundSmallWidget"  hideButtons="true" (selected)=" data.backgroundSmallWidget =$event ;  "></mcc-color-picker> 
+    
+    </div>
+    <div>
+    <mat-label  class="text-color">Indicator color <span style=" color: #ffa000;">*</span>: </mat-label>
+    
+    <mcc-color-picker  hideButtons="true"  [selectedColor]="data.colorSmallWidget"  (selected)=" data.colorSmallWidget =$event ;  "></mcc-color-picker> 
+    
+    
+    </div>
+    
+    </div>
+    </div>
+    
+    
+    <div fxFlex  *ngIf="data.type == 1 " fxLayoutAlign="center center" >
+    <app-indicateur [backgroundColor]=" data.backgroundSmallWidget "
+    [textColor] ="data.textColor"
+    [width] ="data.width"
+    [title]="data.nameFr" 
+    [height]="data.height"
+    [size] ="data.size"
+    [font]="data.font"
+    [backgroundSmallWidget]="data.backgroundColor"
+    [colorSmallWidget]="data.colorSmallWidget"
+    ></app-indicateur>
+    
+    </div>
+    
+    <div fxFlex *ngIf="data.type == 2 " id="margin" >
+    
+    <IndicateurListe [backgroundColor]=" data.backgroundSmallWidget "
+    [textColor] ="data.textColor"
+    [width] ="data.width"
+    [title]="data.nameFr" 
+    [height]="data.height"
+    [size] ="data.size"
+    [font]="data.font"
+    [backgroundSmallWidget]="data.backgroundColor"
+    [colorSmallWidget]="data.colorSmallWidget"
+    ></IndicateurListe>
+    
+    </div>
+    
+    <div style="    padding: 100px;
+    " fxFlex class="border-style" *ngIf="data.type == 3">
+    <widget-list  
+    [textColor] ="data.textColor"
+    [width] ="data.width"
+    [title]="data.nameFr" 
+    [height]="data.height"
+    [size] ="data.size"
+    [font]="data.font"
+    [backgroundColor]=" data.backgroundColor "
+    ></widget-list>
+    </div>
+    <div  fxFlex class="border-style" style="margin-top: 0.5%;" *ngIf="data.type == 4">
+    <app-area [title]="data.nameFr" [textColor] ="data.textColor"
+    [width] ="data.width"
+    [title]="data.nameFr" 
+    [height]="data.height"
+    [size] ="data.size"
+    [font]="data.font"
+    [backgroundColor]=" data.backgroundColor " [chartOptions]="chartOptions"></app-area>
+    </div>
+    </div>
+    
+    
+    
+    <ng-template #elseTemplate>
+    Sure to delete <b>{{data.nameFr}}</b>?
+    </ng-template>
+    </div>
+    
+    </div> 
+    <div fxFlex="10" mat-dialog-actions align = "end" >
+      <button  (click)="closeDialog()" mat-flat-button color="warn">Cancel</button>
+    
+    <button   (click)="doAction()" mat-flat-button color="primary">Next</button>
+    </div>
+    
+    
+      
+    </div>

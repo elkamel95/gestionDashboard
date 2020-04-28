@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+  <entitys>
+<entity   name= "users" enterpoint = "api/users" value="core users">
+<attribute name ="name_user " value="name"> </attribute>
+<attribute name = "last_name" value="last name" ></attribute>
+<attribute name ="email _user" value= "email"></attribute>
+<attribute name ="creation_date " value= "creation date">
+<value>before</value>
+<value>after</value>
+<value>between </value>
+</attribute>
+<attribute name = "update _date" value="update date">
+<value>before</value>
+<value>after</value>
+<value>between </value>
+</attribute>
+
+<attribute name ="isActive" value="is active">
+<value>true</value>
+<value>false</value>
+</attribute>
+<attribute name ="status" value="name">
+<value>valid</value>
+<value>invalid</value>
+<value>invalid</value>
+</attribute>
+</entity>
+<entity   name= "fournisseur" enterpoint = "api/fournisseur" value="fournisseur">
+<attribute name ="name_user " value="name"> </attribute>
+<attribute name = "last_name" value="last name" ></attribute>
+<attribute name ="email _user" value= "email"></attribute>
+
+</entity>
+</entitys>

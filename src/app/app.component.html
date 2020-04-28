@@ -1,1 +1,26 @@
 <router-outlet></router-outlet>
+<div *ngFor="let item of items let index =index ; " >
+
+</div>
+
+<select [(ngModel)]="index" #device (change)="getAttributes()">
+    <option   *ngFor="let item of items let index =index ; "  [value] ="index">
+        {{item.entitys.value}}
+
+    </option>
+</select>
+<select [(ngModel)]="a"  (change)="getValuesAttributes()">
+    <option   *ngFor="let item of attributes let id =index" [ngValue]="{att: item.$.name, index: id}"
+    >
+        {{item.$.value}}
+
+    </option>
+</select>
+<select [(ngModel)]="val" >
+    <option   *ngFor="let item of  attributesValues ; let id =index" [value]="item"
+    >
+        {{item}}
+
+    </option>
+</select>
+<button (click)="generateUrl()">dddd</button>
