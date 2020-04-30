@@ -23,6 +23,15 @@ export interface Type {
 export class DialogBoxComponent implements OnInit{
   nrSelect=1;
   selected ="1";
+  public index = 0; 
+  public items :any ;
+  public attributes =[] ;
+  public attributesValues =[] ;
+public property ="";
+ public entity ="" ;
+ public attribute :any ={};
+ nameButtonNext ="Next"
+ nameButtonBack="Back"
   widgetControleForm: FormGroup;
   chartOptions ={};
   screenWidth :number ;
@@ -48,8 +57,8 @@ export class DialogBoxComponent implements OnInit{
   ControleForm: FormGroup;
   data:Widget = new Widget() ; 
   submitted = true;
-  next=true ; 
-  constructor(private fb: FormBuilder,
+  next=0 ; 
+  constructor(private fb: FormBuilder, 
     public dialogRef: MatDialogRef<DialogBoxComponent>,private xml:XmlService,private serviceWidge:ServiceWidgetService,
     //@Optional() is used to prevent error if no data is passed
     @Optional() @Inject(MAT_DIALOG_DATA) public Alldata: any) {
@@ -57,7 +66,17 @@ export class DialogBoxComponent implements OnInit{
     this.local_data = {...this.Alldata};
     this.action = this.local_data.action;
 
-
+    this.xml.loadXML() .subscribe((data) => {  
+      this.xml.parseXML(data)  
+  
+            .then((datas) => {  
+              this.items = datas; 
+              this.entity = datas[0].entitys.name ; 
+              this.attributes=datas[0].attributes
+         console.log(this.attributes);
+            });  
+         
+        }); 
   }
   selectedColor($event){
     //}   this.data.textColor = $event};
@@ -180,17 +199,66 @@ this.data.url ="";
 
  }
   doAction(){
-    this.next=false;
-console.log(this.next);
-if(this.data.nameFr&&this.data.nameEn && this.data.description)
+    if(this.next <=2)
+    this.next++;
+
+    if(this.data.nameFr&&this.data.nameEn && this.data.description && this.next == 2 ) 
     this.dialogRef.close({event:this.action,data:this.data});
+
+
+  }
+  back(){
+    if(this.next !=0 && this.next >=0)
+    this.next -- ;
   }
 
   closeDialog(){
     this.dialogRef.close({event:'Cancel'});
   }
 
+  getProperty(){
+    console.log("dd"+this.attribute.index);
 
+    this.xml.loadXML() .subscribe((data) => {  
+      this.xml.parseXML(data)  
+  
+            .then((datas) => {  
+
+              if( datas[this.index].attributes[this.attribute.index].property  != undefined)
+         this.attributesValues=     datas[this.index].attributes[this.attribute.index].property ;
+         else
+         this.attributesValues=[];
+
+            });  
+         
+        }); 
+  }
+  getAttributes(){
+    this.attributesValues=[];
+    this.xml.loadXML() .subscribe((data) => {  
+      this.xml.parseXML(data)  
+  
+            .then((datas) => {  
+              this.entity = datas[this.index].entitys.name.toString() ; 
+
+              this.attributes=datas[this.index].attributes ; 
+         
+
+            });  
+         
+        }); 
+  
+  }
+
+generateUrl(date){
+  console.log(`api/${this.entity}?${this.attribute.att}[${this.property}]=${date.value}`);
+  this.data.url = `api/${this.entity}?${this.attribute.att}[${this.property}]=${date.value}`;
+  this.nameButtonNext ="Create"
+  this.nameButtonBack="Close"
+
+}
+
+}
 
 
 
@@ -199,4 +267,4 @@ if(this.data.nameFr&&this.data.nameEn && this.data.description)
 
 
   
-}
+

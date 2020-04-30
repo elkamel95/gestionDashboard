@@ -5,6 +5,7 @@
     border-radius: 20px 20px 20px 20px;
 
 }
+
 .mcc-color-picker-selector-preview[_ngcontent-xyi-c28] {
     display: none;
 }
@@ -33,7 +34,7 @@
 }
 mat-card{
     background-color: #ffa000;
-    width: 102%;
+    width: 103%;
     height: 20px;
     margin-left: -2.8%;
     margin-top: -2.8%;
@@ -50,4 +51,8 @@ mat-card{
 
 .mat-flat-button.mat-primary, .mat-raised-button.mat-primary, .mat-fab.mat-primary, .mat-mini-fab.mat-primary {
     background-color: #070a20;
+}
+.mat-icon-size{
+    font-size: 35px;
+    width: 35px;
 }

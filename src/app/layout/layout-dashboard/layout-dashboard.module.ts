@@ -20,7 +20,7 @@ import { SidbarComponent } from 'src/app/shared/sidbar/sidbar.component';
 import { SiginComponent } from 'src/app/pages/sigin/sigin.component';
 import { SignUpComponent } from 'src/app/pages/sign-up/sign-up.component';
 import {MatSelectModule} from '@angular/material/select';
-import { MatFormFieldModule, MatInputModule } from '@angular/material';
+import { MatFormFieldModule, MatInputModule, MatDatepickerModule } from '@angular/material';
 import {MatCardModule} from '@angular/material/card';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
@@ -52,6 +52,8 @@ import { ValidatorEmailCheckerdirective } from 'src/app/shared/custom-validator/
 import { ValidatorRequired } from 'src/app/shared/custom-validator/ValidatorRequired';
 import { DialogResetComponent } from 'src/app/components/dialog-reset/dialog-reset.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatNativeDateModule} from '@angular/material/core';
+import { BoxRequestComponent } from 'src/app/components/box-request/box-request.component';
 
 @NgModule({
   declarations: [
@@ -76,7 +78,9 @@ import {MatTooltipModule} from '@angular/material/tooltip';
         SidbarConfigComponent,
         ValidatorEquals,
         ValidatorEmailCheckerdirective,
-        ValidatorRequired
+        ValidatorRequired,
+        BoxRequestComponent,
+
   ],
   imports: [
 
@@ -90,6 +94,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatMenuModule,
     MatToolbarModule,
     FlexLayoutModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
     MatButtonModule,
     MatDividerModule,
     MatRadioModule,
@@ -125,6 +131,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     DialogDeleteComponent,
     SpinnerComponent,
     DialogResetComponent,
+    
     ]
 })
 export class LayoutDashboardModule { }

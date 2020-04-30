@@ -13,10 +13,10 @@ export class AppComponent implements OnInit {
   public items :any ;
   public attributes =[] ;
   public attributesValues =[] ;
-public val ="";
+public property ="";
  public listAttributes =[] ; 
  public entity ="" ;
- public a :any ={};
+ public attribute :any ={};
   constructor(
    private xml:XmlService){
 
@@ -40,15 +40,18 @@ public val ="";
   
             .then((datas) => {  
 
-              if( datas[this.index].attributes[this.a.index].value != undefined)
-         this.attributesValues=     datas[this.index].attributes[this.a.index].value;
+              if( datas[this.index].attributes[this.attribute.index].property  != undefined)
+         this.attributesValues=     datas[this.index].attributes[this.attribute.index].property ;
+         else
+         this.attributesValues=[];
 
-         console.log( this.attributesValues);
+         console.log( datas[this.index].attributes[this.attribute.index].property);
             });  
          
         }); 
   }
   getAttributes(){
+    this.attributesValues=[];
     this.xml.loadXML() .subscribe((data) => {  
       this.xml.parseXML(data)  
   
@@ -56,10 +59,8 @@ public val ="";
               this.entity = datas[this.index].entitys.name.toString() ; 
 
               this.attributes=datas[this.index].attributes ; 
-              if( datas[this.index].attributes[0].value != undefined)
-         this.attributesValues=     datas[this.index].attributes[this.a.index];
+         
 
-         console.log( this.attributesValues);
             });  
          
         }); 
@@ -69,9 +70,8 @@ public val ="";
    
 
   }
-generateUrl(){
-
-  console.log(`?api/${this.entity}?${this.a.att}=${this.val}`);
+generateUrl(date){
+  console.log(`?api/${this.entity}?${this.attribute.att}[${this.property}]=${date.value}`);
 }
 
 }

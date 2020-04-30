@@ -9,7 +9,12 @@
 
 <div mat-dialog-content  fxFlex="90"
 fxLayout="column" >
-<div *ngIf="action != 'Delete'; else elseTemplate" fxLayout="row"
+
+
+
+
+<ng-container *ngIf="next == 0; else elseTemplate">
+  <div  fxLayout="row"
 style=" margin-top: -9%;" 
 fxLayoutGap="20px"
 
@@ -297,16 +302,80 @@ height: 50%;margin-top: -5%;" >
 
 
 
-<ng-template #elseTemplate>
-Sure to delete <b>{{data.nameFr}}</b>?
-</ng-template>
 </div>
+</ng-container>
+<ng-template #elseTemplate>
+  <div fxLayout="row" fxFlex ="30" fxLayoutGap="10px"
+  class="border-style" style="margin-top: 1%;" >
+    <h1> create Request </h1> 
+    <div fxLayout="row" fxLayoutAlign="space-around center">
+    <div fxLayout="row" fxFlex  >
+
+      
+    <mat-label fxFlex="30" class="text-color">Entity : <span style=" color: #ffa000;">*</span>: </mat-label>
+
+    <mat-form-field>
+    <mat-select fxFlex [(ngModel)]="index" #device (selectionChange)="getAttributes()">
+        <mat-option   *ngFor="let item of items let index =index ; "  [value] ="index">
+            {{item.entitys.value}}
+    
+        </mat-option>
+    </mat-select >
+  </mat-form-field>
+</div>
+<div fxLayout="row" fxFlex >
+
+      
+  <mat-label fxFlex="30" class="text-color">Cretere : <span style=" color: #ffa000;">*</span>: </mat-label>
+<mat-form-field>
+    <mat-select  [(ngModel)]="attribute"  (selectionChange)="getProperty()">
+        <mat-option   *ngFor="let item of attributes let id =index" [value]="{att: item.$.name, index: id}">
+            {{item.$.value}}
+    
+        </mat-option>
+    </mat-select >
+  </mat-form-field>
+  </div>
+  <div fxLayout="row" fxFlex >
+
+      
+    <mat-label fxFlex="30" class="text-color">Property : <span style=" color: #ffa000;">*</span>: </mat-label>
+<mat-form-field>
+    <mat-select  [(ngModel)]="property" >
+        <mat-option   *ngFor="let item of  attributesValues ; let id =index" [value]="item.$.name">
+            {{item.$.value}}
+    
+        </mat-option>
+    </mat-select >
+  </mat-form-field>
+  </div>
+  <div fxLayout="row" fxFlex >
+
+      
+    <mat-label fxFlex="30" class="text-color">Date : <span style=" color: #ffa000;">*</span>: </mat-label>
+  <mat-form-field>
+    <mat-label>Choose a date</mat-label>
+    <input matInput [matDatepicker]="picker" #date>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+</div>
+
+
+    <button  mat-button color="accent" (click)="generateUrl(date)"><mat-icon class="mat-icon-size">add_circle</mat-icon></button>
+</div>
+</div>
+<div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="gappx">
+  <box-request></box-request>
+</div>
+  </ng-template>
+
 
 </div> 
 <div fxFlex="10" mat-dialog-actions align = "end" >
-  <button  (click)="closeDialog()" mat-flat-button color="warn">Cancel</button>
+  <button  (click)="nameButtonNext !='Create'? back():closeDialog()" mat-flat-button >{{nameButtonBack}}</button>
 
-<button   (click)="doAction()" mat-flat-button color="primary">Next</button>
+<button   (click)="doAction()" mat-flat-button color="primary">{{nameButtonNext}}</button>
 </div>
 
 

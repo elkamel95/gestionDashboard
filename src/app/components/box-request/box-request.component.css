@@ -1,0 +1,14 @@
+.box-header{
+
+    height: 20%;
+    background-color: #070a20;
+    width: 100%;
+    margin-left: -7%;
+    margin-top: -7%;
+
+}
+.box-card{
+width: 250px;
+    height: 250px;
+    border: solid 0.5px #ffa200;
+}

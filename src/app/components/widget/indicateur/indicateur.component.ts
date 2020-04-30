@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { ServiceWidgetService } from 'src/app/services/widget/service-widget.service';
 
 @Component({
   selector: 'app-indicateur',
@@ -16,13 +17,39 @@ export class IndicateurComponent implements OnInit {
 @Input() width ;
 @Input() height;
 @Input() font;
-
-
-  constructor() { }
-
+@Input() url:string;
+public valueWidget :number=0;
+public loadedData =true ; 
+  constructor(private serviceWidget:ServiceWidgetService) { }
+  getDate(){
+    var currentDate = new Date()
+var day = currentDate.getDate()
+var month = currentDate.getMonth() + 1
+var year = currentDate.getFullYear();
+    return  year+'-'+month+'-'+day;
+      }
+    
   ngOnInit() {
     this.height ="70%"
+    if(this.url !=undefined)
+   { if(this.url.charAt(0)==='D'&&this.url.charAt(1)==='N'){
+      this.url=  this.url.replace('!',this.getDate());
+      this.url = this.url.substring(2, this.url.length);
+    }
+    var str =new Date().toJSON("jj/mm/yy");
+    var n = str.search("T");
 
+  console.log(this.url);
+
+    this.getDataFromUrl( this.url);
+}
   }
+
+  getDataFromUrl(url){
+
+    this.serviceWidget.getAnything(url).subscribe(list=>{
+this.valueWidget = list.length ; 
+        
+        },()=>{},()=>{this.loadedData=false});}
 
 }

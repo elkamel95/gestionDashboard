@@ -30,3 +30,8 @@ mat-card{
       .matCardBackground{
         box-shadow:  0px 4px 20px 1px #fafafa54, 0 7px 10px -5px rgb(0, 0, 0) !important;
       }
+      .icon-display{
+
+        font-size: 20px;
+        width: 20px;
+      }
