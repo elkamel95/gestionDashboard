@@ -25,8 +25,12 @@ export class DialogBoxComponent implements OnInit{
   selected ="1";
   public index = 0; 
   public items :any ;
+  public enterPoint ="";
+  public and=""
   public attributes =[] ;
   public attributesValues =[] ;
+  public requests =[] ;
+
 public property ="";
  public entity ="" ;
  public attribute :any ={};
@@ -35,6 +39,9 @@ public property ="";
   widgetControleForm: FormGroup;
   chartOptions ={};
   screenWidth :number ;
+  DateProperty= ["after","before","strictly_after","strictly_before"];
+  DatePropertyName= ["after","before","strictly after","strictly before"];
+filterType =""; 
     types:Type [] = [ 
     {'id':"1" , 'name':'indicateur'},
     {'id':"2" , 'name':'indicateur avec liste'},
@@ -72,7 +79,8 @@ public property ="";
             .then((datas) => {  
               this.items = datas; 
               this.entity = datas[0].entitys.name ; 
-              this.attributes=datas[0].attributes
+              this.attributes=datas[0].attributes;
+
          console.log(this.attributes);
             });  
          
@@ -82,7 +90,6 @@ public property ="";
     //}   this.data.textColor = $event};
   }
 ngOnInit(): void {  
-  console.log(this.xml.xmlItems);
   this.screenWidth=this.serviceWidge.screenWidth - (10*this.serviceWidge.screenWidth/100);
 
 if(this.data.id == null)
@@ -199,11 +206,15 @@ this.data.url ="";
 
  }
   doAction(){
-    if(this.next <=2)
+    if(this.next <=2 && this.data.nameFr&&this.data.nameEn && this.data.description )
     this.next++;
 
     if(this.data.nameFr&&this.data.nameEn && this.data.description && this.next == 2 ) 
-    this.dialogRef.close({event:this.action,data:this.data});
+  {  this.dialogRef.close({event:this.action,data:this.data});
+    this.data.url = this.enterPoint+this.data.url ;
+    console.log(  this.data.url);
+  }
+
 
 
   }
@@ -223,14 +234,19 @@ this.data.url ="";
       this.xml.parseXML(data)  
   
             .then((datas) => {  
+              console.log(datas[this.index].attributes[this.attribute.index].$.type  );
+              this.filterType=datas[this.index].attributes[this.attribute.index].$.type  ;
 
               if( datas[this.index].attributes[this.attribute.index].property  != undefined)
-         this.attributesValues=     datas[this.index].attributes[this.attribute.index].property ;
+       {  this.attributesValues=     datas[this.index].attributes[this.attribute.index].property ;
+      }
          else
-         this.attributesValues=[];
+{         this.attributesValues=[];
+}
+console.log( this.attributesValues  );
 
             });  
-         
+
         }); 
   }
   getAttributes(){
@@ -251,10 +267,20 @@ this.data.url ="";
   }
 
 generateUrl(date){
-  console.log(`api/${this.entity}?${this.attribute.att}[${this.property}]=${date.value}`);
-  this.data.url = `api/${this.entity}?${this.attribute.att}[${this.property}]=${date.value}`;
+  var url =  this.data.url !=undefined? this.data.url: '' ;
+if(this.filterType.toString() ==='date')
+  this.data.url = `${this.attribute.att}[${this.property}]=${date.value}${this.and}${url}`;
+else if(this.filterType.toString() ==='array')
+this.data.url = `${this.attribute.att}=${this.property}${this.and}${url}`;
+
   this.nameButtonNext ="Create"
   this.nameButtonBack="Close"
+this.enterPoint= `api/${this.entity}?`;
+
+this.requests.push(this.data.url );
+console.log( this.requests);
+
+ this.and="&"
 
 }
 

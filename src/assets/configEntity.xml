@@ -1,42 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>  
   <entitys>
 <entity   name= "users" enterpoint = "api/users" value="core users">
-<attribute name ="name_user " value="name"> </attribute>
-<attribute name = "last_name" value="last name" ></attribute>
-<attribute name ="email _user" value= "email"></attribute>
-<attribute name ="createAt" value= "creation date">
-<property name="before"  value="before"></property >
-<property name="after" value="after" ></property >
-<property name="strictly_after" value="strictly after"> </property >
-<property name="strictly_before" value="strictly before">  </property >
-</attribute>
-<attribute name = "updateAt" value="update date">
-<property name="before"  value="before"></property >
-<property name="after" value="after" ></property >
-<property name="strictly_after" value="strictly after"> </property >
-<property name="strictly_before" value="strictly before">  </property >
+  <attribute name ="name_user " value="name" type="stirng"> </attribute>
+  <attribute name = "last_name" value="last name" type="stirng" ></attribute>
+  <attribute name ="email _user" value= "email" type="stirng"></attribute>
+  <attribute name ="createAt" value= "creation date" type="date"></attribute>
+  <attribute name = "updateAt" value="update date" type="date"></attribute>
 
+  <attribute name ="roles" value="Role" type="array">
+    <property name="ROLE_ADMIN"  value="administrator" ></property >
+    <property name="{}" value="members"></property >
+  </attribute>
+  <attribute name ="enabled" value="status" type="array">
+    <property name="1" value="valid"></property >
+    <property name="0" value="invalid"></property >
+  </attribute>
+  </entity>
 
-</attribute>
-
-<attribute name ="isActive" value="is active">
-<property >true</property >
-<property >false</property >
-</attribute>
-<attribute name ="status" value="status">
-<property >valid</property >
-<property >invalid</property >
-<property >invalid</property >
-</attribute>
-</entity>
 <entity   name= "fournisseur" enterpoint = "api/fournisseur" value="fournisseur">
-<attribute name ="name_user " value="name"> </attribute>
-<attribute name = "last_name" value="last name" ></attribute>
-<attribute name ="email _user" value= "email"></attribute>
-<attribute name ="status" value="status">
-<property >valid</property >
-<property >invalid</property >
-<property >invalid</property >
+    <attribute name ="name_user " value="name"> </attribute>
+    <attribute name = "last_name" value="last name" ></attribute>
+    <attribute name ="email _user" value= "email"></attribute>
+    <attribute name ="status" value="status">
+      <property name="" value="" ></property >
+      <property name="" value=""></property >
+      <property name="" value=""></property >
 </attribute>
-</entity>
+  </entity>
 </entitys>

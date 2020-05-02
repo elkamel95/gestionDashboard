@@ -11,6 +11,8 @@ import { ErrorInterceptor } from './services/Auth/error-interceptor.service';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { XmlService } from './services/XmlData/xml.service';
+import { PickDateAdapter, PICK_FORMATS } from './services/date-adapter/date-format-adapter.service';
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,10 @@ import { XmlService } from './services/XmlData/xml.service';
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
    CookieService,
-XmlService,
+   XmlService,
+PickDateAdapter,
+{provide: DateAdapter, useClass: PickDateAdapter},
+{provide: MAT_DATE_FORMATS, useValue: PICK_FORMATS}
     // provider used to create fake backend
     ],
   bootstrap: [AppComponent]

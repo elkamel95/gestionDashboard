@@ -88,7 +88,6 @@ this.http.delete(this.url+"/api/widgets/"+id).subscribe(rep=>{
   
   update(widget:Widget){ ;
 widget.updateAt =this.getDateTime();
-widget.url =widget.url ? widget.url : "";
     this.http.put(this.url+"/api/widgets/"+widget.id, widget).subscribe(()=>{
       this.refreshneeded.next ();
  

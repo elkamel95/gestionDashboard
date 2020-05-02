@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { XmlService } from './services/XmlData/xml.service';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +13,6 @@ export class AppComponent implements OnInit {
   public attributes =[] ;
   public attributesValues =[] ;
 public property ="";
- public listAttributes =[] ; 
  public entity ="" ;
  public attribute :any ={};
   constructor(
@@ -71,7 +69,7 @@ public property ="";
 
   }
 generateUrl(date){
-  console.log(`?api/${this.entity}?${this.attribute.att}[${this.property}]=${date.value}`);
+  console.log(`api/${this.entity}?${this.attribute.att}[${this.property}]=${date.value}`);
 }
 
 }

@@ -32,14 +32,15 @@ var year = currentDate.getFullYear();
   ngOnInit() {
     this.height ="70%"
     if(this.url !=undefined)
-   { if(this.url.charAt(0)==='D'&&this.url.charAt(1)==='N'){
+   { 
+    //  DN:  data now  
+     if(this.url.charAt(0)==='D'&&this.url.charAt(1)==='N'){
+
       this.url=  this.url.replace('!',this.getDate());
       this.url = this.url.substring(2, this.url.length);
+      console.log(this.getDate());
     }
-    var str =new Date().toJSON("jj/mm/yy");
-    var n = str.search("T");
-
-  console.log(this.url);
+ 
 
     this.getDataFromUrl( this.url);
 }

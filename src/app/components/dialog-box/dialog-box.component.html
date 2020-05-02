@@ -307,7 +307,7 @@ height: 50%;margin-top: -5%;" >
 <ng-template #elseTemplate>
   <div fxLayout="row" fxFlex ="30" fxLayoutGap="10px"
   class="border-style" style="margin-top: 1%;" >
-    <h1> create Request </h1> 
+    <h1> Functionality </h1> 
     <div fxLayout="row" fxLayoutAlign="space-around center">
     <div fxLayout="row" fxFlex  >
 
@@ -326,7 +326,7 @@ height: 50%;margin-top: -5%;" >
 <div fxLayout="row" fxFlex >
 
       
-  <mat-label fxFlex="30" class="text-color">Cretere : <span style=" color: #ffa000;">*</span>: </mat-label>
+  <mat-label fxFlex="30" class="text-color">By : <span style=" color: #ffa000;">*</span>: </mat-label>
 <mat-form-field>
     <mat-select  [(ngModel)]="attribute"  (selectionChange)="getProperty()">
         <mat-option   *ngFor="let item of attributes let id =index" [value]="{att: item.$.name, index: id}">
@@ -339,13 +339,27 @@ height: 50%;margin-top: -5%;" >
   <div fxLayout="row" fxFlex >
 
       
-    <mat-label fxFlex="30" class="text-color">Property : <span style=" color: #ffa000;">*</span>: </mat-label>
+    <mat-label fxFlex="30" class="text-color">Property :{{     filterType    }} <span style=" color: #ffa000;">*</span>: </mat-label>
 <mat-form-field>
     <mat-select  [(ngModel)]="property" >
-        <mat-option   *ngFor="let item of  attributesValues ; let id =index" [value]="item.$.name">
+      <ng-container  *ngIf="  filterType =='date'" >
+      <mat-option 
+        
+      *ngFor="let item of 
+    
+      DatePropertyName ; let id =index"
+      
+      [value]="DateProperty[id]">
+          {{item }}
+  
+      </mat-option>
+    </ng-container>
+      <ng-container *ngIf="  filterType =='array'" >
+        <mat-option    *ngFor="let item of  attributesValues ; let id =index" [value]="item.$.name">
             {{item.$.value}}
     
         </mat-option>
+        </ng-container>
     </mat-select >
   </mat-form-field>
   </div>
@@ -355,7 +369,7 @@ height: 50%;margin-top: -5%;" >
     <mat-label fxFlex="30" class="text-color">Date : <span style=" color: #ffa000;">*</span>: </mat-label>
   <mat-form-field>
     <mat-label>Choose a date</mat-label>
-    <input matInput [matDatepicker]="picker" #date>
+    <input matInput [matDatepicker]="picker" #date >
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
