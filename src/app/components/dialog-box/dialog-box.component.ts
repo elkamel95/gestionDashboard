@@ -6,11 +6,18 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { ValidatorRequired } from 'src/app/shared/custom-validator/ValidatorRequired';
 import { ServiceWidgetService } from 'src/app/services/widget/service-widget.service';
 import { XmlService } from 'src/app/services/XmlData/xml.service';
+import { url } from 'inspector';
 
 
 export interface Type {
   id:string ;
   name :string ; 
+
+}
+export class Url {
+  by:string ; 
+  property:string ; 
+  value:string ; 
 
 }
 
@@ -30,7 +37,7 @@ export class DialogBoxComponent implements OnInit{
   public attributes =[] ;
   public attributesValues =[] ;
   public requests =[] ;
-
+public urlRequest :Url =new Url();
 public property ="";
  public entity ="" ;
  public attribute :any ={};
@@ -39,8 +46,9 @@ public property ="";
   widgetControleForm: FormGroup;
   chartOptions ={};
   screenWidth :number ;
-  DateProperty= ["after","before","strictly_after","strictly_before"];
-  DatePropertyName= ["after","before","strictly after","strictly before"];
+  dateProperty= ["after","before","strictly_after","strictly_before"];
+  datePropertyName= ["after","before","strictly after","strictly before"];
+  isactive=false ;
 filterType =""; 
     types:Type [] = [ 
     {'id':"1" , 'name':'indicateur'},
@@ -73,6 +81,34 @@ filterType ="";
     this.local_data = {...this.Alldata};
     this.action = this.local_data.action;
 
+if(this.data.url !=undefined)
+
+{
+    this.data.url  = this.data.url.substring(    this.data.url.indexOf("?")+1, this.data.url.length);
+    console.log( this.data.url.split('&'))
+    var array =this.data.url.split('&');
+    var arrayFin : [ Url] =[new Url()];
+
+      array.forEach(element => {
+        var array =element.split('=');
+        var request:Url =new Url();
+        console.log(array[0].indexOf("["));
+      if(array[0].indexOf("[")!=-1)  
+      request.by=array[0].substring(0,array[0].indexOf("["));
+      else
+      request.by=array[0];
+
+      if(request.by === '"exists"')
+     { request.property=request.by;
+      request.by = array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"));}
+     else
+
+{   request.property = array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"));}
+
+      request.value=array[1];
+        arrayFin.push(request);
+      });}
+console.log(arrayFin);
     this.xml.loadXML() .subscribe((data) => {  
       this.xml.parseXML(data)  
   
@@ -80,7 +116,18 @@ filterType ="";
               this.items = datas; 
               this.entity = datas[0].entitys.name ; 
               this.attributes=datas[0].attributes;
+              var i=0;
+          //    console.log(arrayFin[1].substring(0,this.data.url.indexOf("[")));
 
+              /*arrayFin.forEach(element => {
+
+if( this.attributes[i].name == element.substring(0,this.data.url.indexOf("[")))
+{
+  console.log(this.attributes[i].value);
+
+}
+i++ ;      });*/
+         
          console.log(this.attributes);
             });  
          
@@ -228,13 +275,11 @@ this.data.url ="";
   }
 
   getProperty(){
-    console.log("dd"+this.attribute.index);
 
     this.xml.loadXML() .subscribe((data) => {  
       this.xml.parseXML(data)  
   
             .then((datas) => {  
-              console.log(datas[this.index].attributes[this.attribute.index].$.type  );
               this.filterType=datas[this.index].attributes[this.attribute.index].$.type  ;
 
               if( datas[this.index].attributes[this.attribute.index].property  != undefined)
@@ -243,7 +288,6 @@ this.data.url ="";
          else
 {         this.attributesValues=[];
 }
-console.log( this.attributesValues  );
 
             });  
 
@@ -266,18 +310,28 @@ console.log( this.attributesValues  );
   
   }
 
-generateUrl(date){
+generateUrl(input?){
+  console.log(this.filterType.toString());
   var url =  this.data.url !=undefined? this.data.url: '' ;
-if(this.filterType.toString() ==='date')
-  this.data.url = `${this.attribute.att}[${this.property}]=${date.value}${this.and}${url}`;
+if(this.filterType.toString() ==='date' || this.filterType.toString() =='numeric')
+  this.data.url = `${this.attribute.att}[${this.property}]=${input.value}${this.and}${url}`;
 else if(this.filterType.toString() ==='array')
 this.data.url = `${this.attribute.att}=${this.property}${this.and}${url}`;
+else if (this.filterType.toString() ==='boolean')
+this.data.url = `exists[${this.attribute.att}]=${this.property}${this.and}${url}`;
+else
+  this.data.url = `${this.attribute.att}=${input.value}${this.and}${url}`;
+
 
   this.nameButtonNext ="Create"
   this.nameButtonBack="Close"
 this.enterPoint= `api/${this.entity}?`;
+  this.urlRequest.by=this.attribute.val;
+  this.urlRequest.property=this.property ;
+  if(input.value !=undefined)
+  this.urlRequest.value=input.value ;
 
-this.requests.push(this.data.url );
+this.requests.push(this.urlRequest );
 console.log( this.requests);
 
  this.and="&"

@@ -305,14 +305,16 @@ height: 50%;margin-top: -5%;" >
 </div>
 </ng-container>
 <ng-template #elseTemplate>
-  <div fxLayout="row" fxFlex ="30" fxLayoutGap="10px"
-  class="border-style" style="margin-top: 1%;" >
+  <div fxLayout="column"   fxLayoutGap="50px" fxFlex="100%" style="margin-top: -9%;">
+
+  <div fxLayout="row"  fxLayoutAlign="start start"   fxLayoutGap="20px"
+  class="border-style"  >
     <h1> Functionality </h1> 
     <div fxLayout="row" fxLayoutAlign="space-around center">
     <div fxLayout="row" fxFlex  >
 
       
-    <mat-label fxFlex="30" class="text-color">Entity : <span style=" color: #ffa000;">*</span>: </mat-label>
+    <mat-label fxFlex class="text-color">Entity : <span style=" color: #ffa000;">*</span>: </mat-label>
 
     <mat-form-field>
     <mat-select fxFlex [(ngModel)]="index" #device (selectionChange)="getAttributes()">
@@ -326,30 +328,30 @@ height: 50%;margin-top: -5%;" >
 <div fxLayout="row" fxFlex >
 
       
-  <mat-label fxFlex="30" class="text-color">By : <span style=" color: #ffa000;">*</span>: </mat-label>
+  <mat-label fxFlex class="text-color">By : <span style=" color: #ffa000;">*</span>: </mat-label>
 <mat-form-field>
     <mat-select  [(ngModel)]="attribute"  (selectionChange)="getProperty()">
-        <mat-option   *ngFor="let item of attributes let id =index" [value]="{att: item.$.name, index: id}">
+        <mat-option   *ngFor="let item of attributes let id =index" [value]="{att: item.$.name, index: id ,val:item.$.value}">
             {{item.$.value}}
     
         </mat-option>
     </mat-select >
   </mat-form-field>
   </div>
-  <div fxLayout="row" fxFlex >
+  <div fxLayout="row" fxFlex *ngIf="  filterType !=='string'">
 
       
-    <mat-label fxFlex="30" class="text-color">Property :{{     filterType    }} <span style=" color: #ffa000;">*</span>: </mat-label>
+    <mat-label fxFlex class="text-color">Property :{{     filterType    }} <span style=" color: #ffa000;">*</span>: </mat-label>
 <mat-form-field>
-    <mat-select  [(ngModel)]="property" >
+    <mat-select  [(ngModel)]="property"  >
       <ng-container  *ngIf="  filterType =='date'" >
       <mat-option 
         
       *ngFor="let item of 
     
-      DatePropertyName ; let id =index"
+      datePropertyName ; let id =index"
       
-      [value]="DateProperty[id]">
+      [value]="dateProperty[id]">
           {{item }}
   
       </mat-option>
@@ -360,27 +362,89 @@ height: 50%;margin-top: -5%;" >
     
         </mat-option>
         </ng-container>
+        <ng-container *ngIf="  filterType =='boolean'" >
+          <mat-option     value="1">
+true      
+          </mat-option>
+          <mat-option     value="0">
+            false      
+                      </mat-option>
+          </ng-container>
+          <ng-container *ngIf="  filterType =='numeric'" >
+            <mat-option    value="lt">lower than</mat-option>
+            <mat-option    value="gt">greater than</mat-option>
+             <mat-option   value="lte">lower than or equal</mat-option>
+             <mat-option   value="gte">greater than or equal</mat-option>
+ <mat-option     value="between">between two values.</mat-option>
+            </ng-container>
+
+    
     </mat-select >
   </mat-form-field>
   </div>
-  <div fxLayout="row" fxFlex >
+  <ng-container  [ngSwitch]="filterType">
+  
+  <ng-container  *ngSwitchCase="'date'" >
+    <div fxLayout="row" fxFlex  >
 
       
-    <mat-label fxFlex="30" class="text-color">Date : <span style=" color: #ffa000;">*</span>: </mat-label>
-  <mat-form-field>
-    <mat-label>Choose a date</mat-label>
-    <input matInput [matDatepicker]="picker" #date >
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
-</div>
+      <mat-label fxFlex="30" class="text-color">Date : <span style=" color: #ffa000;">*</span>: </mat-label>
+    <mat-form-field>
+      <mat-label>Choose a date</mat-label>
+      <input matInput [matDatepicker]="picker" #date   >
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </div>
+  <button  mat-button color="accent" (click)="generateUrl(date)"><mat-icon class="mat-icon-size">add_circle</mat-icon></button>
+
+  </ng-container>
+  
+  <ng-container   *ngSwitchCase="'numeric'" >
+    <div fxLayout="row" fxFlex  >
+
+      
+      <mat-label fxFlex class="text-color">Value : <span style=" color: #ffa000;">*</span>: </mat-label>
+    <mat-form-field>
+      <input matInput type="number" #num   >
+
+    </mat-form-field>
+  </div>
+  <button  mat-button color="accent" (click)="generateUrl(num)"><mat-icon class="mat-icon-size">add_circle</mat-icon></button>
+
+  </ng-container> 
+  <ng-container   *ngSwitchCase="'string'" >
+    <div fxLayout="row" fxFlex  >
+
+      
+      <mat-label fxFlex class="text-color">Value : <span style=" color: #ffa000;">*</span>: </mat-label>
+    <mat-form-field>
+      <input matInput type="text" #txt   >
+
+    </mat-form-field>
+  </div>
+  <button  mat-button color="accent" (click)="generateUrl(txt)"><mat-icon class="mat-icon-size">add_circle</mat-icon></button>
+
+  </ng-container> 
+  <ng-container *ngSwitchDefault>
+    <button  mat-button color="accent" (click)="generateUrl()"><mat-icon class="mat-icon-size">add_circle</mat-icon></button>
+
+  </ng-container>
 
 
-    <button  mat-button color="accent" (click)="generateUrl(date)"><mat-icon class="mat-icon-size">add_circle</mat-icon></button>
+</ng-container>
+
 </div>
 </div>
-<div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="gappx">
-  <box-request></box-request>
+
+<div fxLayout="row">
+
+  <div fxLayout="row" *ngFor="let item of requests" >
+    <box-request [by]="item.by"     [property]="item.property"
+    [value]="item.value"></box-request>
+  </div>
+</div>
+
 </div>
   </ng-template>
 
