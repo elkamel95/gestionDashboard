@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>  
   <entitys>
 <entity   name= "users" enterpoint = "api/users" value="core users">
-  <attribute name ="name_user " value="name" type="string"> </attribute>
+  <attribute name ="name_user" value="name" type="string"> </attribute>
   <attribute name = "last_name" value="last name" type="string" ></attribute>
   <attribute name ="email _user" value= "email" type="string"></attribute>
   <attribute name ="createAt" value= "creation date" type="date"></attribute>

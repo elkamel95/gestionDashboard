@@ -1,10 +1,21 @@
 
 <mat-card class="box-card">
     <mat-card class="box-header">
-        <p style="color: white;">  {{ by }} </p>  
+        <div fxLayout="row"  >
+            <div fxFlex="50" class="title" >
+
+            <p  style="color: white;">  
+            
+            {{ by }} </p>  
+</div>
+
+                <mat-icon class="icon" >remove_circle</mat-icon>
+        </div>
+
+  
      
     </mat-card> 
 
-    property:{{property}} 
-    value:{{value}}
+  <p>property:{{property}} </p>  
+   <p>value:{{value}}</p> 
 </mat-card>

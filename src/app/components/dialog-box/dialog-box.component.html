@@ -437,11 +437,16 @@ true
 </div>
 </div>
 
-<div fxLayout="row">
+<div fxLayout="row" fxLayoutGap="60px">
 
-  <div fxLayout="row" *ngFor="let item of requests" >
-    <box-request [by]="item.by"     [property]="item.property"
-    [value]="item.value"></box-request>
+  <div fxLayout="row" 
+  *ngFor="let request of requests" >
+    <box-request [by]="request.by"   
+      [property]="request.property"
+    [value]="request.value">
+  
+  
+  </box-request>
   </div>
 </div>
 

@@ -6,7 +6,6 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { ValidatorRequired } from 'src/app/shared/custom-validator/ValidatorRequired';
 import { ServiceWidgetService } from 'src/app/services/widget/service-widget.service';
 import { XmlService } from 'src/app/services/XmlData/xml.service';
-import { url } from 'inspector';
 
 
 export interface Type {
@@ -36,7 +35,7 @@ export class DialogBoxComponent implements OnInit{
   public and=""
   public attributes =[] ;
   public attributesValues =[] ;
-  public requests =[] ;
+  public requests =[new Url()] ;
 public urlRequest :Url =new Url();
 public property ="";
  public entity ="" ;
@@ -49,6 +48,7 @@ public property ="";
   dateProperty= ["after","before","strictly_after","strictly_before"];
   datePropertyName= ["after","before","strictly after","strictly before"];
   isactive=false ;
+  update=false ;
 filterType =""; 
     types:Type [] = [ 
     {'id':"1" , 'name':'indicateur'},
@@ -80,35 +80,12 @@ filterType ="";
       this.data=  Alldata.element;
     this.local_data = {...this.Alldata};
     this.action = this.local_data.action;
+    this.update = false ;
 
+/* if the action is updated, call the URL decryption method   */ 
 if(this.data.url !=undefined)
+  this.decryptageUrl();
 
-{
-    this.data.url  = this.data.url.substring(    this.data.url.indexOf("?")+1, this.data.url.length);
-    console.log( this.data.url.split('&'))
-    var array =this.data.url.split('&');
-    var arrayFin : [ Url] =[new Url()];
-
-      array.forEach(element => {
-        var array =element.split('=');
-        var request:Url =new Url();
-        console.log(array[0].indexOf("["));
-      if(array[0].indexOf("[")!=-1)  
-      request.by=array[0].substring(0,array[0].indexOf("["));
-      else
-      request.by=array[0];
-
-      if(request.by === '"exists"')
-     { request.property=request.by;
-      request.by = array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"));}
-     else
-
-{   request.property = array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"));}
-
-      request.value=array[1];
-        arrayFin.push(request);
-      });}
-console.log(arrayFin);
     this.xml.loadXML() .subscribe((data) => {  
       this.xml.parseXML(data)  
   
@@ -135,6 +112,59 @@ i++ ;      });*/
   }
   selectedColor($event){
     //}   this.data.textColor = $event};
+  }
+  /* create a query by properties, criteria and values   */ 
+
+  cryptageUrl(){
+    var newUrl =""
+    var and ="&"
+    this.requests.forEach(element=>{
+    if(element.property !="") 
+    {
+      if(element.property === 'exists') 
+      newUrl = `exists[${element.by}]=${element.property}`;
+
+      else
+      newUrl = `${element.by}[${element.property}]=${element.value}`;
+
+    }else {
+      newUrl=`${element.by}=${element.property}`;
+
+    }
+    this.data.url.concat(and);
+    this.data.url.concat(newUrl);
+    
+    })
+  }
+  /* returns the properties, criteria and values ​​of a string URL */ 
+
+  decryptageUrl(){
+    this.update =true ;
+    this.and="&"
+
+    this.enterPoint= this.data.url.substring(  0,  this.data.url.indexOf("?")+1);
+      this.data.url  = this.data.url.substring(    this.data.url.indexOf("?")+1, this.data.url.length);
+      var array =this.data.url.split('&');
+  
+        array.forEach(element => {
+          var array =element.split('=');
+          var request:Url =new Url();
+          console.log(array[0].indexOf("["));
+        if(array[0].indexOf("[")!=-1)  
+        request.by=array[0].substring(0,array[0].indexOf("["));
+        else
+        request.by=array[0];
+  
+        if(request.by === '"exists"')
+       { request.property=request.by;
+        request.by = array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"));}
+       else
+  
+  {   request.property = array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"));}
+  
+        request.value=array[1];
+        this.requests.push(request);
+        });
   }
 ngOnInit(): void {  
   this.screenWidth=this.serviceWidge.screenWidth - (10*this.serviceWidge.screenWidth/100);
@@ -259,6 +289,7 @@ this.data.url ="";
     if(this.data.nameFr&&this.data.nameEn && this.data.description && this.next == 2 ) 
   {  this.dialogRef.close({event:this.action,data:this.data});
     this.data.url = this.enterPoint+this.data.url ;
+    this.cryptageUrl();
     console.log(  this.data.url);
   }
 
@@ -332,8 +363,8 @@ this.enterPoint= `api/${this.entity}?`;
   this.urlRequest.value=input.value ;
 
 this.requests.push(this.urlRequest );
+this.urlRequest =new Url();
 console.log( this.requests);
-
  this.and="&"
 
 }
