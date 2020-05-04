@@ -6,6 +6,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { ValidatorRequired } from 'src/app/shared/custom-validator/ValidatorRequired';
 import { ServiceWidgetService } from 'src/app/services/widget/service-widget.service';
 import { XmlService } from 'src/app/services/XmlData/xml.service';
+import { async } from 'rxjs/internal/scheduler/async';
 
 
 export interface Type {
@@ -17,6 +18,7 @@ export class Url {
   by:string ; 
   property:string ; 
   value:string ; 
+  type:string;
 
 }
 
@@ -117,25 +119,29 @@ i++ ;      });*/
 
   cryptageUrl(){
     var newUrl =""
-    var and ="&"
+    var url ="";
     this.requests.forEach(element=>{
-    if(element.property !="") 
-    {
-      if(element.property === 'exists') 
-      newUrl = `exists[${element.by}]=${element.property}`;
+      if(element.by !=undefined)
+   { 
 
-      else
-      newUrl = `${element.by}[${element.property}]=${element.value}`;
+    if(element.type.toString() ==='date' || element.type.toString()  =='numeric')
+    newUrl = `${element.by}[${element.property}]=${element.value}${this.and}${url}`;
 
-    }else {
-      newUrl=`${element.by}=${element.property}`;
+    else if (element.type.toString() ==='boolean')
+    newUrl = `exists[${element.by}]=${element.property}${this.and}${url}`;
+    else
+    newUrl= `${element.by}=${element.value}${this.and}${url}`;
+    url =  newUrl ;
 
-    }
-    this.data.url.concat(and);
-    this.data.url.concat(newUrl);
-    
-    })
+      this.and="&"
+
   }
+    
+    });
+    return url ;
+  }
+
+ 
   /* returns the properties, criteria and values ​​of a string URL */ 
 
   decryptageUrl(){
@@ -151,17 +157,34 @@ i++ ;      });*/
           var request:Url =new Url();
           console.log(array[0].indexOf("["));
         if(array[0].indexOf("[")!=-1)  
-        request.by=array[0].substring(0,array[0].indexOf("["));
-        else
-        request.by=array[0];
+{        request.by=array[0].substring(0,array[0].indexOf("["));
+
+if(request.by === '"exists"')
+{ 
   
-        if(request.by === '"exists"')
-       { request.property=request.by;
-        request.by = array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"));}
-       else
+ request.property=request.by;
+ request.by = array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"));
+ request.type="boolean"
+}
+else
+
+ {  
+request.property = array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"));
+
+request.type="date"
+
+}
+}        else
+      { 
+         request.by=array[0];
+         request.type="string || array";
+
+      }
   
-  {   request.property = array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"));}
+       
+
   
+
         request.value=array[1];
         this.requests.push(request);
         });
@@ -282,15 +305,19 @@ this.data.url ="";
 
 
  }
-  doAction(){
+ async doAction(){
     if(this.next <=2 && this.data.nameFr&&this.data.nameEn && this.data.description )
     this.next++;
 
     if(this.data.nameFr&&this.data.nameEn && this.data.description && this.next == 2 ) 
   {  this.dialogRef.close({event:this.action,data:this.data});
-    this.data.url = this.enterPoint+this.data.url ;
-    this.cryptageUrl();
-    console.log(  this.data.url);
+    await  this.cryptageUrl();
+
+      this.data.url = this.enterPoint+ (this.cryptageUrl().charAt(this.cryptageUrl().length-1)=='&'? this.cryptageUrl().substring(0,this.cryptageUrl().length-1):this.cryptageUrl()) ;
+
+    
+    console.log(        this.data.url  );
+
   }
 
 
@@ -342,7 +369,7 @@ this.data.url ="";
   }
 
 generateUrl(input?){
-  console.log(this.filterType.toString());
+/*  console.log(this.filterType.toString());
   var url =  this.data.url !=undefined? this.data.url: '' ;
 if(this.filterType.toString() ==='date' || this.filterType.toString() =='numeric')
   this.data.url = `${this.attribute.att}[${this.property}]=${input.value}${this.and}${url}`;
@@ -353,20 +380,36 @@ this.data.url = `exists[${this.attribute.att}]=${this.property}${this.and}${url}
 else
   this.data.url = `${this.attribute.att}=${input.value}${this.and}${url}`;
 
+*/
 
-  this.nameButtonNext ="Create"
-  this.nameButtonBack="Close"
+
+this.update?this.nameButtonNext ="Update":this.nameButtonNext ="Create";
+  this.nameButtonBack="Close";
 this.enterPoint= `api/${this.entity}?`;
-  this.urlRequest.by=this.attribute.val;
+  this.urlRequest.by=this.attribute.att;
+  if(this.filterType.toString() =="array")
+  this.urlRequest.value=this.property ;
+  else
   this.urlRequest.property=this.property ;
+
+  this.urlRequest.type =this.filterType ;
   if(input.value !=undefined)
   this.urlRequest.value=input.value ;
 
 this.requests.push(this.urlRequest );
 this.urlRequest =new Url();
 console.log( this.requests);
- this.and="&"
 
+}
+removeByIndex(index){
+  console.log(index);
+  if (index > -1) {
+
+  this.requests.splice(index,1);
+  console.log( this.requests);
+  console.log(  this.requests.slice(index,1));
+
+  }
 }
 
 }

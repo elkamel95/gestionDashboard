@@ -427,7 +427,7 @@ true
 
   </ng-container> 
   <ng-container *ngSwitchDefault>
-    <button  mat-button color="accent" (click)="generateUrl()"><mat-icon class="mat-icon-size">add_circle</mat-icon></button>
+    <button  mat-button color="accent" (click)="generateUrl('')"><mat-icon class="mat-icon-size">add_circle</mat-icon></button>
 
   </ng-container>
 
@@ -440,13 +440,14 @@ true
 <div fxLayout="row" fxLayoutGap="60px">
 
   <div fxLayout="row" 
-  *ngFor="let request of requests" >
+  *ngFor="let request of requests let index=index ;" >
     <box-request [by]="request.by"   
+
       [property]="request.property"
-    [value]="request.value">
+    [value]="request.value"
+  (removeFilter)="removeByIndex(index)">
+</box-request>
   
-  
-  </box-request>
   </div>
 </div>
 

@@ -16,4 +16,7 @@ export class BoxRequestComponent implements OnInit {
   ngOnInit() {
   }
 
+  removeQuery(){
+    this.removeFilter.emit();
+  }
 }
