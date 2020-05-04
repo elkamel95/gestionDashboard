@@ -38,6 +38,7 @@ export class DialogBoxComponent implements OnInit{
   public attributes =[] ;
   public attributesValues =[] ;
   public requests =[new Url()] ;
+  public isDynamic =false;
 public urlRequest :Url =new Url();
 public property ="";
  public entity ="" ;
@@ -47,8 +48,8 @@ public property ="";
   widgetControleForm: FormGroup;
   chartOptions ={};
   screenWidth :number ;
-  dateProperty= ["after","before","strictly_after","strictly_before"];
-  datePropertyName= ["after","before","strictly after","strictly before"];
+  dateProperty= ["after","before","strictly_after","strictly_before","#DN#"];
+  datePropertyName= ["after","before","strictly after","strictly before","today"];
   isactive=false ;
   update=false ;
 filterType =""; 
@@ -96,16 +97,7 @@ if(this.data.url !=undefined)
               this.entity = datas[0].entitys.name ; 
               this.attributes=datas[0].attributes;
               var i=0;
-          //    console.log(arrayFin[1].substring(0,this.data.url.indexOf("[")));
-
-              /*arrayFin.forEach(element => {
-
-if( this.attributes[i].name == element.substring(0,this.data.url.indexOf("[")))
-{
-  console.log(this.attributes[i].value);
-
-}
-i++ ;      });*/
+         
          
          console.log(this.attributes);
             });  
@@ -115,7 +107,7 @@ i++ ;      });*/
   selectedColor($event){
     //}   this.data.textColor = $event};
   }
-  /* create a query by properties, criteria and values   */ 
+  /* create a query by properties, criteria , values and types   */ 
 
   cryptageUrl(){
     var newUrl =""
@@ -142,7 +134,7 @@ i++ ;      });*/
   }
 
  
-  /* returns the properties, criteria and values ​​of a string URL */ 
+  /* returns an array of type url. all properties, criteria, filter types and values ​​of a string (query)*/ 
 
   decryptageUrl(){
     this.update =true ;
@@ -312,7 +304,7 @@ this.data.url ="";
     if(this.data.nameFr&&this.data.nameEn && this.data.description && this.next == 2 ) 
   {  this.dialogRef.close({event:this.action,data:this.data});
     await  this.cryptageUrl();
-
+    this.enterPoint=this.isDynamic? '!'+this.enterPoint:this.enterPoint;
       this.data.url = this.enterPoint+ (this.cryptageUrl().charAt(this.cryptageUrl().length-1)=='&'? this.cryptageUrl().substring(0,this.cryptageUrl().length-1):this.cryptageUrl()) ;
 
     
@@ -369,29 +361,24 @@ this.data.url ="";
   }
 
 generateUrl(input?){
-/*  console.log(this.filterType.toString());
-  var url =  this.data.url !=undefined? this.data.url: '' ;
-if(this.filterType.toString() ==='date' || this.filterType.toString() =='numeric')
-  this.data.url = `${this.attribute.att}[${this.property}]=${input.value}${this.and}${url}`;
-else if(this.filterType.toString() ==='array')
-this.data.url = `${this.attribute.att}=${this.property}${this.and}${url}`;
-else if (this.filterType.toString() ==='boolean')
-this.data.url = `exists[${this.attribute.att}]=${this.property}${this.and}${url}`;
-else
-  this.data.url = `${this.attribute.att}=${input.value}${this.and}${url}`;
-
-*/
-
 
 this.update?this.nameButtonNext ="Update":this.nameButtonNext ="Create";
   this.nameButtonBack="Close";
 this.enterPoint= `api/${this.entity}?`;
   this.urlRequest.by=this.attribute.att;
+
   if(this.filterType.toString() =="array")
   this.urlRequest.value=this.property ;
-  else
+  else 
   this.urlRequest.property=this.property ;
 
+
+  if(this.property =='#DN#')
+  {
+    this.urlRequest.property="after"
+    input.value='#DN#';
+    this.isDynamic=true;
+  }
   this.urlRequest.type =this.filterType ;
   if(input.value !=undefined)
   this.urlRequest.value=input.value ;

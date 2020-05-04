@@ -33,14 +33,14 @@ var year = currentDate.getFullYear();
     this.height ="70%"
     if(this.url !=undefined)
    { 
-    //  DN:  data now  
-     if(this.url.charAt(0)==='D'&&this.url.charAt(1)==='N'){
+    //  #DN#:  data now  
+     if(this.url.charAt(0)==='!'){
 
-      this.url=  this.url.replace('!',this.getDate());
-      this.url = this.url.substring(2, this.url.length);
-      console.log(this.getDate());
+      this.url=  this.url.replace('#DN#',this.getDate());
+      this.url = this.url.substring(1, this.url.length);
     }
- 
+    console.log( this.url);
+
 
     this.getDataFromUrl( this.url);
 }
