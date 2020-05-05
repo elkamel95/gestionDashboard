@@ -1,21 +1,26 @@
 
-<mat-card class="box-card">
-    <mat-card class="box-header">
-        <div fxLayout="row"  >
-            <div fxFlex="50" class="title" >
 
-            <p  style="color: white;">  
-            
-            {{ by }} </p>  
-</div>
-
-             <button mat-button (click)= "removeQuery()"><mat-icon class="icon" >remove_circle</mat-icon></button>   
+<div fxLayout="column" fxLayoutGap="0px" class="box">
+    <div fxLayout="row" fxFlex="30" class="headerbox" fxLayoutAlign="space-between center" >
+         <div fxFlex fxFlexOffset="50px">
+             <p> {{ by }}</p>
+         </div>
+         <div fxFlex  fxFlexOffset="3px">
+            <button mat-button (click)= "removeQuery()"><mat-icon class="icon" >remove_circle</mat-icon></button>   
         </div>
 
-  
-     
+    </div>
+    
+    <div fxLayout="row" fxFlex="70" fxLayoutAlign="space-between center" >
+        <mat-card fxFlex="100" >
+        
+      <p>property:{{property}} </p>  
+      <p>value:{{value}}</p> 
+    
     </mat-card> 
-
-  <p>property:{{property}} </p>  
-   <p>value:{{value}}</p> 
-</mat-card>
+    </div>
+    
+    <div fxLayout="row" fxFlex="10" fxLayoutAlign="space-between center" >
+        
+    </div>
+    </div>

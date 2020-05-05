@@ -14,7 +14,7 @@ export class SnackbarService {
 
   }
 
-  public open(message, action = 'success', style, duration = 4000) {
+  public open(message, action = 'success', style, duration = 3000) {
    
     this.zone.run(() => {
       this.snackBar.open(message, action, { duration,panelClass:style},)

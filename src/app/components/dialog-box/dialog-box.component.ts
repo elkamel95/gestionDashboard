@@ -180,6 +180,7 @@ request.type="date"
         request.value=array[1];
         this.requests.push(request);
         });
+        
   }
 ngOnInit(): void {  
   this.screenWidth=this.serviceWidge.screenWidth - (10*this.serviceWidge.screenWidth/100);

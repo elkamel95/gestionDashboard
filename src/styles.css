@@ -7,13 +7,24 @@ body { margin: 0; font-family: 'Poppins', sans-serif; font-family: 'Lalezar', cu
 .success {
     color: white !important;
     background-color:darkgreen !important;
- 
+
+    transform: translate(50%, 50%);
+    top: 30%;
+    left: 40%;
+    position: absolute;
+    border-radius: 10%;
+    
 }
 
 .error {
     color: white !important;
     background-color:darkred !important;
  
+    transform: translate(50%, 50%);
+    top: 30%;
+    left: 40%;
+    position: absolute;
+    border-radius: 10%;
 }
 .mat-simple-snackbar-action {
     color: white !important;
