@@ -11,23 +11,7 @@
   </ng-template>
       <div fxLayout="column" fxLayoutGap="20px" fxFlex class="border-style"  >
         <h1>Text</h1>
-        <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-around start" fxFlex   >
 
-  <div fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="space-around start" >
-    <mat-label  fxFlexAlign="center" class="text-color">Text Color  : </mat-label>
-    <mcc-color-picker  hideButtons="true"  [selectedColor]="data.textColor" (selected)=" data.textColor =$event ;
-              ">
-              </mcc-color-picker> 
-          
-          </div>
-   <div fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="space-around start" *ngIf="(data.type === '1'  || data.type === '2')" >
-         <mat-label  fxFlexAlign="center" class="text-color">Indicator :</mat-label>
-
-            <mcc-color-picker  hideButtons="true"  [selectedColor]="data.colorSmallWidget"  (selected)=" data.colorSmallWidget =$event ;  "></mcc-color-picker> 
-          
-      
-          </div>
-        </div>
 
         <div  fxLayout="column" fxLayoutAlign="space-around start"   fxFlex>
                 <div fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="space-around start" fxFlex   >
@@ -53,7 +37,23 @@
               
                 </div>
        
+                <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-around start" fxFlex   >
 
+                  <div fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="space-around start" >
+                    <mat-label  fxFlexAlign="center" class="text-color">Text Color  : </mat-label>
+                    <mcc-color-picker  hideButtons="true"  [selectedColor]="data.textColor" (selected)=" data.textColor =$event ;
+                              ">
+                              </mcc-color-picker> 
+                          
+                          </div>
+                   <div fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="space-around start" *ngIf="(data.type === '1'  || data.type === '2')" >
+                         <mat-label  fxFlexAlign="center" class="text-color">Indicator :</mat-label>
+                
+                            <mcc-color-picker  hideButtons="true"  [selectedColor]="data.colorSmallWidget"  (selected)=" data.colorSmallWidget =$event ;  "></mcc-color-picker> 
+                          
+                      
+                          </div>
+                        </div>
         </div>
 
                 <div fxLayout="column"  fxFlex class="border-style"  >

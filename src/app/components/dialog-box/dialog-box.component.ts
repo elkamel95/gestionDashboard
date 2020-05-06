@@ -7,6 +7,7 @@ import { ValidatorRequired } from 'src/app/shared/custom-validator/ValidatorRequ
 import { ServiceWidgetService } from 'src/app/services/widget/service-widget.service';
 import { XmlService } from 'src/app/services/XmlData/xml.service';
 import { async } from 'rxjs/internal/scheduler/async';
+import { AuthenticationService } from 'src/app/services/Auth/authentication-service.service';
 
 
 export interface Type {
@@ -16,9 +17,11 @@ export interface Type {
 }
 export class Url {
   by:string ; 
+  name:string;
   property:string ; 
   value:string ; 
   type:string;
+  
 
 }
 
@@ -37,6 +40,8 @@ export class DialogBoxComponent implements OnInit{
   public and=""
   public attributes =[] ;
   public attributesValues =[] ;
+  public attributesName ='' ;
+
   public requests =[new Url()] ;
   public isDynamic =false;
 public urlRequest :Url =new Url();
@@ -48,8 +53,8 @@ public property ="";
   widgetControleForm: FormGroup;
   chartOptions ={};
   screenWidth :number ;
-  dateProperty= ["after","before","strictly_after","strictly_before","#DN#"];
-  datePropertyName= ["after","before","strictly after","strictly before","today"];
+  dateProperty= ["after","before","strictly_after","strictly_before","#DN#","#currentUser#"];
+  datePropertyName= ["after","before","strictly after","strictly before","today","current User"];
   isactive=false ;
   update=false ;
 filterType =""; 
@@ -76,7 +81,7 @@ filterType ="";
   data:Widget = new Widget() ; 
   submitted = true;
   next=0 ; 
-  constructor(private fb: FormBuilder, 
+  constructor(private fb: FormBuilder, private auth:AuthenticationService,
     public dialogRef: MatDialogRef<DialogBoxComponent>,private xml:XmlService,private serviceWidge:ServiceWidgetService,
     //@Optional() is used to prevent error if no data is passed
     @Optional() @Inject(MAT_DIALOG_DATA) public Alldata: any) {
@@ -84,7 +89,6 @@ filterType ="";
     this.local_data = {...this.Alldata};
     this.action = this.local_data.action;
     this.update = false ;
-
 /* if the action is updated, call the URL decryption method   */ 
 if(this.data.url !=undefined)
   this.decryptageUrl();
@@ -94,15 +98,59 @@ if(this.data.url !=undefined)
   
             .then((datas) => {  
               this.items = datas; 
-              this.entity = datas[0].entitys.name ; 
-              this.attributes=datas[0].attributes;
+              this.entity = datas[this.index].entitys.name ; 
+              this.attributes=datas[this.index].attributes;
               var i=0;
          
          
-         console.log(this.attributes);
             });  
          
         }); 
+     
+  }
+
+  translateValueToNameFromXml(attributeName){
+    var index =0;
+    return new Promise(resolve=>{
+       this.xml.loadXML() .subscribe((data) => {  
+        this.xml.parseXML(data)  
+    
+              .then((datas) => {  
+                this.items = datas; 
+
+             if(this.update)
+this.items.forEach(items => {
+if  (items.entitys.name != this.entity)
+{index++;
+}
+this.index =index ;
+
+});
+  
+        resolve(this.checkValueForAttribute(    datas[this.index].attributes,attributeName)  )
+           
+  
+  
+           
+              });  
+  
+          }); 
+
+
+    });
+ 
+    
+
+  }
+  checkValueForAttribute(attributes,attribute){
+    var value=""
+    attributes.forEach(att => {
+
+      if( att.$.name == attribute)  
+      value =att.$.value;
+    
+    });
+    return value;
   }
   selectedColor($event){
     //}   this.data.textColor = $event};
@@ -136,18 +184,18 @@ if(this.data.url !=undefined)
  
   /* returns an array of type url. all properties, criteria, filter types and values ​​of a string (query)*/ 
 
-  decryptageUrl(){
+   async decryptageUrl(){
     this.update =true ;
     this.and="&"
-
     this.enterPoint= this.data.url.substring(  0,  this.data.url.indexOf("?")+1);
+   var index =this.enterPoint.indexOf('/');
+   this.entity  =this.enterPoint.substring(  index+1,  this.data.url.indexOf("?"));
       this.data.url  = this.data.url.substring(    this.data.url.indexOf("?")+1, this.data.url.length);
       var array =this.data.url.split('&');
   
-        array.forEach(element => {
+        array.forEach( async element => {
           var array =element.split('=');
           var request:Url =new Url();
-          console.log(array[0].indexOf("["));
         if(array[0].indexOf("[")!=-1)  
 {        request.by=array[0].substring(0,array[0].indexOf("["));
 
@@ -178,6 +226,12 @@ request.type="date"
   
 
         request.value=array[1];
+     
+
+        await  this.translateValueToNameFromXml(    request.by).then(att=>{
+          request.name =att.toString();
+      
+          });
         this.requests.push(request);
         });
         
@@ -305,11 +359,12 @@ this.data.url ="";
     if(this.data.nameFr&&this.data.nameEn && this.data.description && this.next == 2 ) 
   {  this.dialogRef.close({event:this.action,data:this.data});
     await  this.cryptageUrl();
+    this.data.users = `api/users/${localStorage.getItem('idUser')}`;
     this.enterPoint=this.isDynamic? '!'+this.enterPoint:this.enterPoint;
+    
       this.data.url = this.enterPoint+ (this.cryptageUrl().charAt(this.cryptageUrl().length-1)=='&'? this.cryptageUrl().substring(0,this.cryptageUrl().length-1):this.cryptageUrl()) ;
 
     
-    console.log(        this.data.url  );
 
   }
 
@@ -343,6 +398,7 @@ this.data.url ="";
             });  
 
         }); 
+
   }
   getAttributes(){
     this.attributesValues=[];
@@ -361,7 +417,7 @@ this.data.url ="";
   
   }
 
-generateUrl(input?){
+async generateUrl(input?){
 
 this.update?this.nameButtonNext ="Update":this.nameButtonNext ="Create";
   this.nameButtonBack="Close";
@@ -384,18 +440,19 @@ this.enterPoint= `api/${this.entity}?`;
   if(input.value !=undefined)
   this.urlRequest.value=input.value ;
 
-this.requests.push(this.urlRequest );
+  await  this.translateValueToNameFromXml(this.urlRequest.by).then(att=>{
+    this.urlRequest.name =att.toString();
+
+    });
+    
+    this.requests.push(this.urlRequest );
 this.urlRequest =new Url();
-console.log( this.requests);
 
 }
 removeByIndex(index){
-  console.log(index);
   if (index > -1) {
-
   this.requests.splice(index,1);
-  console.log( this.requests);
-  console.log(  this.requests.slice(index,1));
+
 
   }
 }

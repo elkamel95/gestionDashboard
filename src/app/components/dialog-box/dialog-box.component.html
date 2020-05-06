@@ -25,7 +25,7 @@ fxLayoutAlign="start start">
 
     <div fxLayout="column"  >
 
-        <mat-label fxflex ="30" fxFlexAlign="start"
+        <mat-label  fxFlexAlign="start"
         class="text-color">Choose a name for your widget (francias)       : <span style=" color: #ffa000;">*</span> 
         </mat-label>
 
@@ -51,7 +51,7 @@ fxLayoutAlign="start start">
 
     <div fxLayout="column"  >
 
-      <mat-label fxflex ="30" fxFlexAlign="start"
+      <mat-label  fxFlexAlign="start"
       class="text-color">Choose a name for your widget (anglais)       : <span style=" color: #ffa000;">*</span> 
       </mat-label>
       <mat-form-field >
@@ -68,7 +68,7 @@ fxLayoutAlign="start start">
     </div>
     <div fxLayout="column"  >
 
-      <mat-label fxflex ="30" fxFlexAlign="start"
+      <mat-label  fxFlexAlign="start"
       class="text-color">Tell us more about your widget      : <span style=" color: #ffa000;">*</span> 
       </mat-label>
 <mat-form-field >
@@ -87,7 +87,7 @@ fxLayoutAlign="start start">
     </div>
     <div fxLayout="column"  >
 
-      <mat-label fxflex ="30" fxFlexAlign="start"
+      <mat-label fxFlexAlign="start"
       class="text-color">Select type for your widget      : <span style=" color: #ffa000;">*</span> 
       </mat-label>
 <mat-form-field appearance="fill">
@@ -108,7 +108,7 @@ fxLayoutAlign="start start">
 </div>
 
 </div>
-<div fxLayout="column"  fxFlex  class="border-style" >
+<div fxLayout="column"  fxFlex="100"  class="border-style" >
 <h1>Style</h1>
 <div fxLayout="row"  style="margin-top: -0.5%;" fxFlex  class="border-style">
 
@@ -136,7 +136,7 @@ fxLayoutAlign="start start">
 
 
 </div>
-<div fxLayout="column"  fxLayoutAlign="space-around start"   fxFlex>
+<div fxLayout="column"  fxLayoutAlign="space-around start"   fxFlex='15'>
 
   <div fxLayout="row"  fxLayoutAlign="space-around start" >
     <mat-label  fxFlexAlign="center" class="text-color">Text Color:<i style=" color: #ffa000;">*</i> </mat-label>
@@ -306,7 +306,7 @@ data.size,data.font)">
     <mat-label  fxFlexAlign="center" class="text-color">Entity :<i style=" color: #ffa000;">*</i> </mat-label>
 
     <mat-form-field>
-    <mat-select fxFlex [(ngModel)]="index" #device (selectionChange)="getAttributes()">
+    <mat-select [disabled]="requests.length > 1 ? true : false " fxFlex [(ngModel)]="index" #device (selectionChange)="getAttributes()">
         <mat-option   *ngFor="let item of items let index =index ; "  [value] ="index">
             {{item.entitys.value}}
     
@@ -426,7 +426,6 @@ true
 </div>
 
 <div fxLayout="row" fxLayoutGap="60px">
-
   <div fxLayout="row" 
   *ngFor="let request of requests let index=index ;" >
   
@@ -434,6 +433,8 @@ true
 
       [property]="request.property"
     [value]="request.value"
+    [name]="request.name"
+
   (removeFilter)="removeByIndex(index)">
 </box-request>
   

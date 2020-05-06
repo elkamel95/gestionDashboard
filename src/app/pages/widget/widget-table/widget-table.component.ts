@@ -77,9 +77,10 @@ title ="";
   
   }else{
     dialogRef = this.dialog.open(DialogBoxComponent, {
-      width: '99%',
+      width: '1000%',
       maxWidth:'100%',
       maxHeight:'100%',
+      minWidth:'100%',
       height:'95%',
       data:obj,
     },);

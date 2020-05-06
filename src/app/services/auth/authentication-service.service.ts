@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from 'src/app/models/User';
+import { UserService } from './user-service.service';
 
 
 @Injectable({ providedIn: 'root' })
@@ -12,7 +13,7 @@ export class AuthenticationService {
     public currentUser: Observable<User>;
   username: string="";
   public roles: string ="";
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, private userService: UserService) {
         this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
         this.currentUser = this.currentUserSubject.asObservable();
     }
@@ -48,7 +49,12 @@ let options = {
                  this.roles = decodedJwtData.roles.toString().split(',')[0];
                  localStorage.setItem('roles', JSON.stringify(this.roles));
                  localStorage.setItem('username', JSON.stringify(this.username));
+                 this.userService.
+                 getUsersBy(username).subscribe(profil=>{
+                   localStorage.setItem('idUser', profil[0].id);
 
+
+                 }) ;
 
                // location.reload(true);
                 return user;

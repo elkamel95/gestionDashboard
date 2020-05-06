@@ -1,3 +1,4 @@
+import { User } from './User';
 
 export class Widget {
  id : string ="";
@@ -19,5 +20,6 @@ colorSmallWidget: string;
 createAt : string;
 updateAt :string ;
 visible:boolean=false ;
+users:string;
 configOption?:{};
 }

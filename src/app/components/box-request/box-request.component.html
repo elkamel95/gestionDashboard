@@ -1,11 +1,11 @@
 
 
 <div fxLayout="column" fxLayoutGap="0px" class="box">
-    <div fxLayout="row" fxFlex="30" class="headerbox" fxLayoutAlign="space-between center" >
-         <div fxFlex fxFlexOffset="50px">
-             <p> {{ by }}</p>
+    <div fxLayout="row" fxFlex="40" class="headerbox" fxLayoutAlign="space-between center" >
+         <div  fxFlexOffset="50px">
+             <p> {{ name | titlecase }}</p>
          </div>
-         <div fxFlex  fxFlexOffset="3px">
+         <div   fxFlexOffset="3px">
             <button mat-button (click)= "removeQuery()"><mat-icon class="icon" >remove_circle</mat-icon></button>   
         </div>
 
@@ -13,9 +13,9 @@
     
     <div fxLayout="row" fxFlex="70" fxLayoutAlign="space-between center" >
         <mat-card fxFlex="100" >
-        
-      <p>property:{{property}} </p>  
-      <p>value:{{value}}</p> 
+    
+      <p *ngIf="property != undefined">Property :{{ property  | titlecase}}</p>  
+      <p>Value:{{value | titlecase}}</p> 
     
     </mat-card> 
     </div>

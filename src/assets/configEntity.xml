@@ -20,13 +20,24 @@
   </entity>
 
 <entity   name= "fournisseur" enterpoint = "api/fournisseur" value="fournisseur">
-    <attribute name ="name_user " value="name"> </attribute>
-    <attribute name = "last_name" value="last name" ></attribute>
-    <attribute name ="email _user" value= "email"></attribute>
-    <attribute name ="status" value="status">
-      <property name="" value="" ></property >
-      <property name="" value=""></property >
-      <property name="" value=""></property >
-</attribute>
+    <attribute name ="name_user " value="name" type="string"> </attribute>
+    <attribute name = "last_name" value="last name" type="string" ></attribute>
+    <attribute name ="email _user" value= "email" type="string"></attribute>
+  
+  </entity>
+  <entity   name= "widgets" enterpoint = "api/widgets" value="widgets">
+    <attribute name ="name_fr" value="name  (Francais)" type="string"> </attribute>
+    <attribute name = "name_en" value="name  (Anglais)" type="string" ></attribute>
+    <attribute name = "users.id " value="current user" type="string" >
+    </attribute>
+
+   <attribute name ="type" value= "type" type="array">
+       <property name="1"  value="indicator" ></property >
+       <property name="2"  value="indicator with list" ></property >
+       <property name="3"  value="list" ></property >
+       <property name="4"  value="graphic" ></property >
+
+    </attribute>
+  
   </entity>
 </entitys>

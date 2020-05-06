@@ -37,7 +37,9 @@ var year = currentDate.getFullYear();
      if(this.url.charAt(0)==='!'){
 
       this.url=  this.url.replace('#DN#',this.getDate());
+      this.url=  this.url.replace('#CU#',localStorage.getItem('idUser'));
       this.url = this.url.substring(1, this.url.length);
+
     }
     console.log( this.url);
 

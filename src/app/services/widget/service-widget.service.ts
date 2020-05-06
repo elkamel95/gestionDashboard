@@ -53,13 +53,13 @@ this.behaviorWidget.next(widget);
 
   getAllWidget(property) :Observable<Widget[]>{
 
-   return this.http.get<Widget[]>(this.url+"/api/widgets"+property,{headers: this.headers}).pipe(map(data => data['hydra:member']));
+   return this.http.get<Widget[]>(`${this.url}/api/widgets${property}&users.id=${localStorage.getItem('idUser')}`,{headers: this.headers}).pipe(map(data => data['hydra:member']));
   }
   
 
   getAllWidgetDashbord(npPage,itemsPerPage,GroupeBy?, order?,title?) :Observable<Widget[]>{
 
-    return this.http.get<Widget[]>(this.url+`/api/widgets?itemsPerPage=${itemsPerPage}&page=${npPage}&order[${GroupeBy}]=${order}&&name_fr=${title}`
+    return this.http.get<Widget[]>(this.url+`/api/widgets?itemsPerPage=${itemsPerPage}&page=${npPage}&order[${GroupeBy}]=${order}&&name_fr=${title}&&users.id=${localStorage.getItem('idUser')}`
     ,{headers: this.headers});
    }
   getDateTime(){
@@ -72,7 +72,7 @@ return new Date().toJSON("jj/mm/yy");;
   postWidget(widget:Widget){
 widget.createAt =this.getDateTime().toString();
 widget.updateAt =this.getDateTime().toString();
-
+console.log(widget);
     this.http.post<Widget>(this.url+"/api/widgets", widget).subscribe(()=>{
       this.refreshneeded.next ();
  

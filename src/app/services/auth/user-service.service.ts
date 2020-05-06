@@ -13,7 +13,7 @@ export class UserService {
         return this.http.get<User[]>(`${this.apiUrl}/users`);
     }
 getUsersBy(email){
-  return this.http.get(`${this.apiUrl}/users?email=`+email);
+  return this.http.get<User>(`${this.apiUrl}/users?email=${email}`).pipe(map(data => data['hydra:member']));
 
 }
     register(user: User) {
