@@ -12,10 +12,10 @@
     </div>
     
     <div fxLayout="row" fxFlex="70" fxLayoutAlign="space-between center" >
-        <mat-card fxFlex="100" >
+        <mat-card fxFlex="100" *ngIf="value.charAt(0) != '#'">
     
-      <p *ngIf="property != undefined">Property :{{ property  | titlecase}}</p>  
-      <p>Value:{{value | titlecase}}</p> 
+      <p *ngIf="property != undefined && value.charAt(0) != '#'">Property :{{ property  | titlecase}}</p>  
+      <p *ngIf="value.charAt(0) != '#'">Value:{{value | titlecase}}</p> 
     
     </mat-card> 
     </div>

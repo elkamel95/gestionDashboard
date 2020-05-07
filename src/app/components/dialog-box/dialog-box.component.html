@@ -327,7 +327,7 @@ data.size,data.font)">
     </mat-select >
   </mat-form-field>
   </div>
-  <div fxLayout="row" fxLayoutAlign="space-around start" *ngIf="  filterType !=='string'">
+  <div fxLayout="row" fxLayoutAlign="space-around start" *ngIf="  filterType !=='string' &&  filterType !=='session'">
 
     <mat-label  fxFlexAlign="center" class="text-color">Property :  <i style=" color: #ffa000;">*</i> </mat-label>
 
@@ -410,6 +410,16 @@ true
       <input matInput type="text" #txt   >
 
     </mat-form-field>
+  </div>
+  <button  mat-button color="accent" fxFlexAlign="center"  (click)="generateUrl(txt)"><mat-icon class="mat-icon-size">add_circle</mat-icon></button>
+
+  </ng-container> 
+  <ng-container   *ngSwitchCase="'session'" >
+    <div fxLayout="row" fxFlex  >
+
+      
+      <input  type="hidden" value="#CU#" #txt   >
+
   </div>
   <button  mat-button color="accent" fxFlexAlign="center"  (click)="generateUrl(txt)"><mat-icon class="mat-icon-size">add_circle</mat-icon></button>
 

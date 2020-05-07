@@ -49,7 +49,6 @@ ListIndix = []
 
    
 
-
   }
 
 
@@ -66,7 +65,8 @@ ListIndix = []
       if(this.modeLayout.nbLigneGh )
       this. getWidgetWithType("?type=4","4", this.modeLayout.nbLigneList );
       
-    
+      console.log("AAAAAAAAAAAAAAAAAAAAXXXXXXXXXXXXX")
+
     
     });
     this.serviceWidget.currentDispotionRep.subscribe(layout=>{

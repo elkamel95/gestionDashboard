@@ -1,23 +1,32 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { Widget } from 'src/app/models/Widget';
 import { Observable, Subject,BehaviorSubject } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { ModeDisposition } from 'src/app/models/ModeDisposition';
 import { HostListener } from "@angular/core";
-
+import { XmlService } from '../XmlData/xml.service';
+ export interface SessionType {
+  sessionName :any,
+  sessionProperty :any
+ }
 @Injectable({
   providedIn: 'root'
 })
 
-export class ServiceWidgetService {
+export class ServiceWidgetService implements OnInit {
+  
+
+  ngOnInit() {
+  }
 private url :string = "http://localhost:8000" ; 
 screenHeight: number;
 screenWidth: number;
-
-    refreshneeded = new Subject<void>();
+   propertysForSessiontype :SessionType[] =[] ;
+refreshneeded = new Subject<void>();
     refreshneededDataReset= new BehaviorSubject<any>("");
-
+    setPropertyForSessiontype= new BehaviorSubject<SessionType[]>(this.propertysForSessiontype);
+    setPropertysForSessiontype = this.setPropertyForSessiontype.asObservable();
     headers = new HttpHeaders();
     widget  = new Widget() ;
     changeDispostion  = new ModeDisposition() ;
@@ -29,7 +38,7 @@ screenWidth: number;
     currentGraphique= this.behaviorGraphiqueType.asObservable();
 
 
-  constructor(private http:HttpClient) { 
+  constructor(private http:HttpClient,private xml:XmlService) { 
     this.headers.append('Authorization', `Bearer ${localStorage.getItem('token')}`);
     this.headers.append('Content-Type', `application/json`);
     this.headers.append('Accept', `application/ld+json`);
@@ -37,6 +46,10 @@ screenWidth: number;
 
   }
 
+ setValueForSession( setPropertyForSessiontype){
+
+  this.setPropertyForSessiontype.next( setPropertyForSessiontype);
+ }
   setCurrentDispotionRep (changeDispostion){
     this.behaviorChangeDispostion.next(changeDispostion);
    }
@@ -67,12 +80,32 @@ this.behaviorWidget.next(widget);
 return new Date().toJSON("jj/mm/yy");;
   }
 
+  getDate(nDay?:number,nMonth?:number,nyear?:number){
+    var currentDate = new Date()
+var day = currentDate.getDate()+nDay
+var month = currentDate.getMonth() + 1+nMonth
+var year = currentDate.getFullYear()+nyear;
+    return  year+'-'+month+'-'+day;
+      }
+createDynamicQuery(url):string{
+  var sessionType:SessionType[];
+this.setPropertysForSessiontype.subscribe(
+  data=>{
+    sessionType= data;
+  }
+);
+sessionType.forEach(sessionType => {
+  url=  url.replace(sessionType.sessionProperty,localStorage.getItem(sessionType.sessionName));
 
+});
 
+  url = url.substring(1, url.length);
+
+  return url ;
+}
   postWidget(widget:Widget){
 widget.createAt =this.getDateTime().toString();
 widget.updateAt =this.getDateTime().toString();
-console.log(widget);
     this.http.post<Widget>(this.url+"/api/widgets", widget).subscribe(()=>{
       this.refreshneeded.next ();
  

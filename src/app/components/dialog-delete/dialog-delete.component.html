@@ -7,8 +7,8 @@
   </div>
   
   <div mat-dialog-content  class="mat-typography">
-           <p style="color: red;"><b >Do you really want to delete the widget :</b>
-            <b style="color: black;">"{{data.nameFr}}"</b>? </p>
+           <p >Do you really want to delete the widget :
+            <b >"{{data.nameFr}}"</b>? </p>
     
    
 
@@ -18,5 +18,5 @@
   </div> 
   <div mat-dialog-actions align = "end">
     <button  (click)="doAction()"  mat-flat-button color="primary">Delete</button>
-    <button  (click)="closeDialog()" mat-flat-button color="warn">Cancel</button>
+    <button  (click)="closeDialog()" mat-flat-button >Cancel</button>
   </div>

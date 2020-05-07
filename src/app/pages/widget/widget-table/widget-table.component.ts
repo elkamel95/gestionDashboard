@@ -86,6 +86,8 @@ title ="";
     },);
   }
     dialogRef.afterClosed().subscribe(result => {
+      if(result != undefined){
+
       if(result.event == 'Add'){
         this.ws.postWidget(result.data);
       }
@@ -94,7 +96,7 @@ title ="";
       }else if(result.event == 'Delete'){
         
         this.deleteRowData(result.data.id);
-      }
+      }}
    
       
     });

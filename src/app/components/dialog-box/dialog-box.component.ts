@@ -110,7 +110,7 @@ if(this.data.url !=undefined)
   }
 
   translateValueToNameFromXml(attributeName){
-    var index =0;
+    var index = 0;
     return new Promise(resolve=>{
        this.xml.loadXML() .subscribe((data) => {  
         this.xml.parseXML(data)  
@@ -119,14 +119,19 @@ if(this.data.url !=undefined)
                 this.items = datas; 
 
              if(this.update)
-this.items.forEach(items => {
-if  (items.entitys.name != this.entity)
-{index++;
-}
-this.index =index ;
+for (  index = 0; index < this.items.length; index++) {
 
-});
-  
+  console.log(this.items[index].entitys.name)
+  if  (this.items[index].entitys.name.toString() === this.entity.toString())
+  {  
+
+    break ;
+  }  
+}
+this.index=this.update?index:this.index;
+
+console.log(index);
+
         resolve(this.checkValueForAttribute(    datas[this.index].attributes,attributeName)  )
            
   
@@ -146,10 +151,16 @@ this.index =index ;
     var value=""
     attributes.forEach(att => {
 
-      if( att.$.name == attribute)  
-      value =att.$.value;
-    
+      if( att.$.name.toString() === attribute.toString())  
+     {
+       return value =att.$.value;
+       console.log(att.$.name);
+       console.log(attribute);
+    }
+ 
+
     });
+
     return value;
   }
   selectedColor($event){
@@ -229,6 +240,7 @@ request.type="date"
      
 
         await  this.translateValueToNameFromXml(    request.by).then(att=>{
+          console.log(att.toString());
           request.name =att.toString();
       
           });
@@ -429,6 +441,9 @@ this.enterPoint= `api/${this.entity}?`;
   else 
   this.urlRequest.property=this.property ;
 
+  if(this.filterType.toString() =="session")
+  input.value=      this.attributes[ this.attribute.index].$.session_value;
+  this.attribute.index;
 
   if(this.property =='#DN#')
   {

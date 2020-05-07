@@ -35,11 +35,7 @@ var year = currentDate.getFullYear();
    { 
     //  #DN#:  data now  
      if(this.url.charAt(0)==='!'){
-
-      this.url=  this.url.replace('#DN#',this.getDate());
-      this.url=  this.url.replace('#CU#',localStorage.getItem('idUser'));
-      this.url = this.url.substring(1, this.url.length);
-
+      this.url=   this.serviceWidget. createDynamicQuery(this.url);
     }
     console.log( this.url);
 

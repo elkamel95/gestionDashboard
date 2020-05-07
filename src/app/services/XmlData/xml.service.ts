@@ -5,9 +5,14 @@ import xml2js from 'xml2js';
   entitys:any ; 
   attributes:any ;
 }
+export interface Sessiontype {
+  sessionName :any,
+  sessionProperty :any
+ }
 @Injectable({
   providedIn: 'root'
 })
+
 export class XmlService {
   public xmlItems: any;  
   public entity :any;
@@ -29,7 +34,7 @@ export class XmlService {
   
 
 
-  parseXML(data) {  
+  parseXML(data):Promise<any>{  
     return new Promise(resolve => {  
       var k: string | number,  
         arr = [],  
@@ -49,7 +54,9 @@ export class XmlService {
             
             {  
             entitys: item.$,  
-            attributes: item.attribute,  }
+            attributes: item.attribute,  
+          
+          }
             
             
             );
@@ -58,4 +65,31 @@ export class XmlService {
         resolve(arr);  
       });  
     });  
-  }  }
+  } 
+setPropertyForSessiontype():Promise<any>{
+  var   propertyForSessiontype :Sessiontype[] =[] ;
+
+return new Promise (resolve=>{
+
+  this.loadXML().subscribe(data=>{
+    this.parseXML(data).then(xmlFile=>{
+var index =0;
+      for ( index =0; index < xmlFile.length; index++) {
+        const entityArray = xmlFile[index];
+
+      var  attributes = entityArray.attributes;
+      for ( let index =0; index < attributes.length; index++) {
+        if(attributes[index].$.session_value !=undefined)
+propertyForSessiontype.push({sessionName:attributes[index].$.session_name,sessionProperty:attributes[index].$.session_value})      }
+
+
+
+       }} );
+  });
+  resolve(propertyForSessiontype);
+
+
+});}
+
+
+}
