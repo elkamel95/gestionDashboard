@@ -1,9 +1,22 @@
-mat-card{
-    width: 104%;
-    height: 20px;
-    margin-left: -6.7%;
-    margin-top: -7.6%;
-}
+
 .mat-flat-button.mat-primary, .mat-raised-button.mat-primary, .mat-fab.mat-primary, .mat-mini-fab.mat-primary {
     background-color: #070a20;
+}
+.task-header {
+    color: white;
+    padding: 0 5px;
+     height: 50px;
+
+     width: 100%;
+     background-color: #ffb500;
+    }
+.mat-dialog-title {
+    margin: -24px -24px 20px;
+        display: block;
+    background-color: #ffb500;
+    height: 50px;
+
+}
+.fx-spacer {
+    flex: 1 1 auto;
 }

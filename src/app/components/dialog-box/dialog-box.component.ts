@@ -11,84 +11,100 @@ import { AuthenticationService } from 'src/app/services/Auth/authentication-serv
 
 
 export interface Type {
-  id:string ;
-  name :string ; 
+  id                                : string ;
+  name                              : string ;
 
 }
 export class Url {
-  by:string ; 
-  name:string;
-  property:string ; 
-  value:string ; 
-  type:string;
+  by                                : string ;
+  name                              : string;
+  property                          : string ;
+  value                             : string ;
+  type                              : string;
   
 
+}
+export interface formatUrlWithDynamicDate{
+lasteYears : string ;
+lastMonth:string; 
+lastWeek:string;
+lastDay:string;
+today:string ;
+session:string;
 }
 
 
 @Component({
-  selector: 'app-dialog-box',
-  templateUrl: './dialog-box.component.html',
-  styleUrls: ['./dialog-box.component.css']
+  selector                          : 'app-dialog-box',
+  templateUrl                       : './dialog-box.component.html',
+  styleUrls                         : ['./dialog-box.component.css']
 })
 export class DialogBoxComponent implements OnInit{
-  nrSelect=1;
-  selected ="1";
-  public index = 0; 
-  public items :any ;
-  public enterPoint ="";
-  public and=""
-  public attributes =[] ;
-  public attributesValues =[] ;
-  public attributesName ='' ;
+nrSelect                            = 1;
+selected                            = "1";
+public index                        = 0;
+public items                        : any ;
+public enterPoint                   = "";
+public and                          = ""
+public attributes                   = [] ;
+public attributesValues             = [] ;
+public attributesName               = '' ;
 
-  public requests =[new Url()] ;
-  public isDynamic =false;
-public urlRequest :Url =new Url();
-public property ="";
- public entity ="" ;
- public attribute :any ={};
- nameButtonNext ="Next"
- nameButtonBack="Back"
-  widgetControleForm: FormGroup;
-  chartOptions ={};
-  screenWidth :number ;
-  dateProperty= ["after","before","strictly_after","strictly_before","#DN#","#currentUser#"];
-  datePropertyName= ["after","before","strictly after","strictly before","today","current User"];
-  isactive=false ;
-  update=false ;
-filterType =""; 
-    types:Type [] = [ 
-    {'id':"1" , 'name':'indicateur'},
-    {'id':"2" , 'name':'indicateur avec liste'},
-    {'id':"3" , 'name':'liste'},
-    {'id':"4" , 'name':'graphique'},
-    ]
-    
-    font_size =[
-    "large","larger","medium","small","smaller","x-large","x-small","xx-large","xx-small","-webkit-xxx-large"
-    ]
-    size =[
-      "8","10","12","14","15","16","18","20","22","25","30"
-      ]
-    font_style =[
-      "900","bold","bolder","inherit","initial",
-      "lighter","normal","unset"
-          ]
-  action:string;
-  local_data:any;
-  ControleForm: FormGroup;
-  data:Widget = new Widget() ; 
-  submitted = true;
-  next=0 ; 
-  constructor(private fb: FormBuilder, private auth:AuthenticationService,
-    public dialogRef: MatDialogRef<DialogBoxComponent>,private xml:XmlService,private serviceWidge:ServiceWidgetService,
+public requests                     = [new Url()] ;
+public isDynamic                    = false;
+public urlRequest                   : Url =new Url();
+public property                     = "";
+public entity                       = "" ;
+public attribute                    : any ={};
+filterDynamicDate :formatUrlWithDynamicDate = {lasteYears:'N',lastMonth:'N',lastWeek:'N', today:'N',lastDay:'N',session:'N'} ;
+nameButtonNext                      = "Next"
+nameButtonBack                      = "Back"
+widgetControleForm                  : FormGroup;
+chartOptions                        = {};
+screenWidth                         : number ;
+dateProperty                        :string[];
+datePropertyName                    :string[];
+isactive                            = false ;
+update                              = false ;
+filterType                          = "";
+types:Type [] = [
+{'id'                               : "1" , 'name':'indicateur'},
+{'id'                               : "2" , 'name':'indicateur avec liste'},
+{'id'                               : "3" , 'name':'liste'},
+{'id'                               : "4" , 'name':'graphique'},
+]
+
+font_size =[
+"large","larger","medium","small","smaller","x-large","x-small","xx-large","xx-small","-webkit-xxx-large"
+]
+size =[
+"8","10","12","14","15","16","18","20","22","25","30"
+]
+font_style =[
+"900","bold","bolder","inherit","initial",
+"lighter","normal","unset"
+]
+action                              : string;
+local_data                          : any;
+ControleForm                        : FormGroup;
+data                                : Widget = new Widget() ;
+submitted                           = true;
+next                                = 0 ;
+  constructor(private fb            : FormBuilder, private auth:AuthenticationService,
+    public dialogRef                : MatDialogRef<DialogBoxComponent>,private xml:XmlService,private serviceWidge:ServiceWidgetService,
     //@Optional() is used to prevent error if no data is passed
     @Optional() @Inject(MAT_DIALOG_DATA) public Alldata: any) {
-      this.data=  Alldata.element;
-    this.local_data = {...this.Alldata};
-    this.action = this.local_data.action;
-    this.update = false ;
+      this.data                     = Alldata.element;
+    this.local_data                 = {...this.Alldata};
+    this.action                     = this.local_data.action;
+    this.update                     = false ;
+
+
+  this.datePropertyName = serviceWidge.datePropertyName;
+  this. dateProperty =serviceWidge.dateProperty;
+  console.log(  this. dateProperty);
+
+
 /* if the action is updated, call the URL decryption method   */ 
 if(this.data.url !=undefined)
   this.decryptageUrl();
@@ -97,10 +113,10 @@ if(this.data.url !=undefined)
       this.xml.parseXML(data)  
   
             .then((datas) => {  
-              this.items = datas; 
-              this.entity = datas[this.index].entitys.name ; 
-              this.attributes=datas[this.index].attributes;
-              var i=0;
+              this.items            = datas;
+              this.entity           = datas[this.index].entitys.name ;
+              this.attributes       = datas[this.index].attributes;
+              var i                 = 0;
          
          
             });  
@@ -110,13 +126,13 @@ if(this.data.url !=undefined)
   }
 
   translateValueToNameFromXml(attributeName){
-    var index = 0;
+    var index                       = 0;
     return new Promise(resolve=>{
        this.xml.loadXML() .subscribe((data) => {  
         this.xml.parseXML(data)  
     
               .then((datas) => {  
-                this.items = datas; 
+                this.items          = datas;
 
              if(this.update)
 for (  index = 0; index < this.items.length; index++) {
@@ -128,7 +144,7 @@ for (  index = 0; index < this.items.length; index++) {
     break ;
   }  
 }
-this.index=this.update?index:this.index;
+this.index                          = this.update?index:this.index;
 
 console.log(index);
 
@@ -148,14 +164,13 @@ console.log(index);
 
   }
   checkValueForAttribute(attributes,attribute){
-    var value=""
+    var value                       = ""
     attributes.forEach(att => {
 
       if( att.$.name.toString() === attribute.toString())  
      {
-       return value =att.$.value;
-       console.log(att.$.name);
-       console.log(attribute);
+       return value                 = att.$.value;
+   
     }
  
 
@@ -169,22 +184,22 @@ console.log(index);
   /* create a query by properties, criteria , values and types   */ 
 
   cryptageUrl(){
-    var newUrl =""
-    var url ="";
+    var newUrl                      = ""
+    var url                         = "";
     this.requests.forEach(element=>{
       if(element.by !=undefined)
    { 
 
     if(element.type.toString() ==='date' || element.type.toString()  =='numeric')
-    newUrl = `${element.by}[${element.property}]=${element.value}${this.and}${url}`;
+    newUrl                          = `${element.by}[${element.property}]=${element.value}${this.and}${url}`;
 
     else if (element.type.toString() ==='boolean')
-    newUrl = `exists[${element.by}]=${element.property}${this.and}${url}`;
+    newUrl                          = `exists[${element.by}]=${element.property}${this.and}${url}`;
     else
-    newUrl= `${element.by}=${element.value}${this.and}${url}`;
-    url =  newUrl ;
+    newUrl                          = `${element.by}=${element.value}${this.and}${url}`;
+    url                             = newUrl ;
 
-      this.and="&"
+      this.and                      = "&"
 
   }
     
@@ -196,39 +211,39 @@ console.log(index);
   /* returns an array of type url. all properties, criteria, filter types and values ​​of a string (query)*/ 
 
    async decryptageUrl(){
-    this.update =true ;
-    this.and="&"
-    this.enterPoint= this.data.url.substring(  0,  this.data.url.indexOf("?")+1);
-   var index =this.enterPoint.indexOf('/');
-   this.entity  =this.enterPoint.substring(  index+1,  this.data.url.indexOf("?"));
-      this.data.url  = this.data.url.substring(    this.data.url.indexOf("?")+1, this.data.url.length);
-      var array =this.data.url.split('&');
+    this.update                     = true ;
+    this.and                        = "&"
+    this.enterPoint                 = this.data.url.substring(  0,  this.data.url.indexOf("?")+1);
+   var index                        = this.enterPoint.indexOf('/');
+   this.entity                      = this.enterPoint.substring(  index+1,  this.data.url.indexOf("?"));
+      this.data.url                 = this.data.url.substring(    this.data.url.indexOf("?")+1, this.data.url.length);
+      var array                     = this.data.url.split('&');
   
         array.forEach( async element => {
-          var array =element.split('=');
-          var request:Url =new Url();
+          var array                 = element.split('=');
+          var request               : Url =new Url();
         if(array[0].indexOf("[")!=-1)  
-{        request.by=array[0].substring(0,array[0].indexOf("["));
+{        request.by                 = array[0].substring(0,array[0].indexOf("["));
 
 if(request.by === '"exists"')
 { 
   
- request.property=request.by;
- request.by = array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"));
- request.type="boolean"
+ request.property                   = request.by;
+ request.by                         = array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"));
+ request.type                       = "boolean"
 }
 else
 
  {  
-request.property = array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"));
+request.property                    = array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"));
 
-request.type="date"
+request.type                        = "date"
 
 }
 }        else
       { 
-         request.by=array[0];
-         request.type="string || array";
+         request.by                 = array[0];
+         request.type               = "string || array";
 
       }
   
@@ -236,40 +251,41 @@ request.type="date"
 
   
 
-        request.value=array[1];
+        request.value               = array[1];
      
 
         await  this.translateValueToNameFromXml(    request.by).then(att=>{
           console.log(att.toString());
-          request.name =att.toString();
+          request.name              = att.toString();
       
           });
         this.requests.push(request);
         });
         
   }
-ngOnInit(): void {  
-  this.screenWidth=this.serviceWidge.screenWidth - (10*this.serviceWidge.screenWidth/100);
-
+ngOnInit() {  
+  this.screenWidth   = this.serviceWidge.screenWidth - (10*this.serviceWidge.screenWidth/100);
+  this.dateProperty   =this.serviceWidge.getDateProperty();     
+  this.datePropertyName ==this.serviceWidge.getDatePropertyName();  
 if(this.data.id == null)
 {
 
-    this.data.type ="1";
+    this.data.type                  = "1";
 
-    this.data .width=400;
-    this.data .height=100;
+    this.data .width                = 400;
+    this.data .height               = 100;
   
 
-  this.data.backgroundSmallWidget ="#fff";
-  this.data.textColor="#fff";
-  this.data.positionLeft="";
-  this.data.positionRight ="";
-  this.data.font ="normal";
-  this.data.colorSmallWidget ="#fff";
-  this.data.backgroundColor ="#FFA400";
-  this.data.size ="x-large";
-this.data.visible =true;
-this.data.url ="";
+  this.data.backgroundSmallWidget   = "#FFB500";
+  this.data.textColor               = "#000000";
+  this.data.positionLeft            = "";
+  this.data.positionRight           = "";
+  this.data.font                    = "normal";
+  this.data.colorSmallWidget        = "#FFB500";
+  this.data.backgroundColor         = "#fff";
+  this.data.size                    = "x-large";
+this.data.visible                   = true;
+this.data.url                       = "";
  
 }
 
@@ -279,23 +295,23 @@ this.data.url ="";
 }
    
   setType(event: { value: string; }){
-    this.data.type = event.value ;
+    this.data.type                  = event.value ;
     if(this.data.id == null)
 {
   if(this.data.type ==='4'){
-    this.data .width=1000;
-    this.data .height=300;
-    this.data.size ="20";
-    this.data.textColor="#000";
+    this.data .width                = 1000;
+    this.data .height               = 300;
+    this.data.size                  = "20";
+    this.data.textColor             = "#000";
 
-    this.data.backgroundColor="#fff";
+    this.data.backgroundColor       = "#fff";
 
 
 }}
   }
 
-  setChartOptions(width=300,height="200",text="",colorText ="#000"
-  ,backgroundColor="#fff",size="6",font ="bold"
+  setChartOptions(width             = 300,height="200",text="",colorText ="#000"
+  ,backgroundColor                  = "#fff",size="6",font ="bold"
   )
 
   
@@ -304,62 +320,62 @@ this.data.url ="";
     
     this.chartOptions =  {
         chart: {
-     type: 'area',
-     height: height ,
-     width: width,
-     backgroundColor:backgroundColor
+     type                           : 'area',
+     height                         : height ,
+     width                          : width,
+     backgroundColor                : backgroundColor
 
    },
  title: {
-     text: text,
-     style:  { "color": colorText, "fontSize": size+"px"  }
+     text                           : text,
+     style                          : { "color": colorText, "fontSize": size+"px"  }
 
   
  },
  legend: {
    itemStyle: {
-       font: '9pt Trebuchet MS, Verdana, sans-serif',
-       color: colorText
+       font                         : '9pt Trebuchet MS, Verdana, sans-serif',
+       color                        : colorText
    },
    itemHoverStyle:{
-       color: colorText
+       color                        : colorText
    }   
 },
  credits :{
-   enabled:false 
+   enabled                          : false
  }, 
  xAxis: {
-     categories: ['1750', '1800', '1850', '1900', '1950', '1999', '2050'],
-     tickmarkPlacement: 'on',
+     categories                     : ['1750', '1800', '1850', '1900', '1950', '1999', '2050'],
+     tickmarkPlacement              : 'on',
      title: {
-         enabled: false,
-         style: { "color": colorText, "fontSize": "18px" }
+         enabled                    : false,
+         style                      : { "color": colorText, "fontSize": "18px" }
         }
  },
  yAxis: {
      title: {
-         text: 'Billions',
-        style: { "color": colorText, "fontSize": "18px" }
+         text                       : 'Billions',
+        style                       : { "color": colorText, "fontSize": "18px" }
      },
  
  },
 
 
  series: [{
-     name: 'Asia',
-     data: [502, 635, 809, 947, 1402, 3634, 5268]
+     name                           : 'Asia',
+     data                           : [502, 635, 809, 947, 1402, 3634, 5268]
  }, {
-     name: 'Africa',
-     data: [106, 107, 111, 133, 221, 767, 1766]
+     name                           : 'Africa',
+     data                           : [106, 107, 111, 133, 221, 767, 1766]
  }, {
-     name: 'Europe',
-     data: [163, 203, 276, 408, 547, 729, 628]
+     name                           : 'Europe',
+     data                           : [163, 203, 276, 408, 547, 729, 628]
  }, {
-     name: 'America',
-     data: [18, 31, 54, 156, 339, 818, 1201]
+     name                           : 'America',
+     data                           : [18, 31, 54, 156, 339, 818, 1201]
  }, {
-     name: 'Oceania',
-     data: [2, 2, 2, 6, 13, 30, 46]
+     name                           : 'Oceania',
+     data                           : [2, 2, 2, 6, 13, 30, 46]
  }]};
 
 
@@ -369,12 +385,13 @@ this.data.url ="";
     this.next++;
 
     if(this.data.nameFr&&this.data.nameEn && this.data.description && this.next == 2 ) 
-  {  this.dialogRef.close({event:this.action,data:this.data});
+  {  this.dialogRef.close({event    : this.action,data:this.data});
     await  this.cryptageUrl();
-    this.data.users = `api/users/${localStorage.getItem('idUser')}`;
-    this.enterPoint=this.isDynamic? '!'+this.enterPoint:this.enterPoint;
+    this.data.users                 = `api/users/${localStorage.getItem('idUser')}`;
+    var filterDynamicDate =this.filterDynamicDate.lasteYears+ this.filterDynamicDate.lastMonth+this.filterDynamicDate.lastWeek+this.filterDynamicDate.lastDay+this.filterDynamicDate.today+this.filterDynamicDate.session
+    this.enterPoint                 = this.isDynamic? '!'+filterDynamicDate+this.enterPoint:this.enterPoint;
     
-      this.data.url = this.enterPoint+ (this.cryptageUrl().charAt(this.cryptageUrl().length-1)=='&'? this.cryptageUrl().substring(0,this.cryptageUrl().length-1):this.cryptageUrl()) ;
+      this.data.url                 = this.enterPoint+ (this.cryptageUrl().charAt(this.cryptageUrl().length-1)=='&'? this.cryptageUrl().substring(0,this.cryptageUrl().length-1):this.cryptageUrl()) ;
 
     
 
@@ -389,7 +406,7 @@ this.data.url ="";
   }
 
   closeDialog(){
-    this.dialogRef.close({event:'Cancel'});
+    this.dialogRef.close({event     : 'Cancel'});
   }
 
   getProperty(){
@@ -398,13 +415,13 @@ this.data.url ="";
       this.xml.parseXML(data)  
   
             .then((datas) => {  
-              this.filterType=datas[this.index].attributes[this.attribute.index].$.type  ;
+              this.filterType       = datas[this.index].attributes[this.attribute.index].$.type  ;
 
               if( datas[this.index].attributes[this.attribute.index].property  != undefined)
-       {  this.attributesValues=     datas[this.index].attributes[this.attribute.index].property ;
+       {  this.attributesValues     = datas[this.index].attributes[this.attribute.index].property ;
       }
          else
-{         this.attributesValues=[];
+{         this.attributesValues     = [];
 }
 
             });  
@@ -413,14 +430,14 @@ this.data.url ="";
 
   }
   getAttributes(){
-    this.attributesValues=[];
+    this.attributesValues           = [];
     this.xml.loadXML() .subscribe((data) => {  
       this.xml.parseXML(data)  
   
             .then((datas) => {  
-              this.entity = datas[this.index].entitys.name.toString() ; 
+              this.entity           = datas[this.index].entitys.name.toString() ;
 
-              this.attributes=datas[this.index].attributes ; 
+              this.attributes       = datas[this.index].attributes ;
          
 
             });  
@@ -431,37 +448,51 @@ this.data.url ="";
 
 async generateUrl(input?){
 
-this.update?this.nameButtonNext ="Update":this.nameButtonNext ="Create";
-  this.nameButtonBack="Close";
-this.enterPoint= `api/${this.entity}?`;
-  this.urlRequest.by=this.attribute.att;
+this.update?this.nameButtonNext     = "Update":this.nameButtonNext ="Create";
+  this.nameButtonBack               = "Close";
+this.enterPoint                     = `api/${this.entity}?`;
+  this.urlRequest.by                = this.attribute.att;
 
   if(this.filterType.toString() =="array")
-  this.urlRequest.value=this.property ;
+  this.urlRequest.value             = this.property ;
   else 
-  this.urlRequest.property=this.property ;
+  this.urlRequest.property          = this.property ;
 
   if(this.filterType.toString() =="session")
-  input.value=      this.attributes[ this.attribute.index].$.session_value;
-  this.attribute.index;
+{  input.value                      = this.attributes[ this.attribute.index].$.session_value;
+  this.isDynamic                    = true;
+  this.filterDynamicDate.session='S';
 
-  if(this.property =='#DN#')
+}
+  if(this.property.charAt(0) =='#')
   {
-    this.urlRequest.property="after"
-    input.value='#DN#';
-    this.isDynamic=true;
+    this.urlRequest.property        = "after"
+    input.value                     = this.property;
+
+console.log('#'+this.property)
+    if (this.property =='#TD#')
+    this.filterDynamicDate.today='T'
+else if( this.property=='#LY#')
+this.filterDynamicDate.lasteYears='Y'
+else if(this.property=='#LM#')
+this.filterDynamicDate.lastMonth='M'
+else if(this.property=='#LW#')
+this.filterDynamicDate.lastWeek='W'
+else if(this.property=='#LD#')
+this.filterDynamicDate.lastDay='D'
+        this.isDynamic                  = true;
   }
-  this.urlRequest.type =this.filterType ;
+  this.urlRequest.type              = this.filterType ;
   if(input.value !=undefined)
-  this.urlRequest.value=input.value ;
+  this.urlRequest.value             = input.value ;
 
   await  this.translateValueToNameFromXml(this.urlRequest.by).then(att=>{
-    this.urlRequest.name =att.toString();
+    this.urlRequest.name            = att.toString();
 
     });
     
     this.requests.push(this.urlRequest );
-this.urlRequest =new Url();
+this.urlRequest                     = new Url();
 
 }
 removeByIndex(index){

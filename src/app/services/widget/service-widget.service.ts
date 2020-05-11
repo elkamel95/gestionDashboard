@@ -7,8 +7,8 @@ import { ModeDisposition } from 'src/app/models/ModeDisposition';
 import { HostListener } from "@angular/core";
 import { XmlService } from '../XmlData/xml.service';
  export interface SessionType {
-  sessionName :any,
-  sessionProperty :any
+  sessionName :string,
+  sessionProperty :string
  }
 @Injectable({
   providedIn: 'root'
@@ -37,13 +37,16 @@ refreshneeded = new Subject<void>();
     behaviorGraphiqueType = new BehaviorSubject<any>({});
     currentGraphique= this.behaviorGraphiqueType.asObservable();
 
-
+    dateProperty                        :string[];
+    datePropertyName                    :string[];
   constructor(private http:HttpClient,private xml:XmlService) { 
     this.headers.append('Authorization', `Bearer ${localStorage.getItem('token')}`);
     this.headers.append('Content-Type', `application/json`);
     this.headers.append('Accept', `application/ld+json`);
     this.getScreenSize();
-
+    
+    this.datePropertyName    =this.getDatePropertyName();
+    this.dateProperty=this.getDateProperty();
   }
 
  setValueForSession( setPropertyForSessiontype){
@@ -54,7 +57,14 @@ refreshneeded = new Subject<void>();
     this.behaviorChangeDispostion.next(changeDispostion);
    }
 
+getDateProperty():string[]{
+  return  ["after","before","strictly_after","strictly_before","#TD#","#LY#","#LM#","#LW#","#LD#"];
 
+}
+getDatePropertyName():string[]{
+
+  return  ["after","before","strictly after","strictly before","today","last years" ,"last month","last week","last day"];
+}
   setCurrentWidgetUpdate(widget:Widget){
 this.behaviorWidget.next(widget);
   }
@@ -87,19 +97,35 @@ var month = currentDate.getMonth() + 1+nMonth
 var year = currentDate.getFullYear()+nyear;
     return  year+'-'+month+'-'+day;
       }
-createDynamicQuery(url):string{
+ createDynamicQuery(url:string):string{
   var sessionType:SessionType[];
-this.setPropertysForSessiontype.subscribe(
+  var i=0;
+
+if(url.charAt(1)=='Y')
+  url=  url.replace('#LY#',this.getDate(0,0,-1));
+ if(url.charAt(2)=='M')
+url=  url.replace('#LM#',this.getDate(0,-1,0));
+if(url.charAt(3)=='W')
+url=  url.replace('#LW#',this.getDate(-7,0,0));
+ if(url.charAt(4)=='D')
+url=  url.replace('#LD#',this.getDate(-1,0,0));
+ if(url.charAt(5)=='T')
+url=  url.replace('#TD#',this.getDate(0,0,0));
+//!YMWDTNapi/users?createAt[after]=#TD#&createAt[after]=#LD#&createAt[after]=#LW#&createAt[after]=#LM#&createAt[after]=#LY#
+ 
+if(url.charAt(6)=='S')
+{this.setPropertysForSessiontype.subscribe(
   data=>{
     sessionType= data;
+    sessionType.forEach(session => {
+      url=  url.replace(session[i].sessionProperty,localStorage.getItem(session[i].sessionName));
+    i++;
+    });
   }
-);
-sessionType.forEach(sessionType => {
-  url=  url.replace(sessionType.sessionProperty,localStorage.getItem(sessionType.sessionName));
+);}
 
-});
 
-  url = url.substring(1, url.length);
+  url = url.substring(7, url.length);
 
   return url ;
 }

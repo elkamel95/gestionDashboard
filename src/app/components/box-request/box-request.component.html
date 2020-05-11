@@ -3,7 +3,7 @@
 <div fxLayout="column" fxLayoutGap="0px" class="box">
     <div fxLayout="row" fxFlex="40" class="headerbox" fxLayoutAlign="space-between center" >
          <div  fxFlexOffset="50px">
-             <p> {{ name | titlecase }}</p>
+             <p> {{ name | titlecase }}:{{propertyValueForDate | titlecase }}</p>
          </div>
          <div   fxFlexOffset="3px">
             <button mat-button (click)= "removeQuery()"><mat-icon class="icon" >remove_circle</mat-icon></button>   

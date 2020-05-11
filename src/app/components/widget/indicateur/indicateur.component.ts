@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ServiceWidgetService } from 'src/app/services/widget/service-widget.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-indicateur',
@@ -11,8 +12,8 @@ export class IndicateurComponent implements OnInit {
 @Input()  title =" ";
 @Input() backgroundColor ="";
 @Input() textColor ="";
-@Input() backgroundSmallWidget="#ffa000"; 
-@Input() colorSmallWidget="#000" ;
+@Input() backgroundSmallWidget="#000"; 
+@Input() colorSmallWidget="#ffa000" ;
 @Input() size ="";
 @Input() width ;
 @Input() height;
@@ -20,16 +21,16 @@ export class IndicateurComponent implements OnInit {
 @Input() url:string;
 public valueWidget :number=0;
 public loadedData =true ; 
-  constructor(private serviceWidget:ServiceWidgetService) { }
-  getDate(){
-    var currentDate = new Date()
-var day = currentDate.getDate()
-var month = currentDate.getMonth() + 1
-var year = currentDate.getFullYear();
-    return  year+'-'+month+'-'+day;
-      }
-    
+public activeUrl=""
+public dontActiveUrl=""
+
+  constructor(private serviceWidget:ServiceWidgetService,private router : Router) {
+   }
+
   ngOnInit() {
+    this.activeUrl=this.router.url;
+    this.dontActiveUrl=this.router.url;
+
     this.height ="70%"
     if(this.url !=undefined)
    { 
@@ -37,18 +38,37 @@ var year = currentDate.getFullYear();
      if(this.url.charAt(0)==='!'){
       this.url=   this.serviceWidget. createDynamicQuery(this.url);
     }
-    console.log( this.url);
+    this.serviceWidget.getAnything( this.url).subscribe(list=>{
+      this.valueWidget = list.length ; 
+              
+              },()=>{},()=>{this.loadedData=false});
+            
+            
+              this.getDataFromUrl( this.url);
 
-
-    this.getDataFromUrl( this.url);
+            }
 }
-  }
+
+
+
+  
 
   getDataFromUrl(url){
-
-    this.serviceWidget.getAnything(url).subscribe(list=>{
-this.valueWidget = list.length ; 
-        
-        },()=>{},()=>{this.loadedData=false});}
+setTimeout(()=>{
+  this.dontActiveUrl=this.router.url;
+  if(this.activeUrl ==this.dontActiveUrl)
+{  this.serviceWidget.getAnything( url).subscribe(list=>{
+    this.valueWidget = list.length ; 
+            
+            },()=>{},()=>{this.loadedData=false ;           
+                  this.getDataFromUrl( this.url);
+            });
+}
+},20000);
+   
 
 }
+
+
+}
+    

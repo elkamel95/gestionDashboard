@@ -1,10 +1,16 @@
 <!-- dialog-box.component.html -->
 
-<div mat-dialog-title>
-<mat-card style=" background-color: hsl(38, 100%, 50%);">
-<h1 mat-dialog-title style="color: white;">Add widget </h1>
-</mat-card>
-</div>
+
+
+<h4 mat-dialog-title>
+  <mat-toolbar role="toolbar" class="task-header">
+      <span> Add Widget </span>
+      <span class="fx-spacer"></span>
+      <button mat-icon-button (click)="closeDialog()">
+          <mat-icon mat-list-icon>close</mat-icon>
+      </button>
+  </mat-toolbar>
+</h4>
 <div fxLayout="column" >
 
 <div mat-dialog-content  fxFlex="90"
@@ -341,7 +347,7 @@ data.size,data.font)">
       datePropertyName ; let id =index"
       
       [value]="dateProperty[id]">
-          {{item }}
+          {{item}}
   
       </mat-option>
     </ng-container>
@@ -374,17 +380,21 @@ true
   <ng-container  [ngSwitch]="filterType">
   
   <ng-container  *ngSwitchCase="'date'" >
-    <div fxLayout="row"   >
+ 
+    <div fxLayout="row"  [hidden]="isDynamic"  >
 
       <mat-label  fxFlexAlign="center" class="text-color">Date:<i style=" color: #ffa000;">*</i> </mat-label>
 
     <mat-form-field>
       <mat-label>Choose a date</mat-label>
-      <input matInput [matDatepicker]="picker" #date   >
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <input matInput [matDatepicker]="picker" #date [disabled]= "property.charAt(0)=='#'?true:false" >
+      <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
+
+    
   </div>
+
   <button  mat-button color="accent" fxFlexAlign="center" (click)="generateUrl(date)"><mat-icon class="mat-icon-size">add_circle</mat-icon></button>
 
   </ng-container>

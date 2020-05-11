@@ -29,11 +29,11 @@
   <entity   name= "widgets" enterpoint = "api/widgets" value="widgets">
     <attribute name ="name_fr" value="name  (Francais)" type="string"> </attribute>
     <attribute name = "name_en" value="name  (Anglais)" type="string" ></attribute>
+        <attribute name = "users.id" value="current user" type="session" session_value="#currentSession#" session_name="idUser"></attribute>
+
     <attribute name = "users.role" value="current ROLE" type="session" session_value="#currentRole#" session_name="idRole"></attribute>
     <attribute name = "users.x" value="current X" type="session" session_value="#currentx#" session_name="idx"></attribute>
-    <attribute name = "users.id" value="current user" type="session" session_value="#currentSession#" session_name="idUser"></attribute>
-    <attribute name = "users.profil" value="current PROFIL" type="session" session_value="#currentProfil#" session_name="idProfil"></attribute>
-
+   
    <attribute name ="type" value= "type" type="array">
        <property name="1"  value="indicator" ></property >
        <property name="2"  value="indicator with list" ></property >

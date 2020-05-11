@@ -9,6 +9,9 @@
 .mcc-color-picker-selector-preview[_ngcontent-xyi-c28] {
     display: none;
 }
+.text-color{
+    font-weight: normal;
+}
 .border-style h1{
     float: left;
     padding: 05px;
@@ -27,27 +30,32 @@
  .task-header {
     background-color: transparent;
     padding: 0 5px;
-     height: 20px;
+
+}
+.mat-dialog-title {
+    margin: -24px -24px 20px;
+        display: block;
+    background-color: #ffb500;
+    height: 50px;
+
 }
 .fx-spacer {
     flex: 1 1 auto;
 }
-mat-card{
-    background-color: #ffa000;
-    width: 103%;
-    height: 20px;
-    margin-left: -2.8%;
-    margin-top: -2.8%;
-}
+
 .mat-form-field{
     padding: 10px;
 }
 
-.text-color{
-    color: #0b0f2f;
-    font-weight: normal;
-    font-size: smaller;}
 
+.task-header {
+    color: white;
+    padding: 0 5px;
+     height: 50px;
+}
+.fx-spacer {
+    flex: 1 1 auto;
+}
 
 .mat-flat-button.mat-primary, .mat-raised-button.mat-primary, .mat-fab.mat-primary, .mat-mini-fab.mat-primary {
     background-color: #070a20;

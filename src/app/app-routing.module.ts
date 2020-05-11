@@ -11,7 +11,7 @@ import { Login2Component } from './pages/login2/login2.component';
 const routes: Routes = [
 
   { path: '', component: LayoutDashboardComponent    ,children:[{
-    path:'' , component:DashboardComponent , canActivate: [AuthGuard] , pathMatch: 'full' }, 
+    path:'dashboard' , component:DashboardComponent , canActivate: [AuthGuard] , pathMatch: 'full' }, 
     {path:'widget', component:WidgetTableComponent ,canActivate: [AuthGuard]  },
   
 

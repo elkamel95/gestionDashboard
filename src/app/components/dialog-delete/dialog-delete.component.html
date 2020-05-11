@@ -1,11 +1,15 @@
 <!-- dialog-box.component.html -->
 
-<div mat-dialog-title>
-    <mat-card style=" background-color: #ffa000;">
-  <h1 mat-dialog-title style="color: white;">Delete  widget </h1>
-  </mat-card>
-  </div>
-  
+
+  <h4 mat-dialog-title>
+    <mat-toolbar role="toolbar" class="task-header">
+        <span> Delete  widget  </span>
+        <span class="fx-spacer"></span>
+        <button mat-icon-button (click)="closeDialog()">
+            <mat-icon mat-list-icon>close</mat-icon>
+        </button>
+    </mat-toolbar>
+  </h4>
   <div mat-dialog-content  class="mat-typography">
            <p >Do you really want to delete the widget :
             <b >"{{data.nameFr}}"</b>? </p>

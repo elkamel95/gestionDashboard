@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { ServiceWidgetService } from 'src/app/services/widget/service-widget.service';
 
 @Component({
   selector: 'box-request',
@@ -11,12 +12,26 @@ export class BoxRequestComponent implements OnInit {
 @Input()property ="";
 @Input()value="";
 @Input()name="";
+@Input()propertyValueForDate="";
 
 @Output() removeFilter:EventEmitter<any> = new  EventEmitter<any>();
-  constructor() { 
+  constructor(private serviceWidget:ServiceWidgetService) { 
+    
+console.log(serviceWidget.dateProperty);
+
     
   }
   ngOnInit() {
+    for (let index = 0; index <  this.serviceWidget.dateProperty.length; index++) {
+    
+      if(  this.serviceWidget.dateProperty[index] == this.value)
+    {this.propertyValueForDate =  this.serviceWidget.datePropertyName[index];
+    
+      break;
+    }
+      
+    }
+
   }
 
   removeQuery(){
