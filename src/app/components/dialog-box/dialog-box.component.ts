@@ -42,7 +42,7 @@ session:string;
 export class DialogBoxComponent implements OnInit{
 nrSelect                            = 1;
 selected                            = "1";
-public index                        = 0;
+public index :any                      = 0;
 public items                        : any ;
 public enterPoint                   = "";
 public and                          = ""
@@ -55,6 +55,7 @@ public isDynamic                    = false;
 public urlRequest                   : Url =new Url();
 public property                     = "";
 public entity                       = "" ;
+public entityValue=""
 public attribute                    : any ={};
 filterDynamicDate :formatUrlWithDynamicDate = {lasteYears:'N',lastMonth:'N',lastWeek:'N', today:'N',lastDay:'N',session:'N'} ;
 nameButtonNext                      = "Next"
@@ -102,7 +103,6 @@ next                                = 0 ;
 
   this.datePropertyName = serviceWidge.datePropertyName;
   this. dateProperty =serviceWidge.dateProperty;
-  console.log(  this. dateProperty);
 
 
 /* if the action is updated, call the URL decryption method   */ 
@@ -115,6 +115,8 @@ if(this.data.url !=undefined)
             .then((datas) => {  
               this.items            = datas;
               this.entity           = datas[this.index].entitys.name ;
+              this.entityValue          = datas[this.index].entitys.value ;
+
               this.attributes       = datas[this.index].attributes;
               var i                 = 0;
          
@@ -137,16 +139,14 @@ if(this.data.url !=undefined)
              if(this.update)
 for (  index = 0; index < this.items.length; index++) {
 
-  console.log(this.items[index].entitys.name)
   if  (this.items[index].entitys.name.toString() === this.entity.toString())
   {  
 
     break ;
   }  
 }
-this.index                          = this.update?index:this.index;
-
-console.log(index);
+this.index = this.update?index:this.index;
+console.log(this.index);
 
         resolve(this.checkValueForAttribute(    datas[this.index].attributes,attributeName)  )
            
@@ -194,7 +194,7 @@ console.log(index);
     newUrl                          = `${element.by}[${element.property}]=${element.value}${this.and}${url}`;
 
     else if (element.type.toString() ==='boolean')
-    newUrl                          = `exists[${element.by}]=${element.property}${this.and}${url}`;
+    newUrl                          = `exists[${element.by}]=${element.value}${this.and}${url}`;
     else
     newUrl                          = `${element.by}=${element.value}${this.and}${url}`;
     url                             = newUrl ;
@@ -225,7 +225,7 @@ console.log(index);
         if(array[0].indexOf("[")!=-1)  
 {        request.by                 = array[0].substring(0,array[0].indexOf("["));
 
-if(request.by === '"exists"')
+if(request.by === 'exists')
 { 
   
  request.property                   = request.by;
@@ -255,7 +255,6 @@ request.type                        = "date"
      
 
         await  this.translateValueToNameFromXml(    request.by).then(att=>{
-          console.log(att.toString());
           request.name              = att.toString();
       
           });
@@ -453,7 +452,7 @@ this.update?this.nameButtonNext     = "Update":this.nameButtonNext ="Create";
 this.enterPoint                     = `api/${this.entity}?`;
   this.urlRequest.by                = this.attribute.att;
 
-  if(this.filterType.toString() =="array")
+  if(this.filterType.toString() =="array" || this.filterType.toString() =="boolean")
   this.urlRequest.value             = this.property ;
   else 
   this.urlRequest.property          = this.property ;
@@ -469,7 +468,6 @@ this.enterPoint                     = `api/${this.entity}?`;
     this.urlRequest.property        = "after"
     input.value                     = this.property;
 
-console.log('#'+this.property)
     if (this.property =='#TD#')
     this.filterDynamicDate.today='T'
 else if( this.property=='#LY#')
@@ -482,6 +480,7 @@ else if(this.property=='#LD#')
 this.filterDynamicDate.lastDay='D'
         this.isDynamic                  = true;
   }
+  console.log('f'+ this.urlRequest)
   this.urlRequest.type              = this.filterType ;
   if(input.value !=undefined)
   this.urlRequest.value             = input.value ;

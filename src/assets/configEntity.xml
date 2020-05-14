@@ -1,21 +1,31 @@
+<!--type
+string 
+date
+numeric
+array
+boolean
+session
+ !-->
+
 <?xml version="1.0" encoding="UTF-8"?>  
   <entitys>
+  
 <entity   name= "users" enterpoint = "api/users" value="core users">
-  <attribute name ="name_user" value="name" type="string"> </attribute>
-  <attribute name = "last_name" value="last name" type="string" ></attribute>
-  <attribute name ="email _user" value= "email" type="string"></attribute>
-  <attribute name ="createAt" value= "creation date" type="date"></attribute>
-  <attribute name = "updateAt" value="update date" type="date"></attribute>
-  <attribute name = "prix" value="prix" type="numeric"></attribute>
+    <attribute name ="name_user" value="name" type="string"> </attribute>
+    <attribute name = "last_name" value="last name" type="string" ></attribute>
+    <attribute name ="email _user" value= "email" type="string"></attribute>
+    <attribute name ="createAt" value= "creation date" type="date"></attribute>
+    <attribute name = "updateAt" value="update date" type="date"></attribute>
+    <attribute name = "prix" value="prix" type="numeric"></attribute>
 
-  <attribute name ="roles" value="Role" type="array">
-    <property name="ROLE_ADMIN"  value="administrator" ></property >
-    <property name="{}" value="members"></property >
-  </attribute>
-  <attribute name ="enabled" value="status" type="array">
-    <property name="1" value="valid"></property >
-    <property name="0" value="invalid"></property >
-  </attribute>
+    <attribute name ="roles" value="Role" type="array">
+      <property name="ROLE_ADMIN"  value="administrator" ></property >
+      <property name="{}" value="members"></property >
+    </attribute>
+    <attribute name ="enabled" value="status" type="array">
+      <property name="1" value="valid"></property >
+      <property name="0" value="invalid"></property >
+    </attribute>
     <attribute name ="isActive" value="isActive" type="boolean"></attribute>
   </entity>
 
@@ -29,18 +39,17 @@
   <entity   name= "widgets" enterpoint = "api/widgets" value="widgets">
     <attribute name ="name_fr" value="name  (Francais)" type="string"> </attribute>
     <attribute name = "name_en" value="name  (Anglais)" type="string" ></attribute>
-        <attribute name = "users.id" value="current user" type="session" session_value="#currentSession#" session_name="idUser"></attribute>
-
+    <attribute name = "users.id" value="current user" type="session" session_value="#currentSession#" session_name="idUser"></attribute>
     <attribute name = "users.role" value="current ROLE" type="session" session_value="#currentRole#" session_name="idRole"></attribute>
     <attribute name = "users.x" value="current X" type="session" session_value="#currentx#" session_name="idx"></attribute>
    
-   <attribute name ="type" value= "type" type="array">
-       <property name="1"  value="indicator" ></property >
-       <property name="2"  value="indicator with list" ></property >
-       <property name="3"  value="list" ></property >
-       <property name="4"  value="graphic" ></property >
+    <attribute name ="type" value= "type" type="array">
+        <property name="1"  value="indicator" ></property >
+        <property name="2"  value="indicator with list" ></property >
+        <property name="3"  value="list" ></property >
+        <property name="4"  value="graphic" ></property >
 
-    </attribute>
+      </attribute>
   
   </entity>
 </entitys>

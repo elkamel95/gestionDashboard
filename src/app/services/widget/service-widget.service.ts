@@ -76,7 +76,7 @@ this.behaviorWidget.next(widget);
 
   getAllWidget(property) :Observable<Widget[]>{
 
-   return this.http.get<Widget[]>(`${this.url}/api/widgets${property}&users.id=${localStorage.getItem('idUser')}`,{headers: this.headers}).pipe(map(data => data['hydra:member']));
+   return this.http.get<Widget[]>(`${this.url}/api/widgets${property}`,{headers: this.headers}).pipe(map(data => data['hydra:member']));
   }
   
 
@@ -111,7 +111,6 @@ url=  url.replace('#LW#',this.getDate(-7,0,0));
 url=  url.replace('#LD#',this.getDate(-1,0,0));
  if(url.charAt(5)=='T')
 url=  url.replace('#TD#',this.getDate(0,0,0));
-//!YMWDTNapi/users?createAt[after]=#TD#&createAt[after]=#LD#&createAt[after]=#LW#&createAt[after]=#LM#&createAt[after]=#LY#
  
 if(url.charAt(6)=='S')
 {this.setPropertysForSessiontype.subscribe(

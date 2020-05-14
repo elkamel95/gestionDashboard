@@ -57,13 +57,13 @@
             </mat-error>
           </mat-form-field>
           <mat-form-field class="example-full-width">
-            <input matInput placeholder="Password" formControlName="confirm"
+            <input matInput placeholder="Confirm Password" formControlName="confirm"
            type="password"   EqualsField="password"             [ngClass]="{ 'is-invalid': submitted && f.confirm.errors }"
            >
               <mat-error  *ngIf="f.confirm.touched && f.confirm.errors">
                 <div *ngIf=" f.confirm.errors?.notEquals && !( f.password.errors?.minlength)" >Password  and confirm Password does not match</div>
-                <div *ngIf="f.password.errors?.required">Password is required</div>
-                <div *ngIf="f.password.errors?.minlength">Password must be at least 6 characters</div>
+                <div *ngIf="f.password.errors?.required">Confirm Password is required</div>
+                <div *ngIf="f.password.errors?.minlength">Confirm Password must be at least 6 characters</div>
 
             </mat-error>
           </mat-form-field>

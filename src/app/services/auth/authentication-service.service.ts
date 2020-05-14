@@ -31,8 +31,8 @@ body.set('password', password);
 let options = {
   headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
 };
-        return this.http.post<any>(`${this.apiUrl}/login_check`, body.toString(),options)
-            .pipe(map(user => {
+        return  this.http.post<any>(`${this.apiUrl}/login_check`, body.toString(),options)
+            .pipe(map(async user => {
         
               localStorage.setItem('token',user.token);
 
@@ -49,9 +49,9 @@ let options = {
                  this.roles = decodedJwtData.roles.toString().split(',')[0];
                  localStorage.setItem('roles', JSON.stringify(this.roles));
                  localStorage.setItem('username', JSON.stringify(this.username));
-                 this.userService.
-                 getUsersBy(username).subscribe(profil=>{
-                   localStorage.setItem('idUser', profil[0].id);
+                 await  this.userService.
+                 getUsersBy(username).subscribe(async profil=>{
+                  await   localStorage.setItem('idUser', profil[0].id);
 
 
                  }) ;
