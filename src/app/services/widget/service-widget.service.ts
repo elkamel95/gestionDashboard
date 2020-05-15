@@ -97,6 +97,7 @@ var month = currentDate.getMonth() + 1+nMonth
 var year = currentDate.getFullYear()+nyear;
     return  year+'-'+month+'-'+day;
       }
+      
  createDynamicQuery(url:string):string{
   var sessionType:SessionType[];
   var i=0;

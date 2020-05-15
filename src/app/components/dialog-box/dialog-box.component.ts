@@ -49,7 +49,6 @@ public and                          = ""
 public attributes                   = [] ;
 public attributesValues             = [] ;
 public attributesName               = '' ;
-
 public requests                     = [new Url()] ;
 public isDynamic                    = false;
 public urlRequest                   : Url =new Url();
