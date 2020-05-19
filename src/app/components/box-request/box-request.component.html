@@ -1,23 +1,35 @@
 
 
 <div fxLayout="column" fxLayoutGap="0px" class="box">
-    <div fxLayout="row" fxFlex="40" class="headerbox" fxLayoutAlign="space-between center" >
-         <div  fxFlexOffset="50px">
-             <p> {{ name | titlecase }} {{propertyValueForDate?':':''}} {{propertyValueForDate | titlecase }}</p>
+
+    <div fxLayout="row" fxFlex="40" class="headerbox"  fxLayoutAlign="space-between center" >
+        <div   class="boxForNumber" fxFlexAlign="start" fxFlex="15%">
+            <p class="headerText">  <b>{{index}}</b></p> 
          </div>
-         <div   fxFlexOffset="3px">
+         <div  fxFlexOffset="50px"  fxFlexAlign="center" fxFlex="100">
+             <p fxFlex="100px"> {{ name | titlecase }} </p>
+         </div>
+         <div   fxFlexOffset="3px" fxFlexAlign="start" >
             <button mat-button (click)= "removeQuery()"><mat-icon class="icon" >remove_circle</mat-icon></button>   
         </div>
 
     </div>
     
     <div fxLayout="row" fxFlex="70" fxLayoutAlign="space-between center" >
-        <mat-card fxFlex="100" *ngIf="value.charAt(0) != '#'">
-    
-      <p *ngIf="property != undefined && value.charAt(0) != '#'">Property :{{ property  | titlecase}}</p>  
-      <p *ngIf="value.charAt(0) != '#'">Value:{{value | titlecase}}</p> 
-    
-    </mat-card> 
+        <mat-card fxFlex="100" >
+            <div fxLayout="column"  fxFlex="100" >
+                <div fxFlexAlign="center"  *ngIf="value.charAt(0) == '#'">
+                    <b>
+                        {{propertyValueForDate | titlecase }}
+                    </b>
+
+                </div>
+              
+      <p  *ngIf="property != undefined &&property.length !=0 && value.charAt(0) != '#'"><b>Property :{{ property  | titlecase}}</b></p>  
+
+      <p  *ngIf="value.charAt(0) != '#'"> <b>Value ={{value | titlecase}}</b></p> 
+            </div>
+    </mat-card>
     </div>
     
     <div fxLayout="row" fxFlex="10" fxLayoutAlign="space-between center" >

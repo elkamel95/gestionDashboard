@@ -1,7 +1,7 @@
 
 .icon{
     font-size: 30px;
-    color: #ffa200;
+    color: #ffb500;
 }
 
 .headerbox{
@@ -10,9 +10,17 @@ background-color:  #0b0f2f;
     background-repeat: no-repeat;
     background-size: cover;
     color: white;
-   
+    min-width: 100px;
+    min-height: 70px;
 }
-
+.boxForNumber{
+    background-color: #ffb500; max-height: 20%;height: 30px;min-width: 25px;
+}
+.headerText{
+    text-align: center;
+    font-size: larger;
+    margin-top: 1px;
+}
 .box{
     -webkit-box-shadow: 0px 10px 13px -7px #000000, 6px 9px 19px 18px rgba(0,0,0,0); 
     box-shadow: 0px 10px 13px -7px #000000, 6px 9px 19px 18px rgba(0,0,0,0);

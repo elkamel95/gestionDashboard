@@ -129,6 +129,61 @@ if(url.charAt(6)=='S')
 
   return url ;
 }
+
+translateValueToNameFromXml(entity){
+  var index      
+  return new Promise(resolve=>{
+     this.xml.loadXML() .subscribe((data) => {  
+      this.xml.parseXML(data)  
+  
+            .then((datas) => {  
+
+      
+for (  index = 0; index < datas.length; index++) {
+
+if  (datas[index].entitys.name.toString() === entity.toString())
+{  
+
+  break ;
+}  
+}
+      resolve( datas[index] );
+         
+
+
+         
+            });  
+
+        }); 
+
+
+  });
+
+  
+
+}
+checkValueForAttribute(DataBaseAttributes,xmlAttributes){
+  var value      = [];
+  var NameForAttribute   = [];
+  var valueOfAttribute  = [];
+  for(var i in DataBaseAttributes) {
+    if(i.toString().charAt(0) !=='@')
+      for(var att of xmlAttributes) {
+
+
+    if( att.$.name.toString() === i.toString())  
+   {
+     NameForAttribute.push(att.$.name);
+
+         valueOfAttribute.push(att.$.value);
+    break;
+  }
+
+
+  }}
+  value.push({name:NameForAttribute,value:valueOfAttribute});
+  return value;
+}
   postWidget(widget:Widget){
 widget.createAt =this.getDateTime().toString();
 widget.updateAt =this.getDateTime().toString();
@@ -154,8 +209,11 @@ widget.updateAt =this.getDateTime();
       console.log(error);
     }); ;
   }
-  getAnything(generiqueUrl,property=""){
-    return this.http.get<Widget[]>(this.url+"/"+generiqueUrl+property,{headers: this.headers}).pipe(map(data => data['hydra:member']));
+  getAnything(generiqueUrl,isRelationType){
+    if(isRelationType)
+    return this.http.get<Widget[]>(this.url+"/"+generiqueUrl,{headers: this.headers});
+else
+    return this.http.get<Widget[]>(this.url+"/"+generiqueUrl,{headers: this.headers}).pipe(map(data => data['hydra:member']));
 
   }
 

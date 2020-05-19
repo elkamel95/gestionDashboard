@@ -40,12 +40,10 @@ h6{
   cursor: grab;
 }
 
-.layoutPositionListWidget{
-  margin-top: 10%;
-  
-}
+
 .example-boundary {
 width: 100%;
   min-width: 100vw; ;
+  min-height: 100vh;
   border: dotted #ccc 2px;
 }

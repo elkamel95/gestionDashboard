@@ -38,7 +38,7 @@ public dontActiveUrl=""
      if(this.url.charAt(0)==='!'){
       this.url=   this.serviceWidget. createDynamicQuery(this.url);
     }
-    this.serviceWidget.getAnything( this.url).subscribe(list=>{
+    this.serviceWidget.getAnything( this.url,false).subscribe(list=>{
       this.valueWidget = list.length ; 
               
               },()=>{},()=>{this.loadedData=false});
@@ -57,7 +57,7 @@ public dontActiveUrl=""
 setTimeout(()=>{
   this.dontActiveUrl=this.router.url;
   if(this.activeUrl ==this.dontActiveUrl)
-{  this.serviceWidget.getAnything( url).subscribe(list=>{
+{  this.serviceWidget.getAnything( url,false).subscribe(list=>{
     this.valueWidget = list.length ; 
             
             },()=>{},()=>{this.loadedData=false ;           

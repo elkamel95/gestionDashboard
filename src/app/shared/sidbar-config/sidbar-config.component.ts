@@ -63,7 +63,6 @@ if(addAndRemove)
 this.allWidgetToBeConfigured.push(this.data);
   
     
-  console.log (this.allWidgetToBeConfigured);
 
 }
    

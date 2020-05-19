@@ -64,7 +64,7 @@
 
     </div>
 
-    <div  [ngClass]="{'border-permutation': modeLayout.permutation}"     (click)="permutation(1)" 
+    <div  [ngClass]="{'border-permutation': modeLayout.permutation}"  fxLayoutAlign="space-around start"    (click)="permutation(1)" 
     
     [fxFlexOrder]="  modeLayout.postions ? '' : letters[1] "   
       [fxLayout]="modeLayout.list " fxLayoutGap="50px"
@@ -83,8 +83,8 @@
         >
            
              
-                <widget-list     matRipple
-                matRippleColor="#00000029" (click)="setWidgetToUpdate(list)" 
+                <widget-list     
+               (click)="setWidgetToUpdate(list)" 
                 [backgroundColor]=" list.backgroundColor "
                 [textColor] ="list.textColor"
                 [width] ="list.width"
@@ -94,7 +94,7 @@
                [font]="list.font"
                [url] ="list.url ? list.url :'api/as'"
 
-                style="margin-top: 10%;" [title] ="list.nameFr" >
+                 [title] ="list.nameFr" >
             
             </widget-list>
 

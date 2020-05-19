@@ -55,7 +55,6 @@ this.data.width=  this.screenWidth ;
     height:'80%' ,
 data:this.data,
     });
-    console.log("qsd");
  }
 
 

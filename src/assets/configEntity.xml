@@ -12,10 +12,10 @@ session
   
  <entity   name= "users" enterpoint = "api/users" value="core users">
 
-    <attribute name ="name_user" value="name" type="string"> </attribute>
+    <attribute name ="username" value="name" type="string"> </attribute>
 
-    <attribute name = "last_name" value="last name" type="string" ></attribute>
-    <attribute name ="email _user" value= "email" type="string"></attribute>
+    <attribute name = "fullname" value="last name" type="string" ></attribute>
+    <attribute name ="email" value= "email" type="string"></attribute>
 
     <attribute name ="createAt" value= "creation date" type="date"></attribute>
 
@@ -49,10 +49,11 @@ session
   </entity>
 
   <entity   name= "widgets" enterpoint = "api/widgets" value="widgets">
-    <attribute name ="name_fr" value="name  (Francais)" type="string"> </attribute>
-    <attribute name = "name_en" value="name  (Anglais)" type="string" ></attribute>
-
+    <attribute name ="nameFr" value="name  (Francais)" type="string"> </attribute>
+    <attribute name = "nameEn" value="name  (Anglais)" type="string" ></attribute>
     <attribute name = "users.id" value="current user" type="session" session_value="#currentSession#" session_name="idUser"></attribute>
+
+    <attribute name = "users" value="Le nom de l'utilisateur qui l'a créé" type="relation" ></attribute>
     
     <attribute name = "users.role" value="current ROLE" type="session" session_value="#currentRole#" session_name="idRole"></attribute>
     <attribute name = "users.x" value="current X" type="session" session_value="#currentx#" session_name="idx"></attribute>
