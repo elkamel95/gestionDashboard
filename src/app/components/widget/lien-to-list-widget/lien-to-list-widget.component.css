@@ -1,0 +1,29 @@
+.task-header {
+    background-color: transparent;
+    padding: 0 5px;
+
+}
+.mat-dialog-title {
+    margin: -24px -24px 20px;
+        display: block;
+    background-color: #0b0f2f;
+    height: 50px;
+
+}
+.fx-spacer {
+    flex: 1 1 auto;
+}
+
+.mat-form-field{
+    padding: 10px;
+}
+
+
+.task-header {
+    color: white;
+    padding: 0 5px;
+     height: 50px;
+}
+.fx-spacer {
+    flex: 1 1 auto;
+}

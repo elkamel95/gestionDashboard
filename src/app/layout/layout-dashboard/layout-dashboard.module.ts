@@ -54,6 +54,7 @@ import { DialogResetComponent } from 'src/app/components/dialog-reset/dialog-res
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatNativeDateModule} from '@angular/material/core';
 import { BoxRequestComponent } from 'src/app/components/box-request/box-request.component';
+import { LienToListWidgetComponent } from 'src/app/components/widget/lien-to-list-widget/lien-to-list-widget.component';
 
 @NgModule({
   declarations: [
@@ -74,7 +75,7 @@ import { BoxRequestComponent } from 'src/app/components/box-request/box-request.
         IndicateurListeComponent,
         DialogDeleteComponent,
         DialogResetComponent,
-
+        LienToListWidgetComponent,
         SidbarConfigComponent,
         ValidatorEquals,
         ValidatorEmailCheckerdirective,
@@ -131,7 +132,8 @@ import { BoxRequestComponent } from 'src/app/components/box-request/box-request.
     DialogDeleteComponent,
     SpinnerComponent,
     DialogResetComponent,
-    
+    LienToListWidgetComponent,
+
     ]
 })
 export class LayoutDashboardModule { }

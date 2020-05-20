@@ -1,45 +1,63 @@
-<div  [ngStyle]="{'width': width+'%', 'height': height+'%'}">
-    <mat-card 
-    
-    [ngStyle]="{'background-color': backgroundSmallWidget , 'color':colorSmallWidget} " fxLayout="column"
-    class="content matCardBackground"
-
-    >
+<mat-card    [ngStyle]="{'background-color': backgroundSmallWidget , 'color':colorSmallWidget ,'width': width+'px', 'height': height+'px'}
+ "
+class="content matCardBackground"
+fxLayout="column">
 <!--        background: linear-gradient(60deg,#ffa726,#ffa726);
 -->
-      <div fxLayout="row"   fxLayoutGap="10px" >
-          <mat-card  fxFlex ="50" class="widget"  [ngStyle]="{'background-color': backgroundColor ,'color':backgroundSmallWidget}" >
-          <div>
-            <mat-icon> import_export</mat-icon>
+  <div fxLayout="row"   fxLayoutGap="10px" >
+      <mat-card  fxFlex ="50" class="widget"  [ngStyle]="{'background-color': backgroundColor ,'color':backgroundSmallWidget}" >
+      <div>
+        <mat-icon> import_export</mat-icon>
+      </div>
+      </mat-card>
+
+      <div fxLayout="row" fxFlex fxLayoutAlign="end center">
+        <div fxLayout="column"   >
+          <div fxLayout="row"   class="mat-caption" fxFlex  ="10">
+            <p [ngStyle]="{ 'color':colorSmallWidget }">{{entity}}
+            </p>
+
+            <mat-icon class="icon-display">sync</mat-icon>
           </div>
-          </mat-card>
+            <div fxFlex ="10"  >
+            <h1 class="indicateurPosition " [ngStyle]="{ 'color':colorSmallWidget ,'font-size':size,'font-weight':font }">
+<ng-container *ngIf="loadedData; else elseTemplate">
+<mat-spinner diameter="20" mode="indeterminate" color="accent"></mat-spinner>
 
-          <div fxLayout="row" fxFlex fxLayoutAlign="end center">
-            <div fxLayout="column"   >
-              <div  class="mat-caption" fxFlex  ="10">
-                <p [ngStyle]="{ 'color':colorSmallWidget }">core user</p>
-              </div>
-                <div fxFlex ="10"  >
-                <h1 class="indicateurPosition " [ngStyle]="{ 'color':colorSmallWidget ,'font-size':size,'font-weight':font }">{{indicateur}}</h1>
-              </div>
-          
+</ng-container>
+<ng-template #elseTemplate>
+{{valueWidget}}
+
+</ng-template>
+
+
+              
+            </h1>
           </div>
-          
-          </div>
+      
+      </div>
+      
+      </div>
 
-    </div> 
-<div fxLayoutGap="10px" id="content" class="content">
+</div> 
+<div fxLayoutGap="5px" id="content" class="content">
 
-  <mat-divider></mat-divider>
+<mat-divider></mat-divider>
 
-  <p style="margin-top: 2%"  id="test"   [ngStyle]="{'color': textColor ,'font-size':size ,'font-weight':font}">
-    
-         
-    {{title}}  
-   </p>
+<p style="margin-top: 2%"  id="test"   [ngStyle]="{'color': textColor ,'font-size':size ,'font-weight':font}">
+
+     
+{{title}}  
+</p>
 </div>
-<div fxLayoutAlign="end end" style="margin-right: 10px;
-margin-bottom: 10px;"  (click)="openList()"><mat-icon> assessment</mat-icon>
-</div>
-    </mat-card>
-</div>
+  
+<ng-container *ngIf="loadedData; else Display">
+  <mat-spinner diameter="20" mode="indeterminate" color="accent" fxFlexAlign="end"  ></mat-spinner>
+  
+  </ng-container>
+  <ng-template #Display>
+    <button mat-button matTooltip="Display Data List"  (click)= "openList()"  fxFlex="100%" fxFlexAlign="end"   ><mat-icon>list_alt</mat-icon></button>
+  
+  </ng-template>
+  
+</mat-card>

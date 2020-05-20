@@ -3,6 +3,8 @@ import { WidgetListComponent } from '../widget-list/widget-list.component';
 import { MatDialog } from '@angular/material';
 import { Widget } from 'src/app/models/Widget';
 import { ServiceWidgetService } from 'src/app/services/widget/service-widget.service';
+import { Router } from '@angular/router';
+import { LienToListWidgetComponent } from '../lien-to-list-widget/lien-to-list-widget.component';
 
 @Component({
   selector: 'IndicateurListe',
@@ -15,8 +17,8 @@ implements OnInit {
 @Input()  title =" ";
 @Input() backgroundColor ="";
 @Input() textColor ="";
-@Input() backgroundSmallWidget="" ; 
-@Input() colorSmallWidget="" ;
+@Input() backgroundSmallWidget="#000"; 
+@Input() colorSmallWidget="#ffa000" ;
 @Input() size ="";
 @Input() width ;
 @Input() height;
@@ -26,17 +28,72 @@ implements OnInit {
 data:Widget = new Widget();
   screenWidth: number;
   screenHeight :number;
-  constructor(public dialog: MatDialog,private serviceWidget:ServiceWidgetService) { 
-    this.screenWidth= serviceWidget.screenWidth - (10* serviceWidget.screenWidth/100);
-this.screenHeight = serviceWidget.screenHeight - (10* serviceWidget.screenWidth/100);
 
+
+ 
+
+  public valueWidget :number=0;
+  public loadedData =true ; 
+  public activeUrl=""
+  public dontActiveUrl=""
+  entity="";
+    constructor(private serviceWidget:ServiceWidgetService,public dialog: MatDialog,private router : Router) {
+      this.screenWidth= serviceWidget.screenWidth - (10* serviceWidget.screenWidth/100);
+      this.screenHeight = serviceWidget.screenHeight - (10* serviceWidget.screenWidth/100);
+      
+     }
+  
+    ngOnInit() {
+      this.activeUrl=this.router.url;
+      this.dontActiveUrl=this.router.url;
+      this.height ="70%"
+      if(this.url !=undefined)
+     { 
+      var entity =this.url.substring(this.url.indexOf("/")+1,this.url.indexOf("?"));
+
+      this.serviceWidget. translateValueToNameFromXml(entity).then((entity:any)=>{
+        this.entity=entity.entitys.value;
+      })
+      //  #DN#:  data now  
+       if(this.url.charAt(0)==='!'){
+        this.url=   this.serviceWidget. createDynamicQuery(this.url);
+      }
+      this.serviceWidget.getAnything( this.url,false).subscribe(list=>{
+        this.valueWidget = list.length ; 
+                
+                },()=>{},()=>{this.loadedData=false});
+              
+              
+                this.getDataFromUrl( this.url);
+  
+              }
+  }
+  
+  
+  
+    
+  
+    getDataFromUrl(url){
+  setTimeout(()=>{
+    this.dontActiveUrl=this.router.url;
+    if(this.activeUrl ==this.dontActiveUrl)
+  {  this.serviceWidget.getAnything( url,false).subscribe(list=>{
+      this.valueWidget = list.length ; 
+              
+              },()=>{},()=>{this.loadedData=false ;           
+                    this.getDataFromUrl( this.url);
+              });
+  }
+  },20000);
+     
+  
   }
 
-  ngOnInit() {
-    this.width ="100%";
-    this.height ="70%"
 
-  }
+
+
+
+
   openList() {
  
  {   
@@ -47,12 +104,14 @@ this.data.size = this.size ;
 this.data.textColor = this.textColor ;
 this.data.url= this.url ;
 this.data.width=  this.screenWidth ;
+this.data.type='2';
+    const dialogRef = this.dialog.open(LienToListWidgetComponent,{
+      width: '98%',
+      maxWidth:'98%',
+      minWidth:'98%',
+      maxHeight:'98%',
 
-    const dialogRef = this.dialog.open(WidgetListComponent,{
- width:this.serviceWidget.screenWidth +"px",
- maxWidth:     this.screenWidth+"px",
-    maxHeight: this.serviceWidget.screenHeight +"px",
-    height:'80%' ,
+      height:'98%',
 data:this.data,
     });
  }

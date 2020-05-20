@@ -6,7 +6,7 @@
  
   <mat-card-header  >
         <mat-card class="matCardBackground" [ngStyle]="{'background-color': backgroundColor}">
-            <mat-card-subtitle class="title" [ngStyle]="{'color': textColor ,'font-size':size ,'font-weight':font}">  {{title}}</mat-card-subtitle>
+            <mat-card-subtitle class="title" [ngStyle]="{'color': textColor ,'font-size':size ,'font-weight':font}">  {{title | titlecase}}</mat-card-subtitle>
 
         </mat-card>
     </mat-card-header>
@@ -17,14 +17,15 @@
           The actual rendered columns are set as a property on the row definition" -->
   
     <!-- Position Column -->
-    <div  *ngFor="let list of displayedColumns ; let index =index ;"     >
+    
+    <div  *ngFor="let list of displayedColumns ; let index = index ;"     >
 
     <ng-container  [matColumnDef]="list" >
       <th mat-header-cell *matHeaderCellDef><b>  {{headerValue[index] | titlecase }} </b> &nbsp; </th>
               
-      <td mat-cell *matCellDef="let element" style="padding: 20px;"  >  
+      <td mat-cell *matCellDef="let element let nbLigne = index" style="padding: 20px;"  >  
 <ng-container *ngIf="isDate(element[list]); else isNotDate">
-  {{element[list] |  date:'MM/dd/yyyy'}}
+  {{headerValue[index]=='No.'? nbLigne+1 : element[list] |  date:'MM/dd/yyyy'}}
 
 </ng-container>
 <ng-template #isNotDate>
@@ -37,7 +38,7 @@
 </ng-container>
 <ng-template #relation>
   
-  {{element[list] }}
+  {{ headerValue[index]=='No.'? nbLigne+1 : element[list]  }}
 
 </ng-template>
 

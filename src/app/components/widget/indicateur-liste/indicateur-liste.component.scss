@@ -1,34 +1,37 @@
 mat-card{
-  width: 100%;
+
+  height: fit-content;
+margin-top: 10%;
+  max-width:600px
+}
+
+mat-card.widget{
+    margin-top: -35px;
+    height: 156px;
+ 
+    box-shadow:  0px 4px 20px 1px #fafafa54, 0 7px 10px -5px rgb(0, 0, 0);
+}
+mat-icon{
+  font-size: 50px;
+}
+.indicateurPosition{
+  margin-top: 1%;
+  background-color: transparent;
+}
+.content{
+    white-space:pre-wrap;
+    word-wrap:break-word;
+}
+
+  #content {
+    float:left;
     height: fit-content;
-  margin-top: 10%;
-  max-width:600px;
+    }
+    .matCardBackground{
+      box-shadow:  0px 4px 20px 1px #fafafa54, 0 7px 10px -5px rgb(0, 0, 0) !important;
+    }
+    .icon-display{
 
-  }
-
-  mat-card.widget{
-      margin-top: -35px;
-      height: 156px;
-   
-      box-shadow:  0px 4px 20px 1px #fafafa54, 0 7px 10px -5px rgb(0, 0, 0);
-  }
-  mat-icon{
-    font-size: 50px;
-  }
-  .indicateurPosition{
-    margin-top: 1%;
-    background-color: transparent;
-  }
-  .content{
-      white-space:pre-wrap;
-      word-wrap:break-word;
-  }
-
-    #content {
-      float:left;
-      width:98%;
-      height: fit-content;
-      }
-      .matCardBackground{
-        box-shadow:  0px 4px 20px 1px #fafafa54, 0 7px 10px -5px rgb(0, 0, 0) !important;
-      }
+      font-size: 20px;
+      width: 20px;
+    }
