@@ -271,7 +271,7 @@ if(this.data.id == null)
     this.data.type                  = "1";
 
     this.data .width                = 400;
-    this.data .height               = 100;
+    this.data .height               = 285;
   
 
   this.data.backgroundSmallWidget   = "#FFB500";
@@ -305,7 +305,15 @@ this.data.url                       = "";
     this.data.backgroundColor       = "#fff";
 
 
-}}
+}else if(this.data.type ==='3'){
+  this.data.textColor             = "#fff";
+
+  this.data.backgroundColor       = "#0B0F2F";
+  this.data .width                = 500;
+
+}
+
+}
   }
 
   setChartOptions(width             = 300,height="200",text="",colorText ="#000"

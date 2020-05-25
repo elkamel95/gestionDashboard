@@ -16,13 +16,14 @@ export class IndicateurComponent implements OnInit {
 @Input() colorSmallWidget="#ffa000" ;
 @Input() size ="";
 @Input() width ;
-@Input() height;
+@Input() height="300px";
 @Input() font;
 @Input() url:string;
 public valueWidget :number=0;
 public loadedData =true ; 
 public activeUrl=""
 public dontActiveUrl=""
+  entity="";
 
   constructor(private serviceWidget:ServiceWidgetService,private router : Router) {
    }
@@ -31,9 +32,13 @@ public dontActiveUrl=""
     this.activeUrl=this.router.url;
     this.dontActiveUrl=this.router.url;
 
-    this.height ="70%"
     if(this.url !=undefined)
    { 
+    var entity =this.url.substring(this.url.indexOf("/")+1,this.url.indexOf("?"));
+
+    this.serviceWidget. translateValueToNameFromXml(entity).then((entity:any)=>{
+      this.entity=entity.entitys.value;
+    });
     //  #DN#:  data now  
      if(this.url.charAt(0)==='!'){
       this.url=   this.serviceWidget. createDynamicQuery(this.url);

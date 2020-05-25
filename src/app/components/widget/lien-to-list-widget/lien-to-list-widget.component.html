@@ -23,7 +23,7 @@
       <div  *ngFor="let list of displayedColumns ; let index = index ;"     >
   
       <ng-container  [matColumnDef]="list" >
-        <th mat-header-cell *matHeaderCellDef><b style="color: black;">  {{headerValue[index] | titlecase }} </b> &nbsp; </th>
+        <th mat-header-cell *matHeaderCellDef><b style="color: black;">  {{headerValue[index] | titlecase }} </b>  </th>
                 
         <td mat-cell *matCellDef="let element let nbLigne = index" style="padding: 20px;"  >  
   <ng-container *ngIf="isDate(element[list]); else isNotDate">
@@ -33,7 +33,7 @@
   <ng-template #isNotDate>
   
     
-  <ng-container *ngIf="isDateUrl(element[list]) else relation">
+  <ng-container *ngIf="isUrl(element[list]) else relation">
     <button mat-button (click)="showTheRelationData(element[list] )"> 
       <mat-icon> assessment</mat-icon>
     </button>

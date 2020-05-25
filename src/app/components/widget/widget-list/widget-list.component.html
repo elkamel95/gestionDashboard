@@ -11,7 +11,7 @@
         </mat-card>
     </mat-card-header>
    
-<table   mat-table [dataSource]="dataSource" [ngStyle]="{'width': width+'px', 'height': height+'%'}"  >
+<table   mat-table [dataSource]="dataSource" [ngStyle]="{'width': width+'px'}"  >
 
     <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
@@ -31,7 +31,7 @@
 <ng-template #isNotDate>
 
   
-<ng-container *ngIf="isDateUrl(element[list]) else relation">
+<ng-container *ngIf="isUrl(element[list]) else relation">
   <button mat-button (click)="showTheRelationData(element[list] )"> 
     <mat-icon> assessment</mat-icon>
   </button>

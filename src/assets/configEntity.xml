@@ -22,6 +22,7 @@ session
     <attribute name = "updateAt" value="update date" type="date"></attribute>
 
     <attribute name = "prix" value="prix" type="numeric"></attribute>
+    <attribute name = "widgets" value="Widgets User" type="relation" ></attribute>
 
     <attribute name ="roles" value="Role" type="array">
       <property name="ROLE_ADMIN"  value="administrator" ></property >

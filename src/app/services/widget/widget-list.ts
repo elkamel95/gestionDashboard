@@ -3,6 +3,7 @@ import { MatPaginator, MatTableDataSource, MAT_DIALOG_DATA, MatDialog } from '@a
 import { Widget } from 'src/app/models/Widget';
 import { ServiceWidgetService } from 'src/app/services/widget/service-widget.service';
 import { LienToListWidgetComponent } from '../../components/widget/lien-to-list-widget/lien-to-list-widget.component';
+import { BehaviorSubject } from 'rxjs';
 export interface PeriodicElement {
   name: string;
   position: number;
@@ -29,25 +30,35 @@ entity: string="";
 columnsToDisplay: string[] = [];
 displayedColumns: string[] = [];
 headerValue=[];
-isRelationType=false;
+isRelationType:boolean=false;
+checkIfMultiUrl= new BehaviorSubject<boolean>(false);
+setTypeOfUrl = this.checkIfMultiUrl.asObservable();
 public dataSource :MatTableDataSource<any> = new MatTableDataSource<any>();
  
 @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   constructor(
     @Optional() @Inject(MAT_DIALOG_DATA) public Alldata: Widget ,
-    public dialog: MatDialog, public serviceWidget:ServiceWidgetService) { }
- 
+    public dialog: MatDialog, public serviceWidget:ServiceWidgetService) {
+      this.setTypeOfUrl.subscribe(value=>{
 
+  this.isRelationType=value;
+  
+      });
+     }
+ 
+    setValueOfTypeUrl(type){
+      this.checkIfMultiUrl.next(type);
+    }
 
 getDataFromUrl(url){
     var listData=[];
+   
+
     if(this.isRelationType)
     { 
         this.entity =url.substring(url.indexOf("/")+1,url.length);
-        console.log(this.entity);
  
         this.entity = this.entity.substring(0,url.indexOf("/")+2);
-        console.log(this.entity);
  
      }
  
@@ -66,7 +77,6 @@ getDataFromUrl(url){
     else
     listData=list;
     this.dataSource=new MatTableDataSource<any>(listData); 
-console.log(list);
     this.serviceWidget.translateValueToNameFromXml(this.entity).then((header:any)=>{
    
 
@@ -79,38 +89,83 @@ console.log(list);
         this.headerValue=headerValueWithNumberLigne;
         this.list= list ;
         this.dataSource.paginator = this.paginator ;
+
     });
-   
+
     },()=>{}, () => {
       this.progressBar = true;
 
  });
+ /*this.syncData(url);*/
+
 }
 isDate(value){
   var isDate =false;
   var data ; 
-  if( typeof(value) =="string")
-{  var c = value.charAt(0);
+
+  if( typeof(value) =="string"  && typeof(value) != undefined)
+{ 
+
+  var c = value.charAt(0);
 var isDigit = (c >= '0' && c <= '9');
   if(isDigit && value.indexOf('/') !=-1|| value.indexOf('-')!=-1)
  {   data=new Date(Date.parse(value));
     
 if(data !="Invalid Date")
 isDate=true;
-}}
-   
+}
+
+}else{
+  isDate=false;
+}
+
      return isDate;
 
 }
 
-isDateUrl(str){
+isUrl(str){
   var regexQuery = "^/([-a-z0-9]{1,100})/([-a-z0-9]{1,100})/([-a-z0-9]{1,100})$";
-  var url = new RegExp(regexQuery,"i");
-  return url.test(str);
-  
+  var regExpUrl = new RegExp(regexQuery,"i");
+
+  if(typeof str ==="string" )
+  {
+    if(str.charAt(0)=="/"  )
+    {
+      return regExpUrl.test(str);
+
+    }
+  }
+  else if(typeof str ==="object" )
+  if( str[0]!= undefined && str[0].charAt(0)=="/"  )
+  {
+
+
+   // var multiUrl =str.split(',');
+
+  return regExpUrl.test(str[0]);
+  } 
 }
 
+/*
+syncData(url){
+  var listData=[];
 
+setTimeout(() => {
+  this.serviceWidget.getAnything(url,this.isRelationType).subscribe(list=>{
+    if(this.isRelationType)
+  listData.push(list);
+  else
+  listData=list;
+
+  this.dataSource=new MatTableDataSource<any>(listData); 
+  this.dataSource.paginator = this.paginator ;
+
+},()=>{},()=>{
+    this.syncData(url);
+  });
+
+}, 20000);}
+*/
 }
 
 
