@@ -35,12 +35,10 @@ public dialog: MatDialog,  serviceWidget:ServiceWidgetService) {
    { 
     url= this.getEnterpointFromUrl(url);
 
-
   }
   else
   {
-    console.log(typeof url );
-    this.setValueOfTypeUrl(true);
+ 
 
 
   url =url.substring(url.indexOf("/")+1,url.length);}

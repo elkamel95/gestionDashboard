@@ -14,7 +14,7 @@ export class BoxRequestComponent implements OnInit {
 @Input()name="";
 @Input()propertyValueForDate="";
 @Input()index;
-
+@Input()valuepropertyOfTypeArray="";
 
 @Output() removeFilter:EventEmitter<any> = new  EventEmitter<any>();
   constructor(private serviceWidget:ServiceWidgetService) { }

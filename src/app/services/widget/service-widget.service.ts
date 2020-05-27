@@ -129,7 +129,35 @@ if(url.charAt(6)=='S')
 
   return url ;
 }
+getIndexEntityByName(entity){
+  var index      
+  return new Promise(resolve=>{
+     this.xml.loadXML() .subscribe((data) => {  
+      this.xml.parseXML(data)  
+  
+            .then((datas) => {  
 
+      
+for (  index = 0; index < datas.length; index++) {
+
+if  (datas[index].entities.name.toString() === entity.toString())
+{  
+
+  break ;
+}  
+}
+      resolve( datas[index].id  );
+         
+
+
+         
+            });  
+            
+        }); 
+
+
+      });
+}
 translateValueToNameFromXml(entity){
   var index      
   return new Promise(resolve=>{
@@ -141,7 +169,7 @@ translateValueToNameFromXml(entity){
       
 for (  index = 0; index < datas.length; index++) {
 
-if  (datas[index].entitys.name.toString() === entity.toString())
+if  (datas[index].entities.name.toString() === entity.toString())
 {  
 
   break ;
@@ -162,7 +190,7 @@ if  (datas[index].entitys.name.toString() === entity.toString())
   
 
 }
-checkValueForAttribute(DataBaseAttributes,xmlAttributes){
+getHeaderValueFormAttribute(DataBaseAttributes,xmlAttributes){
   var value      = [];
   var NameForAttribute   = [];
   var valueOfAttribute  = [];
@@ -171,11 +199,11 @@ checkValueForAttribute(DataBaseAttributes,xmlAttributes){
       for(var att of xmlAttributes) {
 
 
-    if( att.$.name.toString() === i.toString())  
+    if( att.$.name.toString() === i.toString() && att.$.header != undefined)  
    {
      NameForAttribute.push(att.$.name);
 
-         valueOfAttribute.push(att.$.value);
+     valueOfAttribute.push(att.$.header =='' ?att.$.value:att.$.header);
     break;
   }
 

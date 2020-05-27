@@ -257,7 +257,7 @@ data.size,data.font)">
 
 </div>
 
-<div fxFlex *ngIf="data.type == 2 " id="margin" >
+<div fxFlex *ngIf="data.type == 2 "  fxFlexAlign="center" >
 
 <IndicateurListe [backgroundColor]=" data.backgroundSmallWidget "
 [textColor] ="data.textColor"
@@ -273,7 +273,7 @@ data.size,data.font)">
 </div>
 
 <div style="    padding: 100px;
-" fxFlex class="border-style" *ngIf="data.type == 3">
+" fxFlex  *ngIf="data.type == 3" fxFlexAlign="center">
 <widget-list  
 [textColor] ="data.textColor"
 [width] ="data.width"
@@ -284,7 +284,7 @@ data.size,data.font)">
 [backgroundColor]=" data.backgroundColor "
 ></widget-list>
 </div>
-<div  fxFlex class="border-style" style="margin-top: 0.5%;" *ngIf="data.type == 4">
+<div  fxFlex class="border-style" style="margin-top: 0.5%;" *ngIf="data.type == 4" fxFlexAlign="center">
 <app-area [title]="data.nameFr" [textColor] ="data.textColor"
 [width] ="data.width"
 [title]="data.nameFr" 
@@ -314,7 +314,7 @@ data.size,data.font)">
     <mat-form-field>
     <mat-select [disabled]="requests.length > 1 ? true : false " fxFlex [(ngModel)]="index"  (selectionChange)="getAttributes()">
         <mat-option   *ngFor="let item of items let index =index ; "  [value] ="index">
-            {{item.entitys.value}}
+            {{item.entities.value}}
     
         </mat-option>
     </mat-select >
@@ -326,10 +326,13 @@ data.size,data.font)">
 
 <mat-form-field>
     <mat-select  [(ngModel)]="attribute"  (selectionChange)="getProperty()">
-        <mat-option   *ngFor="let item of attributes let id =index" [value]="{att: item.$.name, index: id ,val:item.$.value}">
+      <ng-container *ngFor="let item of attributes let id =index">
+  
+      <mat-option    *ngIf="item.$.type != 'relation'" [value]="{att: item.$.name, index: id ,val:item.$.value}">
             {{item.$.value}}
-    
         </mat-option>
+      </ng-container>
+
     </mat-select >
   </mat-form-field>
   </div>
@@ -352,7 +355,7 @@ data.size,data.font)">
       </mat-option>
     </ng-container>
       <ng-container *ngIf="  filterType =='array'" >
-        <mat-option    *ngFor="let item of  attributesValues ; let id =index" [value]="item.$.name">
+        <mat-option    *ngFor="let item of  attributesValues ; let id =index" [value]="{name:item.$.name,value:item.$.value}">
             {{item.$.value}}
     
         </mat-option>
@@ -444,7 +447,7 @@ data.size,data.font)">
 
 </div>
 </div>
-<div fxLayout="row"  fxLayoutAlign="start space-around "  style="margin-top: 6%; min-height: 200px;"  class="border-style" required >
+<div fxLayout="row"  fxLayoutAlign="start space-around " class="border-style"    style="margin-top: 6%; min-height: 250px;  min-width: max-content; width: 100%;"    >
     <h1> {{entityValue | titlecase}} </h1> 
 <div fxLayout="row" fxLayoutGap="60px">
   <div fxLayout="row"  fxFlexAlign="center"
@@ -457,7 +460,7 @@ data.size,data.font)">
     [value]="request.value"
     [name]="request.name"
     [index]="index"
-
+[valuepropertyOfTypeArray]="request.valuepropertyOfTypeArray"
   (removeFilter)="removeByIndex(index)">
 </box-request>
   

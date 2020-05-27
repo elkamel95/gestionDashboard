@@ -48,7 +48,6 @@ this.isOpenConfig= !this.isOpenConfig;
 hiddenConfig(event){
   this.isOpenConfig=false ; 
   this. hiddenIconConfig=event;
-console.log( this. hiddenIconConfig);
 }
 updateALLwidget(){
  this.updateAllWidgetFuncs.updateWidgetAll();

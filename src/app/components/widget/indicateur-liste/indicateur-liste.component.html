@@ -14,7 +14,7 @@ fxLayout="column">
       <div fxLayout="row" fxFlex fxLayoutAlign="end center">
         <div fxLayout="column"   >
           <div fxLayout="row"   class="mat-caption" fxFlex  ="10">
-            <p [ngStyle]="{ 'color':colorSmallWidget }">{{entity}}
+            <p [ngStyle]="{ 'color':colorSmallWidget }">{{entity | titlecase}}
             </p>
 
             <mat-icon class="icon-display">sync</mat-icon>
@@ -47,17 +47,20 @@ fxLayout="column">
 <p style="margin-top: 2%"  id="test"   [ngStyle]="{'color': textColor ,'font-size':size ,'font-weight':font}">
 
      
-{{title}}  
+{{title | titlecase}}  
 </p>
+ <div fxLayout="row"  fxFlex="10"  fxLayoutAlign="space-around start">
+  <ng-container *ngIf="loadedData; else Display">
+    <mat-spinner diameter="20" mode="indeterminate" color="accent" fxFlexAlign="start"  ></mat-spinner>
+    
+    </ng-container>
+    <ng-template #Display>
+      <button mat-button matTooltip="Display Data List"  (click)= "openList()"  fxFlex="10" fxFlexAlign="start"   ><mat-icon>list_alt</mat-icon></button>
+    
+    </ng-template>
+ </div>
+
 </div>
-  
-<ng-container *ngIf="loadedData; else Display">
-  <mat-spinner diameter="20" mode="indeterminate" color="accent" fxFlexAlign="end"  ></mat-spinner>
-  
-  </ng-container>
-  <ng-template #Display>
-    <button mat-button matTooltip="Display Data List"  (click)= "openList()"  fxFlex="100%" fxFlexAlign="end"   ><mat-icon>list_alt</mat-icon></button>
-  
-  </ng-template>
+
   
 </mat-card>

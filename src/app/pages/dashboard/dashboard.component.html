@@ -3,7 +3,7 @@
     <div        [ngClass]="{'example-boundary': !modeLayout.drag}"  >
      
 
-<div  fxLayout="column" fxFlexOffset="20px" fxLayoutGap="60px" fxLayoutAlign="space-between start"> 
+<div  fxLayout="column" fxFlexOffset="20px"  fxLayoutAlign="space-between start"> 
 
     <div   
     [ngClass]="{'border-permutation': modeLayout.permutation}"
@@ -77,7 +77,6 @@
         cdkDragBoundary=".example-boundary" cdkDrag   
 
         [cdkDragDisabled] ="modeLayout.drag"
-
         (cdkDragEnded)="setWidgetToUpdate(list,$event)"
         [ngStyle]="   modeLayout.postions ? {'transform': 'translate(' +  list.positionLeft+ ', ' + list.positionRight  + ')', order:''} : null "
         >

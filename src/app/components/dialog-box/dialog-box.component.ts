@@ -19,12 +19,13 @@ export class Url {
   by                                : string ;
   name                              : string;
   property                          : string ;
+  valuepropertyOfTypeArray          : string ;
   value                             : string ;
   type                              : string;
   
 
 }
-export interface formatUrlWithDynamicDate{
+export interface formatUrlWithDynamicProperty{
 lasteYears : string ;
 lastMonth:string; 
 lastWeek:string;
@@ -52,11 +53,12 @@ public attributesName               = '' ;
 public requests                     = [new Url()] ;
 public isDynamic                    = false;
 public urlRequest                   : Url =new Url();
-public property                     = "";
+public property                 : string | any = "";
 public entity                       = "" ;
 public entityValue=""
 public attribute                    : any ={};
-filterDynamicDate :formatUrlWithDynamicDate = {lasteYears:'N',lastMonth:'N',lastWeek:'N', today:'N',lastDay:'N',session:'N'} ;
+originalUrl :string=""; 
+filterDynamicDate :formatUrlWithDynamicProperty = {lasteYears:'N',lastMonth:'N',lastWeek:'N', today:'N',lastDay:'N',session:'N'} ;
 nameButtonNext                      = "Next"
 nameButtonBack                      = "Back"
 widgetControleForm                  : FormGroup;
@@ -102,8 +104,8 @@ next                                = 0 ;
 
   this.datePropertyName = serviceWidge.datePropertyName;
   this. dateProperty =serviceWidge.dateProperty;
-
-
+  this.originalUrl=this.data.url;
+console.log(this.data.url);
 /* if the action is updated, call the URL decryption method   */ 
 if(this.data.url !=undefined)
   this.decryptageUrl();
@@ -113,8 +115,8 @@ if(this.data.url !=undefined)
   
             .then((datas) => {  
               this.items            = datas;
-              this.entity           = datas[this.index].entitys.name ;
-              this.entityValue          = datas[this.index].entitys.value ;
+              this.entity           = datas[this.index].entities.name ;
+              this.entityValue          = datas[this.index].entities.value ;
 
               this.attributes       = datas[this.index].attributes;
               var i                 = 0;
@@ -138,16 +140,15 @@ if(this.data.url !=undefined)
              if(this.update)
 for (  index = 0; index < this.items.length; index++) {
 
-  if  (this.items[index].entitys.name.toString() === this.entity.toString())
+  if  (this.items[index].entities.name.toString() === this.entity.toString())
   {  
 
     break ;
   }  
 }
 this.index = this.update?index:this.index;
-console.log(this.index);
 
-        resolve(this.checkValueForAttribute(    datas[this.index].attributes,attributeName)  )
+        resolve(this.checkValueOfAttribute(    datas[this.index].attributes,attributeName)  )
            
   
   
@@ -162,7 +163,7 @@ console.log(this.index);
     
 
   }
-  checkValueForAttribute(attributes,attribute){
+  checkValueOfAttribute(attributes,attribute){
     var value                       = ""
     attributes.forEach(att => {
 
@@ -195,7 +196,7 @@ console.log(this.index);
     else if (element.type.toString() ==='boolean')
     newUrl                          = `exists[${element.by}]=${element.value}${this.and}${url}`;
     else
-    newUrl                          = `${element.by}=${element.value}${this.and}${url}`;
+    newUrl                          = `${element.by}[]=${element.value}${this.and}${url}`;
     url                             = newUrl ;
 
       this.and                      = "&"
@@ -222,7 +223,8 @@ console.log(this.index);
           var array                 = element.split('=');
           var request               : Url =new Url();
         if(array[0].indexOf("[")!=-1)  
-{        request.by                 = array[0].substring(0,array[0].indexOf("["));
+{       
+ request.by                 = array[0].substring(0,array[0].indexOf("["));
 
 if(request.by === 'exists')
 { 
@@ -231,18 +233,21 @@ if(request.by === 'exists')
  request.by                         = array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"));
  request.type                       = "boolean"
 }
-else
+else if(array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"))!='')
 
  {  
 request.property                    = array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"));
 
 request.type                        = "date"
 
+}else {
+  request.type               = "string || array";
+
 }
 }        else
       { 
          request.by                 = array[0];
-         request.type               = "string || array";
+         request.type               = "array";
 
       }
   
@@ -412,6 +417,7 @@ this.data.url                       = "";
   }
 
   closeDialog(){
+    this.data.url =this.originalUrl;
     this.dialogRef.close({event     : 'Cancel'});
   }
 
@@ -441,7 +447,7 @@ this.data.url                       = "";
       this.xml.parseXML(data)  
   
             .then((datas) => {  
-              this.entity           = datas[this.index].entitys.name.toString() ;
+              this.entity           = datas[this.index].entities.name.toString() ;
 
               this.attributes       = datas[this.index].attributes ;
          
@@ -459,10 +465,18 @@ this.update?this.nameButtonNext     = "Update":this.nameButtonNext ="Create";
 this.enterPoint                     = `api/${this.entity}?`;
   this.urlRequest.by                = this.attribute.att;
 
-  if(this.filterType.toString() =="array" || this.filterType.toString() =="boolean")
-  this.urlRequest.value             = this.property ;
-  else 
-  this.urlRequest.property          = this.property ;
+  if(this.filterType.toString() =="array" )
+{  
+  this.urlRequest.value                    = this.property.name  ;
+  this.urlRequest.valuepropertyOfTypeArray =this.property.value
+
+}else if ( this.filterType.toString() =="boolean") 
+{
+  this.urlRequest.value =this.property
+
+}
+ else 
+  this.urlRequest.property          = this.property   ;
 
   if(this.filterType.toString() =="session")
 {  input.value                      = this.attributes[ this.attribute.index].$.session_value;
@@ -470,6 +484,8 @@ this.enterPoint                     = `api/${this.entity}?`;
   this.filterDynamicDate.session='S';
 
 }
+if(this.filterType.toString() =="date" )
+
   if(this.property.charAt(0) =='#')
   {
     this.urlRequest.property        = "after"
@@ -485,9 +501,8 @@ else if(this.property=='#LW#')
 this.filterDynamicDate.lastWeek='W'
 else if(this.property=='#LD#')
 this.filterDynamicDate.lastDay='D'
-        this.isDynamic                  = true;
+ this.isDynamic                  = true;
   }
-  console.log('f'+ this.urlRequest)
   this.urlRequest.type              = this.filterType ;
   if(input.value !=undefined)
   this.urlRequest.value             = input.value ;

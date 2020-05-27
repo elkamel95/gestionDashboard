@@ -30,6 +30,7 @@ entity: string="";
 columnsToDisplay: string[] = [];
 displayedColumns: string[] = [];
 headerValue=[];
+headerDataFormXml=[];
 isRelationType:boolean=false;
 checkIfMultiUrl= new BehaviorSubject<boolean>(false);
 setTypeOfUrl = this.checkIfMultiUrl.asObservable();
@@ -66,11 +67,13 @@ getDataFromUrl(url){
  {  this.entity =url.substring(url.indexOf("/")+1,url.indexOf("?"));
  
  } 
- 
+
  
    if(url.charAt(0)==='!'){
      url=   this.serviceWidget. createDynamicQuery(url);
    }
+
+   
   this.serviceWidget.getAnything(url,this.isRelationType).subscribe(list=>{
       if(this.isRelationType)
     listData.push(list);
@@ -79,8 +82,7 @@ getDataFromUrl(url){
     this.dataSource=new MatTableDataSource<any>(listData); 
     this.serviceWidget.translateValueToNameFromXml(this.entity).then((header:any)=>{
    
-
-          header=this.serviceWidget.checkValueForAttribute(this.isRelationType?list:list[0], header.attributes);
+          header=this.serviceWidget.getHeaderValueFormAttribute(this.isRelationType?list:list[0], header.attributes);
           const headerNameWithNumberLigne = ['#numberLigne#'].concat(header[0].name); // [ 4, 3, 2, 1 ]
           const headerValueWithNumberLigne = ['No.'].concat(header[0].value) ;// [ 4, 3, 2, 1 ]
 
@@ -145,7 +147,16 @@ isUrl(str){
   return regExpUrl.test(str[0]);
   } 
 }
+remplaceIdentifiant(){
+  /* methode qui permet de remplace les correcte  identifiant dans url   
+    this.serviceWidget.getIndexEntityByName(this.entity).then((id:any)=>{
+      if(this.isRelationType==false)
 
+      while( url.indexOf("id[]")!=-1){
+        url=url.replace("id[]",`${id}[]`);
+      }
+       });*/
+}
 /*
 syncData(url){
   var listData=[];

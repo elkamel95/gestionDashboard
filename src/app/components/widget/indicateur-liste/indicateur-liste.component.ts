@@ -51,16 +51,13 @@ data:Widget = new Widget();
       var entity =this.url.substring(this.url.indexOf("/")+1,this.url.indexOf("?"));
 
       this.serviceWidget. translateValueToNameFromXml(entity).then((entity:any)=>{
-        this.entity=entity.entitys.value;
+        this.entity=entity.entities.value;
       });
       //  #DN#:  data now  
        if(this.url.charAt(0)==='!'){
         this.url=   this.serviceWidget. createDynamicQuery(this.url);
       }
-      this.serviceWidget.getAnything( this.url,false).subscribe(list=>{
-        this.valueWidget = list.length ; 
-                
-                },()=>{},()=>{this.loadedData=false});
+    
               
               
                 this.getDataFromUrl( this.url);
@@ -73,18 +70,10 @@ data:Widget = new Widget();
     
   
     getDataFromUrl(url){
-  setTimeout(()=>{
-    this.dontActiveUrl=this.router.url;
-    if(this.activeUrl ==this.dontActiveUrl)
-  {  this.serviceWidget.getAnything( url,false).subscribe(list=>{
-      this.valueWidget = list.length ; 
-              
-              },()=>{},()=>{this.loadedData=false ;           
-                    this.getDataFromUrl( this.url);
-              });
-  }
-  },20000);
-     
+      this.serviceWidget.getAnything( this.url,false).subscribe(list=>{
+        this.valueWidget = list.length ; 
+                
+                },()=>{},()=>{this.loadedData=false});
   
   }
 

@@ -27,8 +27,20 @@
               
       <p  *ngIf="property != undefined &&property.length !=0 && value.charAt(0) != '#'"><b>Property :{{ property  | titlecase}}</b></p>  
 
-      <p  *ngIf="value.charAt(0) != '#'"> <b>Value ={{value | titlecase}}</b></p> 
-            </div>
+       <ng-container *ngIf="value.charAt(0) != '#'">
+        <ng-container  *ngIf="valuepropertyOfTypeArray && valuepropertyOfTypeArray == ''  else ValuepropertyOfTypeArray">
+            <p > <b>Values ={{value | titlecase}}</b></p> 
+
+        </ng-container>
+    
+    <ng-template #ValuepropertyOfTypeArray>
+        <p > <b>Value ={{valuepropertyOfTypeArray | titlecase}}{{value | titlecase}}</b></p> 
+    
+    </ng-template>
+       </ng-container>
+       
+           
+        </div>
     </mat-card>
     </div>
     

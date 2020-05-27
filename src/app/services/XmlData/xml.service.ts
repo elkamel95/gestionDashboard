@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import xml2js from 'xml2js';  
  export interface entity {
-  entitys:any ; 
+  entities:any ; 
   attributes:any ;
 }
 export interface Sessiontype {
@@ -18,7 +18,10 @@ export class XmlService {
   public entity :any;
   public attributes:any;
 
-  constructor(private _http: HttpClient) {  }  
+  constructor(private _http: HttpClient) {
+
+    
+    }  
    loadXML() {  
   return  this._http.get('assets/configEntity.xml',  
       {  
@@ -45,7 +48,7 @@ export class XmlService {
             explicitArray: true  
           });  
       parser.parseString(data, function (err, result) {  
-        var obj = result.entitys;  
+        var obj = result.entities;  
        
         for (k in obj.entity) {  
           var item =obj.entity[k] ;  
@@ -53,8 +56,9 @@ export class XmlService {
           arr.push( 
             
             {  
-            entitys: item.$,  
-            attributes: item.attribute,  
+              entities: item.$,  
+            attributes: item.attribute,
+            id:  item.$.identifier
           
           }
             
