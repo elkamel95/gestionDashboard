@@ -9,6 +9,14 @@ export interface Sessiontype {
   sessionName :any,
   sessionProperty :any
  }
+ const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type':  'application/xml', //<- To SEND XML
+    'Accept':  'application/xml',       //<- To ask for XML
+    'Response-Type': 'text'   ,
+    'Authorization': `Bearer ${localStorage.getItem('token')}`          //<- b/c Angular understands text
+  })
+};
 @Injectable({
   providedIn: 'root'
 })
@@ -17,21 +25,20 @@ export class XmlService {
   public xmlItems: any;  
   public entity :any;
   public attributes:any;
+  headers = new HttpHeaders();
 
-  constructor(private _http: HttpClient) {
-
-    
+  constructor(private http: HttpClient) {
+    this.headers.append('Authorization', `Bearer ${localStorage.getItem('token')}`);
+    this.headers.append('Content-Type', `xml`);
+    this.headers.append('Accept', `xml`);
     }  
+  
+ 
    loadXML() {  
-  return  this._http.get('assets/configEntity.xml',  
-      {  
-        headers: new HttpHeaders()  
-          .set('Content-Type', 'text/xml')  
-          .append('Access-Control-Allow-Methods', 'GET')  
-          .append('Access-Control-Allow-Origin', '*')  
-          .append('Access-Control-Allow-Headers', "Access-Control-Allow-Headers, Access-Control-Allow-Origin, Access-Control-Request-Method"),  
-        responseType: 'text'  
-      })  
+    this.http.get('http://localhost:8000/api/xml/read', {headers: this.headers,responseType: 'text'}  ) .subscribe(data=>{
+      console.log("hghgh"+data);
+    });
+  return  this.http.get('http://localhost:8000/api/xml/read', {headers: this.headers,responseType: 'text'})  ;
       ;
   }
   

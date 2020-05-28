@@ -14,7 +14,6 @@ relation
   
  <entity  identifier ="id" name= "users" enterpoint = "api/users" value="core users">
 
-    <attribute name = "widgets" header="the widgets that are created by this person"  value="Widgets User" type="relation"  ></attribute>
 
     <attribute name ="username" header=""  value="name" type="string"> </attribute>
 
@@ -42,13 +41,15 @@ relation
     <attribute name ="isActive" value="isActive" type="boolean"></attribute>
 
       <attribute name ="users.type" value= "type" type="array">
-      
+
         <property name="1"  value="indicator" ></property >
         <property name="2"  value="indicator with list" ></property >
         <property name="3"  value="list" ></property >
         <property name="4"  value="graphic" ></property >
 
       </attribute>
+      <attribute name = "widgets" header="the widgets that are created by this person"  value="Widgets User" type="relation"  ></attribute>
+
   </entity>
 
 
@@ -67,7 +68,6 @@ relation
     <attribute name = "nameEn"  header="" value="name  (Anglais)" type="string" ></attribute>
     <attribute name = "users.id" value="current user" type="session" session_value="#currentSession#" session_name="idUser"></attribute>
 
-    <attribute name = "users" header="The name of the user who created it" value="users" type="relation" ></attribute>
     
     <attribute name = "users.role" value="current ROLE" type="session" session_value="#currentRole#" session_name="idRole"></attribute>
     <attribute name = "users.x" value="current X" type="session" session_value="#currentx#" session_name="idx"></attribute>
@@ -79,6 +79,7 @@ relation
         <property name="4"  value="graphic" ></property >
 
       </attribute>
-  
+      <attribute name = "users" header="The name of the user who created it" value="users" type="relation" ></attribute>
+
   </entity>
 </entities>

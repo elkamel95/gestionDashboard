@@ -15,14 +15,15 @@ export class AppComponent implements OnInit {
   propertyForSessiontype :Sessiontype[] =[] ;
 
   ngOnInit(): void {
-    {this.xml.setPropertyForSessiontype().then(
+  }
+   constructor(private widgetService:ServiceWidgetService,private xml:XmlService){
+    this.xml.setPropertyForSessiontype().then(
       data=>{
         this.propertyForSessiontype.push(data);
       }
     );
   
-  }  }
-   constructor(private widgetService:ServiceWidgetService,private xml:XmlService){
+  
     widgetService.setValueForSession(this.propertyForSessiontype);
 
    }
