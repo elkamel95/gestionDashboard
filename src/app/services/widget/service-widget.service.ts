@@ -20,7 +20,9 @@ export class ServiceWidgetService implements OnInit {
 
   ngOnInit() {
   }
-private url=GlobalConstants.apiURL ; 
+private DomainName=GlobalConstants.DomainName ; 
+private apiURL=GlobalConstants.apiURL ; 
+
 screenHeight: number;
 screenWidth: number;
     propertysForSessiontype :SessionType[] =[] ;
@@ -77,13 +79,13 @@ this.behaviorWidget.next(widget);
 
   getAllWidget(property) :Observable<Widget[]>{
 
-   return this.http.get<Widget[]>(`${this.url}/api/widgets${property}`,{headers: this.headers}).pipe(map(data => data['hydra:member']));
+   return this.http.get<Widget[]>(`${this.DomainName}/api/widgets${property}`,{headers: this.headers}).pipe(map(data => data['hydra:member']));
   }
   
 
   getAllWidgetDashbord(npPage,itemsPerPage,GroupeBy?, order?,title?) :Observable<Widget[]>{
 
-    return this.http.get<Widget[]>(this.url+`/api/widgets?itemsPerPage=${itemsPerPage}&page=${npPage}&order[${GroupeBy}]=${order}&&name_fr=${title}&&users.id=${localStorage.getItem('idUser')}`
+    return this.http.get<Widget[]>(this.DomainName+`/api/widgets?itemsPerPage=${itemsPerPage}&page=${npPage}&order[${GroupeBy}]=${order}&&name_fr=${title}&&users.id=${localStorage.getItem('idUser')}`
     ,{headers: this.headers});
    }
   getDateTime(){
@@ -178,7 +180,7 @@ getHeaderValueFormAttribute(DataBaseAttributes,xmlAttributes){
   postWidget(widget:Widget){
 widget.createAt =this.getDateTime().toString();
 widget.updateAt =this.getDateTime().toString();
-    this.http.post<Widget>(this.url+"/api/widgets", widget).subscribe(()=>{
+    this.http.post<Widget>(this.DomainName+"/api/widgets", widget).subscribe(()=>{
       this.refreshneeded.next ();
  
     },error=>{
@@ -186,14 +188,14 @@ widget.updateAt =this.getDateTime().toString();
     }); ;
   }
   remove(id){
-this.http.delete(this.url+"/api/widgets/"+id).subscribe(rep=>{
+this.http.delete(this.DomainName+"/api/widgets/"+id).subscribe(rep=>{
   this.refreshneeded.next ();
 });
   }
   
   update(widget:Widget){ ;
 widget.updateAt =this.getDateTime();
-    this.http.put(this.url+"/api/widgets/"+widget.id, widget).subscribe(()=>{
+    this.http.put(this.DomainName+"/api/widgets/"+widget.id, widget).subscribe(()=>{
       this.refreshneeded.next ();
  
     },error=>{
@@ -202,9 +204,9 @@ widget.updateAt =this.getDateTime();
   }
   getAnything(generiqueUrl,isRelationType){
     if(isRelationType)
-    return this.http.get<Widget[]>(this.url+"/"+generiqueUrl,{headers: this.headers});
+    return this.http.get<Widget[]>(this.apiURL+"/"+generiqueUrl,{headers: this.headers});
 else
-    return this.http.get<Widget[]>(this.url+"/"+generiqueUrl,{headers: this.headers}).pipe(map(data => data['hydra:member']));
+    return this.http.get<Widget[]>(this.apiURL+"/"+generiqueUrl,{headers: this.headers}).pipe(map(data => data['hydra:member']));
 
   }
 
@@ -217,10 +219,10 @@ else
 
     updatePositionWidgetByType(type){
 
-this.http.put(`${this.url}/api/reset/position/${type}`,type).subscribe(()=>{this.refreshneededDataReset.next('')});
+this.http.put(`${this.DomainName}/api/reset/position/${type}`,type).subscribe(()=>{this.refreshneededDataReset.next('')});
 
     }
 
     updatePositionWidgetAll(){
-      this.http.put(`${this.url}/api/reset/position/all`,"update").subscribe(()=>{this.refreshneededDataReset.next('') });
+      this.http.put(`${this.DomainName}/api/reset/position/all`,"update").subscribe(()=>{this.refreshneededDataReset.next('') });
 }}

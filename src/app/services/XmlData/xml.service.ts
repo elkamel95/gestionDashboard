@@ -42,12 +42,12 @@ public text:Text;
  
    loadXML() {  
 
-  return  this.http.get(`${GlobalConstants.apiURL}/api/xml/read`, {headers: this.headers,responseType: 'text'})  ;
+  return  this.http.get(`${GlobalConstants.DomainName}/api/xml/read`, {headers: this.headers,responseType: 'text'})  ;
       ;
   }
   load() {  
 
-   this.http.get(`${GlobalConstants.apiURL}/api/xml/read`, {headers: this.headers,responseType: 'text'}).subscribe(XmlText=>{
+   this.http.get(`${GlobalConstants.DomainName}/api/xml/read`, {headers: this.headers,responseType: 'text'}).subscribe(XmlText=>{
     this.parseXML(XmlText).then(Xmlfile=>{
       this.xmlItems=Xmlfile;
     });

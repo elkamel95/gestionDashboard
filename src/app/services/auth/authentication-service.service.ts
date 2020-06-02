@@ -9,7 +9,7 @@ import { GlobalConstants } from './../../common/global-constants';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-  apiUrl=GlobalConstants.apiURL;
+  apiUrl=GlobalConstants.DomainName;
     private currentUserSubject: BehaviorSubject<User>;
     public currentUser: Observable<User>;
   username: string="";

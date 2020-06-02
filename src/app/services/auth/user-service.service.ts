@@ -6,7 +6,7 @@ import { GlobalConstants } from './../../common/global-constants';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-  apiUrl =GlobalConstants.apiURL;
+  apiUrl =GlobalConstants.DomainName;
     constructor(private http: HttpClient) { 
     }
 

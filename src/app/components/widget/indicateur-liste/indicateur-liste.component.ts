@@ -3,84 +3,33 @@ import { WidgetListComponent } from '../widget-list/widget-list.component';
 import { MatDialog } from '@angular/material';
 import { Widget } from 'src/app/models/Widget';
 import { ServiceWidgetService } from 'src/app/services/widget/service-widget.service';
-import { Router } from '@angular/router';
 import { LienToListWidgetComponent } from '../lien-to-list-widget/lien-to-list-widget.component';
+import { WidgetIndicator } from 'src/app/services/widget/WidgetIndicator';
 
 @Component({
   selector: 'IndicateurListe',
   templateUrl: './indicateur-liste.component.html',
   styleUrls: ['./indicateur-liste.component.scss']
 })
-export class IndicateurListeComponent 
-implements OnInit {
-@Input() indicateur =0 ;
-@Input()  title =" ";
-@Input() backgroundColor ="";
-@Input() textColor ="";
-@Input() backgroundSmallWidget="#000"; 
-@Input() colorSmallWidget="#ffa000" ;
-@Input() size ="";
-@Input() width ;
-@Input() height="300px";
-@Input() font;
-@Input() url ; 
+export class IndicateurListeComponent extends WidgetIndicator
+ {
+
 
 data:Widget = new Widget();
   screenWidth: number;
   screenHeight :number;
 
-
- 
-
   public valueWidget :number=0;
   public loadedData =true ; 
-  public activeUrl=""
-  public dontActiveUrl=""
+
   entity="";
-    constructor(private serviceWidget:ServiceWidgetService,public dialog: MatDialog,private router : Router) {
-      this.screenWidth= serviceWidget.screenWidth - (10* serviceWidget.screenWidth/100);
-      this.screenHeight = serviceWidget.screenHeight - (10* serviceWidget.screenWidth/100);
-      
+    constructor(public serviceWidget:ServiceWidgetService,
+      public dialog: MatDialog) {
+    
+      super(serviceWidget);
      }
   
-    ngOnInit() {
-      this.activeUrl=this.router.url;
-      this.dontActiveUrl=this.router.url;
-      if(this.url !=undefined)
-     { 
-      var entity =this.url.substring(this.url.indexOf("/")+1,this.url.indexOf("?"));
-
-      this.entity=  this.serviceWidget. translateValueToNameFromXml(entity).entities.value;
-
-      //  #DN#:  data now  
-       if(this.url.charAt(0)==='!'){
-        this.url=   this.serviceWidget. createDynamicQuery(this.url);
-      }
-    
-              
-              
-                this.getDataFromUrl( this.url);
   
-              }
-  }
-  
-  
-  
-    
-  
-    getDataFromUrl(url){
-      this.serviceWidget.getAnything( this.url,false).subscribe(list=>{
-        this.valueWidget = list.length ; 
-                
-                },()=>{},()=>{this.loadedData=false});
-  
-  }
-
-
-
-
-
-
   openList() {
  
  {   

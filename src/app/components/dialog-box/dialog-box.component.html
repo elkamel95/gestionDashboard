@@ -13,7 +13,8 @@
 </h4>
 <div fxLayout="column" >
 
-<div mat-dialog-content  fxFlex="90"
+<div mat-dialog-content 
+ fxFlex="90"
 fxLayout="column" >
 
 
@@ -300,7 +301,7 @@ data.size,data.font)">
 </div>
 </ng-container>
 <ng-template #elseTemplate>
-  <div fxLayout="column"   fxFlex="100%" style="margin-top: -9%;">
+  <div fxLayout="column"   fxFlex="100" style="margin-top: -9%;">
 
   <div fxLayout="row"  fxLayoutAlign="start space-around "   fxLayoutGap="20px"
   class="border-style"  >
@@ -449,7 +450,7 @@ data.size,data.font)">
 
 </div>
 </div>
-<div fxLayout="row"  fxLayoutAlign="start space-around " class="border-style"    style="margin-top: 6%; min-height: 60%;  min-width: max-content; width: 100%;"    >
+  <div fxLayout="row"  fxLayoutAlign="start space-around " class="border-style" style="height: 280px ; min-height: 280px; margin-top: 3%;">
     <h1> {{entity.value   | titlecase}} </h1> 
 <div fxLayout="row" fxLayoutGap="60px">
   <div fxLayout="row"  fxFlexAlign="center"
@@ -475,7 +476,8 @@ data.size,data.font)">
 
 
 </div> 
-<div fxFlex="10" mat-dialog-actions align = "end" >
+
+<div fxFlex="2" mat-dialog-actions align = "end" >
   <button  (click)="nameButtonNext !='Create'? back():closeDialog()" mat-flat-button >{{nameButtonBack}}</button>
 
 <button   (click)="doAction()" mat-flat-button color="primary">{{nameButtonNext}}</button>
