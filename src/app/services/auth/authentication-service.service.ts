@@ -4,11 +4,12 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from 'src/app/models/User';
 import { UserService } from './user-service.service';
+import { GlobalConstants } from './../../common/global-constants';
 
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-  apiUrl= "http://127.0.0.1:8000/api";
+  apiUrl=GlobalConstants.apiURL;
     private currentUserSubject: BehaviorSubject<User>;
     public currentUser: Observable<User>;
   username: string="";

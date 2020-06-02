@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from 'src/app/models/User';
 import { map } from 'rxjs/operators';
-
+import { GlobalConstants } from './../../common/global-constants';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-  apiUrl ="http://127.0.0.1:8000/api";
-    constructor(private http: HttpClient) { }
+  apiUrl =GlobalConstants.apiURL;
+    constructor(private http: HttpClient) { 
+    }
 
     getAll() {
         return this.http.get<User[]>(`${this.apiUrl}/users`);

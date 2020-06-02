@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { ModeDisposition } from 'src/app/models/ModeDisposition';
 import { HostListener } from "@angular/core";
 import { XmlService } from '../XmlData/xml.service';
+import { GlobalConstants } from './../../common/global-constants';
  export interface SessionType {
   sessionName :string,
   sessionProperty :string
@@ -19,11 +20,11 @@ export class ServiceWidgetService implements OnInit {
 
   ngOnInit() {
   }
-private url :string = "http://localhost:8000" ; 
+private url=GlobalConstants.apiURL ; 
 screenHeight: number;
 screenWidth: number;
-   propertysForSessiontype :SessionType[] =[] ;
-refreshneeded = new Subject<void>();
+    propertysForSessiontype :SessionType[] =[] ;
+    refreshneeded = new Subject<void>();
     refreshneededDataReset= new BehaviorSubject<any>("");
     setPropertyForSessiontype= new BehaviorSubject<SessionType[]>(this.propertysForSessiontype);
     setPropertysForSessiontype = this.setPropertyForSessiontype.asObservable();
@@ -129,63 +130,25 @@ if(url.charAt(6)=='S')
 
   return url ;
 }
-getIndexEntityByName(entity){
-  var index      
-  return new Promise(resolve=>{
-     this.xml.loadXML() .subscribe((data) => {  
-      this.xml.parseXML(data)  
-  
-            .then((datas) => {  
 
-      
-for (  index = 0; index < datas.length; index++) {
-
-if  (datas[index].entities.name.toString() === entity.toString())
-{  
-
-  break ;
-}  
-}
-      resolve( datas[index].id  );
-         
-
-
-         
-            });  
-            
-        }); 
-
-
-      });
-}
 translateValueToNameFromXml(entity){
   var index      
-  return new Promise(resolve=>{
-     this.xml.loadXML() .subscribe((data) => {  
-      this.xml.parseXML(data)  
-  
-            .then((datas) => {  
 
+var dataXml =this.xml.xmlItems;
       
-for (  index = 0; index < datas.length; index++) {
+for (  index = 0; index < dataXml.length; index++) {
 
-if  (datas[index].entities.name.toString() === entity.toString())
+if  (dataXml[index].entities.name.toString() === entity.toString())
 {  
 
   break ;
 }  
 }
-      resolve( datas[index] );
-         
+return dataXml[index] ;          
 
 
          
-            });  
-
-        }); 
-
-
-  });
+    
 
   
 

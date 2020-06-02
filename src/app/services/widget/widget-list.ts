@@ -80,7 +80,7 @@ getDataFromUrl(url){
     else
     listData=list;
     this.dataSource=new MatTableDataSource<any>(listData); 
-    this.serviceWidget.translateValueToNameFromXml(this.entity).then((header:any)=>{
+ var    header:any=  this.serviceWidget.translateValueToNameFromXml(this.entity);
    
           header=this.serviceWidget.getHeaderValueFormAttribute(this.isRelationType?list:list[0], header.attributes);
           const headerNameWithNumberLigne = ['#numberLigne#'].concat(header[0].name); // [ 4, 3, 2, 1 ]
@@ -92,7 +92,7 @@ getDataFromUrl(url){
         this.list= list ;
         this.dataSource.paginator = this.paginator ;
 
-    });
+  
 
     },()=>{}, () => {
       this.progressBar = true;

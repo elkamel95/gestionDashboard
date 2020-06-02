@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import xml2js from 'xml2js';  
+import { GlobalConstants } from './../../common/global-constants';
+
  export interface entity {
   entities:any ; 
   attributes:any ;
@@ -21,27 +23,37 @@ export interface Sessiontype {
   providedIn: 'root'
 })
 
-export class XmlService {
+export class XmlService  {
   public xmlItems: any;  
-  public entity :any;
+  public xmlText: Text;  
+
   public attributes:any;
   headers = new HttpHeaders();
-
+public text:Text;
   constructor(private http: HttpClient) {
     this.headers.append('Authorization', `Bearer ${localStorage.getItem('token')}`);
     this.headers.append('Content-Type', `xml`);
     this.headers.append('Accept', `xml`);
+    this.load();
+
     }  
+ 
   
  
    loadXML() {  
-    this.http.get('http://localhost:8000/api/xml/read', {headers: this.headers,responseType: 'text'}  ) .subscribe(data=>{
-      console.log("hghgh"+data);
-    });
-  return  this.http.get('http://localhost:8000/api/xml/read', {headers: this.headers,responseType: 'text'})  ;
+
+  return  this.http.get(`${GlobalConstants.apiURL}/api/xml/read`, {headers: this.headers,responseType: 'text'})  ;
       ;
   }
-  
+  load() {  
+
+   this.http.get(`${GlobalConstants.apiURL}/api/xml/read`, {headers: this.headers,responseType: 'text'}).subscribe(XmlText=>{
+    this.parseXML(XmlText).then(Xmlfile=>{
+      this.xmlItems=Xmlfile;
+    });
+   })  ;
+        
+    }
 
 
   parseXML(data):Promise<any>{  
@@ -63,7 +75,7 @@ export class XmlService {
           arr.push( 
             
             {  
-              entities: item.$,  
+            entities: item.$,  
             attributes: item.attribute,
             id:  item.$.identifier
           

@@ -15,6 +15,7 @@ export interface Type {
   name                              : string ;
 
 }
+
 export class Url {
   by                                : string ;
   name                              : string;
@@ -44,19 +45,19 @@ export class DialogBoxComponent implements OnInit{
 nrSelect                            = 1;
 selected                            = "1";
 public index :any                      = 0;
-public items                        : any ;
+public xmlEntites                        : any ;
 public enterPoint                   = "";
 public and                          = ""
-public attributes                   = [] ;
+public attributes                   =[];
 public attributesValues             = [] ;
 public attributesName               = '' ;
 public requests                     = [new Url()] ;
 public isDynamic                    = false;
 public urlRequest                   : Url =new Url();
 public property                 : string | any = "";
-public entity                       = "" ;
-public entityValue=""
-public attribute                    : any ={};
+public entity                      :any  ;
+public attribute                    :any ;
+
 originalUrl :string=""; 
 filterDynamicDate :formatUrlWithDynamicProperty = {lasteYears:'N',lastMonth:'N',lastWeek:'N', today:'N',lastDay:'N',session:'N'} ;
 nameButtonNext                      = "Next"
@@ -92,180 +93,7 @@ ControleForm                        : FormGroup;
 data                                : Widget = new Widget() ;
 submitted                           = true;
 next                                = 0 ;
-  constructor(private fb            : FormBuilder, private auth:AuthenticationService,
-    public dialogRef                : MatDialogRef<DialogBoxComponent>,private xml:XmlService,private serviceWidge:ServiceWidgetService,
-    //@Optional() is used to prevent error if no data is passed
-    @Optional() @Inject(MAT_DIALOG_DATA) public Alldata: any) {
-      this.data                     = Alldata.element;
-    this.local_data                 = {...this.Alldata};
-    this.action                     = this.local_data.action;
-    this.update                     = false ;
 
-
-  this.datePropertyName = serviceWidge.datePropertyName;
-  this. dateProperty =serviceWidge.dateProperty;
-  this.originalUrl=this.data.url;
-console.log(this.data.url);
-/* if the action is updated, call the URL decryption method   */ 
-if(this.data.url !=undefined)
-  this.decryptageUrl();
-
-    this.xml.loadXML() .subscribe((data) => {  
-      this.xml.parseXML(data)  
-  
-            .then((datas) => {  
-              this.items            = datas;
-              this.entity           = datas[this.index].entities.name ;
-              this.entityValue          = datas[this.index].entities.value ;
-
-              this.attributes       = datas[this.index].attributes;
-              var i                 = 0;
-         
-         
-            });  
-         
-        }); 
-     
-  }
-
-  translateValueToNameFromXml(attributeName){
-    var index                       = 0;
-    return new Promise(resolve=>{
-       this.xml.loadXML() .subscribe((data) => {  
-        this.xml.parseXML(data)  
-    
-              .then((datas) => {  
-                this.items          = datas;
-
-             if(this.update)
-for (  index = 0; index < this.items.length; index++) {
-
-  if  (this.items[index].entities.name.toString() === this.entity.toString())
-  {  
-
-    break ;
-  }  
-}
-this.index = this.update?index:this.index;
-
-        resolve(this.checkValueOfAttribute(    datas[this.index].attributes,attributeName)  )
-           
-  
-  
-           
-              });  
-  
-          }); 
-
-
-    });
- 
-    
-
-  }
-  checkValueOfAttribute(attributes,attribute){
-    var value                       = ""
-    attributes.forEach(att => {
-
-      if( att.$.name.toString() === attribute.toString())  
-     {
-       return value                 = att.$.value;
-   
-    }
- 
-
-    });
-
-    return value;
-  }
-  selectedColor($event){
-    //}   this.data.textColor = $event};
-  }
-  /* create a query by properties, criteria , values and types   */ 
-
-  cryptageUrl(){
-    var newUrl                      = ""
-    var url                         = "";
-    this.requests.forEach(element=>{
-      if(element.by !=undefined)
-   { 
-
-    if(element.type.toString() ==='date' || element.type.toString()  =='numeric')
-    newUrl                          = `${element.by}[${element.property}]=${element.value}${this.and}${url}`;
-
-    else if (element.type.toString() ==='boolean')
-    newUrl                          = `exists[${element.by}]=${element.value}${this.and}${url}`;
-    else
-    newUrl                          = `${element.by}[]=${element.value}${this.and}${url}`;
-    url                             = newUrl ;
-
-      this.and                      = "&"
-
-  }
-    
-    });
-    return url ;
-  }
-
- 
-  /* returns an array of type url. all properties, criteria, filter types and values ​​of a string (query)*/ 
-
-   async decryptageUrl(){
-    this.update                     = true ;
-    this.and                        = "&"
-    this.enterPoint                 = this.data.url.substring(  0,  this.data.url.indexOf("?")+1);
-   var index                        = this.enterPoint.indexOf('/');
-   this.entity                      = this.enterPoint.substring(  index+1,  this.data.url.indexOf("?"));
-      this.data.url                 = this.data.url.substring(    this.data.url.indexOf("?")+1, this.data.url.length);
-      var array                     = this.data.url.split('&');
-  
-        array.forEach( async element => {
-          var array                 = element.split('=');
-          var request               : Url =new Url();
-        if(array[0].indexOf("[")!=-1)  
-{       
- request.by                 = array[0].substring(0,array[0].indexOf("["));
-
-if(request.by === 'exists')
-{ 
-  
- request.property                   = request.by;
- request.by                         = array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"));
- request.type                       = "boolean"
-}
-else if(array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"))!='')
-
- {  
-request.property                    = array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"));
-
-request.type                        = "date"
-
-}else {
-  request.type               = "string || array";
-
-}
-}        else
-      { 
-         request.by                 = array[0];
-         request.type               = "array";
-
-      }
-  
-       
-
-  
-
-        request.value               = array[1];
-     
-
-        await  this.translateValueToNameFromXml(    request.by).then(att=>{
-          request.name              = att.toString();
-      
-          });
-        this.requests.push(request);
-        });
-        
-  }
 ngOnInit() {  
   this.screenWidth   = this.serviceWidge.screenWidth - (10*this.serviceWidge.screenWidth/100);
   this.dateProperty   =this.serviceWidge.getDateProperty();     
@@ -296,7 +124,141 @@ this.data.url                       = "";
 
 
 }
+  constructor(private fb            : FormBuilder, private auth:AuthenticationService,
+    public dialogRef                : MatDialogRef<DialogBoxComponent>,
+    private xml:XmlService,private serviceWidge:ServiceWidgetService,
+    //@Optional() is used to prevent error if no data is passed
+    @Optional() @Inject(MAT_DIALOG_DATA) public Alldata: any) {  
+    this.data                     = Alldata.element;
+    this.local_data                 = {...this.Alldata};
+    this.action                     = this.local_data.action;
+    this.update                     = false ;
+  
+  this.xmlEntites= this.xml.xmlItems;
+  /* declaration de variable (les Entites ,attributes) de puis la fichie xml */ 
+  this.entity           =  this.xmlEntites[this.index].entities ;
+  this.attributes       =  this.xmlEntites[this.index].attributes;
+  this.datePropertyName = serviceWidge.datePropertyName;
+  this.dateProperty =serviceWidge.dateProperty;
+
+  this.originalUrl=this.data.url;
+/* if the action is updated, call the URL decryption method   */ 
+if(this.data.url !=undefined)
+  this.decryptageUrl();
+  }
+
+ 
+
+  /* create a query by properties, criteria , values and types   */ 
+
+  cryptageUrl(){
+    var newUrl                      = ""
+    var url                         = "";
+    this.requests.forEach(element=>{
+      if(element.by !=undefined)
+   { 
+
+    if(element.type.toString() ==='date' || element.type.toString()  =='numeric')
+    newUrl                          = `${element.by}[${element.property}]=${element.value}${this.and}${url}`;
+
+    else if (element.type.toString() ==='boolean')
+    newUrl                          = `exists[${element.by}]=${element.value}${this.and}${url}`;
+    else
+    newUrl                          = `${element.by}[]=${element.value}${this.and}${url}`;
+    url                             = newUrl ;
+
+      this.and                      = "&"
+
+  }
+    
+    });
+    return url ;
+  }
+
+ 
+  /* returns an array of type url. all properties, criteria, filter types and values ​​of a string (query)*/ 
+
+   async decryptageUrl(){
+    
+
+    this.update                     = true ;
+    this.and                        = "&"
+    this.enterPoint                 = this.data.url.substring(  0,  this.data.url.indexOf("?")+1);
+   var index                        = this.enterPoint.indexOf('/');
+   var  entity                     = this.enterPoint.substring(  index+1,  this.data.url.indexOf("?"));
+   this.getEntityByName( entity  );
+
+   this.data.url                 = this.data.url.substring(    this.data.url.indexOf("?")+1, this.data.url.length);
+      var array                     = this.data.url.split('&');
+  
+        array.forEach( async element => {
+          var array                 = element.split('=');
+          var request               : Url =new Url();
+        if(array[0].indexOf("[")!=-1)  
+{       
+ request.by                 = array[0].substring(0,array[0].indexOf("["));
+
+if(request.by === 'exists')
+{ 
+  
+ request.property                   = request.by;
+ request.by                         = array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"));
+ request.type                       = "boolean"
+}
+else if(array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"))!='')
+
+ {  
+request.property                    = array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"));
+
+request.type                        = "date"
+
+}else {
+  request.type               = "array";
+
+}
+}        else
+      { 
+         request.by                 = array[0];
+         request.type               = "array";
+
+      }
+  
+       
+
+  
+
+        request.value               = array[1];
+     
+
+        request.name =  this.translateValueToNameFromXml(    request.by);
+      
+     
+        this.requests.push(request);
+        });
+        
+  }
+  translateValueToNameFromXml(attributeName ):string{
+ 
+    var value                       = "";
+    this.xml.xmlItems[this.index].attributes.forEach(attribute => {
+
+
+      if( attribute.$.name.toString() === attributeName.toString())  
+     {
+
+       return value                 = attribute.$.value;
    
+    }
+
+  });
+  return value       ;    
+  }
+ 
+
+   
+
+
+
   setType(event: { value: string; }){
     this.data.type                  = event.value ;
     if(this.data.id == null)
@@ -423,38 +385,25 @@ this.data.url                       = "";
 
   getProperty(){
 
-    this.xml.loadXML() .subscribe((data) => {  
-      this.xml.parseXML(data)  
-  
-            .then((datas) => {  
-              this.filterType       = datas[this.index].attributes[this.attribute.index].$.type  ;
+   
+              this.filterType       =  this.xmlEntites[this.index].attributes[this.attribute.index].$.type  ;
 
-              if( datas[this.index].attributes[this.attribute.index].property  != undefined)
-       {  this.attributesValues     = datas[this.index].attributes[this.attribute.index].property ;
+              if(  this.xmlEntites[this.index].attributes[this.attribute.index].property  != undefined)
+       {  this.attributesValues     =  this.xmlEntites[this.index].attributes[this.attribute.index].property ;
       }
          else
 {         this.attributesValues     = [];
 }
 
-            });  
-
-        }); 
+           
 
   }
   getAttributes(){
     this.attributesValues           = [];
-    this.xml.loadXML() .subscribe((data) => {  
-      this.xml.parseXML(data)  
-  
-            .then((datas) => {  
-              this.entity           = datas[this.index].entities.name.toString() ;
 
-              this.attributes       = datas[this.index].attributes ;
-         
-
-            });  
-         
-        }); 
+              this.entity.name           =  this.xmlEntites[this.index].entities.name.toString() ;
+              this.attributes       =  this.xmlEntites[this.index].attributes ;
+        
   
   }
 
@@ -507,12 +456,9 @@ this.filterDynamicDate.lastDay='D'
   if(input.value !=undefined)
   this.urlRequest.value             = input.value ;
 
-  await  this.translateValueToNameFromXml(this.urlRequest.by).then(att=>{
-    this.urlRequest.name            = att.toString();
-
-    });
+  this.urlRequest.name  = this.translateValueToNameFromXml(this.urlRequest.by);
     
-    this.requests.push(this.urlRequest );
+this.requests.push(this.urlRequest );
 this.urlRequest                     = new Url();
 
 }
@@ -522,8 +468,28 @@ removeByIndex(index){
 
 
   }
+ 
+}
+UpdateQueryByIndex(index){
+
+}
+getEntityByName(entity){
+  var index      
+
+      
+for (  index = 0; index < this.xml.xmlItems.length; index++) {
+
+if  (this.xml.xmlItems[index].entities.name.toString() === entity.toString())
+{  
+
+  break ;
+}  
 }
 
+this.index=index;
+this.attributes       =  this.xmlEntites[this.index].attributes ;
+
+return this.xml.xmlItems[index].entities.name.toString() ; 
 }
 
 
@@ -532,5 +498,6 @@ removeByIndex(index){
 
 
 
+}
   
 

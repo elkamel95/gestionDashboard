@@ -1,33 +1,46 @@
 
 
-<div fxLayout="column" fxLayoutGap="0px" class="box">
+<div fxLayout="column" fxLayoutGap="0px" fxFlex="100"  class="box">
 
-    <div fxLayout="row" fxFlex="40" class="headerbox"  fxLayoutAlign="space-between center" >
-        <div   class="boxForNumber" fxFlexAlign="start" fxFlex="15%">
+    <div fxLayout="row wrap" fxFlex="40" class="headerbox"  fxLayoutAlign="space-between start" >
+
+        <div   class="boxForNumber" fxFlexAlign="start"  fxFlex="none"        >
             <p class="headerText">  <b>{{index}}</b></p> 
          </div>
-         <div  fxFlexOffset="50px"  fxFlexAlign="center" fxFlex="100">
-             <p fxFlex="100px"> {{ name | titlecase }} </p>
-         </div>
-         <div   fxFlexOffset="3px" fxFlexAlign="start" >
+     
+         
+        
+         <div    fxFlex="nogrow">
+            <button mat-button (click)= "updateQuery()"><mat-icon class="icon" >create</mat-icon></button>   
+
             <button mat-button (click)= "removeQuery()"><mat-icon class="icon" >remove_circle</mat-icon></button>   
         </div>
-
+        <div    fxFlex="grow"  style="margin-top: -15px;" >
+         <p   style="text-align: center;
+         font-size: x-large;">Filter </p>   
+          </div>
     </div>
     
-    <div fxLayout="row" fxFlex="70" fxLayoutAlign="space-between center" >
-        <mat-card fxFlex="100" >
-            <div fxLayout="column"  fxFlex="100" >
-                <div fxFlexAlign="center"  *ngIf="value.charAt(0) == '#'">
+        <mat-card   fxLayout="column"  fxFlex="grow" fxLayoutAlign="space-around center"  >
+                <div   >
+                    <b>
+                    By:    {{ name | titlecase }}
+                                        </b>
+
+                </div>
+            
+                <div   *ngIf="value.charAt(0) == '#'">
                     <b>
                         {{propertyValueForDate | titlecase }}
                     </b>
 
                 </div>
               
-      <p  *ngIf="property != undefined &&property.length !=0 && value.charAt(0) != '#'"><b>Property :{{ property  | titlecase}}</b></p>  
+      <p  *ngIf="property != undefined &&property.length !=0 && value.charAt(0) != '#'">
+          <b>Property :{{ property  | titlecase}}</b></p>  
 
        <ng-container *ngIf="value.charAt(0) != '#'">
+
         <ng-container  *ngIf="valuepropertyOfTypeArray && valuepropertyOfTypeArray == ''  else ValuepropertyOfTypeArray">
             <p > <b>Values ={{value | titlecase}}</b></p> 
 
@@ -40,11 +53,8 @@
        </ng-container>
        
            
-        </div>
+   
     </mat-card>
-    </div>
     
-    <div fxLayout="row" fxFlex="10" fxLayoutAlign="space-between center" >
-        
-    </div>
+
     </div>

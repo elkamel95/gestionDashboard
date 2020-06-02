@@ -313,7 +313,7 @@ data.size,data.font)">
 
     <mat-form-field>
     <mat-select [disabled]="requests.length > 1 ? true : false " fxFlex [(ngModel)]="index"  (selectionChange)="getAttributes()">
-        <mat-option   *ngFor="let item of items let index =index ; "  [value] ="index">
+        <mat-option   *ngFor="let item of xmlEntites let index =index ; "  [value] ="index">
             {{item.entities.value}}
     
         </mat-option>
@@ -325,10 +325,12 @@ data.size,data.font)">
   <mat-label  fxFlexAlign="center" class="text-color">By :<i style=" color: #ffa000;">*</i> </mat-label>
 
 <mat-form-field>
-    <mat-select  [(ngModel)]="attribute"  (selectionChange)="getProperty()">
+    <mat-select  [(ngModel)]="attribute" 
+    (selectionChange)="getProperty()" 
+    >
       <ng-container *ngFor="let item of attributes let id =index">
   
-      <mat-option    *ngIf="item.$.type != 'relation'" [value]="{att: item.$.name, index: id ,val:item.$.value}">
+      <mat-option  id="item.$.name"   *ngIf="item.$.type != 'relation'" [value]="{att: item.$.name, index: id ,val:item.$.value}">
             {{item.$.value}}
         </mat-option>
       </ng-container>
@@ -447,8 +449,8 @@ data.size,data.font)">
 
 </div>
 </div>
-<div fxLayout="row"  fxLayoutAlign="start space-around " class="border-style"    style="margin-top: 6%; min-height: 250px;  min-width: max-content; width: 100%;"    >
-    <h1> {{entityValue | titlecase}} </h1> 
+<div fxLayout="row"  fxLayoutAlign="start space-around " class="border-style"    style="margin-top: 6%; min-height: 60%;  min-width: max-content; width: 100%;"    >
+    <h1> {{entity.value   | titlecase}} </h1> 
 <div fxLayout="row" fxLayoutGap="60px">
   <div fxLayout="row"  fxFlexAlign="center"
     
@@ -461,7 +463,7 @@ data.size,data.font)">
     [name]="request.name"
     [index]="index"
 [valuepropertyOfTypeArray]="request.valuepropertyOfTypeArray"
-  (removeFilter)="removeByIndex(index)">
+  (removeFilter)="removeByIndex(index)" (updateFilter)="UpdateQueryByIndex(index)">
 </box-request>
   
   </div>

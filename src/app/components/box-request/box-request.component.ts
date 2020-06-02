@@ -17,12 +17,15 @@ export class BoxRequestComponent implements OnInit {
 @Input()valuepropertyOfTypeArray="";
 
 @Output() removeFilter:EventEmitter<any> = new  EventEmitter<any>();
+@Output() updateFilter:EventEmitter<any> = new  EventEmitter<any>();
+
   constructor(private serviceWidget:ServiceWidgetService) { }
   ngOnInit() {
     for (let index = 0; index <  this.serviceWidget.dateProperty.length; index++) {
     
       if(  this.serviceWidget.dateProperty[index] == this.value)
-    {this.propertyValueForDate =  this.serviceWidget.datePropertyName[index];
+    {
+      this.propertyValueForDate =  this.serviceWidget.datePropertyName[index];
     
       break;
     }
@@ -33,5 +36,8 @@ export class BoxRequestComponent implements OnInit {
 
   removeQuery(){
     this.removeFilter.emit();
+  }
+  updateQuery(){
+    this.updateFilter.emit();
   }
 }
