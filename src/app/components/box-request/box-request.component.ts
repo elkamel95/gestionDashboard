@@ -15,9 +15,8 @@ export class BoxRequestComponent implements OnInit {
 @Input()propertyValueForDate="";
 @Input()index;
 @Input()valuepropertyOfTypeArray="";
-
 @Output() removeFilter:EventEmitter<any> = new  EventEmitter<any>();
-@Output() updateFilter:EventEmitter<any> = new  EventEmitter<any>();
+@Output() updateFilter:EventEmitter<number> = new  EventEmitter<number>();
 
   constructor(private serviceWidget:ServiceWidgetService) { }
   ngOnInit() {
@@ -38,6 +37,6 @@ export class BoxRequestComponent implements OnInit {
     this.removeFilter.emit();
   }
   updateQuery(){
-    this.updateFilter.emit();
+this.updateFilter.emit(this.index);
   }
 }

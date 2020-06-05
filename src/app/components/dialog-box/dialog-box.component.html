@@ -313,7 +313,7 @@ data.size,data.font)">
     <mat-label  fxFlexAlign="center" class="text-color">Entity :<i style=" color: #ffa000;">*</i> </mat-label>
 
     <mat-form-field>
-    <mat-select [disabled]="requests.length > 1 ? true : false " fxFlex [(ngModel)]="index"  (selectionChange)="getAttributes()">
+    <mat-select [disabled]="requests.length > 0 ? true : false " fxFlex [(ngModel)]="index"  (selectionChange)="getAttributes()">
         <mat-option   *ngFor="let item of xmlEntites let index =index ; "  [value] ="index">
             {{item.entities.value}}
     
@@ -326,12 +326,13 @@ data.size,data.font)">
   <mat-label  fxFlexAlign="center" class="text-color">By :<i style=" color: #ffa000;">*</i> </mat-label>
 
 <mat-form-field>
-    <mat-select  [(ngModel)]="attribute" 
+    <mat-select  [compareWith]="compareFn" [(ngModel)]="attribute"   
     (selectionChange)="getProperty()" 
-    >
-      <ng-container *ngFor="let item of attributes let id =index">
   
-      <mat-option  id="item.$.name"   *ngIf="item.$.type != 'relation'" [value]="{att: item.$.name, index: id ,val:item.$.value}">
+    >
+      <ng-container *ngFor="let item of attributes let id =index" >
+  
+      <mat-option  id="item.$.name"   *ngIf="item.$.type != 'relation'" [value]="{by: item.$.name, index: id ,val:item.$.value}">
             {{item.$.value}}
         </mat-option>
       </ng-container>
@@ -358,7 +359,8 @@ data.size,data.font)">
       </mat-option>
     </ng-container>
       <ng-container *ngIf="  filterType =='array'" >
-        <mat-option    *ngFor="let item of  attributesValues ; let id =index" [value]="{name:item.$.name,value:item.$.value}">
+        <mat-option    *ngFor="let item of  attributesValues ; let id =index"
+         [value]="{name:item.$.name,value:item.$.value}">
             {{item.$.value}}
     
         </mat-option>
@@ -392,8 +394,8 @@ data.size,data.font)">
       <mat-label  fxFlexAlign="center" class="text-color">Date:<i style=" color: #ffa000;">*</i> </mat-label>
 
     <mat-form-field>
-      <mat-label>Choose a date</mat-label>
-      <input matInput [matDatepicker]="picker" #date [disabled]= "property.charAt(0)=='#'?true:false" required>
+      <mat-label>{{labelDate}} </mat-label>
+      <input matInput [matDatepicker]="picker" #date [disabled]= "property?property.charAt(0)=='#'?true:false :false" required>
       <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
@@ -457,7 +459,7 @@ data.size,data.font)">
     
   *ngFor="let request of requests let index=index ;" >
   
-    <box-request *ngIf="request.by != undefined" [by]="request.by"   
+    <box-request *ngIf="request.by != undefined" (updateFilter)="UpdateQueryByIndex($event)" [by]="request.by"   
 
       [property]="request.property"
     [value]="request.value"

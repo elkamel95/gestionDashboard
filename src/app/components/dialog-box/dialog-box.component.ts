@@ -1,5 +1,5 @@
 //dialog-box.component.ts
-import { Component, Inject, Optional, OnInit } from '@angular/core';
+import { Component, Inject, Optional, OnInit, EventEmitter, Output } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Widget } from 'src/app/models/Widget';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
@@ -14,6 +14,9 @@ export interface Type {
   id                                : string ;
   name                              : string ;
 
+}
+export class filter {
+  by: string;index: number ;val:string;
 }
 
 export class Url {
@@ -44,20 +47,22 @@ session:string;
 export class DialogBoxComponent implements OnInit{
 nrSelect                            = 1;
 selected                            = "1";
+public labelDate="Choose a date";
 public index :any                      = 0;
 public xmlEntites                        : any ;
 public enterPoint                   = "";
 public and                          = ""
-public attributes                   =[];
+public attributes                 :any [] | filter[]   =[];
 public attributesValues             = [] ;
 public attributesName               = '' ;
-public requests                     = [new Url()] ;
+public requests                  :Url[]   = [] ;
 public isDynamic                    = false;
 public urlRequest                   : Url =new Url();
 public property                 : string | any = "";
 public entity                      :any  ;
 public attribute                    :any ;
 
+@Output() changeProprty:EventEmitter<any> = new EventEmitter<any> ();
 originalUrl :string=""; 
 filterDynamicDate :formatUrlWithDynamicProperty = {lasteYears:'N',lastMonth:'N',lastWeek:'N', today:'N',lastDay:'N',session:'N'} ;
 nameButtonNext                      = "Next"
@@ -159,8 +164,9 @@ if(this.data.url !=undefined)
    { 
 
     if(element.type.toString() ==='date' || element.type.toString()  =='numeric')
+   { this.checkTypeDate(element.value);
     newUrl                          = `${element.by}[${element.property}]=${element.value}${this.and}${url}`;
-
+}
     else if (element.type.toString() ==='boolean')
     newUrl                          = `exists[${element.by}]=${element.value}${this.and}${url}`;
     else
@@ -186,6 +192,7 @@ if(this.data.url !=undefined)
     this.enterPoint                 = this.data.url.substring(  0,  this.data.url.indexOf("?")+1);
    var index                        = this.enterPoint.indexOf('/');
    var  entity                     = this.enterPoint.substring(  index+1,  this.data.url.indexOf("?"));
+   
    this.getEntityByName( entity  );
 
    this.data.url                 = this.data.url.substring(    this.data.url.indexOf("?")+1, this.data.url.length);
@@ -359,11 +366,12 @@ request.type                        = "date"
 
     if(this.data.nameFr&&this.data.nameEn && this.data.description && this.next == 2 ) 
   {  this.dialogRef.close({event    : this.action,data:this.data});
-    await  this.cryptageUrl();
-    this.data.users                 = `api/users/${localStorage.getItem('idUser')}`;
+  await  this.cryptageUrl();
+  this.enterPoint                     = `${ this.xmlEntites[this.index].entities.enterpoint.toString() }?`;
+
+  this.data.users                 = `api/users/${localStorage.getItem('idUser')}`;
     var filterDynamicDate =this.filterDynamicDate.lasteYears+ this.filterDynamicDate.lastMonth+this.filterDynamicDate.lastWeek+this.filterDynamicDate.lastDay+this.filterDynamicDate.today+this.filterDynamicDate.session
     this.enterPoint                 = this.isDynamic? '!'+filterDynamicDate+this.enterPoint:this.enterPoint;
-    
       this.data.url                 = this.enterPoint+ (this.cryptageUrl().charAt(this.cryptageUrl().length-1)=='&'? this.cryptageUrl().substring(0,this.cryptageUrl().length-1):this.cryptageUrl()) ;
 
     
@@ -385,25 +393,35 @@ request.type                        = "date"
 
   getProperty(){
 
-   
-              this.filterType       =  this.xmlEntites[this.index].attributes[this.attribute.index].$.type  ;
+   this.filterType       =  this.xmlEntites[this.index].attributes[this.attribute.index].$.type  ;
 
-              if(  this.xmlEntites[this.index].attributes[this.attribute.index].property  != undefined)
+  if(  this.xmlEntites[this.index].attributes[this.attribute.index].property  != undefined)
        {  this.attributesValues     =  this.xmlEntites[this.index].attributes[this.attribute.index].property ;
       }
          else
 {         this.attributesValues     = [];
 }
-
+ 
            
 
   }
   getAttributes(){
-    this.attributesValues           = [];
+
+              this.attributesValues           = [];
 
               this.entity.name           =  this.xmlEntites[this.index].entities.name.toString() ;
+
               this.attributes       =  this.xmlEntites[this.index].attributes ;
-        
+              
+  var updateFilter:filter =new filter() ; 
+
+
+  updateFilter.by=this.attributes   [0].$.name; 
+  updateFilter.index=0; 
+  updateFilter.val=""; 
+  this.attribute =       updateFilter ;
+  this.filterType       =  this.attributes[0].$.type  ;
+
   
   }
 
@@ -411,19 +429,19 @@ async generateUrl(input?){
 
 this.update?this.nameButtonNext     = "Update":this.nameButtonNext ="Create";
   this.nameButtonBack               = "Close";
-this.enterPoint                     = `api/${this.entity}?`;
-  this.urlRequest.by                = this.attribute.att;
+  this.urlRequest.by                = this.attribute.by;
 
   if(this.filterType.toString() =="array" )
 {  
   this.urlRequest.value                    = this.property.name  ;
   this.urlRequest.valuepropertyOfTypeArray =this.property.value
 
-}else if ( this.filterType.toString() =="boolean") 
-{
-  this.urlRequest.value =this.property
-
 }
+  else if ( this.filterType.toString() =="boolean") 
+  {
+    this.urlRequest.value =this.property
+
+  }
  else 
   this.urlRequest.property          = this.property   ;
 
@@ -434,34 +452,60 @@ this.enterPoint                     = `api/${this.entity}?`;
 
 }
 if(this.filterType.toString() =="date" )
-
-  if(this.property.charAt(0) =='#')
   {
-    this.urlRequest.property        = "after"
-    input.value                     = this.property;
+    console.log("date" );
+    this.labelDate="Choose a date";
+  var   dynamicDate         =   this.checkTypeDate(this.property);
 
-    if (this.property =='#TD#')
-    this.filterDynamicDate.today='T'
-else if( this.property=='#LY#')
-this.filterDynamicDate.lasteYears='Y'
-else if(this.property=='#LM#')
-this.filterDynamicDate.lastMonth='M'
-else if(this.property=='#LW#')
-this.filterDynamicDate.lastWeek='W'
-else if(this.property=='#LD#')
-this.filterDynamicDate.lastDay='D'
- this.isDynamic                  = true;
-  }
-  this.urlRequest.type              = this.filterType ;
-  if(input.value !=undefined)
+
+  if(input.value !=undefined && dynamicDate == undefined)
   this.urlRequest.value             = input.value ;
+  
+  else {
+    input.value=dynamicDate;
+    this.urlRequest.value=dynamicDate;
+  }
 
+}else{
+
+if(input.value !=undefined )
+  this.urlRequest.value             = input.value ; 
+ }
   this.urlRequest.name  = this.translateValueToNameFromXml(this.urlRequest.by);
-    
+  this.urlRequest.type              = this.filterType ;
+
 this.requests.push(this.urlRequest );
 this.urlRequest                     = new Url();
 
 }
+
+checkTypeDate(property){
+  var   dynamicDate                     
+console.log(property);
+
+
+    if(property.charAt(0) =='#')
+  {
+  this.urlRequest.property        = "after"
+  this. labelDate=" dynamic date has been selected";
+    dynamicDate                     = this.property;
+
+if (property =='#TD#')
+this.filterDynamicDate.today='T'
+else if( property=='#LY#')
+this.filterDynamicDate.lasteYears='Y'
+else if(property=='#LM#')
+this.filterDynamicDate.lastMonth='M'
+else if(property=='#LW#')
+this.filterDynamicDate.lastWeek='W'
+else if(property=='#LD#')
+this.filterDynamicDate.lastDay='D'
+ this.isDynamic                  = true;
+  }
+  return dynamicDate ;
+}
+
+
 removeByIndex(index){
   if (index > -1) {
   this.requests.splice(index,1);
@@ -470,9 +514,28 @@ removeByIndex(index){
   }
  
 }
-UpdateQueryByIndex(index){
+UpdateQueryByIndex(index:number){
 
-}
+
+    var updateFilter:filter =new filter() ; 
+    updateFilter.by=this.requests[index].by; 
+    updateFilter.index=index; 
+    updateFilter.val=this.requests[index].value; 
+    console.log(updateFilter);
+    this.attribute= updateFilter;
+    console.log(this.attribute);
+
+    this.filterType= this.requests[index].type;
+    this.property= this.requests[index].property;
+
+      this.changeProprty.emit();
+    }
+    compareFn(c1: any, c2:any): boolean {   
+      if(c1 && c2 ? c1.by === c2.by : c1 === c2)
+      return c1 && c2 ? c1.by === c2.by : c1 === c2; 
+    }
+
+
 getEntityByName(entity){
   var index      
 
@@ -488,7 +551,7 @@ if  (this.xml.xmlItems[index].entities.name.toString() === entity.toString())
 
 this.index=index;
 this.attributes       =  this.xmlEntites[this.index].attributes ;
-
+this.entity.name=this.xml.xmlItems[index].entities.name.toString() ;
 return this.xml.xmlItems[index].entities.name.toString() ; 
 }
 
