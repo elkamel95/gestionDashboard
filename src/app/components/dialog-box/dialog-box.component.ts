@@ -244,11 +244,14 @@ else if(array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"))!='$str
   }
   else
   {  
-     if( this.xmlEntites[this.index].attributes [this.getAttributByName(request.by)].property != undefined)
+    var prpertyArray=this.xmlEntites[this.index].attributes [this.getAttributByName(request.by)].property ;
+     if( prpertyArray != undefined)
     {
-      request.valueArray=  this.xmlEntites[this.index].attributes [this.getAttributByName(request.by)].property;
+      console.log(prpertyArray);
+      request.valueArray=  prpertyArray ;
+      if(this.xmlEntites[this.index].attributes [this.getAttributByName(request.by)].$.enterpoint)
+      this.dynamicArray=true;
       request.type               = "array";
-
      }else 
      request.type               = "session";
 
@@ -437,7 +440,7 @@ else if(array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"))!='$str
 
       { 
         this.dynamicArray=true;
-          this.dynamicArrayProperty       =this.attributes[this.attribute.index].property[0];
+        this.dynamicArrayProperty       =this.attributes[this.attribute.index].property[0];
           this.serviceWidge.getAnything(this.attributes[this.attribute.index].$.enterpoint,false).subscribe((list)=>{
     
          this.attributesValues =list;
@@ -591,8 +594,24 @@ UpdateQueryByIndex(index:number){
 
     if( this.filterType =="array")
 {
-  this.attributesValues= this.attributes[this.getAttributByName(this.requests[index].by)].property;
-  this.property={name:this.requests[index].by,value:this.requests[index].value};
+ { 
+   var i= this.getAttributByName(this.requests[index].by);
+  if(  this.attributes[i].$.enterpoint != undefined)
+  {
+    this.dynamicArray=true;
+    this.dynamicArrayProperty=this.attributes[i].property[0];
+    this.serviceWidge.getAnything(this.attributes[i].$.enterpoint,false).subscribe((list)=>{
+    this.attributesValues =list;
+     }); 
+   }else{
+    this.dynamicArray=false;
+
+    this.attributesValues= this.attributes[i].property;
+    this.property={name:this.requests[index].by,value:this.requests[index].value};
+   }}
+ 
+
+
 }  else 
     this.property= this.requests[index].property;
     }
