@@ -53,7 +53,8 @@ public dataSource :MatTableDataSource<any> = new MatTableDataSource<any>();
 
 getDataFromUrl(url){
     var listData=[];
-   
+    this.url=this.url.replace('[$string]','[]');
+      this.url=this.url.replace('$','');
 
     if(this.isRelationType)
     { 

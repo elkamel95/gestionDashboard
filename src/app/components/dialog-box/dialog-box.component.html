@@ -345,40 +345,37 @@ data.size,data.font)">
     <mat-label  fxFlexAlign="center" class="text-color">Property :  <i style=" color: #ffa000;">*</i> </mat-label>
 
 <mat-form-field>
-    <mat-select  [(ngModel)]="property"  >
+    <mat-select  [(ngModel)]="property" >
       <ng-container  *ngIf="  filterType =='date'" >
       <mat-option 
         
-      *ngFor="let item of 
-    
-      datePropertyName ; let id =index"
+      *ngFor="let property of dateFilterProperty ; let id =index"
       
-      [value]="dateProperty[id]">
-          {{item}}
+      [value]="property.name">
+          {{property.value}}
   
       </mat-option>
     </ng-container>
       <ng-container *ngIf="  filterType =='array'" >
+
         <mat-option    *ngFor="let item of  attributesValues ; let id =index"
-         [value]="{name:item.$.name,value:item.$.value}">
-            {{item.$.value}}
-    
-        </mat-option>
+        [value]=" dynamicArray ?{ name: item[dynamicArrayProperty.$.name],value: item[dynamicArrayProperty.$.value]}:{name:item.$.name,value:item.$.value}">
+           {{dynamicArray ? item[dynamicArrayProperty.$.value] : item.$.value }}
+   
+       </mat-option>
         </ng-container>
+        
         <ng-container *ngIf="  filterType =='boolean'" >
-          <mat-option     value="1">
-          true      
+          <mat-option  *ngFor="let booleanFilter of booleanFilterProperty"    [value]="booleanFilter.name">
+          {{booleanFilter.value}}      
           </mat-option>
-          <mat-option     value="0">
-            false      
-         </mat-option>
+  
           </ng-container>
           <ng-container *ngIf="  filterType =='numeric'" >
-            <mat-option    value="lt">lower than</mat-option>
-            <mat-option    value="gt">greater than</mat-option>
-             <mat-option   value="lte">lower than or equal</mat-option>
-             <mat-option   value="gte">greater than or equal</mat-option>
- <mat-option     value="between">between two values.</mat-option>
+
+            <mat-option *ngFor="let item of  numericFilterProperty ; let id =index"
+            [value]="item.name">{{item.value}}</mat-option>
+           
             </ng-container>
 
     
@@ -395,7 +392,7 @@ data.size,data.font)">
 
     <mat-form-field>
       <mat-label>{{labelDate}} </mat-label>
-      <input matInput [matDatepicker]="picker" #date [disabled]= "property?property.charAt(0)=='#'?true:false :false" required>
+      <input matInput [matDatepicker]="picker" [(ngModel)]="dateValue" #date [disabled]= "property?property.charAt(0)=='#'?true:false :false" required>
       <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
@@ -403,7 +400,7 @@ data.size,data.font)">
     
   </div>
 
-  <button  mat-button color="accent" fxFlexAlign="center" (click)="generateUrl(date)"><mat-icon class="mat-icon-size">add_circle</mat-icon></button>
+  <button  mat-button [color]=" indexOfUpdateRequest == null ? 'accent' : 'primary' " fxFlexAlign="center" (click)="generateUrl(date)"><mat-icon class="mat-icon-size" [matTooltip]="indexOfUpdateRequest == null ? 'Add' : 'Edit'">{{ indexOfUpdateRequest == null ? 'add_circle' : 'build_circle'}} </mat-icon></button>
 
   </ng-container>
   
@@ -412,12 +409,11 @@ data.size,data.font)">
       <mat-label  fxFlexAlign="center" class="text-color">Value:<i style=" color: #ffa000;">*</i> </mat-label>
 
       <mat-form-field>
-      <input matInput type="number" #num   >
+      <input matInput type="number" #num  [(ngModel)]="dateValue" >
 
     </mat-form-field>
   </div>
-  <button  mat-button color="accent" fxFlexAlign="center"  (click)="generateUrl(num)"><mat-icon class="mat-icon-size">add_circle</mat-icon></button>
-
+  <button  mat-button [color]=" indexOfUpdateRequest == null ? 'accent' : 'primary' " fxFlexAlign="center" (click)="generateUrl(num)"><mat-icon class="mat-icon-size" [matTooltip]="indexOfUpdateRequest == null ? 'Add' : 'Edit'" >{{ indexOfUpdateRequest == null ? 'add_circle' : 'build_circle'}} </mat-icon></button>
   </ng-container> 
   <ng-container   *ngSwitchCase="'string'" >
     <div fxLayout="row" fxFlex  >
@@ -429,7 +425,7 @@ data.size,data.font)">
 
     </mat-form-field>
   </div>
-  <button  mat-button color="accent" fxFlexAlign="center"  (click)="generateUrl(txt)"><mat-icon class="mat-icon-size">add_circle</mat-icon></button>
+  <button  mat-button [color]=" indexOfUpdateRequest == null ? 'accent' : 'primary' " fxFlexAlign="center" (click)="generateUrl(txt)"><mat-icon class="mat-icon-size" [matTooltip]="indexOfUpdateRequest == null ? 'Add' : 'Edit'">{{ indexOfUpdateRequest == null ? 'add_circle' : 'build_circle'}} </mat-icon></button>
 
   </ng-container> 
   <ng-container   *ngSwitchCase="'session'" >
@@ -439,11 +435,11 @@ data.size,data.font)">
       <input  type="hidden" value="#CU#" #txt   >
 
   </div>
-  <button  mat-button color="accent" fxFlexAlign="center"  (click)="generateUrl(txt)"><mat-icon class="mat-icon-size">add_circle</mat-icon></button>
+  <button  mat-button [color]=" indexOfUpdateRequest == null ? 'accent' : 'primary' " fxFlexAlign="center" (click)="generateUrl(txt)"><mat-icon class="mat-icon-size" [matTooltip]="indexOfUpdateRequest == null ? 'Add' : 'Edit'">{{ indexOfUpdateRequest == null ? 'add_circle' : 'build_circle'}} </mat-icon></button>
 
   </ng-container> 
   <ng-container *ngSwitchDefault>
-    <button  mat-button color="accent" fxFlexAlign="center"  (click)="generateUrl('')"><mat-icon class="mat-icon-size">add_circle</mat-icon></button>
+    <button  mat-button [color]=" indexOfUpdateRequest == null ? 'accent' : 'primary' " fxFlexAlign="center" (click)="generateUrl('')"><mat-icon class="mat-icon-size" [matTooltip]="indexOfUpdateRequest == null ? 'Add' : 'Edit'">{{ indexOfUpdateRequest == null ? 'add_circle' : 'build_circle'}} </mat-icon></button>
 
   </ng-container>
 
@@ -464,8 +460,10 @@ data.size,data.font)">
       [property]="request.property"
     [value]="request.value"
     [name]="request.name"
+    [type]="request.type "
+ [dynamic]="request.dynamic"
     [index]="index"
-[valuepropertyOfTypeArray]="request.valuepropertyOfTypeArray"
+[valueArray]="request.valueArray"
   (removeFilter)="removeByIndex(index)" (updateFilter)="UpdateQueryByIndex(index)">
 </box-request>
   

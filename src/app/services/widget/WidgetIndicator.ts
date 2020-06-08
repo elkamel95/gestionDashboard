@@ -30,9 +30,12 @@ public loadedData =true ;
 
     if(this.url !=undefined)
    { 
+
     var entity =this.url.substring(this.url.indexOf("/")+1,this.url.indexOf("?"));
 
       this.entity=  this.serviceWidget. translateValueToNameFromXml(entity).entities.value;
+      this.url=this.url.replace('[$string]','[]');
+      this.url=this.url.replace('$','');
 
     //  #DN#:  data now  
      if(this.url.charAt(0)==='!'){
@@ -40,7 +43,7 @@ public loadedData =true ;
     }
   
             
-            
+            console.log(this.url)
               this.getDataFromUrl( this.url);
 
             }

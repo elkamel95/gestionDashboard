@@ -12,27 +12,59 @@ export class BoxRequestComponent implements OnInit {
 @Input()property ="";
 @Input()value="";
 @Input()name="";
-@Input()propertyValueForDate="";
+@Input()type;
+@Input()dynamic=false;
+
+@Input()dynamicPropertyValueDate="";
 @Input()index;
-@Input()valuepropertyOfTypeArray="";
+@Input()valueArray : string |any[];
 @Output() removeFilter:EventEmitter<any> = new  EventEmitter<any>();
 @Output() updateFilter:EventEmitter<number> = new  EventEmitter<number>();
-
-  constructor(private serviceWidget:ServiceWidgetService) { }
+public typeOf='string'; 
+  constructor(private serviceWidget:ServiceWidgetService,) {
+   }
   ngOnInit() {
-    for (let index = 0; index <  this.serviceWidget.dateProperty.length; index++) {
+    console.log(this.type);
+    switch (this.type) {
+      case 'boolean':
+        this.value= this.getValueForProperty( this.serviceWidget.booleanFilterProperty,this.value);
+
+        break;
+        case 'numeric':
+          this.property= this.getValueForProperty( this.serviceWidget.numericFilterProperty,this.property);
+  
+          break;
+          case 'date':
+            this.dynamicPropertyValueDate=   this.getValueForProperty( this.serviceWidget.dateFilterProperty,this.value);
     
-      if(  this.serviceWidget.dateProperty[index] == this.value)
-    {
-      this.propertyValueForDate =  this.serviceWidget.datePropertyName[index];
-    
-      break;
-    }
+            break;
+        
       
+      default:
+        break;
     }
+   
+ 
 
+  
+
+ 
+
+}
+getValueForProperty(array,equals){
+  console.log(array);
+if(array)
+  for (let index = 0; index <  array.length; index++) {
+    console.log(array[index].name  );
+
+    if( array[index].name == equals)
+  {
+
+  return array[index].value;
+    }
+    
   }
-
+}
   removeQuery(){
     this.removeFilter.emit();
   }

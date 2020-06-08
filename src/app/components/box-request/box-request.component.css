@@ -28,3 +28,11 @@ background-color:  #0b0f2f;
     max-height: 230px;
     max-width: 250px;
 }
+.line_break{
+    height: 5px;
+    width:100%;
+    overflow:hidden;    float: left;
+    color: black;
+    background-color: rgba(255,255,255,.5);
+    border: none;
+    border-bottom: 1px solid black;}

@@ -1,5 +1,5 @@
 //dialog-box.component.ts
-import { Component, Inject, Optional, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, Inject, Optional, OnInit, EventEmitter, Output, ViewChild, ViewChildren, ElementRef } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Widget } from 'src/app/models/Widget';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
@@ -9,7 +9,10 @@ import { XmlService } from 'src/app/services/XmlData/xml.service';
 import { async } from 'rxjs/internal/scheduler/async';
 import { AuthenticationService } from 'src/app/services/Auth/authentication-service.service';
 
-
+export interface modelFilter {
+  name:string;
+  value:string;
+}
 export interface Type {
   id                                : string ;
   name                              : string ;
@@ -23,10 +26,11 @@ export class Url {
   by                                : string ;
   name                              : string;
   property                          : string ;
-  valuepropertyOfTypeArray          : string ;
+  valueArray                        : any[] | string ;
+  dynamic                           :boolean
   value                             : string ;
   type                              : string;
-  
+  index                             :number
 
 }
 export interface formatUrlWithDynamicProperty{
@@ -45,6 +49,7 @@ session:string;
   styleUrls                         : ['./dialog-box.component.css']
 })
 export class DialogBoxComponent implements OnInit{
+dateValue : any;
 nrSelect                            = 1;
 selected                            = "1";
 public labelDate="Choose a date";
@@ -61,8 +66,10 @@ public urlRequest                   : Url =new Url();
 public property                 : string | any = "";
 public entity                      :any  ;
 public attribute                    :any ;
+public indexOfUpdateRequest?:number=null;
+dynamicArrayProperty = [];
+dynamicArray =false;
 
-@Output() changeProprty:EventEmitter<any> = new EventEmitter<any> ();
 originalUrl :string=""; 
 filterDynamicDate :formatUrlWithDynamicProperty = {lasteYears:'N',lastMonth:'N',lastWeek:'N', today:'N',lastDay:'N',session:'N'} ;
 nameButtonNext                      = "Next"
@@ -72,6 +79,10 @@ chartOptions                        = {};
 screenWidth                         : number ;
 dateProperty                        :string[];
 datePropertyName                    :string[];
+numericFilterProperty:modelFilter[];
+booleanFilterProperty:modelFilter[];
+dateFilterProperty:modelFilter[];
+
 isactive                            = false ;
 update                              = false ;
 filterType                          = "";
@@ -101,11 +112,11 @@ next                                = 0 ;
 
 ngOnInit() {  
   this.screenWidth   = this.serviceWidge.screenWidth - (10*this.serviceWidge.screenWidth/100);
-  this.dateProperty   =this.serviceWidge.getDateProperty();     
-  this.datePropertyName ==this.serviceWidge.getDatePropertyName();  
+  this.dateFilterProperty   =this.serviceWidge.dateFilterProperty;     
+  this.numericFilterProperty = this.serviceWidge.numericFilterProperty;
+  this.booleanFilterProperty =   this.serviceWidge.booleanFilterProperty;
 if(this.data.id == null)
 {
-
     this.data.type                  = "1";
 
     this.data .width                = 400;
@@ -122,7 +133,6 @@ if(this.data.id == null)
   this.data.size                    = "x-large";
 this.data.visible                   = true;
 this.data.url                       = "";
- 
 }
 
 
@@ -141,10 +151,10 @@ this.data.url                       = "";
   
   this.xmlEntites= this.xml.xmlItems;
   /* declaration de variable (les Entites ,attributes) de puis la fichie xml */ 
+  this.index=0;
   this.entity           =  this.xmlEntites[this.index].entities ;
   this.attributes       =  this.xmlEntites[this.index].attributes;
-  this.datePropertyName = serviceWidge.datePropertyName;
-  this.dateProperty =serviceWidge.dateProperty;
+
 
   this.originalUrl=this.data.url;
 /* if the action is updated, call the URL decryption method   */ 
@@ -162,13 +172,17 @@ if(this.data.url !=undefined)
     this.requests.forEach(element=>{
       if(element.by !=undefined)
    { 
-
-    if(element.type.toString() ==='date' || element.type.toString()  =='numeric')
+    if(element.type.toString() ==='date' )
    { this.checkTypeDate(element.value);
     newUrl                          = `${element.by}[${element.property}]=${element.value}${this.and}${url}`;
+}else  if(element.type.toString() ==='numeric' )
+{
+ newUrl                          = `$${element.by}[${element.property}]=${element.value}${this.and}${url}`;
 }
     else if (element.type.toString() ==='boolean')
     newUrl                          = `exists[${element.by}]=${element.value}${this.and}${url}`;
+    else if (element.type.toString() ==='string')
+    newUrl                          = `${element.by}[$string]=${element.value}${this.and}${url}`;
     else
     newUrl                          = `${element.by}[]=${element.value}${this.and}${url}`;
     url                             = newUrl ;
@@ -185,7 +199,7 @@ if(this.data.url !=undefined)
   /* returns an array of type url. all properties, criteria, filter types and values ​​of a string (query)*/ 
 
    async decryptageUrl(){
-    
+    var dynamicType =false;
 
     this.update                     = true ;
     this.and                        = "&"
@@ -194,13 +208,14 @@ if(this.data.url !=undefined)
    var  entity                     = this.enterPoint.substring(  index+1,  this.data.url.indexOf("?"));
    
    this.getEntityByName( entity  );
-
+   dynamicType=this.data.url.charAt(0)=="!" ? true : false ; 
    this.data.url                 = this.data.url.substring(    this.data.url.indexOf("?")+1, this.data.url.length);
       var array                     = this.data.url.split('&');
   
         array.forEach( async element => {
           var array                 = element.split('=');
           var request               : Url =new Url();
+          request.dynamic= dynamicType; 
         if(array[0].indexOf("[")!=-1)  
 {       
  request.by                 = array[0].substring(0,array[0].indexOf("["));
@@ -212,15 +227,35 @@ if(request.by === 'exists')
  request.by                         = array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"));
  request.type                       = "boolean"
 }
-else if(array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"))!='')
+else if(request.by.charAt(0)=="$") {
+  request.property                    = array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"));
+  request.by                          = request.by.substring(request.by.indexOf("$")+1,request.by.length);
+  request.type                        = "numeric"
+}
 
- {  
-request.property                    = array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"));
+else if(array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"))!='$string'){
+   if(array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"))!='')
 
-request.type                        = "date"
+  {  
+  request.property                    = array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"));
+  
+  request.type                        = "date"
+  
+  }
+  else
+  {  
+     if( this.xmlEntites[this.index].attributes [this.getAttributByName(request.by)].property != undefined)
+    {
+      request.valueArray=  this.xmlEntites[this.index].attributes [this.getAttributByName(request.by)].property;
+      request.type               = "array";
 
-}else {
-  request.type               = "array";
+     }else 
+     request.type               = "session";
+
+  }
+
+}else if(array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"))=='$string'){
+  request.type               = "string";
 
 }
 }        else
@@ -237,7 +272,7 @@ request.type                        = "date"
         request.value               = array[1];
      
 
-        request.name =  this.translateValueToNameFromXml(    request.by);
+        request.name =  this.translateValueToNameFromXml(request.by);
       
      
         this.requests.push(request);
@@ -370,9 +405,9 @@ request.type                        = "date"
   this.enterPoint                     = `${ this.xmlEntites[this.index].entities.enterpoint.toString() }?`;
 
   this.data.users                 = `api/users/${localStorage.getItem('idUser')}`;
-    var filterDynamicDate =this.filterDynamicDate.lasteYears+ this.filterDynamicDate.lastMonth+this.filterDynamicDate.lastWeek+this.filterDynamicDate.lastDay+this.filterDynamicDate.today+this.filterDynamicDate.session
-    this.enterPoint                 = this.isDynamic? '!'+filterDynamicDate+this.enterPoint:this.enterPoint;
-      this.data.url                 = this.enterPoint+ (this.cryptageUrl().charAt(this.cryptageUrl().length-1)=='&'? this.cryptageUrl().substring(0,this.cryptageUrl().length-1):this.cryptageUrl()) ;
+  var filterDynamicDate =this.filterDynamicDate.lasteYears+ this.filterDynamicDate.lastMonth+this.filterDynamicDate.lastWeek+this.filterDynamicDate.lastDay+this.filterDynamicDate.today+this.filterDynamicDate.session
+  this.enterPoint                 = this.isDynamic? '!'+filterDynamicDate+this.enterPoint:this.enterPoint;
+  this.data.url                 = this.enterPoint+ (this.cryptageUrl().charAt(this.cryptageUrl().length-1)=='&'? this.cryptageUrl().substring(0,this.cryptageUrl().length-1):this.cryptageUrl()) ;
 
     
 
@@ -395,9 +430,28 @@ request.type                        = "date"
 
    this.filterType       =  this.xmlEntites[this.index].attributes[this.attribute.index].$.type  ;
 
+
   if(  this.xmlEntites[this.index].attributes[this.attribute.index].property  != undefined)
-       {  this.attributesValues     =  this.xmlEntites[this.index].attributes[this.attribute.index].property ;
-      }
+       {  
+        if(  this.attributes[this.attribute.index].$.enterpoint != undefined)
+
+      { 
+        this.dynamicArray=true;
+          this.dynamicArrayProperty       =this.attributes[this.attribute.index].property[0];
+          this.serviceWidge.getAnything(this.attributes[this.attribute.index].$.enterpoint,false).subscribe((list)=>{
+    
+         this.attributesValues =list;
+        }); 
+       }
+
+        else
+{    
+  this.dynamicArray=false;
+
+  this.attributesValues     =  this.xmlEntites[this.index].attributes[this.attribute.index].property ;
+}     
+
+}
          else
 {         this.attributesValues     = [];
 }
@@ -412,7 +466,7 @@ request.type                        = "date"
               this.entity.name           =  this.xmlEntites[this.index].entities.name.toString() ;
 
               this.attributes       =  this.xmlEntites[this.index].attributes ;
-              
+
   var updateFilter:filter =new filter() ; 
 
 
@@ -433,9 +487,18 @@ this.update?this.nameButtonNext     = "Update":this.nameButtonNext ="Create";
 
   if(this.filterType.toString() =="array" )
 {  
-  this.urlRequest.value                    = this.property.name  ;
-  this.urlRequest.valuepropertyOfTypeArray =this.property.value
+  
+  this.urlRequest.value      = this.property.name  ;
+  this.urlRequest.valueArray =this.property.value
 
+}  else if ( this.filterType.toString() =="numeric") 
+{
+  this.urlRequest.type=  "numeric";
+  this.urlRequest.property =this.property
+}
+else if ( this.filterType.toString() =="string") 
+{
+  this.urlRequest.type=  "string";
 }
   else if ( this.filterType.toString() =="boolean") 
   {
@@ -453,7 +516,6 @@ this.update?this.nameButtonNext     = "Update":this.nameButtonNext ="Create";
 }
 if(this.filterType.toString() =="date" )
   {
-    console.log("date" );
     this.labelDate="Choose a date";
   var   dynamicDate         =   this.checkTypeDate(this.property);
 
@@ -473,23 +535,26 @@ if(input.value !=undefined )
  }
   this.urlRequest.name  = this.translateValueToNameFromXml(this.urlRequest.by);
   this.urlRequest.type              = this.filterType ;
-
+  if (this.indexOfUpdateRequest==null)
 this.requests.push(this.urlRequest );
+else
+{
+  this.requests[this.indexOfUpdateRequest]=this.urlRequest;
+  this.indexOfUpdateRequest=null
+}
+
 this.urlRequest                     = new Url();
 
 }
 
 checkTypeDate(property){
   var   dynamicDate                     
-console.log(property);
-
-
     if(property.charAt(0) =='#')
   {
   this.urlRequest.property        = "after"
   this. labelDate=" dynamic date has been selected";
     dynamicDate                     = this.property;
-
+    this.urlRequest.dynamic=true;
 if (property =='#TD#')
 this.filterDynamicDate.today='T'
 else if( property=='#LY#')
@@ -515,44 +580,74 @@ removeByIndex(index){
  
 }
 UpdateQueryByIndex(index:number){
-
-
+  this.indexOfUpdateRequest=index;
     var updateFilter:filter =new filter() ; 
     updateFilter.by=this.requests[index].by; 
-    updateFilter.index=index; 
+
     updateFilter.val=this.requests[index].value; 
-    console.log(updateFilter);
     this.attribute= updateFilter;
-    console.log(this.attribute);
-
     this.filterType= this.requests[index].type;
-    this.property= this.requests[index].property;
+    this.dateValue=this.requests[index].value;
 
-      this.changeProprty.emit();
+    if( this.filterType =="array")
+{
+  this.attributesValues= this.attributes[this.getAttributByName(this.requests[index].by)].property;
+  this.property={name:this.requests[index].by,value:this.requests[index].value};
+}  else 
+    this.property= this.requests[index].property;
     }
+
+
+
     compareFn(c1: any, c2:any): boolean {   
       if(c1 && c2 ? c1.by === c2.by : c1 === c2)
       return c1 && c2 ? c1.by === c2.by : c1 === c2; 
     }
+  
+  
 
 
 getEntityByName(entity){
-  var index      
 
-      
-for (  index = 0; index < this.xml.xmlItems.length; index++) {
+  console.log(entity);
 
-if  (this.xml.xmlItems[index].entities.name.toString() === entity.toString())
+for (  var index = 0; index < this.xml.xmlItems.length-1; index++) {
+  console.log(this.xml.xmlItems[index]);
+
+if  (this.xml.xmlItems[index].entities.name.toString() == entity.toString())
 {  
+  console.log(index);
 
-  break ;
+return index;
 }  
 }
 
+
 this.index=index;
+console.log(this.index);
 this.attributes       =  this.xmlEntites[this.index].attributes ;
-this.entity.name=this.xml.xmlItems[index].entities.name.toString() ;
 return this.xml.xmlItems[index].entities.name.toString() ; 
+}
+
+getAttributByName(attributName){
+  var index      
+  for (  index = 0; index <   this.attributes.length; index++) {
+
+
+    if( this.attributes[index].$.name.toString() === attributName.toString())  
+   {
+
+     return  index;
+ 
+  }
+
+}
+
+
+return    index    ;  
+
+
+
 }
 
 

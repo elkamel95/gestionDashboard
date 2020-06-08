@@ -11,6 +11,10 @@ import { GlobalConstants } from './../../common/global-constants';
   sessionName :string,
   sessionProperty :string
  }
+ export interface modelFilter {
+  name:string;
+  value:string;
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -39,17 +43,27 @@ screenWidth: number;
     currentWidget = this.behaviorWidget.asObservable();
     behaviorGraphiqueType = new BehaviorSubject<any>({});
     currentGraphique= this.behaviorGraphiqueType.asObservable();
+    booleanFilterProperty:modelFilter[];
+    numericFilterProperty:modelFilter[];
 
-    dateProperty                        :string[];
-    datePropertyName                    :string[];
+  
   constructor(private http:HttpClient,private xml:XmlService) { 
     this.headers.append('Authorization', `Bearer ${localStorage.getItem('token')}`);
     this.headers.append('Content-Type', `application/json`);
     this.headers.append('Accept', `application/ld+json`);
     this.getScreenSize();
     
-    this.datePropertyName    =this.getDatePropertyName();
-    this.dateProperty=this.getDateProperty();
+
+    this.numericFilterProperty=[
+    {value:"lower than",name:"lt"},
+    {value:"greater than",name:"gt"},
+    {value:"lower than or equal",name:"lte"},
+    {value:"greater than or equal",name:"gte"}
+  ]
+  this.booleanFilterProperty = [ 
+     {value:"valid",name:"1"},
+    {value:"invalid",name:"0"}
+  ]
   }
 
  setValueForSession( setPropertyForSessiontype){
@@ -59,15 +73,20 @@ screenWidth: number;
   setCurrentDispotionRep (changeDispostion){
     this.behaviorChangeDispostion.next(changeDispostion);
    }
+   dateFilterProperty= [
+  {name:'after',value:'after'},
+   {name:'before',value:'before'},
+   {name:'strictly_after',value:'strictly after'},
+   {name:'strictly_before',value:'strictly before'},
+   {name:'#TD#',value:'today'},
+   {name:'#LY#',value:'last years'},
+   {name:'#LM#',value:'last month'},
+   {name:'#LW#',value:'last week'},
+   {name:'#LD#',value:'last day'}
 
-getDateProperty():string[]{
-  return  ["after","before","strictly_after","strictly_before","#TD#","#LY#","#LM#","#LW#","#LD#"];
+  ]
 
-}
-getDatePropertyName():string[]{
 
-  return  ["after","before","strictly after","strictly before","today","last years" ,"last month","last week","last day"];
-}
   setCurrentWidgetUpdate(widget:Widget){
 this.behaviorWidget.next(widget);
   }
@@ -225,4 +244,28 @@ this.http.put(`${this.DomainName}/api/reset/position/${type}`,type).subscribe(()
 
     updatePositionWidgetAll(){
       this.http.put(`${this.DomainName}/api/reset/position/all`,"update").subscribe(()=>{this.refreshneededDataReset.next('') });
-}}
+}
+
+
+getAttributByName(attributName,attributesList){
+  var index      
+  for (  index = 0; index <   attributesList.length; index++) {
+
+
+    if( attributesList[index].$.name.toString() === attributName.toString())  
+   {
+
+     return  index;
+ 
+  }
+
+}
+
+
+return    index    ;  
+
+
+
+}
+
+}

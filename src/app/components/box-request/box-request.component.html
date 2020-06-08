@@ -11,9 +11,9 @@
          
         
          <div    fxFlex="nogrow">
-            <button mat-button (click)= "updateQuery()"><mat-icon class="icon" >create</mat-icon></button>   
+            <button mat-button (click)= "updateQuery()"><mat-icon class="icon" matTooltip="Edit" >create</mat-icon></button>   
 
-            <button mat-button (click)= "removeQuery()"><mat-icon class="icon" >remove_circle</mat-icon></button>   
+            <button mat-button (click)= "removeQuery()"><mat-icon class="icon" matTooltip="Remove"  >remove_circle</mat-icon></button>   
         </div>
         <div    fxFlex="grow"  style="margin-top: -15px;" >
          <p   style="text-align: center;
@@ -21,36 +21,74 @@
           </div>
     </div>
     
-        <mat-card   fxLayout="column"  fxFlex="grow" fxLayoutAlign="space-around center"  >
-                <div   >
-                    <b>
-                    By:    {{ name | titlecase }}
-                                        </b>
-
-                </div>
+        <mat-card   fxFlex="grow"  fxLayoutAlign="space-around center" >
             
-                <div   *ngIf="value.charAt(0) == '#'">
-                    <b>
-                        {{propertyValueForDate | titlecase }}
-                    </b>
+        
 
-                </div>
-              
-      <p  *ngIf="property != undefined &&property.length !=0 && value.charAt(0) != '#'">
-          <b>Property :{{ property  | titlecase}}</b></p>  
+              <div [ngSwitch]="type"  fxLayout="column"  fxLayoutAlign="space-around center"> 
+                  <div fxLayout="column" >
+                  <b>
+                  By:    {{ name | titlecase }}
+                 </b>
 
-       <ng-container *ngIf="value.charAt(0) != '#'">
+                  </div>
+                  <div *ngSwitchCase="'array'"  fxLayout="column">
+                    
+                    <ng-container *ngIf="valueArray[0].$  == undefined; else object">
+                        <b>    value:    {{ valueArray | titlecase }}</b>
 
-        <ng-container  *ngIf="valuepropertyOfTypeArray && valuepropertyOfTypeArray == ''  else ValuepropertyOfTypeArray">
-            <p > <b>Values ={{value | titlecase}}</b></p> 
+                      </ng-container>
+                  <ng-template #object>
 
-        </ng-container>
-    
-    <ng-template #ValuepropertyOfTypeArray>
-        <p > <b>Value ={{valuepropertyOfTypeArray | titlecase}}{{value | titlecase}}</b></p> 
-    
-    </ng-template>
-       </ng-container>
+                    <div *ngFor="let arrayValue of valueArray">
+                        <ng-container *ngIf="arrayValue.$.name === value"> 
+                            <b>   value:  {{ arrayValue.$.value | titlecase }}</b>
+
+                        </ng-container>
+                        
+
+                    </div>
+
+                  </ng-template>
+                      
+                      
+               
+
+                  </div>
+                  <div *ngSwitchCase="'date'"  fxLayout="column"   fxLayoutAlign="space-around center">
+                     <div>
+                      <b>
+                        Property:    {{ property | titlecase }}
+                      </b>
+                     </div> 
+                     <div>
+                      <b>
+                        value:    {{ dynamic ? dynamicPropertyValueDate : value | titlecase }}
+                      </b>
+                     </div>
+                     
+                  </div>
+                  <div *ngSwitchCase="'numeric'"  fxLayout="column" fxLayoutAlign="space-around center" >
+                 <div> <b>  Property:    {{ property | titlecase }}</b></div>  
+                <div> <b>  value:    {{ value | titlecase }} </b></div>   
+                  </div>
+                  <div *ngSwitchCase="'string'">
+                    <b>  value:    {{ value | titlecase }}</b>
+                  </div>
+                  <div *ngSwitchCase="'boolean'">
+                    <b>    value:    {{ value | titlecase }}</b>
+
+                  </div>
+
+                  <div *ngSwitchCase="'session'">
+                    <b> value:    {{ value | titlecase }}</b>
+                  </div>
+                  
+
+                  <div *ngSwitchDefault>output2</div>
+              </div>
+     
+
        
            
    
