@@ -3,7 +3,7 @@
     <mat-toolbar role="toolbar" class="task-header">
        <p style="text-align: center;">  {{title | titlecase }} </p>
         <span class="fx-spacer"></span>
-        <button mat-icon-button (click)="closeDialog()">
+        <button mat-icon-button mat-dialog-close>
             <mat-icon mat-list-icon>close</mat-icon>
         </button>
     </mat-toolbar>

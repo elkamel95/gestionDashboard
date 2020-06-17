@@ -1,0 +1,163 @@
+<h4 mat-dialog-title>
+    <mat-toolbar fxFlex="100%" fxFlexAlign="center" role="toolbar" class="task-header">
+        <span>Widget </span>
+        <span class="fx-spacer"></span>
+        <button mat-icon-button mat-dialog-close  matTooltip="Close">
+            <mat-icon mat-list-icon>close</mat-icon>
+        </button>
+    </mat-toolbar>
+  </h4>
+  <mat-dialog-content class="mat-typography">
+      <div fxLayout="row" fxLayoutAlign="start start"  *ngIf="isActive " fxLayoutGap="25px">
+          
+     <div fxLayout="column"  fxLayoutGap="20px" >
+
+    <mat-card class="mat-elevation-z8" fxLayout="row" fxFlexAlign="start" fxLayoutGap="20px" >
+        <mat-form-field style="width: 50%;margin-left: 25%;">
+          <mat-label>
+            Search by title</mat-label>
+          <input matInput #title placeholder="title">
+  
+  
+  
+  
+        </mat-form-field>
+  
+        <button mat-fab color="accent" (click)="search(title)" [matTooltip]="Search" aria-label="Example icon button with a delete icon">
+          <mat-icon class="icon" >search</mat-icon>
+        </button>
+         
+        <mat-form-field>
+          <mat-label>group by
+            : </mat-label>
+          <mat-select   #groupe (selectionChange)="getGroupe(groupe.value)">
+            <mat-option  value="updateAt" >
+               Update Date
+            </mat-option  >
+            <mat-option value="create_at">
+              Creation Date
+           </mat-option>
+           <mat-option value="type">
+              Type      
+          </mat-option>
+          </mat-select>
+        </mat-form-field>
+        
+        <mat-form-field>
+          <mat-label>order by : </mat-label>
+          <mat-select #order (selectionChange)="getOrder(order.value)">
+            <mat-option  value='asc'>
+              Ascending      
+    </mat-option >
+  
+  
+  
+            <mat-option value='desc' >
+              Descending      </mat-option>
+       
+          </mat-select>
+        </mat-form-field>
+  
+      </mat-card>
+      
+      <div  fxFlex class="mat-elevation-z8"  *ngIf="widget.type == 1 " fxFlexAlign="center"  >
+        <app-indicateur [backgroundColor]=" widget.backgroundSmallWidget "
+        [textColor] ="widget.textColor"
+        [title]="widget.nameFr" 
+        [size] ="widget.size"
+        [font]="widget.font"
+        [backgroundSmallWidget]="widget.backgroundColor"
+        [colorSmallWidget]="widget.colorSmallWidget"
+        ></app-indicateur>
+        
+        </div>
+        
+        <div fxFlex class="mat-elevation-z8"  *ngIf="widget.type == 2 "  fxFlexAlign="center" >
+        
+        <IndicateurListe [backgroundColor]=" widget.backgroundSmallWidget "
+        [textColor] ="widget.textColor"
+        [title]="widget.nameFr" 
+        [size] ="widget.size"
+        [font]="widget.font"
+        [backgroundSmallWidget]="widget.backgroundColor"
+        [colorSmallWidget]="widget.colorSmallWidget"
+        ></IndicateurListe>
+        
+        </div>
+        
+        <div  fxFlex  class="mat-elevation-z8"  *ngIf="widget.type == 3" fxFlexAlign="center">
+        <widget-list  
+        [textColor] ="widget.textColor"
+        [title]="widget.nameFr" 
+        [size] ="widget.size"
+        [font]="widget.font"
+        [backgroundColor]=" widget.backgroundColor "
+        ></widget-list>
+        </div>
+        <div  fxFlex class="mat-elevation-z8" *ngIf="widget.type == 4" fxFlexAlign="center">
+ <mat-card  fxLayout="row" fxFlexAlign="start" fxLayoutGap="20px" >
+
+        <app-area [title]="widget.nameFr" [textColor] ="widget.textColor"
+        [title]="widget.nameFr" 
+        [size] ="widget.size"
+        [font]="widget.font"
+        [backgroundColor]=" widget.backgroundColor " [chartOptions]="chartOptions">
+    </app-area>
+    </mat-card>
+        </div>
+
+<mat-paginator class="mat-elevation-z8" style = "width:100%" [length]="length"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="pageSizeOptions"
+      (page)="pageEvent = $event ; getData($event)">
+</mat-paginator>
+</div>
+    <mat-accordion>
+        
+        <mat-expansion-panel *ngFor="let widget of listWidget " (afterExpand)="visibilityWidgetForm(widget)" >
+          <mat-expansion-panel-header collapsedHeight="100px">
+          
+
+              <mat-panel-title>
+                <div  fxFlexAlign="center">
+                    {{widget.nameFr}} 
+                </div>
+                          </mat-panel-title>
+              <mat-panel-description>
+           
+                
+
+                Type : {{ types[widget.type-1] }}
+                <span class="fx-spacer"></span>
+
+                <div fxFlexAlign="center">
+                    <button mat-fab color="accent"  [matTooltip]="widget.visible ? 'Deactivate': 'Active'"
+                    (click)="visibilityWidgetAction(widget)" > 
+                        <mat-icon class="icon">{{   widget.visible ? 'visibility' : 'visibility_off'}}</mat-icon>
+
+                    </button>
+                </div>  
+
+              </mat-panel-description>
+          </mat-expansion-panel-header>
+          <h3><b>Description:</b></h3>
+          <div id="content" class="content">
+
+      <p> {{widget.description}} </p>   
+
+          </div>
+  
+        </mat-expansion-panel>
+        <mat-expansion-panel 
+        (opened)="panelOpenState = true"
+     (closed)="panelOpenState = false">
+     </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+      <div fxFlexOrder="1" [hidden]="spinner " class="spinner-position ">
+        <app-spinner ></app-spinner>
+      </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end" *ngIf="isActive ">
+  <button mat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

@@ -173,7 +173,7 @@ if(this.data.url !=undefined)
       if(element.by !=undefined)
    { 
     if(element.type.toString() ==='date' )
-   { this.checkTypeDate(element.value);
+   { this.checkDynamicType(element.value);
     newUrl                          = `${element.by}[${element.property}]=${element.value}${this.and}${url}`;
 }else  if(element.type.toString() ==='numeric' )
 {
@@ -183,7 +183,11 @@ if(this.data.url !=undefined)
     newUrl                          = `exists[${element.by}]=${element.value}${this.and}${url}`;
     else if (element.type.toString() ==='string')
     newUrl                          = `${element.by}[$string]=${element.value}${this.and}${url}`;
-    else
+    else if (element.type.toString() ==='session')
+{    
+  this.checkDynamicType(element.value);
+  newUrl                          = `${element.by}[]=${element.value}${this.and}${url}`;
+}    else
     newUrl                          = `${element.by}[]=${element.value}${this.and}${url}`;
     url                             = newUrl ;
 
@@ -466,7 +470,7 @@ else if(array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"))!='$str
 
               this.attributesValues           = [];
 
-              this.entity.name           =  this.xmlEntites[this.index].entities.name.toString() ;
+              this.entity           =  this.xmlEntites[this.index].entities;
 
               this.attributes       =  this.xmlEntites[this.index].attributes ;
 
@@ -520,7 +524,7 @@ else if ( this.filterType.toString() =="string")
 if(this.filterType.toString() =="date" )
   {
     this.labelDate="Choose a date";
-  var   dynamicDate         =   this.checkTypeDate(this.property);
+  var   dynamicDate         =   this.checkDynamicType(this.property);
 
 
   if(input.value !=undefined && dynamicDate == undefined)
@@ -550,7 +554,7 @@ this.urlRequest                     = new Url();
 
 }
 
-checkTypeDate(property){
+checkDynamicType(property){
   var   dynamicDate                     
     if(property.charAt(0) =='#')
   {
@@ -568,6 +572,7 @@ else if(property=='#LW#')
 this.filterDynamicDate.lastWeek='W'
 else if(property=='#LD#')
 this.filterDynamicDate.lastDay='D'
+
  this.isDynamic                  = true;
   }
   return dynamicDate ;
@@ -603,16 +608,38 @@ UpdateQueryByIndex(index:number){
     this.serviceWidge.getAnything(this.attributes[i].$.enterpoint,false).subscribe((list)=>{
     this.attributesValues =list;
      }); 
-   }else{
+   }
+   
+   else{
     this.dynamicArray=false;
 
     this.attributesValues= this.attributes[i].property;
     this.property={name:this.requests[index].by,value:this.requests[index].value};
-   }}
+   }
+  
+  }
  
 
 
-}  else 
+}else   if( this.filterType =="date")  
+{
+if(this.requests[index].value.toString().charAt(0)=="#")
+ { for (let i = 0; i <  this.dateFilterProperty.length; i++) {
+    if(this.requests[index].value.toString() ==  this.dateFilterProperty[i].name.toString() )
+    { this.property=this.dateFilterProperty[i].name;
+      this.requests[index].value=this.dateFilterProperty[i].name;
+      this. labelDate=" dynamic date has been selected";
+
+   break;
+   }    
+  }
+}else{
+  this.property= this.requests[index].property;
+  this.dateValue=this.requests[index].value;
+}
+ }
+ else 
+
     this.property= this.requests[index].property;
     }
 

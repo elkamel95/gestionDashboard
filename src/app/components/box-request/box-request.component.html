@@ -58,7 +58,7 @@
                   <div *ngSwitchCase="'date'"  fxLayout="column"   fxLayoutAlign="space-around center">
                      <div>
                       <b>
-                        Property:    {{ property | titlecase }}
+                        Property:    {{dynamic ? 'Synchronize': property | titlecase }}
                       </b>
                      </div> 
                      <div>
@@ -81,7 +81,7 @@
                   </div>
 
                   <div *ngSwitchCase="'session'">
-                    <b> value:    {{ value | titlecase }}</b>
+                    <!--<b> value:    {{ value | titlecase }}</b> -->
                   </div>
                   
 

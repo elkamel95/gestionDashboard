@@ -34,6 +34,18 @@ ListIndix = []
   cookieValue: any;
 
 ;  constructor(private serviceWidget:ServiceWidgetService,private cookieService: CookieService) {
+  
+  this.serviceWidget.refreshneeded.subscribe(()=>{
+    if( this.modeLayout.nbLigneIn )
+    this. getWidgetWithType(`?visible=1&type[]=1&type[]=2&users.id=${localStorage.getItem('idUser')}`,"1", this.modeLayout.nbLigneIn);
+    if(this.modeLayout.nbLigneList )
+    this. getWidgetWithType(`?visible=1&type=3&users.id=${localStorage.getItem('idUser')}`,"3",this.modeLayout.nbLigneList);
+    
+    if(this.modeLayout.nbLigneGh )
+    this. getWidgetWithType(`?visible=1&type=4&users.id=${localStorage.getItem('idUser')}`,"4", this.modeLayout.nbLigneList );
+
+  });
+  
   this.modeLayout.nbLigneIn= this.cookieService.get( 'nbLigneIn')? this.cookieService.get( 'nbLigneIn') : '3' ;
   this.modeLayout.nbLigneList= this.cookieService.get( 'nbLigneList')? this.cookieService.get( 'nbLigneList') : '2' ;
   this.modeLayout.nbLigneGh= this.cookieService.get( 'nbLigneGh') ? this.cookieService.get( 'nbLigneGh') : '2' ;
@@ -58,24 +70,24 @@ ListIndix = []
   ngOnInit() {
     this.serviceWidget.refreshneededDataReset.subscribe(()=>{
       if( this.modeLayout.nbLigneIn )
-      this. getWidgetWithType(`?type[]=1&type[]=2&users.id=${localStorage.getItem('idUser')}`,"1", this.modeLayout.nbLigneIn);
+      this. getWidgetWithType(`?visible=1&type[]=1&type[]=2&users.id=${localStorage.getItem('idUser')}`,"1", this.modeLayout.nbLigneIn);
       if(this.modeLayout.nbLigneList )
-      this. getWidgetWithType(`?type=3&users.id=${localStorage.getItem('idUser')}`,"3",this.modeLayout.nbLigneList);
+      this. getWidgetWithType(`?visible=1&type=3&users.id=${localStorage.getItem('idUser')}`,"3",this.modeLayout.nbLigneList);
       
       if(this.modeLayout.nbLigneGh )
-      this. getWidgetWithType(`?type=4&users.id=${localStorage.getItem('idUser')}`,"4", this.modeLayout.nbLigneList );
+      this. getWidgetWithType(`?visible=1&type=4&users.id=${localStorage.getItem('idUser')}`,"4", this.modeLayout.nbLigneList );
       
 
     
     });
     this.serviceWidget.currentDispotionRep.subscribe(layout=>{
       if(layout.nbLigneIn && this.modeLayout.nbLigneIn != layout.nbLigneIn)
-      this. getWidgetWithType(`?type[]=1&type[]=2&users.id=${localStorage.getItem('idUser')}`,"1",layout.nbLigneIn );
+      this. getWidgetWithType(`?visible=1&type[]=1&type[]=2&users.id=${localStorage.getItem('idUser')}`,"1",layout.nbLigneIn );
       if(layout.nbLigneList&&this.modeLayout.nbLigneList != layout.nbLigneList)
-      this. getWidgetWithType(`?type=3&users.id=${localStorage.getItem('idUser')}`,"3",layout.nbLigneList );
+      this. getWidgetWithType(`?visible=1&type=3&users.id=${localStorage.getItem('idUser')}`,"3",layout.nbLigneList );
       
       if(layout.nbLigneGh &&this.modeLayout.nbLigneGh != layout.nbLigneGh)
-      this. getWidgetWithType(`?type=4&users.id=${localStorage.getItem('idUser')}`,"4", layout.nbLigneGh );
+      this. getWidgetWithType(`?visible=1&type=4&users.id=${localStorage.getItem('idUser')}`,"4", layout.nbLigneGh );
       
       this.positionLayout=layout.postions ;
       this.dragPermission=layout.drag;    

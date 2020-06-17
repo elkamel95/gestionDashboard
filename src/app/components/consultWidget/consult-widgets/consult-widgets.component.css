@@ -1,0 +1,35 @@
+.mat-dialog-title {
+    margin: -24px -24px 20px;
+        display: block;
+    background-color: #0b0f2f;
+    height: 50px;
+
+}
+.fx-spacer {
+    flex: 1 1 auto;
+}
+
+.task-header {
+    color: white;
+    padding: 0 5px;
+     height: 50px;
+     background-color: transparent;
+
+}
+.mat-fab:not([class*=mat-elevation-z]), .mat-mini-fab:not([class*=mat-elevation-z]) {
+    box-shadow: none;
+}
+.content{
+    white-space:pre-wrap;
+    word-wrap:break-word;
+}
+
+  #content {
+    float:left;
+    height: fit-content;
+    }
+
+    .icon{
+        color: white;
+    }
+    

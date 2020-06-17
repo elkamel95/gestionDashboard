@@ -3,14 +3,14 @@
     <div        [ngClass]="{'example-boundary': !modeLayout.drag}"  >
      
 
-<div  fxLayout="column" fxFlexOffset="20px"  fxLayoutAlign="space-between start"> 
+<div  fxLayout="column" fxFlexOffset="20px" fxLayoutGap="20px"  fxLayoutAlign="space-between start"> 
 
     <div   
     [ngClass]="{'border-permutation': modeLayout.permutation}"
     (click)="permutation(0)"
      [fxFlexOrder]="  modeLayout.postions ? '-1' : letters[0] "   
      cdkDragBoundary=".example-boundary"  
-           [fxLayout]="modeLayout.indicateur"  fxLayoutGap="15px" 
+           [fxLayout]="modeLayout.indicateur"  fxLayoutGap="25px" 
 
       *ngFor="let item of WidgetIndicator  "  >
       <div  

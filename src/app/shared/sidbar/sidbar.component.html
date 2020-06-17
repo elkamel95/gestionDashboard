@@ -8,8 +8,9 @@
     <a mat-list-item routerLinkActive="list-item-active" routerLink="/dashboard" (click)="hiddenConfig(false)"> <mat-icon>home</mat-icon>Dashboard</a>
     <a mat-list-item routerLinkActive="list-item-active"  (click)="hiddenConfig(true)"  routerLink="/widget" 
     *ngIf="authenticationService.getRoles() === role"><mat-icon>post_add</mat-icon>Manage widgets</a>
-    
-
+    <a mat-list-item routerLinkActive="list-item-active"  (click)="hiddenConfig(true)"  (click)="openDialog()"
+    *ngIf="authenticationService.getRoles() === role"><mat-icon>post_add</mat-icon>  Consult The Widgets
+</a>
     <mat-divider></mat-divider>
 
 

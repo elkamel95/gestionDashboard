@@ -38,15 +38,11 @@
           </div>
 
     </div> 
-<div fxLayoutGap="5px" id="content" class="content">
 
+<div fxLayoutGap="10px" id="content" class="content" fxFlexAlign="center"  fxFlex="100" >
   <mat-divider></mat-divider>
-
-  <p style="margin-top: 2%"  id="test"   [ngStyle]="{'color': textColor ,'font-size':size ,'font-weight':font}">
-    
-         
-    {{title |titlecase}}  
-   </p>
+<br>
+  <p [ngStyle]="{'color': textColor ,'font-size':size ,'font-weight':font}"> {{title |titlecase}} </p>
 </div>
 
     </mat-card>

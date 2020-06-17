@@ -19,7 +19,7 @@ backgroundSmallWidget: string;
 colorSmallWidget: string;
 createAt : string;
 updateAt :string ;
-visible:boolean=false ;
+visible:boolean ;
 users:string;
 configOption?:{};
 }

@@ -235,7 +235,12 @@ else
           this.screenHeight = window.innerHeight;
           this.screenWidth = window.innerWidth;
     }
+visibilityWidget(status,id) {
+  
+  this.http.put(`${this.DomainName}/api/update/${status}/${id}`,"").subscribe(()=>{      this.refreshneeded.next ();
+  });
 
+}
     updatePositionWidgetByType(type){
 
 this.http.put(`${this.DomainName}/api/reset/position/${type}`,type).subscribe(()=>{this.refreshneededDataReset.next('')});

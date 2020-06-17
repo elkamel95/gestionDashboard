@@ -104,12 +104,11 @@ updateChartOption(list:Widget){
   
   series: [{
      name: 'administrator',
-     data: [502, 635, 809, 947, 1402, 3634, 10268]
-  },
+     data: [502, 635, 809, 947, 1402, 3634, 10268]},
   {
    name: 'members',
-   data: [502, 1235, 1280, 947, 1402]
-}]};
+   data: [502, 1235, 1280, 947, 1402]}
+]};
 
   }  
   

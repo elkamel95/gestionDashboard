@@ -41,6 +41,7 @@ import {MatSliderModule} from '@angular/material/slider';
 import {MatRippleModule} from '@angular/material/core';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatRadioModule} from '@angular/material/radio';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 import { MatColorPickerModule } from 'mat-color-picker';
 import { IndicateurListeComponent } from 'src/app/components/widget/indicateur-liste/indicateur-liste.component';
@@ -55,6 +56,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatNativeDateModule} from '@angular/material/core';
 import { BoxRequestComponent } from 'src/app/components/box-request/box-request.component';
 import { LienToListWidgetComponent } from 'src/app/components/widget/lien-to-list-widget/lien-to-list-widget.component';
+import { ConsultWidgetsComponent } from 'src/app/components/consultWidget/consult-widgets/consult-widgets.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +67,7 @@ import { LienToListWidgetComponent } from 'src/app/components/widget/lien-to-lis
         SidbarComponent,
         SignUpComponent,
         SiginComponent,
+        ConsultWidgetsComponent,
         WidgetTableComponent,
         DialogBoxComponent,
         Login2Component,
@@ -84,6 +87,7 @@ import { LienToListWidgetComponent } from 'src/app/components/widget/lien-to-lis
 
   ],
   imports: [
+        MatExpansionModule,
 
     CommonModule,
     MatSidenavModule,
@@ -95,6 +99,8 @@ import { LienToListWidgetComponent } from 'src/app/components/widget/lien-to-lis
     MatMenuModule,
     MatToolbarModule,
     FlexLayoutModule,
+    MatExpansionModule,
+
   MatDatepickerModule,
   MatNativeDateModule,
     MatButtonModule,
@@ -133,7 +139,7 @@ import { LienToListWidgetComponent } from 'src/app/components/widget/lien-to-lis
     SpinnerComponent,
     DialogResetComponent,
     LienToListWidgetComponent,
-
+    ConsultWidgetsComponent
     ]
 })
 export class LayoutDashboardModule { }
