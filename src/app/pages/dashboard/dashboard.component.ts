@@ -28,6 +28,12 @@ nbWidgetParLign=2;
 ListIndix = []
  letters = [0 , 1 ,2] ;
   chartOptions: {  };
+
+
+nameRequirdSession="idUser";
+nameAttributeRequired="users.id";
+typeNumber=3;
+numberOfTypeWidgetLoad=0;
   dragPermission :Boolean; 
   positionLayout :Boolean; 
   @ViewChild('graphiqueComp', { static: false }) public mydiv: ElementRef;
@@ -36,13 +42,14 @@ ListIndix = []
 ;  constructor(private serviceWidget:ServiceWidgetService,private cookieService: CookieService) {
   
   this.serviceWidget.refreshneeded.subscribe(()=>{
+    this.numberOfTypeWidgetLoad=0;
     if( this.modeLayout.nbLigneIn )
-    this. getWidgetWithType(`?visible=1&type[]=1&type[]=2&users.id=${localStorage.getItem('idUser')}`,"1", this.modeLayout.nbLigneIn);
+    this. getWidgetWithType(`?visible=1&type[]=1&type[]=2&${this.nameAttributeRequired}=${localStorage.getItem(this.nameRequirdSession)}`,"1", this.modeLayout.nbLigneIn);
     if(this.modeLayout.nbLigneList )
-    this. getWidgetWithType(`?visible=1&type=3&users.id=${localStorage.getItem('idUser')}`,"3",this.modeLayout.nbLigneList);
+    this. getWidgetWithType(`?visible=1&type=3&${this.nameAttributeRequired}=${localStorage.getItem(this.nameRequirdSession)}`,"3",this.modeLayout.nbLigneList);
     
     if(this.modeLayout.nbLigneGh )
-    this. getWidgetWithType(`?visible=1&type=4&users.id=${localStorage.getItem('idUser')}`,"4", this.modeLayout.nbLigneList );
+    this. getWidgetWithType(`?visible=1&type=4&${this.nameAttributeRequired}=${localStorage.getItem(this.nameRequirdSession)}`,"4", this.modeLayout.nbLigneList );
 
   });
   
@@ -69,25 +76,29 @@ ListIndix = []
 
   ngOnInit() {
     this.serviceWidget.refreshneededDataReset.subscribe(()=>{
+      this.numberOfTypeWidgetLoad=0;
+
       if( this.modeLayout.nbLigneIn )
-      this. getWidgetWithType(`?visible=1&type[]=1&type[]=2&users.id=${localStorage.getItem('idUser')}`,"1", this.modeLayout.nbLigneIn);
+      this. getWidgetWithType(`?visible=1&type[]=1&type[]=2&${this.nameAttributeRequired}=${localStorage.getItem(this.nameRequirdSession)}`,"1", this.modeLayout.nbLigneIn);
       if(this.modeLayout.nbLigneList )
-      this. getWidgetWithType(`?visible=1&type=3&users.id=${localStorage.getItem('idUser')}`,"3",this.modeLayout.nbLigneList);
+      this. getWidgetWithType(`?visible=1&type=3&${this.nameAttributeRequired}=${localStorage.getItem(this.nameRequirdSession)}`,"3",this.modeLayout.nbLigneList);
       
       if(this.modeLayout.nbLigneGh )
-      this. getWidgetWithType(`?visible=1&type=4&users.id=${localStorage.getItem('idUser')}`,"4", this.modeLayout.nbLigneList );
+      this. getWidgetWithType(`?visible=1&type=4&${this.nameAttributeRequired}=${localStorage.getItem(this.nameRequirdSession)}`,"4", this.modeLayout.nbLigneList );
       
 
     
     });
     this.serviceWidget.currentDispotionRep.subscribe(layout=>{
+      this.numberOfTypeWidgetLoad=0;
+
       if(layout.nbLigneIn && this.modeLayout.nbLigneIn != layout.nbLigneIn)
-      this. getWidgetWithType(`?visible=1&type[]=1&type[]=2&users.id=${localStorage.getItem('idUser')}`,"1",layout.nbLigneIn );
+      this. getWidgetWithType(`?visible=1&type[]=1&type[]=2&${this.nameAttributeRequired}=${localStorage.getItem(this.nameRequirdSession)}`,"1",layout.nbLigneIn );
       if(layout.nbLigneList&&this.modeLayout.nbLigneList != layout.nbLigneList)
-      this. getWidgetWithType(`?visible=1&type=3&users.id=${localStorage.getItem('idUser')}`,"3",layout.nbLigneList );
+      this. getWidgetWithType(`?visible=1&type=3&${this.nameAttributeRequired}=${localStorage.getItem(this.nameRequirdSession)}`,"3",layout.nbLigneList );
       
       if(layout.nbLigneGh &&this.modeLayout.nbLigneGh != layout.nbLigneGh)
-      this. getWidgetWithType(`?visible=1&type=4&users.id=${localStorage.getItem('idUser')}`,"4", layout.nbLigneGh );
+      this. getWidgetWithType(`?visible=1&type=4&${this.nameAttributeRequired}=${localStorage.getItem(this.nameRequirdSession)}`,"4", layout.nbLigneGh );
       
       this.positionLayout=layout.postions ;
       this.dragPermission=layout.drag;    
@@ -159,11 +170,9 @@ this.serviceWidget.setCurrentWidgetUpdate(this.WidgetToUpdate);
 
  getWidgetWithType(property,indexType,nbWidgetParLign) {
   this.spinner =false;
-
     this.serviceWidget.getAllWidget(property).subscribe(widget=>{
     let   index = 0;
     let i =0 ;
-    let widgets = new Widget  ();
    let  playStore : Widget[] =[] ;
 
     let listWidget : Widget[] [] =[] ;
@@ -198,26 +207,31 @@ this.serviceWidget.setCurrentWidgetUpdate(this.WidgetToUpdate);
 if(indexType == 1 )
 {this.WidgetIndicator=  listWidget;
   this.setWidgetToUpdate(listWidget[0][0]);
+  this.spinner=false;
 
 }
 else if(indexType == 3)
 
-{this.WidgetList=  listWidget;}
+{
+  this.WidgetList=  listWidget;
+  this.spinner=false;
+
+}
 else if(indexType == 4)
 {this.WidgetGraphique=  listWidget;
+  this.spinner=false;
 
 
 }
 
-
     }},()=>{},()=>{
-
+      console.log(this.numberOfTypeWidgetLoad)
+    if  (this.numberOfTypeWidgetLoad == 2 )
       this.spinner=true;
+      this.numberOfTypeWidgetLoad++;
 
     });
   }
-resetData(){
 
-}
 
 }

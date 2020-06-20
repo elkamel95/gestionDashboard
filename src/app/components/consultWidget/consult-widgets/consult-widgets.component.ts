@@ -66,6 +66,8 @@ if (event)
   
   }
   visibilityWidgetAction(widget:Widget){
+    this.spinner =false ;
+
     widget.visible ?  this.status=0 :this.status=1;
 this.ws.visibilityWidget(this.status,widget.id);
   }

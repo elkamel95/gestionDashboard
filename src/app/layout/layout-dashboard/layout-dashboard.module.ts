@@ -57,6 +57,7 @@ import {MatNativeDateModule} from '@angular/material/core';
 import { BoxRequestComponent } from 'src/app/components/box-request/box-request.component';
 import { LienToListWidgetComponent } from 'src/app/components/widget/lien-to-list-widget/lien-to-list-widget.component';
 import { ConsultWidgetsComponent } from 'src/app/components/consultWidget/consult-widgets/consult-widgets.component';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -84,12 +85,11 @@ import { ConsultWidgetsComponent } from 'src/app/components/consultWidget/consul
         ValidatorEmailCheckerdirective,
         ValidatorRequired,
         BoxRequestComponent,
-
   ],
   imports: [
-        MatExpansionModule,
-
+    MatExpansionModule,
     CommonModule,
+    MatSlideToggleModule,
     MatSidenavModule,
     MatTableModule,
     MatProgressSpinnerModule,

@@ -141,6 +141,6 @@
         </div>
     </div>
     </div>
-    <div [hidden]="spinner " class="spinner-position">
+    <div *ngIf="!spinner" class="spinner-position">
       <app-spinner ></app-spinner>
     </div>

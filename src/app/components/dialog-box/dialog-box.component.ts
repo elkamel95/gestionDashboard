@@ -131,7 +131,7 @@ if(this.data.id == null)
   this.data.colorSmallWidget        = "#FFB500";
   this.data.backgroundColor         = "#fff";
   this.data.size                    = "x-large";
-this.data.visible                   = true;
+this.data.visible                   = false;
 this.data.url                       = "";
 }
 

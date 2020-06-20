@@ -9,8 +9,8 @@ body { margin: 0; font-family: 'Poppins', sans-serif; font-family: 'Lalezar', cu
     background-color:darkgreen !important;
 
     transform: translate(50%, 50%);
-    top: 30%;
-    left: 40%;
+    top: 0.1%;
+    left: 35%;
     position: absolute;
     border-radius: 10%;
     
