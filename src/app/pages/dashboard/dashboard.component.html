@@ -91,7 +91,7 @@
                [height]="list.height"
                [size] ="list.size"
                [font]="list.font"
-               [url] ="list.url ? list.url :'api/as'"
+               [url] ="list.url"
 
                  [title] ="list.nameFr" >
             
@@ -122,7 +122,6 @@
            (cdkDragEnded)="setWidgetToUpdate(list,$event)"
            [ngStyle]="   modeLayout.postions ? {'transform': 'translate(' +  list.positionLeft+ ', ' + list.positionRight  + ')' , order:''} : null "
            >
-    
             <app-area   
             [backgroundColor]=" list.backgroundColor "
             [textColor] ="list.textColor"
@@ -131,6 +130,8 @@
            [height]="list.height"
            [size] ="list.size"
            [font]="list.font"
+           [url] ="list.url"
+
            (click)="setWidgetToUpdate(list) ; graphiqueComp.updateChartOption(list)"
            
             class="graphique-widget"  #graphiqueComp>

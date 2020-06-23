@@ -40,6 +40,7 @@ export  class LienToListWidgetComponent extends WidgetList implements OnInit  {
     }
   }
   public showTheRelationData(url){
+    console.log(url);
     if(typeof url ==="object")
    { 
     url= this.getEnterpointFromUrl(url);
@@ -69,7 +70,8 @@ export  class LienToListWidgetComponent extends WidgetList implements OnInit  {
   
      }
      getEnterpointFromUrl(url):string{
-       
+      console.log(url);
+
       for (let index = url[0].length; index > 1; index--) {
         if(url[0].charAt(index)=="/")
        { this.enterpoint=url[0].substring(1,index);

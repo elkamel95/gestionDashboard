@@ -87,19 +87,11 @@ title ="";
     },);
   }
     dialogRef.afterClosed().subscribe(result => {
-      if(result != undefined){
-
-      if(result.event == 'Add'){
-        this.ws.postWidget(result.data);
-      }
-      else if(result.event == 'Update'){
-        this.updateRowData(result.data);
-      }else if(result.event == 'Delete'){
-        
+      if(result != undefined)
+      if(result.event == 'Delete')
+      {
         this.deleteRowData(result.data.id);
-      }}
-   
-      
+      }
     });
   }
   updateRowData(data) {

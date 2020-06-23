@@ -52,10 +52,8 @@ public typeOf='string';
 
 }
 getValueForProperty(array,equals){
-  console.log(array);
 if(array)
   for (let index = 0; index <  array.length; index++) {
-    console.log(array[index].name  );
 
     if( array[index].name == equals)
   {

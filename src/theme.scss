@@ -12,8 +12,8 @@ $my-custom-theme: mat-light-theme($my-custom-primary, $my-custom-accent, $my-cus
 .spinner-position {
 
   position: absolute;
-  left: 50%;
-  top: 45%;
+  left: 45%;
+    top: 45%;
   transform: translate(-50%, -50%);
 }
 .mat-flat-button.mat-warn, .mat-raised-button.mat-warn, .mat-fab.mat-warn, .mat-mini-fab.mat-warn {

@@ -61,8 +61,8 @@ screenWidth: number;
     {value:"greater than or equal",name:"gte"}
   ]
   this.booleanFilterProperty = [ 
-     {value:"valid",name:"1"},
-    {value:"invalid",name:"0"}
+     {value:"Active",name:"1"},
+    {value:"Deactivate",name:"0"}
   ]
   }
 
@@ -156,23 +156,16 @@ translateValueToNameFromXml(entity){
   var index      
 
 var dataXml =this.xml.xmlItems;
-      
+  
 for (  index = 0; index < dataXml.length; index++) {
 
-if  (dataXml[index].entities.name.toString() === entity.toString())
+if  (dataXml[index].entities.enterpoint.toString() === entity.toString())
 {  
 
   break ;
 }  
 }
 return dataXml[index] ;          
-
-
-         
-    
-
-  
-
 }
 getHeaderValueFormAttribute(DataBaseAttributes,xmlAttributes){
   var value      = [];
@@ -196,30 +189,57 @@ getHeaderValueFormAttribute(DataBaseAttributes,xmlAttributes){
   value.push({name:NameForAttribute,value:valueOfAttribute});
   return value;
 }
+getNameXaxeAndYfromParm(x,y){
+  var index      
+
+var dataXml =this.xml.xmlItems;
+  
+for (  index = 0; index < dataXml.length; index++) {
+
+if  (dataXml[index].entities.enterpoint.toString() === x.toString())
+{  
+
+  break ;
+}  
+}
+return dataXml[index] ;          
+}
+
   postWidget(widget:Widget){
 widget.createAt =this.getDateTime().toString();
 widget.updateAt =this.getDateTime().toString();
-    this.http.post<Widget>(this.DomainName+"/api/widgets", widget).subscribe(()=>{
-      this.refreshneeded.next ();
+return new Promise((resolver)=>{
+
+  this.http.post<Widget>(this.DomainName+"/api/widgets", widget).subscribe(()=>{
+    this.refreshneeded.next ();
+
+  },error=>{
+    console.log(error);
+  },()=>{resolver(false) }); ;
+});
  
-    },error=>{
-      console.log(error);
-    }); ;
   }
   remove(id){
+
 this.http.delete(this.DomainName+"/api/widgets/"+id).subscribe(rep=>{
   this.refreshneeded.next ();
-});
+},()=>{},()=>{});
+
+
   }
   
   update(widget:Widget){ ;
 widget.updateAt =this.getDateTime();
+return new Promise((resolver)=>{
+
     this.http.put(this.DomainName+"/api/widgets/"+widget.id, widget).subscribe(()=>{
       this.refreshneeded.next ();
  
     },error=>{
       console.log(error);
-    }); ;
+    },()=>{resolver(false)});
+
+  });
   }
   getAnything(generiqueUrl,isRelationType){
     if(isRelationType)
@@ -228,7 +248,13 @@ else
     return this.http.get<Widget[]>(this.apiURL+"/"+generiqueUrl,{headers: this.headers}).pipe(map(data => data['hydra:member']));
 
   }
+  getAnythingWithTypeGraphic(generiqueUrl,isRelationType){
+    if(isRelationType)
+    return this.http.get<any>(this.apiURL+"/"+generiqueUrl,{headers: this.headers});
+else
+    return this.http.get<any>(this.apiURL+"/"+generiqueUrl,{headers: this.headers}).pipe(map(data => data['hydra:member']));
 
+  }
 
   @HostListener('window:resize', ['$event'])
     getScreenSize(event?) {

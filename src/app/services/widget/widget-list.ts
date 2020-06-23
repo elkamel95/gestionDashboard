@@ -2,7 +2,6 @@ import {  ViewChild, Input, Optional, Inject, Injectable } from '@angular/core';
 import { MatPaginator, MatTableDataSource, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { Widget } from 'src/app/models/Widget';
 import { ServiceWidgetService } from 'src/app/services/widget/service-widget.service';
-import { LienToListWidgetComponent } from '../../components/widget/lien-to-list-widget/lien-to-list-widget.component';
 import { BehaviorSubject } from 'rxjs';
 export interface PeriodicElement {
   name: string;
@@ -51,38 +50,55 @@ public dataSource :MatTableDataSource<any> = new MatTableDataSource<any>();
       this.checkIfMultiUrl.next(type);
     }
 
-getDataFromUrl(url){
+getDataFromUrl(url:string){
     var listData=[];
     this.url=this.url.replace('[$string]','[]');
       this.url=this.url.replace('$','');
 
     if(this.isRelationType)
-    { 
-        this.entity =url.substring(url.indexOf("/")+1,url.length);
- 
-        this.entity = this.entity.substring(0,url.indexOf("/")+2);
- 
+    {   
+      var index =url.length;      
+for (  index  > 0; index-- ;) {
+  if(url.charAt(index) =="/")
+   break;
+}
+        this.entity =url.substring(0,index);
+        console.log(url);
+
      }
  
      else
- {  this.entity =url.substring(url.indexOf("/")+1,url.indexOf("?"));
+ { 
+  if(this.url.charAt(0)==='!'){
+    this.entity =this.url.substring(7,this.url.indexOf("?"));
+    url=   this.serviceWidget. createDynamicQuery(url);
+  
+    this.url=   this.serviceWidget. createDynamicQuery(this.url);
+  }else
+    this.entity =this.url.substring(0,this.url.indexOf("?"));
+  
+ }
  
- } 
+  
 
+
+
+        
  
-   if(url.charAt(0)==='!'){
-     url=   this.serviceWidget. createDynamicQuery(url);
-   }
+
 
    
   this.serviceWidget.getAnything(url,this.isRelationType).subscribe(list=>{
+
       if(this.isRelationType)
     listData.push(list);
     else
     listData=list;
     this.dataSource=new MatTableDataSource<any>(listData); 
+
+    console.log(this.entity);
+
  var    header:any=  this.serviceWidget.translateValueToNameFromXml(this.entity);
-   
           header=this.serviceWidget.getHeaderValueFormAttribute(this.isRelationType?list:list[0], header.attributes);
           const headerNameWithNumberLigne = ['#numberLigne#'].concat(header[0].name); // [ 4, 3, 2, 1 ]
           const headerValueWithNumberLigne = ['No.'].concat(header[0].value) ;// [ 4, 3, 2, 1 ]
@@ -127,7 +143,7 @@ isDate=true;
 }
 
 isUrl(str){
-  var regexQuery = "^/([-a-z0-9]{1,100})/([-a-z0-9]{1,100})/([-a-z0-9]{1,100})$";
+  var regexQuery = "/[a-zA-Z0-9\.-]{1,}"
   var regExpUrl = new RegExp(regexQuery,"i");
 
   if(typeof str ==="string" )

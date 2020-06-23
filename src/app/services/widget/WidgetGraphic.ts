@@ -5,7 +5,7 @@ import { ServiceWidgetService } from 'src/app/services/widget/service-widget.ser
 @Injectable({
     providedIn: 'root'
   })
-export class WidgetIndicator implements OnInit {
+export class WidgetGraphic implements OnInit {
 @Input() indicateur =0 ;
 @Input()  title =" ";
 @Input() backgroundColor ="";
@@ -25,7 +25,7 @@ public loadedData =true ;
   constructor(protected serviceWidget:ServiceWidgetService) {
    }
 
-  ngOnInit() {
+   ngOnInit() {
     console.log(this.url);
 
 
@@ -65,7 +65,6 @@ public loadedData =true ;
               },()=>{},()=>{this.loadedData=false});
 
 }
-
 
 }
     

@@ -55,7 +55,7 @@ fxLayout="column">
     
     </ng-container>
     <ng-template #Display>
-      <button mat-button matTooltip="Display Data List"  (click)= "openList()"  fxFlex="10" fxFlexAlign="start"   ><mat-icon>list_alt</mat-icon></button>
+      <button mat-button [matTooltip]="valueWidget > 0 ? 'Display Data List ' : 'list is empty'"  (click)= "openList()"  fxFlex="10" fxFlexAlign="start"   [disabled]="valueWidget == 0 ? true : false" ><mat-icon>list_alt</mat-icon></button>
     
     </ng-template>
  </div>

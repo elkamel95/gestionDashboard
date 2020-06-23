@@ -18,10 +18,12 @@ export interface Type {
   name                              : string ;
 
 }
-export class filter {
+export class Filter {
   by: string;index: number ;val:string;
 }
+export interface AttriuteGraphic{
 
+}
 export class Url {
   by                                : string ;
   name                              : string;
@@ -57,7 +59,7 @@ public index :any                      = 0;
 public xmlEntites                        : any ;
 public enterPoint                   = "";
 public and                          = ""
-public attributes                 :any [] | filter[]   =[];
+public attributes                 :any [] | Filter[]   =[];
 public attributesValues             = [] ;
 public attributesName               = '' ;
 public requests                  :Url[]   = [] ;
@@ -82,7 +84,7 @@ datePropertyName                    :string[];
 numericFilterProperty:modelFilter[];
 booleanFilterProperty:modelFilter[];
 dateFilterProperty:modelFilter[];
-
+spinner=false;
 isactive                            = false ;
 update                              = false ;
 filterType                          = "";
@@ -180,7 +182,7 @@ if(this.data.url !=undefined)
  newUrl                          = `$${element.by}[${element.property}]=${element.value}${this.and}${url}`;
 }
     else if (element.type.toString() ==='boolean')
-    newUrl                          = `exists[${element.by}]=${element.value}${this.and}${url}`;
+    newUrl                          = `${element.by}=${element.value}${this.and}${url}`;
     else if (element.type.toString() ==='string')
     newUrl                          = `${element.by}[$string]=${element.value}${this.and}${url}`;
     else if (element.type.toString() ==='session')
@@ -224,14 +226,8 @@ if(this.data.url !=undefined)
 {       
  request.by                 = array[0].substring(0,array[0].indexOf("["));
 
-if(request.by === 'exists')
-{ 
-  
- request.property                   = request.by;
- request.by                         = array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"));
- request.type                       = "boolean"
-}
-else if(request.by.charAt(0)=="$") {
+
+ if(request.by.charAt(0)=="$") {
   request.property                    = array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"));
   request.by                          = request.by.substring(request.by.indexOf("$")+1,request.by.length);
   request.type                        = "numeric"
@@ -268,7 +264,8 @@ else if(array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"))!='$str
 }        else
       { 
          request.by                 = array[0];
-         request.type               = "array";
+         request.type               = "boolean";
+         request.property                   = 'exists'; 
 
       }
   
@@ -331,15 +328,9 @@ else if(array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"))!='$str
 
 }
   }
-
-  setChartOptions(width             = 300,height="200",text="",colorText ="#000"
-  ,backgroundColor                  = "#fff",size="6",font ="bold"
-  )
-
-  
+  setChartOptions(width = 300,height="200",text="",colorText ="#000"
+  ,backgroundColor = "#fff",size="6",font ="bold")
   {
-
-    
     this.chartOptions =  {
         chart: {
      type                           : 'area',
@@ -365,40 +356,8 @@ else if(array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"))!='$str
 },
  credits :{
    enabled                          : false
- }, 
- xAxis: {
-     categories                     : ['1750', '1800', '1850', '1900', '1950', '1999', '2050'],
-     tickmarkPlacement              : 'on',
-     title: {
-         enabled                    : false,
-         style                      : { "color": colorText, "fontSize": "18px" }
-        }
- },
- yAxis: {
-     title: {
-         text                       : 'Billions',
-        style                       : { "color": colorText, "fontSize": "18px" }
-     },
- 
- },
-
-
- series: [{
-     name                           : 'Asia',
-     data                           : [502, 635, 809, 947, 1402, 3634, 5268]
- }, {
-     name                           : 'Africa',
-     data                           : [106, 107, 111, 133, 221, 767, 1766]
- }, {
-     name                           : 'Europe',
-     data                           : [163, 203, 276, 408, 547, 729, 628]
- }, {
-     name                           : 'America',
-     data                           : [18, 31, 54, 156, 339, 818, 1201]
- }, {
-     name                           : 'Oceania',
-     data                           : [2, 2, 2, 6, 13, 30, 46]
- }]};
+ }
+ };
 
 
  }
@@ -407,7 +366,10 @@ else if(array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"))!='$str
     this.next++;
 
     if(this.data.nameFr&&this.data.nameEn && this.data.description && this.next == 2 ) 
-  {  this.dialogRef.close({event    : this.action,data:this.data});
+  {  
+    this.spinner=true;
+
+
   await  this.cryptageUrl();
   this.enterPoint                     = `${ this.xmlEntites[this.index].entities.enterpoint.toString() }?`;
 
@@ -416,8 +378,21 @@ else if(array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"))!='$str
   this.enterPoint                 = this.isDynamic? '!'+filterDynamicDate+this.enterPoint:this.enterPoint;
   this.data.url                 = this.enterPoint+ (this.cryptageUrl().charAt(this.cryptageUrl().length-1)=='&'? this.cryptageUrl().substring(0,this.cryptageUrl().length-1):this.cryptageUrl()) ;
 
-    
 
+  if(this.action== 'Add'){
+    this.serviceWidge.postWidget(this.data).then((data:boolean)=>{
+      this.spinner=data
+       this.dialogRef.close({event    : this.action,data:this.data});
+
+    });
+  }
+  else if(this.action == 'Update'){
+    this.serviceWidge.update(this.data).then((data:boolean)=>{
+      this.spinner=data
+       this.dialogRef.close({event    : this.action,data:this.data});
+
+    });
+  }
   }
 
 
@@ -474,7 +449,7 @@ else if(array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"))!='$str
 
               this.attributes       =  this.xmlEntites[this.index].attributes ;
 
-  var updateFilter:filter =new filter() ; 
+  var updateFilter:Filter =new Filter() ; 
 
 
   updateFilter.by=this.attributes   [0].$.name; 
@@ -589,7 +564,7 @@ removeByIndex(index){
 }
 UpdateQueryByIndex(index:number){
   this.indexOfUpdateRequest=index;
-    var updateFilter:filter =new filter() ; 
+    var updateFilter:Filter =new Filter() ; 
     updateFilter.by=this.requests[index].by; 
 
     updateFilter.val=this.requests[index].value; 

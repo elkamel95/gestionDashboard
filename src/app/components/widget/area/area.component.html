@@ -1,9 +1,12 @@
 
 
-<highcharts-chart 
-[Highcharts]="Highcharts"
+    <mat-spinner diameter="20" mode="indeterminate" color="accent" *ngIf="loadedData"></mat-spinner>
+    <highcharts-chart  [hidden]="loadedData"
+    [Highcharts]="Highcharts"
+    
+    [options]="chartOptions"
+    >
 
-[options]="chartOptions"
->
-</highcharts-chart>
+
+    </highcharts-chart>
 
