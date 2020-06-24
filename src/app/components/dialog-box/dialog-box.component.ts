@@ -18,6 +18,18 @@ export interface Type {
   name                              : string ;
 
 }
+export class MeasureValue{
+  x:Array<any>=[];
+  y:Array<any>=[];
+  nameYAxe:string;
+  }
+export interface ModelGraphic {
+  nameYaxe:string;
+  nameXaxe:string;
+  nameLine:string;
+  by :string ; 
+
+}
 export class Filter {
   by: string;index: number ;val:string;
 }
@@ -71,19 +83,21 @@ public attribute                    :any ;
 public indexOfUpdateRequest?:number=null;
 dynamicArrayProperty = [];
 dynamicArray =false;
+  measur :MeasureValue = new MeasureValue();
 
 originalUrl :string=""; 
 filterDynamicDate :formatUrlWithDynamicProperty = {lasteYears:'N',lastMonth:'N',lastWeek:'N', today:'N',lastDay:'N',session:'N'} ;
 nameButtonNext                      = "Next"
 nameButtonBack                      = "Back"
 widgetControleForm                  : FormGroup;
-chartOptions                        = {};
+chartOptions                       ;
 screenWidth                         : number ;
 dateProperty                        :string[];
 datePropertyName                    :string[];
 numericFilterProperty:modelFilter[];
 booleanFilterProperty:modelFilter[];
 dateFilterProperty:modelFilter[];
+modelGraphic:ModelGraphic ={nameLine:"",nameXaxe:"",nameYaxe:"", by: ""};
 spinner=false;
 isactive                            = false ;
 update                              = false ;
@@ -135,10 +149,14 @@ if(this.data.id == null)
   this.data.size                    = "x-large";
 this.data.visible                   = false;
 this.data.url                       = "";
+
 }
 
+this.chartOptions=this.setChartOptions();
 
-
+this.measur.x =[1,2,3,4,5,6,7];
+this.measur.y =[5,8,10,11,16,19,1];
+this.measur.nameYAxe="sqdqsd"
 
 }
   constructor(private fb            : FormBuilder, private auth:AuthenticationService,
@@ -150,7 +168,6 @@ this.data.url                       = "";
     this.local_data                 = {...this.Alldata};
     this.action                     = this.local_data.action;
     this.update                     = false ;
-  
   this.xmlEntites= this.xml.xmlItems;
   /* declaration de variable (les Entites ,attributes) de puis la fichie xml */ 
   this.index=0;
@@ -316,6 +333,10 @@ else if(array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"))!='$str
     this.data.textColor             = "#000";
 
     this.data.backgroundColor       = "#fff";
+    this.measur.x =[1,2,3,4,5,6,7];
+    this.measur.y =[5,8,10,11,16,19,1];
+    this.measur.nameYAxe="sqdqsd"
+  
 
 
 }else if(this.data.type ==='3'){
@@ -328,45 +349,70 @@ else if(array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"))!='$str
 
 }
   }
-  setChartOptions(width = 300,height="200",text="",colorText ="#000"
-  ,backgroundColor = "#fff",size="6",font ="bold")
+  setChartOptions()
   {
-    this.chartOptions =  {
+
+return this.chartOptions =  {
         chart: {
      type                           : 'area',
-     height                         : height ,
-     width                          : width,
-     backgroundColor                : backgroundColor
+     height                         : this.data.height ,
+     width                          :this.data. width,
+     backgroundColor                :this.data. backgroundColor
 
    },
  title: {
-     text                           : text,
-     style                          : { "color": colorText, "fontSize": size+"px"  }
-
-  
+     text                           :this.data.nameFr,
+     style                          : { "color": this.data.textColor, "fontSize": this.data.size+"px"  }
  },
  legend: {
    itemStyle: {
        font                         : '9pt Trebuchet MS, Verdana, sans-serif',
-       color                        : colorText
+       color                        : this.data.textColor
    },
    itemHoverStyle:{
-       color                        : colorText
+       color                        : this.data.textColor
    }   
 },
  credits :{
    enabled                          : false
- }
- };
+ },
+ 
+ xAxis: {
+  categories: [1,2,3,4,5,6,7],
+  tickmarkPlacement: 'on',
+  title: {
+   text: `the curve function is expressed by the ${this.modelGraphic.by != '' ?this.modelGraphic.by: 'x' } of the ${ this.modelGraphic.nameXaxe!= '' ?this.modelGraphic.nameXaxe: 'x'}`,
+  
+      enabled: true,
+     }
+  },
+  yAxis: {
+  title: {
+   enabled: true,
+  
+      text: this.modelGraphic.nameYaxe,
+     },
+  
+  },
+  
+  
+  series: [{
+  name: this.modelGraphic.nameLine,
+  data:   [5,8,10,11,16,19,1]},
+  
+  ]};
 
 
  }
  async doAction(){
-    if(this.next <=2 && this.data.nameFr&&this.data.nameEn && this.data.description )
+   const nextCondition = Number.parseInt(`${ Number.parseInt(this.data.type ) != 4 ? 1 : 2}`)  ;
+   console.log(nextCondition);
+    if(this.next <=nextCondition && this.data.nameFr&&this.data.nameEn && this.data.description )
     this.next++;
-
-    if(this.data.nameFr&&this.data.nameEn && this.data.description && this.next == 2 ) 
+console.log(nextCondition);
+    if(this.data.nameFr&&this.data.nameEn && this.data.description && this.next == nextCondition +1) 
   {  
+
     this.spinner=true;
 
 
@@ -378,7 +424,11 @@ else if(array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"))!='$str
   this.enterPoint                 = this.isDynamic? '!'+filterDynamicDate+this.enterPoint:this.enterPoint;
   this.data.url                 = this.enterPoint+ (this.cryptageUrl().charAt(this.cryptageUrl().length-1)=='&'? this.cryptageUrl().substring(0,this.cryptageUrl().length-1):this.cryptageUrl()) ;
 
-
+  if (this.data.type)
+{  var urlGraphicPart=`%${this.modelGraphic.nameXaxe},${this.modelGraphic.nameYaxe},${this.modelGraphic.nameLine},${this.modelGraphic.by}%`
+   this.data.url+=urlGraphicPart;
+  
+  }
   if(this.action== 'Add'){
     this.serviceWidge.postWidget(this.data).then((data:boolean)=>{
       this.spinner=data

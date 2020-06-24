@@ -9,6 +9,9 @@ export class MeasureValue{
 x:Array<any>=[];
 y:Array<any>=[];
 nameYAxe:string;
+nameXAxe:string;
+by:string;
+nameLine:string;
 }
 @Component({
   selector: 'app-area',
@@ -30,7 +33,7 @@ export class AreaComponent   implements OnInit {
   @Input() url:string;
   public valueWidget 
   public loadedData =false ; 
-  public measur :MeasureValue = new MeasureValue();
+  @Input()  measur :MeasureValue = new MeasureValue();
     entity="";
    @Input() Highcharts =Highcharts ;
   constructor(protected serviceWidget:ServiceWidgetService) { 
@@ -117,7 +120,7 @@ updateChartOption(list:Widget){
     categories: this.measur.x,
     tickmarkPlacement: 'on',
     title: {
-     text: 'Date',
+     text: this.measur.x,
     
         enabled: true,
        }
@@ -143,42 +146,77 @@ updateChartOption(list:Widget){
   }  
   getDataFromUrl(url){
     this.loadedData=true;
+
     var getFonctionMesurFunctionOfTitleYaxe =this.url.substring(this.url.indexOf("%")+1,url.length-1);
     var XYName=getFonctionMesurFunctionOfTitleYaxe.split(',');
-    var x =XYName[0];
-    var y =XYName[1];
-    var name =XYName[2];
-this.measur.nameYAxe=name;
-    console.log(XYName);
 
-console.log(this.url.substring(0,this.url.indexOf("%")));
+    this.measur.nameXAxe =XYName[0];
+    this.measur.nameYAxe =XYName[1];
+    this.measur.nameLine =XYName[2];
+    this.measur.by =XYName[3];
+
+
    this.serviceWidget.getAnythingWithTypeGraphic( `${this.url.substring(0,this.url.indexOf("%"))}&order[created_at]=asc`,false).subscribe(list=>{
      this.valueWidget=list;
-     console.log(list);
-
-     this.measureValue(list,x,y);
+     this.measureValue(list, this.measur);
              },()=>{},()=>{this.loadedData=false});
 
 }
-measureValue(list,x,y){
- var position = 1; 
+measureValue(list,measur:MeasureValue){
+ var position = 0; 
+var nbZero;
+var preDate=0;
+var year_Month_Day =[];
+/*  */
+var normalizeNameYaxe=     this.normalizeName(measur.nameXAxe);
+preDate=this.getYearsMonthDayFromData(list[0]
+  ,normalizeNameYaxe);
+
+  for (let index = 1; index < preDate[1]; index++) {
+    var margeAxeX=index;
+   measur.x.push(margeAxeX);
+   measur.y.push(0);
+   position++;
+  }
+/* 
+
+
+*/
 
    list.forEach((element )=> {
- var normalizeNameYaxe=     this.normalizeName(x);
 
- var year_Month_Day =this.getYearsMonthDayFromData(element,normalizeNameYaxe);
+ preDate=year_Month_Day[1];
 
+  year_Month_Day =this.getYearsMonthDayFromData(element,normalizeNameYaxe);
+console.log("preDate"+preDate)
       //getMonth ...
-     if (this.measur.x.indexOf(year_Month_Day[1]) == -1 )
+     if (measur.x.indexOf(year_Month_Day[1]) == -1 )
    {   
-      this.measur.x.push(year_Month_Day[1]);
-     this.measur.y.push(1);
+/* 
+
+
+*/
+nbZero=(year_Month_Day[1]-preDate);
+console.log("nbZero"+nbZero);
+     if( nbZero>1)
+     {
+       for (let index = 1; index < nbZero; index++) {
+         var margeAxeX=Number.parseInt(preDate+"") +index;
+        measur.x.push(margeAxeX);
+        measur.y.push(0);
+        position++;
+       }
+     }
+
+      measur.x.push(year_Month_Day[1]);
+     measur.y.push(1);
      position++;
+/* 
 
+
+*/
    }else
-   this.measur.y[this.measur.x.indexOf(year_Month_Day[1]) ]++;
-
-
+   measur.y[this.measur.x.indexOf(year_Month_Day[1]) ]++;
    });
 
   this.chartOptions =  {
@@ -189,7 +227,8 @@ xAxis: {
 categories: this.measur.x,
 tickmarkPlacement: 'on',
 title: {
- text: 'Date',
+ text: `the curve function is expressed by the ${measur.by != '' ? measur.by: 'x' } of the ${ measur.nameXAxe != '' ? measur.nameXAxe: 'x'}`
+ ,
 
     enabled: true,
    }
@@ -198,14 +237,14 @@ yAxis: {
 title: {
  enabled: true,
 
-    text:this.measur.nameYAxe,
+    text:measur.nameYAxe,
    },
 
 },
 
 
 series: [{
-name: 'draft',
+name: this.measur.nameLine,
 data:   this.measur.y},
 
 ]};
