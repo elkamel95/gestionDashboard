@@ -67,7 +67,7 @@ this.user.email =   this.f.email.value
 this.user.username =   this.f.username.value
 this.user.fullname =   this.f.fullname.value
 this.user.plainPassword =   this.f.password.value
-this.user.roles.push(this.f. roles.value ); 
+this.user.roles.push("ROLE_USER"); 
 
       this.loading = true;
     

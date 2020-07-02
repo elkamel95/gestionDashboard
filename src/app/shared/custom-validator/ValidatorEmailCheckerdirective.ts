@@ -29,11 +29,9 @@ constructor(     private userService:UserService,
         
         map(users => 
        
-            (users['hydra:member'] && users['hydra:member'].length  >0) ? {'uniqueEmail':true} : null
-        
-        
-        )
-        
+            (users['hydra:member'] && users['hydra:totalItems']  >0) ? {'uniqueEmail':true} : null 
+            
+            )
         
         );
         

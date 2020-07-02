@@ -25,10 +25,20 @@ export class MeasureValue{
   }
 export interface ModelGraphic {
   nameYaxe:string;
-  nameXaxe:string;
+  xAxe:modelFilter;
   nameLine:string;
   by :string ; 
+  methodeOfMaseur:string;
+paramMethodeMaseur:string;
 
+}
+export interface MethodMeasur {
+  name:string;
+  value:string;
+}
+export interface ParamDate {
+  param:string;
+  value:string;
 }
 export class Filter {
   by: string;index: number ;val:string;
@@ -97,7 +107,8 @@ datePropertyName                    :string[];
 numericFilterProperty:modelFilter[];
 booleanFilterProperty:modelFilter[];
 dateFilterProperty:modelFilter[];
-modelGraphic:ModelGraphic ={nameLine:"",nameXaxe:"",nameYaxe:"", by: ""};
+xAxe:modelFilter;
+modelGraphic:ModelGraphic ={nameLine:"",nameYaxe:"", by: "",methodeOfMaseur:"",paramMethodeMaseur:"",xAxe:this.xAxe};
 spinner=false;
 isactive                            = false ;
 update                              = false ;
@@ -118,7 +129,10 @@ size =[
 font_style =[
 "900","bold","bolder","inherit","initial",
 "lighter","normal","unset"
-]
+];
+methodsMeasur:MethodMeasur [] ;
+paramsDate:ParamDate [] ;
+
 action                              : string;
 local_data                          : any;
 ControleForm                        : FormGroup;
@@ -131,6 +145,9 @@ ngOnInit() {
   this.dateFilterProperty   =this.serviceWidge.dateFilterProperty;     
   this.numericFilterProperty = this.serviceWidge.numericFilterProperty;
   this.booleanFilterProperty =   this.serviceWidge.booleanFilterProperty;
+  this.methodsMeasur=this.serviceWidge.methodsMeasur;
+  this.paramsDate=this.serviceWidge.paramsDate;
+
 if(this.data.id == null)
 {
     this.data.type                  = "1";
@@ -381,7 +398,7 @@ return this.chartOptions =  {
   categories: [1,2,3,4,5,6,7],
   tickmarkPlacement: 'on',
   title: {
-   text: `the curve function is expressed by the ${this.modelGraphic.by != '' ?this.modelGraphic.by: 'x' } of the ${ this.modelGraphic.nameXaxe!= '' ?this.modelGraphic.nameXaxe: 'x'}`,
+   text: `the curve function is expressed by the ${this.modelGraphic.by != '' ?this.paramsDate[0]: 'x' } of the ${ this.modelGraphic.xAxe.name!= '' ?this.modelGraphic.xAxe.name: 'x'}`,
   
       enabled: true,
      }
@@ -405,14 +422,14 @@ return this.chartOptions =  {
 
  }
  async doAction(){
-   const nextCondition = Number.parseInt(`${ Number.parseInt(this.data.type ) != 4 ? 1 : 2}`)  ;
+   const nextCondition = Number.parseInt(`${ Number.parseInt(this.data.type ) != 4 ? 2 : 3}`)  ;
    console.log(nextCondition);
     if(this.next <=nextCondition && this.data.nameFr&&this.data.nameEn && this.data.description )
     this.next++;
 console.log(nextCondition);
-    if(this.data.nameFr&&this.data.nameEn && this.data.description && this.next == nextCondition +1) 
+    if(this.data.nameFr&&this.data.nameEn && this.data.description && this.next == nextCondition ) 
   {  
-
+    this.next=nextCondition;
     this.spinner=true;
 
 
@@ -425,7 +442,7 @@ console.log(nextCondition);
   this.data.url                 = this.enterPoint+ (this.cryptageUrl().charAt(this.cryptageUrl().length-1)=='&'? this.cryptageUrl().substring(0,this.cryptageUrl().length-1):this.cryptageUrl()) ;
 
   if (this.data.type)
-{  var urlGraphicPart=`%${this.modelGraphic.nameXaxe},${this.modelGraphic.nameYaxe},${this.modelGraphic.nameLine},${this.modelGraphic.by}%`
+{  var urlGraphicPart=`%${this.modelGraphic.xAxe.name},${this.modelGraphic.xAxe.value},${this.modelGraphic.nameYaxe},${this.modelGraphic.nameLine},${this.modelGraphic.by},${this.modelGraphic.methodeOfMaseur},${this.modelGraphic.paramMethodeMaseur}%`
    this.data.url+=urlGraphicPart;
   
   }

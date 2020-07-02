@@ -32,7 +32,7 @@ body.set('password', password);
 let options = {
   headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
 };
-        return  this.http.post<any>(`${this.apiUrl}/login_check`, body.toString(),options)
+        return  this.http.post<any>(`${this.apiUrl}/api/login_check`, body.toString(),options)
             .pipe(map(async user => {
         
               localStorage.setItem('token',user.token);

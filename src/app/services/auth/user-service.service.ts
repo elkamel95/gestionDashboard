@@ -11,19 +11,19 @@ export class UserService {
     }
 
     getAll() {
-        return this.http.get<User[]>(`${this.apiUrl}/users`);
+        return this.http.get<User[]>(`${this.apiUrl}/api/users`);
     }
 getUsersBy(email){
-  return this.http.get<User>(`${this.apiUrl}/users?email=${email}`).pipe(map(data => data['hydra:member']));
+  return this.http.get<User>(`${this.apiUrl}/api/users?email=${email}`).pipe(map(data => data['hydra:member']));
 
 }
     register(user: User) {
         
         console.log(user);
-       return this.http.post(`${this.apiUrl}/users`, user);
+       return this.http.post(`${this.apiUrl}/api/users`, user);
     }
 
     delete(id: number) {
-        return this.http.delete(`${this.apiUrl}/users/${id}`);
+        return this.http.delete(`${this.apiUrl}/api/users/${id}`);
     }
 }

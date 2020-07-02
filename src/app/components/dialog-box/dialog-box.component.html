@@ -464,100 +464,112 @@ fxLayoutAlign="start start">
 </div>
 </ng-container>
 <ng-container *ngIf="next == 2">
-  <div fxLayout="column"   fxFlex="100" style="margin-top: -9%;">
+  <div fxLayout="column"  fxFlex="100" style="margin-top: -9%;">
 
-  <div fxLayout="column"  fxLayoutAlign="start space-around "   fxLayoutGap="20px"
+  <div fxLayout="column"  
   class="border-style"  >
     <h1> Functionality </h1> 
-    <div fxLayout="row" fxLayoutAlign="space-around start">
-    <div fxLayout="row"   >
+    <div fxLayout="column"  fxFlex fxLayoutGap="1px">
+      <div fxLayout="row"  fxFlex fxLayoutAlign="center center" fxLayoutGap="5px" >
 
-      
-    <mat-label  fxFlexAlign="center" class="text-color">As a function of <i style=" color: #ffa000;">*</i> </mat-label>
+      <div fxLayout="row"  fxFlex  >
+
+    <mat-label  fxFlexAlign="center" class="text-color">As a function of :<i style=" color: #ffa000;">*</i> </mat-label>
 
     <mat-form-field>
-    <mat-select  fxFlex  [(ngModel)]="modelGraphic.nameXaxe" >
+    <mat-select  fxFlex  [(ngModel)]="modelGraphic.xAxe" >
       <ng-container *ngFor="let attribute of attributes  let index =index ; " >
 
-        <mat-option  *ngIf=" attribute.$.type === 'date' "   [value] ="attribute.$.name">
-  {{attribute.$.value}}
-
+        <mat-option  *ngIf=" attribute.$.type === 'date' " 
+         [value] ="{name:attribute.$.name,value:attribute.$.value}">
+                 {{attribute.$.value}}
     
         </mat-option>
       </ng-container>
 
     </mat-select >
   </mat-form-field>
+  </div>
+  <div fxLayout="row"  fxFlex  >
+
   <mat-label  fxFlexAlign="center" class="text-color">By :<i style=" color: #ffa000;">*</i> </mat-label>
 
   <mat-form-field>
   <mat-select  fxFlex  [(ngModel)]="modelGraphic.by" >
 
-      <mat-option    value ="years">
-Years
+      <mat-option  *ngFor="let params of paramsDate"  [value] ="params.value">
+        {{params.param}}
   
       </mat-option>
-      <mat-option    value ="Months">
-        Months
-          
-              </mat-option>
-              <mat-option    value ="Days">
-                Days
-                  
-                      </mat-option>
-
+ 
   </mat-select >
 </mat-form-field>
 </div>
+<div fxLayout="row" fxFlex  >
 
-  <div fxLayout="row" fxLayoutAlign="space-around start" *ngIf="  filterType !=='string' &&  filterType !=='session'">
-
-    <mat-label  fxFlexAlign="center" class="text-color">Name Y Axe :  <i style=" color: #ffa000;">*</i> </mat-label>
+  <mat-label  fxFlexAlign="center" class="text-color">Name line :  <i style=" color: #ffa000;">*</i> </mat-label>
 
 <mat-form-field>
-   <input matInput value="" [(ngModel)]="modelGraphic.nameLine" >
-  </mat-form-field>
-  </div>
-
-  <button  mat-button [color]=" indexOfUpdateRequest == null ? 'accent' : 'primary' " fxFlexAlign="center" (click)="setChartOptions()"><mat-icon class="mat-icon-size" [matTooltip]="indexOfUpdateRequest == null ? 'Add' : 'Edit'">{{ indexOfUpdateRequest == null ? 'add_circle' : 'build_circle'}} </mat-icon></button>
-
+ <input matInput value="" [(ngModel)]="modelGraphic.nameLine" >
+</mat-form-field>
 </div>
-<div fxLayout="row"  fxLayoutAlign="space-around start">
+<div fxLayout="row" fxFlex  >
 
-<div fxLayout="row"  fxLayoutAlign="space-around start">
-
-  <mat-label  fxFlexAlign="center" class="text-color">Methode Of Maseur :<i style=" color: #ffa000;">*</i> </mat-label>
+  <mat-label  fxFlexAlign="center" class="text-color">Name Y Axe :  <i style=" color: #ffa000;">*</i> </mat-label>
 
 <mat-form-field>
-    <mat-select [(ngModel)]="modelGraphic.nameYaxe" >
-    <mat-option   value="Taux">
-      Measur by Taux
-  </mat-option>
-  <mat-option   value="by">
-    Measur by %
-</mat-option>
-    </mat-select >
-  </mat-form-field>
- 
-  </div>
+ <input matInput value="" [(ngModel)]="modelGraphic.nameYaxe" >
+</mat-form-field>
+</div>
+</div>
+  <div fxLayout="row"   fxFlex fxLayoutAlign="center center" fxLayoutGap="5px">
+    <div fxLayout="row" fxFlex  >
 
-  <div fxLayout="row"  fxLayoutAlign="space-around start">
+      <mat-label  fxFlexAlign="center"  class="text-color">Measuring Method :<i style=" color: #ffa000;">*</i> </mat-label>
+    
+    <mat-form-field>
+        <mat-select [(ngModel)]="modelGraphic.methodeOfMaseur" >
+        <mat-option *ngFor="let methods of methodsMeasur"  [value]="methods.value">
+       {{methods.name}}
+         </mat-option>
+        </mat-select >
+      </mat-form-field>
+     
+      </div>
+    
+    <div fxLayout="row" fxFlex  >
 
     <mat-label  fxFlexAlign="center" class="text-color">Methode Of Maseur :<i style=" color: #ffa000;">*</i> </mat-label>
   <mat-form-field>
-    <mat-select [(ngModel)]="modelGraphic.nameYaxe" >
-    <mat-option   value="Taux">
-      Taux by Numbers purchase   </mat-option>
-  <mat-option   value="by">
-    Taux by price
-</mat-option>
+    <mat-select [(ngModel)]="modelGraphic.paramMethodeMaseur" >
+    <mat-option   value="all">
+      Taux by Numbers {{entity.value   | titlecase}}   </mat-option>
+        <ng-container *ngFor="let attribute of attributes  let index =index ; " >
+  
+          <mat-option  *ngIf=" attribute.$.type === 'numeric' "   [value] ="attribute.$.name">
+    {{attribute.$.value}}     
+          </mat-option>
+        </ng-container>
+  
     </mat-select >
   </mat-form-field>
+  
 </div>
+<div fxLayout="row"  fxFlex  >
+  <mat-label  fxFlexAlign="center" class="text-color">{{indexOfUpdateRequest == null ? 'Add' : 'Edit'}} :<i style=" color: #ffa000;">*</i> </mat-label>
+
+  <button  mat-button [color]=" indexOfUpdateRequest == null ? 'accent' : 'primary' " 
+  fxFlexAlign="center" (click)="setChartOptions()"><mat-icon class="mat-icon-size"
+   [matTooltip]="indexOfUpdateRequest == null ? 'Add' : 'Edit'">{{ indexOfUpdateRequest == null ? 'add_circle' : 'build_circle'}} </mat-icon></button>
+
+</div>
+
+</div>
+
 </div>
 </div>
 
-<div fxLayout="row" fxLayoutGap="60px">
+<div fxLayout="row" fxLayoutGap="60px" style="margin-top: -7%;">
   <div  fxFlex class="border-style" style="margin-top: 0.5%;" *ngIf="data.type == 4" fxFlexAlign="center">
     <h1> {{entity.value   | titlecase}} </h1> 
     <app-area 

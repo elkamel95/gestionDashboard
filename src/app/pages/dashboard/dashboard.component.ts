@@ -180,7 +180,7 @@ this.serviceWidget.setCurrentWidgetUpdate(this.WidgetToUpdate);
       
     {   
       widget.forEach(function(item){  
-
+//to be a function 
         if(index <nbWidgetParLign-1)
        { 
          playStore.push(item)  ;

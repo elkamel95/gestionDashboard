@@ -15,6 +15,14 @@ import { GlobalConstants } from './../../common/global-constants';
   name:string;
   value:string;
 }
+export interface MethodMeasur {
+  name:string;
+  value:string;
+}
+export interface ParamDate {
+  param:string;
+  value:string;
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -26,6 +34,8 @@ export class ServiceWidgetService implements OnInit {
   }
 private DomainName=GlobalConstants.DomainName ; 
 private apiURL=GlobalConstants.apiURL ; 
+methodsMeasur:MethodMeasur [] = [{name:'Rate',value:'1'},{name:'Percentage',value:'2'}];
+paramsDate:ParamDate [] = [{param:'Years',value:'0'},{param:'Months',value:'1'},{param:'Days',value:'2'}];
 
 screenHeight: number;
 screenWidth: number;
