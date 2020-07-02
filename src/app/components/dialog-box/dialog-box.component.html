@@ -469,58 +469,58 @@ fxLayoutAlign="start start">
   <div fxLayout="column"  
   class="border-style"  >
     <h1> Functionality </h1> 
-    <div fxLayout="column"  fxFlex fxLayoutGap="1px">
+<div fxLayout="column"  fxFlex fxLayoutGap="1px">
       <div fxLayout="row"  fxFlex fxLayoutAlign="center center" fxLayoutGap="5px" >
 
-      <div fxLayout="row"  fxFlex  >
+                <div fxLayout="row"  fxFlex  >
 
-    <mat-label  fxFlexAlign="center" class="text-color">As a function of :<i style=" color: #ffa000;">*</i> </mat-label>
+              <mat-label  fxFlexAlign="center" class="text-color">As a function of :<i style=" color: #ffa000;">*</i> </mat-label>
 
-    <mat-form-field>
-    <mat-select  fxFlex  [(ngModel)]="modelGraphic.xAxe" >
-      <ng-container *ngFor="let attribute of attributes  let index =index ; " >
+              <mat-form-field>
+              <mat-select  fxFlex  [(ngModel)]="modelGraphic.xAxe" [compareWith]="compareFn">
+                <ng-container *ngFor="let attribute of attributes  let index =index ; " >
 
-        <mat-option  *ngIf=" attribute.$.type === 'date' " 
-         [value] ="{name:attribute.$.name,value:attribute.$.value}">
-                 {{attribute.$.value}}
-    
-        </mat-option>
-      </ng-container>
+                  <mat-option  *ngIf=" attribute.$.type === 'date' " 
+                  [value] ="{name:attribute.$.name,value:attribute.$.value}">
+                          {{attribute.$.value}}
+              
+                  </mat-option>
+                </ng-container>
 
-    </mat-select >
-  </mat-form-field>
-  </div>
-  <div fxLayout="row"  fxFlex  >
+              </mat-select >
+            </mat-form-field>
+            </div>
+            <div fxLayout="row"  fxFlex  >
 
-  <mat-label  fxFlexAlign="center" class="text-color">By :<i style=" color: #ffa000;">*</i> </mat-label>
+            <mat-label  fxFlexAlign="center" class="text-color">By :<i style=" color: #ffa000;">*</i> </mat-label>
 
-  <mat-form-field>
-  <mat-select  fxFlex  [(ngModel)]="modelGraphic.by" >
+            <mat-form-field>
+            <mat-select  fxFlex  [(ngModel)]="modelGraphic.by" >
 
-      <mat-option  *ngFor="let params of paramsDate"  [value] ="params.value">
-        {{params.param}}
-  
-      </mat-option>
- 
-  </mat-select >
-</mat-form-field>
-</div>
-<div fxLayout="row" fxFlex  >
+                <mat-option  *ngFor="let params of paramsDate"  [value] ="params.value">
+                  {{params.param}}
+            
+                </mat-option>
+          
+            </mat-select >
+          </mat-form-field>
+          </div>
+          <div fxLayout="row" fxFlex  >
 
-  <mat-label  fxFlexAlign="center" class="text-color">Name line :  <i style=" color: #ffa000;">*</i> </mat-label>
+            <mat-label  fxFlexAlign="center" class="text-color">Name line :  <i style=" color: #ffa000;">*</i> </mat-label>
 
-<mat-form-field>
- <input matInput value="" [(ngModel)]="modelGraphic.nameLine" >
-</mat-form-field>
-</div>
-<div fxLayout="row" fxFlex  >
+          <mat-form-field>
+          <input matInput value="" [(ngModel)]="modelGraphic.nameLine" >
+          </mat-form-field>
+          </div>
+          <div fxLayout="row" fxFlex  >
 
-  <mat-label  fxFlexAlign="center" class="text-color">Name Y Axe :  <i style=" color: #ffa000;">*</i> </mat-label>
+            <mat-label  fxFlexAlign="center" class="text-color">Name Y Axe :  <i style=" color: #ffa000;">*</i> </mat-label>
 
-<mat-form-field>
- <input matInput value="" [(ngModel)]="modelGraphic.nameYaxe" >
-</mat-form-field>
-</div>
+          <mat-form-field>
+          <input matInput value="" [(ngModel)]="modelGraphic.nameYaxe" >
+          </mat-form-field>
+          </div>
 </div>
   <div fxLayout="row"   fxFlex fxLayoutAlign="center center" fxLayoutGap="5px">
     <div fxLayout="row" fxFlex  >
@@ -537,32 +537,59 @@ fxLayoutAlign="start start">
      
       </div>
     
-    <div fxLayout="row" fxFlex  >
+          <div fxLayout="row" fxFlex  >
 
-    <mat-label  fxFlexAlign="center" class="text-color">Methode Of Maseur :<i style=" color: #ffa000;">*</i> </mat-label>
-  <mat-form-field>
-    <mat-select [(ngModel)]="modelGraphic.paramMethodeMaseur" >
-    <mat-option   value="all">
-      Taux by Numbers {{entity.value   | titlecase}}   </mat-option>
-        <ng-container *ngFor="let attribute of attributes  let index =index ; " >
-  
-          <mat-option  *ngIf=" attribute.$.type === 'numeric' "   [value] ="attribute.$.name">
-    {{attribute.$.value}}     
-          </mat-option>
-        </ng-container>
-  
-    </mat-select >
-  </mat-form-field>
-  
-</div>
-<div fxLayout="row"  fxFlex  >
+          <mat-label  fxFlexAlign="center" class="text-color">Methode Of Maseur :<i style=" color: #ffa000;">*</i> </mat-label>
+        <mat-form-field>
+          <mat-select [(ngModel)]="modelGraphic.paramMethodeMaseur" >
+          <mat-option   value="all">
+            Taux by Numbers {{entity.value   | titlecase}}   </mat-option>
+              <ng-container *ngFor="let attribute of attributes  let index =index ; " >
+        
+                <mat-option  *ngIf=" attribute.$.type === 'numeric' "   [value] ="attribute.$.name">
+          {{attribute.$.value}}     
+                </mat-option>
+              </ng-container>
+        
+          </mat-select >
+        </mat-form-field>
+        
+          </div>
+          <div fxLayout="row" fxFlex  >
+
+            <mat-label  fxFlexAlign="center"  class="text-color"> Chart Type<i style=" color: #ffa000;">*</i> </mat-label>
+
+          <mat-form-field>
+          
+            
+              <mat-select [(ngModel)]="modelGraphic.typeChart" >
+              <ng-container *ngFor="let type of chartType">
+                <ng-container  *ngIf="type =='line'  ; else elseNotLine" >
+                  <mat-option  [value]="">
+                    {{type}}
+                  </mat-option>
+                </ng-container>
+                
+               
+              <ng-template #elseNotLine>
+                <mat-option [value]="type">
+                  {{type}}
+                </mat-option>
+              </ng-template>
+            </ng-container>
+
+              </mat-select >
+            </mat-form-field>
+          
+              </div>
+          <div fxLayout="row"  fxFlex  >
   <mat-label  fxFlexAlign="center" class="text-color">{{indexOfUpdateRequest == null ? 'Add' : 'Edit'}} :<i style=" color: #ffa000;">*</i> </mat-label>
 
   <button  mat-button [color]=" indexOfUpdateRequest == null ? 'accent' : 'primary' " 
   fxFlexAlign="center" (click)="setChartOptions()"><mat-icon class="mat-icon-size"
    [matTooltip]="indexOfUpdateRequest == null ? 'Add' : 'Edit'">{{ indexOfUpdateRequest == null ? 'add_circle' : 'build_circle'}} </mat-icon></button>
 
-</div>
+         </div>
 
 </div>
 

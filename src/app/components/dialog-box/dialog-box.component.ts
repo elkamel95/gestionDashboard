@@ -30,6 +30,7 @@ export interface ModelGraphic {
   by :string ; 
   methodeOfMaseur:string;
 paramMethodeMaseur:string;
+typeChart:string;
 
 }
 export interface MethodMeasur {
@@ -94,7 +95,7 @@ public indexOfUpdateRequest?:number=null;
 dynamicArrayProperty = [];
 dynamicArray =false;
   measur :MeasureValue = new MeasureValue();
-
+  chartType:Array<String> = this.serviceWidge.chartType;
 originalUrl :string=""; 
 filterDynamicDate :formatUrlWithDynamicProperty = {lasteYears:'N',lastMonth:'N',lastWeek:'N', today:'N',lastDay:'N',session:'N'} ;
 nameButtonNext                      = "Next"
@@ -107,8 +108,8 @@ datePropertyName                    :string[];
 numericFilterProperty:modelFilter[];
 booleanFilterProperty:modelFilter[];
 dateFilterProperty:modelFilter[];
-xAxe:modelFilter;
-modelGraphic:ModelGraphic ={nameLine:"",nameYaxe:"", by: "",methodeOfMaseur:"",paramMethodeMaseur:"",xAxe:this.xAxe};
+xAxe:modelFilter = {name:"",value:""};
+modelGraphic:ModelGraphic ={nameLine:"",nameYaxe:"", by: "",methodeOfMaseur:"",paramMethodeMaseur:"",xAxe:this.xAxe,typeChart:""};
 spinner=false;
 isactive                            = false ;
 update                              = false ;
@@ -240,7 +241,7 @@ if(this.data.url !=undefined)
 
    async decryptageUrl(){
     var dynamicType =false;
-
+var paramTypeGraphic:ModelGraphic ;
     this.update                     = true ;
     this.and                        = "&"
     this.enterPoint                 = this.data.url.substring(  0,  this.data.url.indexOf("?")+1);
@@ -249,6 +250,26 @@ if(this.data.url !=undefined)
    
    this.getEntityByName( entity  );
    dynamicType=this.data.url.charAt(0)=="!" ? true : false ; 
+   if(this.data.type === '4')
+   {
+     var UrlAndParmgraphic:string[] =[];
+     if(this.data.url.indexOf("%")!=-1)
+   {  UrlAndParmgraphic=this.data.url.split("%");
+   this.data.url=UrlAndParmgraphic[0];
+   var parmamsTypeGraphicFromUrl=UrlAndParmgraphic[1].split(',');}
+
+   this.modelGraphic.xAxe.name =parmamsTypeGraphicFromUrl[0];
+   this.modelGraphic.xAxe.value =parmamsTypeGraphicFromUrl[1];
+
+   this.modelGraphic.nameYaxe =parmamsTypeGraphicFromUrl[2];
+   this.modelGraphic.nameLine =parmamsTypeGraphicFromUrl[3];
+   this.modelGraphic.by =parmamsTypeGraphicFromUrl[4];
+   this.modelGraphic.methodeOfMaseur =parmamsTypeGraphicFromUrl[5];
+   this.modelGraphic.paramMethodeMaseur =parmamsTypeGraphicFromUrl[6];
+   this.modelGraphic.typeChart=parmamsTypeGraphicFromUrl[7]
+
+   this.setChartOptions()  }
+
    this.data.url                 = this.data.url.substring(    this.data.url.indexOf("?")+1, this.data.url.length);
       var array                     = this.data.url.split('&');
   
@@ -371,7 +392,7 @@ else if(array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"))!='$str
 
 return this.chartOptions =  {
         chart: {
-     type                           : 'area',
+     type                           : this.modelGraphic.typeChart,
      height                         : this.data.height ,
      width                          :this.data. width,
      backgroundColor                :this.data. backgroundColor
@@ -398,7 +419,7 @@ return this.chartOptions =  {
   categories: [1,2,3,4,5,6,7],
   tickmarkPlacement: 'on',
   title: {
-   text: `the curve function is expressed by the ${this.modelGraphic.by != '' ?this.paramsDate[0]: 'x' } of the ${ this.modelGraphic.xAxe.name!= '' ?this.modelGraphic.xAxe.name: 'x'}`,
+   text: `the curve function is expressed by the ${this.modelGraphic.by != '' ?this.modelGraphic.by: 'x' } of the ${ this.modelGraphic.xAxe && this.modelGraphic.xAxe.name!= '' ?this.modelGraphic.xAxe.name: 'x'}`,
   
       enabled: true,
      }
@@ -442,7 +463,7 @@ console.log(nextCondition);
   this.data.url                 = this.enterPoint+ (this.cryptageUrl().charAt(this.cryptageUrl().length-1)=='&'? this.cryptageUrl().substring(0,this.cryptageUrl().length-1):this.cryptageUrl()) ;
 
   if (this.data.type)
-{  var urlGraphicPart=`%${this.modelGraphic.xAxe.name},${this.modelGraphic.xAxe.value},${this.modelGraphic.nameYaxe},${this.modelGraphic.nameLine},${this.modelGraphic.by},${this.modelGraphic.methodeOfMaseur},${this.modelGraphic.paramMethodeMaseur}%`
+{  var urlGraphicPart=`%${this.modelGraphic.xAxe.name},${this.modelGraphic.xAxe.value},${this.modelGraphic.nameYaxe},${this.modelGraphic.nameLine},${this.modelGraphic.by},${this.modelGraphic.methodeOfMaseur},${this.modelGraphic.paramMethodeMaseur},${this.modelGraphic.typeChart}%`
    this.data.url+=urlGraphicPart;
   
   }

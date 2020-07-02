@@ -78,7 +78,6 @@ rzeroValue =false ;
             }
 
 
-            this.measur.nameLine="x";
    this.chartOptions = this.setChartOptions(this.width,
       this.height,
       this.title ,
@@ -98,17 +97,11 @@ updateChartOption(list:Widget){
 }
     setChartOptions(w,h, tilte, textColor:string ,background ,size="6", font ="bold" )
     {
-       
-    return this.chartOptions =  {
+       console.log(this.measur.typeChart);
+           return this.chartOptions =  {
         chart: {
           polar: true,
-          options3d: {
-            enabled: true,
-            alpha: 15,
-            beta: 15,
-            depth: 50,
-            viewDistance: 25
-        },
+         
      type: this.measur.typeChart,
      height: h ,
      width: w,
@@ -204,6 +197,7 @@ measureValue(list,measur:MeasureValue){
 var nbZero;
 var preDate=0;
 var year_Month_Day =[];
+var total =0;
 /* zero left */
 var normalizeNameYaxe=     this.normalizeName(measur.nameXAxe);
 preDate=this.getYearsMonthDayFromData(list[0]
@@ -225,7 +219,12 @@ preDate=this.getYearsMonthDayFromData(list[0]
 
 */
 
+
    list.forEach((element )=> {
+     if(measur.paramMethodeMaseur =="all")
+     total= list.length;
+    else
+    total= total+element["price"];
 
  preDate=year_Month_Day[measur.by];
 
@@ -256,19 +255,29 @@ zeroRigth
 
      measur.x.push(year_Month_Day[measur.by]);
      if(measur.paramMethodeMaseur =="all")
-     measur.y.push(1);
+   {  measur.y.push(1);
+    }
+
      else
-     measur.y.push(element["price"]);
+ {    
+   measur.y.push(element["price"]);
+    }
      position++;
 
    }
    else
 {  
       if(measur.paramMethodeMaseur =="all")
-      measur.y[this.measur.x.indexOf(year_Month_Day[measur.by]) ]++;
+      {  
+     measur.y[this.measur.x.indexOf(year_Month_Day[measur.by]) ]++;
+      }
 
       else
-      measur.y[this.measur.x.indexOf(year_Month_Day[measur.by]) ]+=element["price"];
+      {      
+  measur.y[this.measur.x.indexOf(year_Month_Day[measur.by]) ]+=element["price"];
+  console.log(total);
+      }
+
 }   });
 
    this.paramsDate.forEach(parm=>{
@@ -277,7 +286,8 @@ zeroRigth
    });
    if(measur.methodeOfMaseur =='2')
    measur.y.forEach((y,index)=>{
-    measur.y[index]= (y/5)*100;
+    measur.y[index]= (y/total)*100;
+
    })
 
   this.chartOptions =  {
@@ -289,7 +299,7 @@ categories: this.measur.x,
 tickmarkPlacement: 'on',
 title: {
   
- text: `The Curve Function Is Expressed By The ${measur.by != '' ? measur.by: 'x' } Of The ${ measur.nameXAxe != '' ? measur.valueNameXaxe: 'x'}`
+ text: `The Curve Function Is Expressed By The ${measur.by !== '' ? measur.by: 'x' } Of The ${ measur.nameXAxe != '' ? measur.valueNameXaxe: 'x'}`
  ,
 
     enabled: true,
@@ -307,7 +317,7 @@ yAxis: {
 
 
 series: [{
-name: this.measur.nameLine,
+name: measur.nameLine,
 data:   this.measur.y},
 
 ]};

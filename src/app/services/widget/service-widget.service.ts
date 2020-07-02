@@ -23,6 +23,7 @@ export interface ParamDate {
   param:string;
   value:string;
 }
+
 @Injectable({
   providedIn: 'root'
 })
@@ -36,7 +37,7 @@ private DomainName=GlobalConstants.DomainName ;
 private apiURL=GlobalConstants.apiURL ; 
 methodsMeasur:MethodMeasur [] = [{name:'Rate',value:'1'},{name:'Percentage',value:'2'}];
 paramsDate:ParamDate [] = [{param:'Years',value:'0'},{param:'Months',value:'1'},{param:'Days',value:'2'}];
-
+chartType = ["area","column","line"];
 screenHeight: number;
 screenWidth: number;
     propertysForSessiontype :SessionType[] =[] ;
@@ -69,7 +70,8 @@ screenWidth: number;
     {value:"greater than",name:"gt"},
     {value:"lower than or equal",name:"lte"},
     {value:"greater than or equal",name:"gte"}
-  ]
+  ];
+  
   this.booleanFilterProperty = [ 
      {value:"Active",name:"1"},
     {value:"Deactivate",name:"0"}
