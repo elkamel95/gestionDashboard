@@ -37,10 +37,7 @@ export interface MethodMeasur {
   name:string;
   value:string;
 }
-export interface ParamDate {
-  param:string;
-  value:string;
-}
+
 export class Filter {
   by: string;index: number ;val:string;
 }
@@ -94,6 +91,7 @@ public attribute                    :any ;
 public indexOfUpdateRequest?:number=null;
 dynamicArrayProperty = [];
 dynamicArray =false;
+
   measur :MeasureValue = new MeasureValue();
   chartType:Array<String> = this.serviceWidge.chartType;
 originalUrl :string=""; 
@@ -132,8 +130,8 @@ font_style =[
 "lighter","normal","unset"
 ];
 methodsMeasur:MethodMeasur [] ;
-paramsDate:ParamDate [] ;
-
+paramsDate= [] ;
+ nextCondition =0;
 action                              : string;
 local_data                          : any;
 ControleForm                        : FormGroup;
@@ -244,11 +242,9 @@ if(this.data.url !=undefined)
 var paramTypeGraphic:ModelGraphic ;
     this.update                     = true ;
     this.and                        = "&"
-    this.enterPoint                 = this.data.url.substring(  0,  this.data.url.indexOf("?")+1);
-   var index                        = this.enterPoint.indexOf('/');
-   var  entity                     = this.enterPoint.substring(  index+1,  this.data.url.indexOf("?"));
+    this.enterPoint                 = this.data.url.substring(  0,  this.data.url.indexOf("?"));
    
-   this.getEntityByName( entity  );
+   this.getEntityByName( this.enterPoint  );
    dynamicType=this.data.url.charAt(0)=="!" ? true : false ; 
    if(this.data.type === '4')
    {
@@ -341,7 +337,7 @@ else if(array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"))!='$str
   translateValueToNameFromXml(attributeName ):string{
  
     var value                       = "";
-    this.xml.xmlItems[this.index].attributes.forEach(attribute => {
+    this.xmlEntites[this.index].attributes.forEach(attribute => {
 
 
       if( attribute.$.name.toString() === attributeName.toString())  
@@ -389,7 +385,7 @@ else if(array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"))!='$str
   }
   setChartOptions()
   {
-
+    
 return this.chartOptions =  {
         chart: {
      type                           : this.modelGraphic.typeChart,
@@ -419,7 +415,7 @@ return this.chartOptions =  {
   categories: [1,2,3,4,5,6,7],
   tickmarkPlacement: 'on',
   title: {
-   text: `the curve function is expressed by the ${this.modelGraphic.by != '' ?this.modelGraphic.by: 'x' } of the ${ this.modelGraphic.xAxe && this.modelGraphic.xAxe.name!= '' ?this.modelGraphic.xAxe.name: 'x'}`,
+   text: `The curve function is expressed by the ${this.modelGraphic.by !=undefined && this.modelGraphic.by !=''? this.modelGraphic.by : 'Name line '} of the ${ this.modelGraphic.xAxe !=undefined && this.modelGraphic.xAxe.name!= '' ?this.modelGraphic.xAxe.value: 'Name Y Axe'}`,
   
       enabled: true,
      }
@@ -443,14 +439,14 @@ return this.chartOptions =  {
 
  }
  async doAction(){
-   const nextCondition = Number.parseInt(`${ Number.parseInt(this.data.type ) != 4 ? 2 : 3}`)  ;
-   console.log(nextCondition);
-    if(this.next <=nextCondition && this.data.nameFr&&this.data.nameEn && this.data.description )
+    this.nextCondition = Number.parseInt(`${ Number.parseInt(this.data.type ) != 4 ? 2 : 3}`)  ;
+   console.log("nextCondition:"+this.nextCondition);
+    if(this.next <=this.nextCondition && this.data.nameFr&&this.data.nameEn && this.data.description )
     this.next++;
-console.log(nextCondition);
-    if(this.data.nameFr&&this.data.nameEn && this.data.description && this.next == nextCondition ) 
+
+    if(this.data.nameFr&&this.data.nameEn && this.data.description && this.next == this.nextCondition ) 
   {  
-    this.next=nextCondition;
+    this.next=this.nextCondition-1;
     this.spinner=true;
 
 
@@ -462,7 +458,7 @@ console.log(nextCondition);
   this.enterPoint                 = this.isDynamic? '!'+filterDynamicDate+this.enterPoint:this.enterPoint;
   this.data.url                 = this.enterPoint+ (this.cryptageUrl().charAt(this.cryptageUrl().length-1)=='&'? this.cryptageUrl().substring(0,this.cryptageUrl().length-1):this.cryptageUrl()) ;
 
-  if (this.data.type)
+  if (this.data.type =='4')
 {  var urlGraphicPart=`%${this.modelGraphic.xAxe.name},${this.modelGraphic.xAxe.value},${this.modelGraphic.nameYaxe},${this.modelGraphic.nameLine},${this.modelGraphic.by},${this.modelGraphic.methodeOfMaseur},${this.modelGraphic.paramMethodeMaseur},${this.modelGraphic.typeChart}%`
    this.data.url+=urlGraphicPart;
   
@@ -531,11 +527,11 @@ console.log(nextCondition);
   }
   getAttributes(){
 
-              this.attributesValues           = [];
+              this.attributesValues = [];
 
-              this.entity           =  this.xmlEntites[this.index].entities;
+              this.entity=  this.xmlEntites[this.index].entities;
 
-              this.attributes       =  this.xmlEntites[this.index].attributes ;
+              this.attributes =  this.xmlEntites[this.index].attributes ;
 
   var updateFilter:Filter =new Filter() ; 
 
@@ -713,30 +709,33 @@ if(this.requests[index].value.toString().charAt(0)=="#")
       return c1 && c2 ? c1.by === c2.by : c1 === c2; 
     }
   
+    setXaxe($event){
+      console.log($event);
+      this.modelGraphic.xAxe=$event.value;
+    }
+    compareFunction(c1: any, c2:any): boolean {   
+      if(c1 && c2 ? c1.name === c2.name : c1 === c2)
+      return c1 && c2 ? c1.name === c2.name : c1 === c2; 
+    }
   
 
+    getEntityByName(enterpoint){
+    var   index = 0;
 
-getEntityByName(entity){
+      for (   index = 0; index < this.xmlEntites.length-1; index++) {
+        if  (this.xmlEntites[index].entities.enterpoint.toString() === enterpoint.toString())
+        {  
+          this.index= index;
+          break;
+        }  
+        }
+      
+      
+    this.entity=  this.xmlEntites[this.index].entities;
 
-  console.log(entity);
-
-for (  var index = 0; index < this.xml.xmlItems.length-1; index++) {
-  console.log(this.xml.xmlItems[index]);
-
-if  (this.xml.xmlItems[index].entities.name.toString() == entity.toString())
-{  
-  console.log(index);
-
-return index;
-}  
-}
-
-
-this.index=index;
-console.log(this.index);
-this.attributes       =  this.xmlEntites[this.index].attributes ;
-return this.xml.xmlItems[index].entities.name.toString() ; 
-}
+    this.attributes       =  this.xmlEntites[this.index].attributes ;
+    return   this.entity.name.toString() ; 
+    }
 
 getAttributByName(attributName){
   var index      

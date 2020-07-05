@@ -57,8 +57,8 @@
           </mat-form-field>
     
         </mat-card>    
-     <div fxLayout="column" >
-      <mat-accordion class="mat-elevation-z8" fxFlex="100%" fxFlexFill>
+     <div fxLayout="column" fxFlex="100%" fxFlexFill>
+      <mat-accordion class="mat-elevation-z8" fxLayout="column" fxFlex="100%" fxFlexFill fxFlexAlign="start" >
         
         <mat-expansion-panel *ngFor="let widget of listWidget " (afterExpand)="visibilityWidgetForm(widget)" >
           <mat-expansion-panel-header collapsedHeight="100px">
@@ -106,7 +106,7 @@
 
           </div>
           <div [ngSwitch]="widget.type ">
-            <div *ngSwitchCase="1">
+            <div *ngSwitchCase="1" fxFlex="100%" fxFlexFill >
                 <app-indicateur 
                 [backgroundColor]=" widget.backgroundSmallWidget "
                 [textColor] ="widget.textColor"
@@ -118,7 +118,7 @@
                 ></app-indicateur>
               </div>
 
-                <div *ngSwitchCase="2" fxFlex="30%"  fxFlexAlign="center" >
+                <div *ngSwitchCase="2" fxFlex="100%" fxFlexFill  fxFlexAlign="center" >
 
                     <IndicateurListe [backgroundColor]=" widget.backgroundSmallWidget "
                     [textColor] ="widget.textColor"

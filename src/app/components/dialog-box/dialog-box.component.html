@@ -139,7 +139,7 @@ fxLayoutAlign="start start">
 
 
 </div>
-<div fxLayout="column"  fxLayoutAlign="space-around start"   fxFlex='15'>
+<div fxLayout="column"  fxLayoutAlign="space-around start"    fxFlex='15'>
 
   <div fxLayout="row"  fxLayoutAlign="space-around start" >
     <mat-label  fxFlexAlign="center" class="text-color">Text Color:<i style=" color: #ffa000;">*</i> </mat-label>
@@ -290,7 +290,7 @@ fxLayoutAlign="start start">
 
 </div>
 </ng-container>
-<ng-container *ngIf="next == 1">
+<ng-container *ngIf="next == 1  ">
   <div fxLayout="column"   fxFlex="100" style="margin-top: -9%;">
 
   <div fxLayout="row"  fxLayoutAlign="start space-around "   fxLayoutGap="20px"
@@ -382,7 +382,7 @@ fxLayoutAlign="start start">
 
     <mat-form-field>
       <mat-label>{{labelDate}} </mat-label>
-      <input matInput [matDatepicker]="picker" [(ngModel)]="dateValue" #date [disabled]= "property?property.charAt(0)=='#'?true:false :false" required>
+      <input matInput [matDatepicker]="picker" [(ngModel)]="dateValue" #date [disabled]= "property.length > 0 ? property.charAt(0)=='#'? true:false :false" required>
       <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
@@ -463,7 +463,7 @@ fxLayoutAlign="start start">
 <hr>
 </div>
 </ng-container>
-<ng-container *ngIf="next == 2">
+<ng-container *ngIf="next >= 2 && data.type== '4'">
   <div fxLayout="column"  fxFlex="100" style="margin-top: -9%;">
 
   <div fxLayout="column"  
@@ -477,7 +477,7 @@ fxLayoutAlign="start start">
               <mat-label  fxFlexAlign="center" class="text-color">As a function of :<i style=" color: #ffa000;">*</i> </mat-label>
 
               <mat-form-field>
-              <mat-select  fxFlex  [(ngModel)]="modelGraphic.xAxe" [compareWith]="compareFn">
+              <mat-select  fxFlex  [(ngModel)]="modelGraphic.xAxe" (selectionChange)= "setXaxe($event);" [compareWith]="compareFunction">
                 <ng-container *ngFor="let attribute of attributes  let index =index ; " >
 
                   <mat-option  *ngIf=" attribute.$.type === 'date' " 
@@ -497,8 +497,8 @@ fxLayoutAlign="start start">
             <mat-form-field>
             <mat-select  fxFlex  [(ngModel)]="modelGraphic.by" >
 
-                <mat-option  *ngFor="let params of paramsDate"  [value] ="params.value">
-                  {{params.param}}
+                <mat-option  *ngFor="let params of paramsDate"  [value] ="params">
+                  {{params}}
             
                 </mat-option>
           
@@ -523,11 +523,11 @@ fxLayoutAlign="start start">
           </div>
 </div>
   <div fxLayout="row"   fxFlex fxLayoutAlign="center center" fxLayoutGap="5px">
-    <div fxLayout="row" fxFlex  >
+    <div fxLayout="row"  >
 
-      <mat-label  fxFlexAlign="center"  class="text-color">Measuring Method :<i style=" color: #ffa000;">*</i> </mat-label>
+      <mat-label  fxFlexAlign="center" fxFlex ="50%" class="text-color">Measuring Method :<i style=" color: #ffa000;">*</i> </mat-label>
     
-    <mat-form-field>
+    <mat-form-field fxFlexAlign="center">
         <mat-select [(ngModel)]="modelGraphic.methodeOfMaseur" >
         <mat-option *ngFor="let methods of methodsMeasur"  [value]="methods.value">
        {{methods.name}}
@@ -537,7 +537,7 @@ fxLayoutAlign="start start">
      
       </div>
     
-          <div fxLayout="row" fxFlex  >
+          <div fxLayout="row" fxFlex ="100%"  >
 
           <mat-label  fxFlexAlign="center" class="text-color">Methode Of Maseur :<i style=" color: #ffa000;">*</i> </mat-label>
         <mat-form-field>
@@ -555,7 +555,7 @@ fxLayoutAlign="start start">
         </mat-form-field>
         
           </div>
-          <div fxLayout="row" fxFlex  >
+          <div fxLayout="row" fxFlex ="100%"   >
 
             <mat-label  fxFlexAlign="center"  class="text-color"> Chart Type<i style=" color: #ffa000;">*</i> </mat-label>
 
@@ -582,7 +582,7 @@ fxLayoutAlign="start start">
             </mat-form-field>
           
               </div>
-          <div fxLayout="row"  fxFlex  >
+          <div fxLayout="row"  fxFlex ="100%"  >
   <mat-label  fxFlexAlign="center" class="text-color">{{indexOfUpdateRequest == null ? 'Add' : 'Edit'}} :<i style=" color: #ffa000;">*</i> </mat-label>
 
   <button  mat-button [color]=" indexOfUpdateRequest == null ? 'accent' : 'primary' " 

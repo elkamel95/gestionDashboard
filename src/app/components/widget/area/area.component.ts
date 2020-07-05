@@ -4,10 +4,8 @@ import { ServiceWidgetService } from 'src/app/services/widget/service-widget.ser
 import { Widget } from 'src/app/models/Widget';
 import { parse } from 'date-fns';
 import { UpperCasePipe } from '@angular/common';
-export interface ParamDate {
-  param:string;
-  value:string;
-}
+import { style } from '@angular/animations';
+
 export class MeasureValue{
 x:Array<any>=[];
 y:Array<any>=[];
@@ -39,16 +37,14 @@ export class AreaComponent   implements OnInit {
    leadingRightZeros =true ; 
 right
 rzeroValue =false ; 
-
+indexOfTypeOfDate=0;
   @Input() url:string;
   public valueWidget 
   public loadedData =false ; 
   @Input()  measur :MeasureValue = new MeasureValue();
-  paramsDate: ParamDate[];
     entity="";
    @Input() Highcharts =Highcharts ;
   constructor(protected serviceWidget:ServiceWidgetService) { 
-    this.paramsDate=serviceWidget.paramsDate ; 
 }
 
 
@@ -95,7 +91,7 @@ updateChartOption(list:Widget){
  
 
 }
-    setChartOptions(w,h, tilte, textColor:string ,background ,size="6", font ="bold" )
+    setChartOptions(w,h, tilte, textColor:string ,background ,size, font  )
     {
        console.log(this.measur.typeChart);
            return this.chartOptions =  {
@@ -132,25 +128,40 @@ updateChartOption(list:Widget){
     categories: this.measur.x == [] ? [1,2,3,4,5,6,7]: this.measur.x,
     tickmarkPlacement: 'on',
     title: {
-      text: `The Curve Function Is Expressed By The ${this.measur.by != '' ? this.measur.by: 'x' } Of The ${ this.measur.nameXAxe != '' ? this.measur.valueNameXaxe: 'x'}`
-,    color: textColor,
 
+      text: `The Curve Function Is Expressed By The ${this.measur.by != undefined && this.measur.by != '' ? this.measur.by: 'Name line' } Of The ${ this.measur.nameXAxe != undefined &&  this.measur.nameXAxe != ''  ? this.measur.valueNameXaxe: 'As a function of'}`
+,       style: {
+            color: this.textColor,
+            fontFamily: 'Trebuchet MS, Verdana, sans-serif'
+
+} ,
         enabled: true,
-       }
+       },
+       labels: {
+        style: {
+            color: this.textColor,
+        }
+    }
     },
 
     yAxis: {
+
     title: {
      enabled: true,
     
         text: `${this.measur.nameYAxe } (${this.measur.paramMethodeMaseur})`,
-        color: textColor
+        color: this.textColor,
+        style: {
+          color: this.textColor,
+          fontFamily: 'Trebuchet MS, Verdana, sans-serif'
+
+       }    
 
        },  labels: {
-        format: this.measur.methodeOfMaseur == '2'? "{value}%":"{value}"
-
+        format: this.measur.methodeOfMaseur == '2'? "{value}%":"{value}",
+          style:{color : this.textColor}  ,
       }
-    
+      
     },
     
     
@@ -183,16 +194,28 @@ updateChartOption(list:Widget){
     this.measur.methodeOfMaseur =parmamsTypeGraphicFromUrl[5];
     this.measur.paramMethodeMaseur =parmamsTypeGraphicFromUrl[6];
     this.measur.typeChart=parmamsTypeGraphicFromUrl[7]
-console.log(this.measur)
-console.log()
+
+switch (this.measur.by) {
+  case "Years":this.indexOfTypeOfDate=0; 
+    
+    break;
+    case "Months": this.indexOfTypeOfDate=1; 
+    
+    break;
+    case "Days": this.indexOfTypeOfDate=2; 
+    
+    break;
+  default:
+    break;
+}
 
    this.serviceWidget.getAnythingWithTypeGraphic( `${this.url.substring(0,this.url.indexOf("%"))}&order[created_at]=asc`,false).subscribe(list=>{
      this.valueWidget=list;
-     this.measureValue(list, this.measur);
+     this.measureValueByDate(list, this.measur);
              },()=>{},()=>{this.loadedData=false});
 
 }
-measureValue(list,measur:MeasureValue){
+measureValueByDate(list,measur:MeasureValue){
  var position = 0; 
 var nbZero;
 var preDate=0;
@@ -204,7 +227,7 @@ preDate=this.getYearsMonthDayFromData(list[0]
   ,normalizeNameYaxe);
 
 
-  if(measur.by !="0")
+  if(this.indexOfTypeOfDate !=0)
   for (let index = 1; index < preDate[measur.by]; index++) {
     var margeAxeX=index;
    measur.x.push(margeAxeX);
@@ -224,20 +247,20 @@ preDate=this.getYearsMonthDayFromData(list[0]
      if(measur.paramMethodeMaseur =="all")
      total= list.length;
     else
-    total= total+element["price"];
+    total= total+element[measur.paramMethodeMaseur];
 
- preDate=year_Month_Day[measur.by];
+ preDate=year_Month_Day[this.indexOfTypeOfDate ];
 
   year_Month_Day =this.getYearsMonthDayFromData(element,normalizeNameYaxe);
       //getMonth ...
-     if (measur.x.indexOf(year_Month_Day[measur.by]) == -1 )
+     if (measur.x.indexOf(year_Month_Day[this.indexOfTypeOfDate]) == -1 )
    {   
 /* 
 
 zeroRigth
 */
 
-  nbZero=(year_Month_Day[measur.by]-preDate);
+  nbZero=(year_Month_Day[this.indexOfTypeOfDate]-preDate);
      if( nbZero>1)
      {
        for (let index = 1; index < nbZero-1; index++) {
@@ -253,14 +276,14 @@ zeroRigth
 
 */
 
-     measur.x.push(year_Month_Day[measur.by]);
+     measur.x.push(year_Month_Day[this.indexOfTypeOfDate]);
      if(measur.paramMethodeMaseur =="all")
    {  measur.y.push(1);
     }
 
      else
  {    
-   measur.y.push(element["price"]);
+   measur.y.push(element[measur.paramMethodeMaseur]);
     }
      position++;
 
@@ -269,24 +292,22 @@ zeroRigth
 {  
       if(measur.paramMethodeMaseur =="all")
       {  
-     measur.y[this.measur.x.indexOf(year_Month_Day[measur.by]) ]++;
+     measur.y[this.measur.x.indexOf(year_Month_Day[this.indexOfTypeOfDate]) ]++;
       }
 
       else
       {      
-  measur.y[this.measur.x.indexOf(year_Month_Day[measur.by]) ]+=element["price"];
+  measur.y[this.measur.x.indexOf(year_Month_Day[this.indexOfTypeOfDate]) ]+=element[measur.paramMethodeMaseur];
   console.log(total);
       }
 
 }   });
 
-   this.paramsDate.forEach(parm=>{
-     if(parm.value ==measur.by)
-     measur.by=parm.param;
-   });
+var percentageValue:Number=0;
    if(measur.methodeOfMaseur =='2')
    measur.y.forEach((y,index)=>{
-    measur.y[index]= (y/total)*100;
+    percentageValue=(y/total)*100;
+    measur.y[index]= Number.parseFloat(percentageValue.toFixed(3)) ;
 
    })
 
@@ -298,20 +319,44 @@ xAxis: {
 categories: this.measur.x,
 tickmarkPlacement: 'on',
 title: {
-  
- text: `The Curve Function Is Expressed By The ${measur.by !== '' ? measur.by: 'x' } Of The ${ measur.nameXAxe != '' ? measur.valueNameXaxe: 'x'}`
- ,
+
+ text: `The Curve Function Is Expressed By The ${measur.by !== undefined && measur.by !=='' ? measur.by: 'Name line' } Of The ${ measur.nameXAxe != undefined && measur.nameXAxe != '' ? measur.valueNameXaxe: 'As a function of'}`
+ ,  style: {
+  color: this.textColor,
+  fontFamily: 'Trebuchet MS, Verdana, sans-serif'
+
+} ,
 
     enabled: true,
-   }
+   },
+   labels: {
+    style: {
+        color: this.textColor,
+    }
+},
+style :{
+  title:this.textColor
+}
+
 },
 yAxis: {
+
   title: {
     enabled: true,
    
        text: `${measur.nameYAxe } (${measur.paramMethodeMaseur})`,
-      },  labels: {
-       format: measur.methodeOfMaseur == '2'? "{value}%":"{value}"
+       style: {
+        color: this.textColor,
+
+     }    
+      }
+      ,
+      labels: {
+       format: measur.methodeOfMaseur == '2'? "{value}%":"{value}",
+       percentageDecimals: 1,
+       style: {
+        color: this.textColor,
+    }
    }},
    
 
