@@ -7,6 +7,7 @@ import { ServiceWidgetService } from 'src/app/services/widget/service-widget.ser
 import { Widget } from 'src/app/models/Widget';
 import { AuthenticationService } from 'src/app/services/Auth/authentication-service.service';
 import { DialogDeleteComponent } from 'src/app/components/dialog-delete/dialog-delete.component';
+import { NgxSpinnerService } from "ngx-spinner";
 
 
 
@@ -36,16 +37,14 @@ export class WidgetTableComponent implements OnInit  ,AfterViewChecked{
  displayedColumns: string[] = ['select','position','icon' , 'name', 'description', 'Type' ,'date','dateUpadet'];
   nb =1 ; 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-  pageEvent: PageEvent;
 order ="desc";
 groupe ="updateAt";
 title ="";
-  constructor(public dialog: MatDialog ,private authenticationService: AuthenticationService,private ws:ServiceWidgetService) {
-
+  constructor(public dialog: MatDialog ,private authenticationService: AuthenticationService,private ws:ServiceWidgetService,private spinnerService:NgxSpinnerService) {
+    this.pageIndex=0;
     ws.refreshneeded.subscribe(()=>{
   
       this.getData(1,5);
-      this.paginator.firstPage();
     });
   
     this.getData(1,5);
@@ -136,19 +135,17 @@ title ="";
    widget.id =null ;
        this.ws.postWidget(widget);
     }
-    setNewData($event:PageEvent){
-if(this.pageSize!=$event.pageSize){
-  this.getData($event.pageIndex+1 ,$event.pageSize);
-
-  this.pageSize=$event.pageSize
-}
-
-     if ($event.pageIndex !=  this.pageIndex)
-   {  
-         this.getData($event.pageIndex+1,$event.pageSize);
-   this.pageIndex = $event.pageIndex;
+    setNewData(event?){
+      if (event)
+      {
+        this.pageIndex=event.pageIndex;
+        this.pageSize=event.pageSize;
+      
+      }
+ 
+         this.getData(this.pageIndex+1, this.pageSize);
   
-  }
+
      }
 
      search(event) {
@@ -171,7 +168,7 @@ this.getData(1,5);
 
 getData(nb,pageSize){
 
-  this.spinner =false ;
+  this.spinnerService.show();
   this.ws.getAllWidgetDashbord(nb,pageSize,this.groupe,this.order,this.title).subscribe(
     listWidget=>{
 if(listWidget.length != 0 )
@@ -186,8 +183,7 @@ if(listWidget.length != 0 )
 
   },()=>{
 
-    this.spinner =true ;
-
+    this.spinnerService.hide();
 
 
   }

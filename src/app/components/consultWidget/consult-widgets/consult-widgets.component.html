@@ -186,9 +186,24 @@
 -->
 
     </div>
-      <div fxFlexOrder="1" [hidden]="spinner " class="spinner-position ">
-        <app-spinner ></app-spinner>
-      </div>
+    <ngx-spinner
+    bdColor="rgba(255,255,255,0.9)"
+    color="#fff"
+    [fullScreen] = "true"
+    
+    >
+    <div fxLayout="column"  fxLayoutAlign="center center">
+    <img src='../../../assets/icon/loading2.svg' />
+    <div fxLayout="row" style="margin-top: -30%;" fxLayoutAlign="center center">
+    <p>
+      Loading
+    </p>
+    <img src='../../../assets/icon/loadingText.svg' />
+    </div>    
+    
+    </div>
+    
+    </ngx-spinner>  
 </mat-dialog-content>
 <mat-dialog-actions align="end" *ngIf="isActive ">
   <button  mat-stroked-button color="warn" mat-dialog-close matTooltip="Cancel">Cancel</button>

@@ -21,7 +21,7 @@ hiddenIconConfig=false;
   constructor(  private serviceWidget:ServiceWidgetService,   private router: Router,
     private authenticationService: AuthenticationService ,
     private _compiler: Compiler) { 
-      this.isOpen=true ;
+      this.isOpen=false ;
       this.serviceWidget.currentDispotionRep.subscribe(drags=>{
         if(this.isRun && !drags.drag )
       {  this.isOpen = false ;

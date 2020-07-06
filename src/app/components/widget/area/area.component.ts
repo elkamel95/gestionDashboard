@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChildren } from '@angular/core';
+import { Component, OnInit, Input, ViewChildren, Output,EventEmitter } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import { ServiceWidgetService } from 'src/app/services/widget/service-widget.service';
 import { Widget } from 'src/app/models/Widget';
@@ -41,6 +41,7 @@ indexOfTypeOfDate=0;
   @Input() url:string;
   public valueWidget 
   public loadedData =false ; 
+  @Output() loaded:EventEmitter<string> = new EventEmitter<string>();
   @Input()  measur :MeasureValue = new MeasureValue();
     entity="";
    @Input() Highcharts =Highcharts ;
@@ -212,7 +213,9 @@ switch (this.measur.by) {
    this.serviceWidget.getAnythingWithTypeGraphic( `${this.url.substring(0,this.url.indexOf("%"))}&order[created_at]=asc`,false).subscribe(list=>{
      this.valueWidget=list;
      this.measureValueByDate(list, this.measur);
-             },()=>{},()=>{this.loadedData=false});
+             },()=>{},()=>{this.loadedData=false
+              this.loaded.emit("graphique");
+            });
 
 }
 measureValueByDate(list,measur:MeasureValue){

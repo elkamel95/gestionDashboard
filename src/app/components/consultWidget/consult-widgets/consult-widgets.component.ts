@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ServiceWidgetService } from 'src/app/services/widget/service-widget.service';
 import { Widget } from 'src/app/models/Widget';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-consult-widgets',
@@ -30,7 +31,7 @@ export class ConsultWidgetsComponent  {
   pageSize = 5;
   pageSizeOptions: number[] = [2, 10, 25, 100];
   pageIndex=0;
-  constructor(private ws:ServiceWidgetService) { 
+  constructor(private ws:ServiceWidgetService,private spinnerService:NgxSpinnerService) { 
     this.pageSize = 5;
     this.pageIndex=0;
 
@@ -48,15 +49,17 @@ if (event)
   this.pageSize=event.pageSize;
 
 }
-    this.spinner =false ;
-    this.ws.getAllWidgetDashbord(this.pageIndex+1,this.pageSize,this.groupe,this.order,this.title).subscribe(
+    this.spinnerService.show();
+        this.ws.getAllWidgetDashbord(this.pageIndex+1,this.pageSize,this.groupe,this.order,this.title).subscribe(
       listWidget=>{
   if(listWidget.length != 0 )
      {  
       this.listWidget =listWidget['hydra:member'];
  console.log(this.listWidget);
       this.length=  listWidget['hydra:totalItems'];
-    }}, error=>{},()=>{ this.spinner =true ;
+    }}, error=>{},()=>{ 
+      this.spinnerService.hide();
+
       this.isActive=true}
     
     

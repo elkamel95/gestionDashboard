@@ -12,9 +12,9 @@
      cdkDragBoundary=".example-boundary"  
            [fxLayout]="modeLayout.indicateur"  fxLayoutGap="25px" 
 
-      *ngFor="let item of WidgetIndicator  "  >
+      *ngFor="let item of WidgetIndicator ;let last = last; let i = index "  >
       <div  
-             *ngFor="let list of item ; let index = index  ; "      
+             *ngFor="let list of item ; let lastOflist = last; let index = index  ;"      
 
 
             cdkDragBoundary=".example-boundary"
@@ -25,9 +25,11 @@
              [ngStyle]="   modeLayout.postions ? {'transform': 'translate(' +  list.positionLeft+ ', ' + list.positionRight  + ')', order:'' } : null "
 
            > 
-<ng-container *ngIf="list.type == 1; else elseTemplate" >
 
+<ng-container *ngIf="list.type == 1; else elseTemplate" >
     <app-indicateur  matRipple
+    (loaded)="WidgetList.length==0 && WidgetGraphique.length==0  && lastOflist && last ? hiddenLoadSpinner($event) : null" 
+
     matRippleColor="#00000029" (click)="setWidgetToUpdate(list)"[backgroundColor]=" list.backgroundSmallWidget "
     [textColor] ="list.textColor"
      [width] ="list.width"
@@ -42,7 +44,10 @@
    ></app-indicateur>
 </ng-container>
 <ng-template #elseTemplate>
-    <IndicateurListe  (click)="setWidgetToUpdate(list)" 
+    <IndicateurListe
+    (loaded)="WidgetList.length==0 && WidgetGraphique.length==0 && lastOflist && last ? hiddenLoadSpinner($event) : null" 
+
+    (click)="setWidgetToUpdate(list)" 
     [backgroundColor]=" list.backgroundSmallWidget "
     [textColor] ="list.textColor"
     [width] ="list.width"
@@ -68,10 +73,10 @@
     
     [fxFlexOrder]="  modeLayout.postions ? '' : letters[1] "   
       [fxLayout]="modeLayout.list " fxLayoutGap="50px"
-       *ngFor="let item of WidgetList  "
+       *ngFor="let item of WidgetList; let last = last; "
 
       >
-        <div     *ngFor="let list of item ; let index = index  ; "       
+        <div     *ngFor="let list of item ; let index = index  ; let lastOflist = last;"       
         [ngClass]="{'cursor-move': !modeLayout.drag}"
 
         cdkDragBoundary=".example-boundary" cdkDrag   
@@ -83,6 +88,8 @@
            
              
                 <widget-list     
+                (loaded)="WidgetGraphique.length==0 && lastOflist && last ? hiddenLoadSpinner($event) : null" 
+
                (click)="setWidgetToUpdate(list)" 
                 [backgroundColor]=" list.backgroundColor "
                 [textColor] ="list.textColor"
@@ -111,10 +118,10 @@
     
     
      
-        fxLayoutGap="10px"  *ngFor="let item of WidgetGraphique  " >
+        fxLayoutGap="10px"  *ngFor="let item of WidgetGraphique ;let last = last; " >
        
 
-        <div  fxFlex  cdkDrag  *ngFor="let list of item ; "     
+        <div  fxFlex  cdkDrag  *ngFor="let list of item ; let i = index ;let lastOflist = last;"     
         cdkDragBoundary=".example-boundary"  
         [ngClass]="{'cursor-move': !modeLayout.drag}"
         [cdkDragDisabled] ="modeLayout.drag"
@@ -123,6 +130,8 @@
            [ngStyle]="   modeLayout.postions ? {'transform': 'translate(' +  list.positionLeft+ ', ' + list.positionRight  + ')' , order:''} : null "
            >
             <app-area   
+            (loaded)=" lastOflist && last ? hiddenLoadSpinner($event) : null" 
+
             [backgroundColor]=" list.backgroundColor "
             [textColor] ="list.textColor"
             [width] ="list.width"
@@ -142,6 +151,25 @@
         </div>
     </div>
     </div>
-    <div *ngIf="!spinner" class="spinner-position">
-      <app-spinner ></app-spinner>
+    <div  >
+      <ngx-spinner
+      bdColor="rgba(255,255,255,0.9)"
+      color="#fff"
+      [fullScreen] = "true"
+      
+    >
+   <div fxLayout="column"  fxLayoutAlign="center center">
+    <img src='../../../assets/icon/loading2.svg' />
+    <div fxLayout="row" style="margin-top: -30%;" fxLayoutAlign="center center">
+      <p>
+        Loading
+      </p>
+      <img src='../../../assets/icon/loadingText.svg' />
+      </div>    
+    
+   </div>
+
+      </ngx-spinner>  
+    
+    
     </div>

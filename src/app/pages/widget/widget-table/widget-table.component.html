@@ -58,9 +58,7 @@
 
     </mat-card>
 
-    <div fxFlexOrder="1" [hidden]="spinner " class="spinner-position ">
-      <app-spinner ></app-spinner>
-    </div>
+  
 <div fxLayoutAlign="center center" fxLayout="column" class="mat-elevation-z8" >
   
   
@@ -147,14 +145,28 @@
 
   </table>
   <mat-paginator [length]="length"
-  (page)="pageEvent = $event" style="width: 99%;" [length]="100"
+  (page)="pageEvent = $event ; setNewData($event)" style="width: 99%;" [length]="100"
   
   [pageSizeOptions]="pageSizeOptions"   [pageSize]="5"
   showFirstLastButtons class="mat-elevation-z8"></mat-paginator>
 </div>
-<div *ngIf="pageEvent"> 
-  {{setNewData(pageEvent)}}
-
 
 </div>
+<ngx-spinner
+bdColor="rgba(255,255,255,0.9)"
+color="#fff"
+[fullScreen] = "true"
+
+>
+<div fxLayout="column"  fxLayoutAlign="center center">
+<img src='../../../assets/icon/loading2.svg' />
+<div fxLayout="row" style="margin-top: -30%;" fxLayoutAlign="center center">
+<p>
+  Loading
+</p>
+<img src='../../../assets/icon/loadingText.svg' />
+</div>    
+
 </div>
+
+</ngx-spinner>  

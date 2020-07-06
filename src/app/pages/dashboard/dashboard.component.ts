@@ -5,7 +5,7 @@ import { CdkDragEnd } from '@angular/cdk/drag-drop';
 import { Dispositions } from 'src/app/models/Dispositions';
 import { ModeDisposition } from 'src/app/models/ModeDisposition';
 import { CookieService } from 'ngx-cookie-service';
-
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-dashboard',
@@ -28,21 +28,22 @@ nbWidgetParLign=2;
 ListIndix = []
  letters = [0 , 1 ,2] ;
   chartOptions: {  };
-
+ind=0;
 
 nameRequirdSession="idUser";
 nameAttributeRequired="users.id";
 typeNumber=3;
-numberOfTypeWidgetLoad=0;
   dragPermission :Boolean; 
   positionLayout :Boolean; 
+  numberWidgetIndicator=0;
+  numberWidgetList=0;
+  numberWidgetGraphique=0;
   @ViewChild('graphiqueComp', { static: false }) public mydiv: ElementRef;
   cookieValue: any;
 
-;  constructor(private serviceWidget:ServiceWidgetService,private cookieService: CookieService) {
+;  constructor(private serviceWidget:ServiceWidgetService,private cookieService: CookieService,private spinnerService:NgxSpinnerService) {
   
   this.serviceWidget.refreshneeded.subscribe(()=>{
-    this.numberOfTypeWidgetLoad=0;
     if( this.modeLayout.nbLigneIn )
     this. getWidgetWithType(`?visible=1&type[]=1&type[]=2&${this.nameAttributeRequired}=${localStorage.getItem(this.nameRequirdSession)}`,"1", this.modeLayout.nbLigneIn);
     if(this.modeLayout.nbLigneList )
@@ -66,7 +67,6 @@ numberOfTypeWidgetLoad=0;
   this.modeLayout.postions=     false ;
 
 
-   
 
   }
 
@@ -76,7 +76,6 @@ numberOfTypeWidgetLoad=0;
 
   ngOnInit() {
     this.serviceWidget.refreshneededDataReset.subscribe(()=>{
-      this.numberOfTypeWidgetLoad=0;
 
       if( this.modeLayout.nbLigneIn )
       this. getWidgetWithType(`?visible=1&type[]=1&type[]=2&${this.nameAttributeRequired}=${localStorage.getItem(this.nameRequirdSession)}`,"1", this.modeLayout.nbLigneIn);
@@ -90,7 +89,6 @@ numberOfTypeWidgetLoad=0;
     
     });
     this.serviceWidget.currentDispotionRep.subscribe(layout=>{
-      this.numberOfTypeWidgetLoad=0;
 
       if(layout.nbLigneIn && this.modeLayout.nbLigneIn != layout.nbLigneIn)
       this. getWidgetWithType(`?visible=1&type[]=1&type[]=2&${this.nameAttributeRequired}=${localStorage.getItem(this.nameRequirdSession)}`,"1",layout.nbLigneIn );
@@ -170,6 +168,8 @@ this.serviceWidget.setCurrentWidgetUpdate(this.WidgetToUpdate);
 
  getWidgetWithType(property,indexType,nbWidgetParLign) {
   this.spinner =false;
+  this.spinnerService.show();
+
     this.serviceWidget.getAllWidget(property).subscribe(widget=>{
     let   index = 0;
     let i =0 ;
@@ -205,33 +205,29 @@ this.serviceWidget.setCurrentWidgetUpdate(this.WidgetToUpdate);
       if(playStore.length != 0)
         listWidget.push(playStore);
 if(indexType == 1 )
-{this.WidgetIndicator=  listWidget;
+{
+  this.WidgetIndicator=  listWidget;
   this.setWidgetToUpdate(listWidget[0][0]);
-  this.spinner=false;
-
 }
 else if(indexType == 3)
-
 {
   this.WidgetList=  listWidget;
-  this.spinner=false;
-
 }
 else if(indexType == 4)
-{this.WidgetGraphique=  listWidget;
-  this.spinner=false;
-
-
+{
+  this.WidgetGraphique=  listWidget;
 }
 
-    }},()=>{},()=>{
-      console.log(this.numberOfTypeWidgetLoad)
-    if  (this.numberOfTypeWidgetLoad == 2 )
-      this.spinner=true;
-      this.numberOfTypeWidgetLoad++;
-
+    }},()=>{},
+    ()=>{
+      this.spinnerService.show();
     });
-  }
 
+  }
+  hiddenLoadSpinner($event){
+    console.log("hiddenLoadSpinner"+$event);
+    this.spinnerService.hide();
+
+  }
 
 }

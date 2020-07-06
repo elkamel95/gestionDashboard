@@ -58,7 +58,7 @@ import { BoxRequestComponent } from 'src/app/components/box-request/box-request.
 import { LienToListWidgetComponent } from 'src/app/components/widget/lien-to-list-widget/lien-to-list-widget.component';
 import { ConsultWidgetsComponent } from 'src/app/components/consultWidget/consult-widgets/consult-widgets.component';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-
+import { NgxSpinnerModule } from "ngx-spinner";
 @NgModule({
   declarations: [
     LayoutDashboardComponent,
@@ -100,7 +100,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     MatToolbarModule,
     FlexLayoutModule,
     MatExpansionModule,
-
+    NgxSpinnerModule,
   MatDatepickerModule,
   MatNativeDateModule,
     MatButtonModule,

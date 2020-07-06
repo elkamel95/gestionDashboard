@@ -40,7 +40,7 @@ import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
    CookieService,
    XmlService,
-PickDateAdapter,
+   PickDateAdapter,
 {provide: DateAdapter, useClass: PickDateAdapter},
 {provide: MAT_DATE_FORMATS, useValue: PICK_FORMATS}
     // provider used to create fake backend

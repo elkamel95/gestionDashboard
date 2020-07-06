@@ -33,6 +33,7 @@
     "mat-color-picker": "^1.4.3",
     "material-community-components": "3.4.0",
     "ngx-cookie-service": "^2.2.0",
+    "ngx-spinner": "^8.1.0",
     "rxjs": "~6.4.0",
     "rxjs-compat": "^6.5.4",
     "timers": "^0.1.1",

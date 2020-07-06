@@ -1,4 +1,4 @@
-import {  ViewChild, Input, Optional, Inject, Injectable } from '@angular/core';
+import {  ViewChild, Input, Optional, Inject, Injectable, EventEmitter, Output } from '@angular/core';
 import { MatPaginator, MatTableDataSource, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { Widget } from 'src/app/models/Widget';
 import { ServiceWidgetService } from 'src/app/services/widget/service-widget.service';
@@ -23,6 +23,8 @@ export class WidgetList    {
 @Input() height;
 @Input() font;
 @Input() url:string;
+@Output() loaded:EventEmitter<string> = new EventEmitter<string>();
+
 progressBar = false ; 
 list  = [] ;
 entity: string="";
@@ -113,7 +115,7 @@ for (  index  > 0; index-- ;) {
 
     },()=>{}, () => {
       this.progressBar = true;
-
+this.loaded.emit("list");
  });
  /*this.syncData(url);*/
 

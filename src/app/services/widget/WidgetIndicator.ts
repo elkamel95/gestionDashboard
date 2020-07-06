@@ -1,4 +1,4 @@
-import { OnInit, Input, Injectable } from '@angular/core';
+import { OnInit, Input, Injectable, EventEmitter, Output } from '@angular/core';
 import { ServiceWidgetService } from 'src/app/services/widget/service-widget.service';
 
 
@@ -19,6 +19,7 @@ export class WidgetIndicator implements OnInit {
 @Input() url:string;
 public valueWidget :number=0;
 public loadedData =true ; 
+@Output() loaded:EventEmitter<string> = new EventEmitter<string>();
 
   entity="";
 
@@ -62,7 +63,9 @@ public loadedData =true ;
     this.serviceWidget.getAnything( this.url,false).subscribe(list=>{
       this.valueWidget = list.length ; 
               
-              },()=>{},()=>{this.loadedData=false});
+              },()=>{},()=>{this.loadedData=false
+              this.loaded.emit("indicator");
+              });
 
 }
 
