@@ -147,7 +147,7 @@
                       [title]="widget.nameFr" 
                       [size] ="widget.size"
                       [font]="widget.font"
-                      [backgroundColor]=" widget.backgroundColor " [chartOptions]="chartOptions">
+                      [backgroundColor]=" widget.backgroundColor " subtitle="Un Exemple D'Aperçu" [measur]="measur" [chartOptions]="chartOptions">
                   </app-area>
                   </mat-card>
                 </div>
@@ -192,16 +192,8 @@
     [fullScreen] = "true"
     
     >
-    <div fxLayout="column"  fxLayoutAlign="center center">
-    <img src='../../../assets/icon/loading2.svg' />
-    <div fxLayout="row" style="margin-top: -30%;" fxLayoutAlign="center center">
-    <p>
-      Loading
-    </p>
     <img src='../../../assets/icon/loadingText.svg' />
-    </div>    
-    
-    </div>
+
     
     </ngx-spinner>  
 </mat-dialog-content>

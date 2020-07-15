@@ -45,6 +45,7 @@ indexOfTypeOfDate=0;
   @Input()  measur :MeasureValue = new MeasureValue();
     entity="";
    @Input() Highcharts =Highcharts ;
+   @Input() subtitle:string='';
   constructor(protected serviceWidget:ServiceWidgetService) { 
 }
 
@@ -69,7 +70,6 @@ indexOfTypeOfDate=0;
     this.entity=  this.serviceWidget. translateValueToNameFromXml(entity).entities.value;
 
             
-            console.log(this.url)
               this.getDataFromUrl( this.url);
 
             }
@@ -94,7 +94,6 @@ updateChartOption(list:Widget){
 }
     setChartOptions(w,h, tilte, textColor:string ,background ,size, font  )
     {
-       console.log(this.measur.typeChart);
            return this.chartOptions =  {
         chart: {
           polar: true,
@@ -111,6 +110,10 @@ updateChartOption(list:Widget){
   
   
   },
+  subtitle: {
+    text: this.subtitle,
+    
+},
   legend: {
    itemStyle: {
        font: '9pt '+font+'Trebuchet MS, Verdana, sans-serif',
@@ -137,7 +140,7 @@ updateChartOption(list:Widget){
 
 } ,
         enabled: true,
-       },
+       },  
        labels: {
         style: {
             color: this.textColor,
@@ -150,7 +153,7 @@ updateChartOption(list:Widget){
     title: {
      enabled: true,
     
-        text: `${this.measur.nameYAxe } (${this.measur.paramMethodeMaseur})`,
+        text: `${this.measur.nameYAxe !=undefined && this.measur.nameYAxe != '' ? this.measur.nameYAxe : 'Number of' } (${this.measur.paramMethodeMaseur != undefined && this.measur.paramMethodeMaseur !='' ? this.measur.paramMethodeMaseur : 'X'})`,
         color: this.textColor,
         style: {
           color: this.textColor,
@@ -212,6 +215,8 @@ switch (this.measur.by) {
 
    this.serviceWidget.getAnythingWithTypeGraphic( `${this.url.substring(0,this.url.indexOf("%"))}&order[created_at]=asc`,false).subscribe(list=>{
      this.valueWidget=list;
+     console.log(list);
+
      this.measureValueByDate(list, this.measur);
              },()=>{},()=>{this.loadedData=false
               this.loaded.emit("graphique");
@@ -301,7 +306,6 @@ zeroRigth
       else
       {      
   measur.y[this.measur.x.indexOf(year_Month_Day[this.indexOfTypeOfDate]) ]+=element[measur.paramMethodeMaseur];
-  console.log(total);
       }
 
 }   });
@@ -372,14 +376,18 @@ data:   this.measur.y},
 
 
 }
-normalizeName(name):string{
-  var paramArrayAdapte= name.split('_');
+normalizeName(name:string):string{
+if(name.indexOf('_')!= -1)
+{  var paramArrayAdapte= name.split('_');
   var normalizeName=paramArrayAdapte[0];
   for (let index = 1; index < paramArrayAdapte.length; index++) {
     normalizeName += paramArrayAdapte[index].charAt(0).toUpperCase()+paramArrayAdapte[index].substring(1,paramArrayAdapte[index].length+1);
     
   }
-    console.log(normalizeName);
+
+}else{
+  normalizeName=name;
+}
 
 return normalizeName
 }

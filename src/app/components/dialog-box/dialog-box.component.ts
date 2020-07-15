@@ -168,7 +168,7 @@ this.data.url                       = "";
 
 }
 
-this.chartOptions=this.setChartOptions();
+//this.chartOptions=this.setChartOptions();
 
 this.measur.x =[1,2,3,4,5,6,7];
 this.measur.y =[5,8,10,11,16,19,1];
@@ -248,6 +248,7 @@ var paramTypeGraphic:ModelGraphic ;
    dynamicType=this.data.url.charAt(0)=="!" ? true : false ; 
    if(this.data.type === '4')
    {
+
      var UrlAndParmgraphic:string[] =[];
      if(this.data.url.indexOf("%")!=-1)
    {  UrlAndParmgraphic=this.data.url.split("%");
@@ -264,7 +265,7 @@ var paramTypeGraphic:ModelGraphic ;
    this.modelGraphic.paramMethodeMaseur =parmamsTypeGraphicFromUrl[6];
    this.modelGraphic.typeChart=parmamsTypeGraphicFromUrl[7]
 
-   this.setChartOptions()  }
+   this.setChartOptions()  ;}
 
    this.data.url                 = this.data.url.substring(    this.data.url.indexOf("?")+1, this.data.url.length);
       var array                     = this.data.url.split('&');
@@ -398,6 +399,12 @@ return this.chartOptions =  {
      text                           :this.data.nameFr,
      style                          : { "color": this.data.textColor, "fontSize": this.data.size+"px"  }
  },
+ subtitle: {
+  text: "Un Exemple D'Aperçu",
+  style                          : { "color": this.data.textColor, "fontSize": +"9px"  }
+
+  
+},
  legend: {
    itemStyle: {
        font                         : '9pt Trebuchet MS, Verdana, sans-serif',
@@ -418,7 +425,11 @@ return this.chartOptions =  {
    text: `The curve function is expressed by the ${this.modelGraphic.by !=undefined && this.modelGraphic.by !=''? this.modelGraphic.by : 'Name line '} of the ${ this.modelGraphic.xAxe !=undefined && this.modelGraphic.xAxe.name!= '' ?this.modelGraphic.xAxe.value: 'Name Y Axe'}`,
   
       enabled: true,
-     }
+     },
+     labels: {
+      style: {
+          color: this.data.textColor,
+      }}
   },
   yAxis: {
   title: {
@@ -426,6 +437,10 @@ return this.chartOptions =  {
   
       text: this.modelGraphic.nameYaxe,
      },
+      labels: {
+      format: this.modelGraphic.paramMethodeMaseur == '2'? "{value}%":"{value}",
+        style:{color : this.data.textColor}  ,
+    }
   
   },
   

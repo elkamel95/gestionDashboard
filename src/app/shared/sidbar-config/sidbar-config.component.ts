@@ -107,13 +107,10 @@ this.allWidgetToBeConfigured.push(this.data);
      this.serviceWidget.update(this.data);
    }
    updateWidgetAll(){
-     var count = 0; ;
-     this.allWidgetToBeConfigured.forEach((widget)=>{
-       count ++;
-       this.serviceWidget.update(widget);
-      });
-if(count >= this.allWidgetToBeConfigured.length)
-this.allWidgetToBeConfigured =[new Widget()];
+  
+      this.serviceWidget.updateAll( this.allWidgetToBeConfigured);
+      this.allWidgetToBeConfigured =[new Widget()]; 
+      
 
   }
 

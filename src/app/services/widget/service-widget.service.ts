@@ -237,11 +237,12 @@ this.http.delete(this.DomainName+"/api/widgets/"+id).subscribe(rep=>{
 
   }
   
-  update(widget:Widget){ ;
-widget.updateAt =this.getDateTime();
+  updateAll(widget:Widget[]){ ;
 return new Promise((resolver)=>{
-
-    this.http.put(this.DomainName+"/api/widgets/"+widget.id, widget).subscribe(()=>{
+  let params = new HttpParams();
+  
+    this.http.put(`${this.DomainName}/api/widgets`,widget).subscribe(()=>{
+      
       this.refreshneeded.next ();
  
     },error=>{
@@ -250,6 +251,19 @@ return new Promise((resolver)=>{
 
   });
   }
+  update(widget:Widget){ ;
+    widget.updateAt =this.getDateTime();
+    return new Promise((resolver)=>{
+    
+        this.http.put(this.DomainName+"/api/widgets/"+widget.id, widget).subscribe(()=>{
+          this.refreshneeded.next ();
+     
+        },error=>{
+          console.log(error);
+        },()=>{resolver(false)});
+    
+      });
+      }
   getAnything(generiqueUrl,isRelationType){
     if(isRelationType)
     return this.http.get<Widget[]>(this.apiURL+"/"+generiqueUrl,{headers: this.headers});

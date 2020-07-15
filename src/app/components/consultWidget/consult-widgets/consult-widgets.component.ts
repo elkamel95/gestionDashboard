@@ -43,28 +43,28 @@ export class ConsultWidgetsComponent  {
 
   }
   getData(event?){
-if (event)
-{
-  this.pageIndex=event.pageIndex;
-  this.pageSize=event.pageSize;
+      if (event)
+      {
+        this.pageIndex=event.pageIndex;
+        this.pageSize=event.pageSize;
 
-}
-    this.spinnerService.show();
-        this.ws.getAllWidgetDashbord(this.pageIndex+1,this.pageSize,this.groupe,this.order,this.title).subscribe(
-      listWidget=>{
-  if(listWidget.length != 0 )
-     {  
-      this.listWidget =listWidget['hydra:member'];
- console.log(this.listWidget);
-      this.length=  listWidget['hydra:totalItems'];
-    }}, error=>{},()=>{ 
-      this.spinnerService.hide();
+      }
+          this.spinnerService.show();
+              this.ws.getAllWidgetDashbord(this.pageIndex+1,this.pageSize,this.groupe,this.order,this.title).subscribe(
+            listWidget=>{
+        if(listWidget.length != 0 )
+          {  
+            this.listWidget =listWidget['hydra:member'];
+      console.log(this.listWidget);
+            this.length=  listWidget['hydra:totalItems'];
+          }}, error=>{},()=>{ 
+            this.spinnerService.hide();
 
-      this.isActive=true}
-    
-    
-    );
-  
+            this.isActive=true}
+          
+          
+          );
+        
     
   
   }
