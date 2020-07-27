@@ -17,6 +17,9 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
   }
    constructor(private widgetService:ServiceWidgetService,private xml:XmlService){
+     
+  
+
     this.xml.setPropertyForSessiontype().then(
       data=>{
         this.propertyForSessiontype.push(data);

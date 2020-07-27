@@ -564,18 +564,10 @@ fxLayoutAlign="start start">
             
               <mat-select [(ngModel)]="modelGraphic.typeChart" >
               <ng-container *ngFor="let type of chartType">
-                <ng-container  *ngIf="type =='line'  ; else elseNotLine" >
-                  <mat-option  [value]="">
-                    {{type}}
-                  </mat-option>
-                </ng-container>
-                
-               
-              <ng-template #elseNotLine>
+            
                 <mat-option [value]="type">
                   {{type}}
                 </mat-option>
-              </ng-template>
             </ng-container>
 
               </mat-select >

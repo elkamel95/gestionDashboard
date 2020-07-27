@@ -113,7 +113,7 @@ this.behaviorWidget.next(widget);
 
   getAllWidgetDashbord(npPage,itemsPerPage,GroupeBy?, order?,title?) :Observable<Widget[]>{
 
-    return this.http.get<Widget[]>(this.DomainName+`/api/widgets?itemsPerPage=${itemsPerPage}&page=${npPage}&order[${GroupeBy}]=${order}&&name_fr=${title}&&users.id=${localStorage.getItem('idUser')}`
+    return this.http.get<Widget[]>(this.DomainName+`/api/widgets?itemsPerPage=${itemsPerPage}&page=${npPage}&order[${GroupeBy}]=${order}&&name_fr=${title}`
     ,{headers: this.headers});
    }
   getDateTime(){
@@ -143,7 +143,7 @@ url=  url.replace('#LW#',this.getDate(-7,0,0));
 url=  url.replace('#LD#',this.getDate(-1,0,0));
  if(url.charAt(5)=='T')
 url=  url.replace('#TD#',this.getDate(0,0,0));
- 
+
 if(url.charAt(6)=='S')
 {this.setPropertysForSessiontype.subscribe(
   data=>{
@@ -183,11 +183,14 @@ getHeaderValueFormAttribute(DataBaseAttributes,xmlAttributes){
   for(var i in DataBaseAttributes) {
     if(i.toString().charAt(0) !=='@')
       for(var att of xmlAttributes) {
-
+console.log("i="+i);
+console.log("att="+att.$.name);
 
     if( att.$.name.toString() === i.toString() && att.$.header != undefined)  
    {
-     NameForAttribute.push(att.$.name);
+   var normalizeName= this.normalizeName(att.$.name);
+
+     NameForAttribute.push(normalizeName);
 
      valueOfAttribute.push(att.$.header =='' ?att.$.value:att.$.header);
     break;
@@ -239,11 +242,10 @@ this.http.delete(this.DomainName+"/api/widgets/"+id).subscribe(rep=>{
   
   updateAll(widget:Widget[]){ ;
 return new Promise((resolver)=>{
-  let params = new HttpParams();
   
     this.http.put(`${this.DomainName}/api/widgets`,widget).subscribe(()=>{
       
-      this.refreshneeded.next ();
+     // this.refreshneeded.next ();
  
     },error=>{
       console.log(error);
@@ -256,7 +258,7 @@ return new Promise((resolver)=>{
     return new Promise((resolver)=>{
     
         this.http.put(this.DomainName+"/api/widgets/"+widget.id, widget).subscribe(()=>{
-          this.refreshneeded.next ();
+       //   this.refreshneeded.next ();
      
         },error=>{
           console.log(error);
@@ -292,7 +294,9 @@ visibilityWidget(status,id) {
 }
     updatePositionWidgetByType(type){
 
-this.http.put(`${this.DomainName}/api/reset/position/${type}`,type).subscribe(()=>{this.refreshneededDataReset.next('')});
+this.http.put(`${this.DomainName}/api/reset/position/${type}`,type).subscribe(()=>{
+  
+  this.refreshneededDataReset.next('')});
 
     }
 
@@ -321,5 +325,19 @@ return    index    ;
 
 
 }
-
+normalizeName(name:string):string{
+  if(name.indexOf('_')!= -1)
+  {  var paramArrayAdapte= name.split('_');
+    var normalizeName=paramArrayAdapte[0];
+    for (let index = 1; index < paramArrayAdapte.length; index++) {
+      normalizeName += paramArrayAdapte[index].charAt(0).toUpperCase()+paramArrayAdapte[index].substring(1,paramArrayAdapte[index].length+1);
+      
+    }
+  
+  }else{
+    normalizeName=name;
+  }
+  
+  return normalizeName
+  }
 }

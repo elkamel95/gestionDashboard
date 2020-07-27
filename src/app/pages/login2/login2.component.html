@@ -1,50 +1,73 @@
-
-
-<div fxLayout="row" >
-    <div fxFlex="75"  la fxLayout="column" class="backgroundImage " fxLayoutAlign="  center center  ">
-      <div fxFlexs>
-        <h1 class="LargeLabel" > Sourcing Force </h1>
-      </div>
-      <app-spinner></app-spinner>
-
-    </div>
-    <div fxFlex>
-        <mat-card class=" matCardBackground full-height "  fxLayout="column" 
-        fxLayoutAlign="space-evenly center"  >
-            
-            
-            <div fxLayout="row"  fxLayoutAlign="center start " fxFlex>
-                <img src="../../../assets/icon/avatar.svg"
-                   style="width: 50%;">
-                   
-               </div>
-
-
-    <div fxLayout="column" fxFlex ="70" style="padding: 50px;" fxLayoutAlign="  center center  " >
-        <div>        <h1 >LOGIN TO YOUR ACCOUNT</h1>  
-        </div>
-          <form class="example-form">
-              <mat-form-field class="formSize">
-                <mat-label>Login</mat-label>
-
-                <input matInput value="">
-              </mat-form-field>
-            
-              <mat-form-field class="formSize">
-                <mat-label>PassWord</mat-label>
-                <input matInput value="">
-
-              </mat-form-field>
-              <div  class="formSize " fxLayout="column">
-                <button class="formSize " mat-raised-button color="accent">Log in</button>
-                <a [routerLink]="['/signup']">Create a New Account          </a>
-
-              </div>
+<div fxLayout="row" fxLayoutAlign="center center" >
   
-            
-            </form>
-          </div>
-    </mat-card>
-    </div>
+<mat-card class="box">
+  <mat-card-header style="    margin-top: -20%;" fxLayoutAlign="center center">
+    <mat-card-title ><h3>Update Profile</h3></mat-card-title>
+  </mat-card-header>
 
+  <form class="example-form" [formGroup]="RegistreForm" (ngSubmit)="onSubmit()" >
+
+    <mat-card-content>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Username"  formControlName="username"
+         [ngClass]="{ 'is-invalid': submitted && f.username.errors }">
+         <mat-error *ngIf="f.username.errors">
+            <div *ngIf="f.username.errors.required">          username is required</div>  
+
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="example-full-width" >
+        <input matInput placeholder="Last name"formControlName="fullname"
+        [ngClass]="{ 'is-invalid': submitted && f.fullname.errors }"
+        >
+        <mat-error *ngIf="f.fullname.errors">
+  
+            <div *ngIf="f.fullname.errors.required">          fullname is required</div>  
+
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Email" formControlName="email" 
+        [ngClass]="{ 'is-invalid': true && f.email.errors }" EmailChecker
+        >
+
+
+        <mat-error *ngIf="f.email.invalid && (f.email.touched ||f.email.dirty )  ">
+        <div *ngIf="(f.email.errors?.uniqueEmail)"> This Email is already used. Try another .</div>  
+
+            <div *ngIf="f.email.errors?.required">Email is required</div>  
+            <div *ngIf="f.email.errors?.email">Email must be a valid email address</div>
+        </mat-error>
+
+     
+      </mat-form-field>
+   
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Password" formControlName="password"
+        [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
+       type="password">
+        <mat-error *ngIf="f.password.errors">
+            <div *ngIf="f.password.errors.required">Password is required</div>
+            <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+
+        </mat-error>
+      </mat-form-field>
+
+
+      <div fxLayoutAlign="end end" fxLayout="column">
+        <button mat-raised-button color="accent" fxFlex="30" fxFlexAlign="center"  class="btn-block">
+          
+          Update</button>
+      </div>
+    </mat-card-content>
+
+
+  </form>
+  <div fxLayout="row" *ngIf="loading" fxLayoutAlign="start start" fxLayoutGap="gappx">
+    <mat-spinner diameter="34" mode="indeterminate" color="accent"></mat-spinner>
+    <p>       
+      Please wait </p>
+  </div>
+
+</mat-card>
 </div>

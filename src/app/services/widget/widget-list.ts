@@ -55,7 +55,6 @@ public dataSource :MatTableDataSource<any> = new MatTableDataSource<any>();
 getDataFromUrl(url:string){
     var listData=[];
     this.url=this.url.replace('[$string]','[]');
-      this.url=this.url.replace('$','');
 
     if(this.isRelationType)
     {   
@@ -65,7 +64,6 @@ for (  index  > 0; index-- ;) {
    break;
 }
         this.entity =url.substring(0,index);
-        console.log(url);
 
      }
  
@@ -95,10 +93,12 @@ for (  index  > 0; index-- ;) {
       if(this.isRelationType)
     listData.push(list);
     else
-    listData=list;
+{    listData=list;
+
+
+}
     this.dataSource=new MatTableDataSource<any>(listData); 
 
-    console.log(this.entity);
 
  var    header:any=  this.serviceWidget.translateValueToNameFromXml(this.entity);
           header=this.serviceWidget.getHeaderValueFormAttribute(this.isRelationType?list:list[0], header.attributes);
@@ -196,6 +196,7 @@ setTimeout(() => {
 
 }, 20000);}
 */
+
 }
 
 

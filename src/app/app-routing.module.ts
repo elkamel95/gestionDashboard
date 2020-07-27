@@ -7,19 +7,20 @@ import { SignUpComponent } from './pages/sign-up/sign-up.component';
 import { AuthGuard } from './services/Auth/auth-guard.service';
 import { WidgetTableComponent } from './pages/widget/widget-table/widget-table.component';
 import { Login2Component } from './pages/login2/login2.component';
+import { RoleGuard } from './services/Auth/RoleGuard.service';
 
 const routes: Routes = [
 
   { path: '', component: LayoutDashboardComponent    ,children:[{
     path:'dashboard' , component:DashboardComponent , canActivate: [AuthGuard] , pathMatch: 'full' }, 
-    {path:'widget', component:WidgetTableComponent ,canActivate: [AuthGuard]  },
-  
+    {path:'widget', component:WidgetTableComponent ,canActivate: [RoleGuard]  },
+    {path:'profile' , component:Login2Component},
+
 
   ] },
   {path:'signup' , component:SignUpComponent },
     {path:'sigin' , component:SiginComponent},
 
-  {path:'login' , component:Login2Component},
 
 ];
 

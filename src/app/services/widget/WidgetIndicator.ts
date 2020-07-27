@@ -27,7 +27,6 @@ public loadedData =true ;
    }
 
   ngOnInit() {
-    console.log(this.url);
 
 
     if(this.url !=undefined)
@@ -48,7 +47,6 @@ public loadedData =true ;
     this.entity=  this.serviceWidget. translateValueToNameFromXml(entity).entities.value;
 
             
-            console.log(this.url)
               this.getDataFromUrl( this.url);
 
             }

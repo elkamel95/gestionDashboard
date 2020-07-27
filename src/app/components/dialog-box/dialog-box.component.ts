@@ -186,7 +186,6 @@ this.measur.nameYAxe="sqdqsd"
     this.update                     = false ;
   this.xmlEntites= this.xml.xmlItems;
   /* declaration de variable (les Entites ,attributes) de puis la fichie xml */ 
-  this.index=0;
   this.entity           =  this.xmlEntites[this.index].entities ;
   this.attributes       =  this.xmlEntites[this.index].attributes;
 
@@ -265,7 +264,8 @@ var paramTypeGraphic:ModelGraphic ;
    this.modelGraphic.paramMethodeMaseur =parmamsTypeGraphicFromUrl[6];
    this.modelGraphic.typeChart=parmamsTypeGraphicFromUrl[7]
 
-   this.setChartOptions()  ;}
+   this.setChartOptions()  ;
+  }
 
    this.data.url                 = this.data.url.substring(    this.data.url.indexOf("?")+1, this.data.url.length);
       var array                     = this.data.url.split('&');
@@ -299,7 +299,6 @@ else if(array[0].substring(array[0].indexOf("[")+1,array[0].indexOf("]"))!='$str
     var prpertyArray=this.xmlEntites[this.index].attributes [this.getAttributByName(request.by)].property ;
      if( prpertyArray != undefined)
     {
-      console.log(prpertyArray);
       request.valueArray=  prpertyArray ;
       if(this.xmlEntites[this.index].attributes [this.getAttributByName(request.by)].$.enterpoint)
       this.dynamicArray=true;
@@ -400,7 +399,7 @@ return this.chartOptions =  {
      style                          : { "color": this.data.textColor, "fontSize": this.data.size+"px"  }
  },
  subtitle: {
-  text: "Un Exemple D'Aperçu",
+  text: "A Sample Preview",
   style                          : { "color": this.data.textColor, "fontSize": +"9px"  }
 
   
@@ -455,7 +454,6 @@ return this.chartOptions =  {
  }
  async doAction(){
     this.nextCondition = Number.parseInt(`${ Number.parseInt(this.data.type ) != 4 ? 2 : 3}`)  ;
-   console.log("nextCondition:"+this.nextCondition);
     if(this.next <=this.nextCondition && this.data.nameFr&&this.data.nameEn && this.data.description )
     this.next++;
 
@@ -725,7 +723,6 @@ if(this.requests[index].value.toString().charAt(0)=="#")
     }
   
     setXaxe($event){
-      console.log($event);
       this.modelGraphic.xAxe=$event.value;
     }
     compareFunction(c1: any, c2:any): boolean {   
@@ -745,7 +742,7 @@ if(this.requests[index].value.toString().charAt(0)=="#")
         }  
         }
       
-      
+        this.index = index ;
     this.entity=  this.xmlEntites[this.index].entities;
 
     this.attributes       =  this.xmlEntites[this.index].attributes ;

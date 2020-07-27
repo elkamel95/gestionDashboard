@@ -39,13 +39,7 @@
 
          
           </mat-form-field>
-          <mat-form-field>
-            <mat-label>Choose a Role</mat-label>
-            <mat-select formControlName="roles" hidden="true" >
-              <mat-option value="ROLE_ADMIN">admin</mat-option>
-              <mat-option value="ROLE_USER" >user</mat-option>
-            </mat-select>
-          </mat-form-field>
+       
           <mat-form-field class="example-full-width">
             <input matInput placeholder="Password" formControlName="password"
             [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
@@ -69,10 +63,18 @@
           </mat-form-field>
 
           <div fxLayoutAlign="end end" fxLayout="column">
-            <button mat-raised-button color="accent" fxFlex="30" fxFlexAlign="center" [disabled]="submitted" class="btn-block">Log in</button>
+            <button mat-raised-button color="accent" fxFlex="30" fxFlexAlign="center"  class="btn-block">
+              
+              Log in </button>
           </div>
         </mat-card-content>
   
   
       </form>
-    </mat-card>
+      <div fxLayout="row" *ngIf="loading" fxLayoutAlign="start start" fxLayoutGap="gappx">
+        <mat-spinner diameter="34" mode="indeterminate" color="accent"></mat-spinner>
+        <p>       
+          Please wait </p>
+      </div>
+
+</mat-card>

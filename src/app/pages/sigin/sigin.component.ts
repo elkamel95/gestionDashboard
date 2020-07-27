@@ -53,12 +53,14 @@ export class SiginComponent implements OnInit {
   }
   onSubmit() {
       this.submitted = true;
+      this.loading = true;
 
       // reset alerts on submit
       this.alertService.clear();
 
       // stop here if form is invalid
       if (this.loginForm.invalid) {
+
           return;
       }
 console.log(this.f.username.value);

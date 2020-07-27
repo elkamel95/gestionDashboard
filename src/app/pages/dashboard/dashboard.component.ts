@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, ViewChild, AfterViewChecked, AfterViewInit } from '@angular/core';
 import { ServiceWidgetService } from 'src/app/services/widget/service-widget.service';
 import { Widget } from 'src/app/models/Widget';
 import { CdkDragEnd } from '@angular/cdk/drag-drop';
@@ -6,6 +6,8 @@ import { Dispositions } from 'src/app/models/Dispositions';
 import { ModeDisposition } from 'src/app/models/ModeDisposition';
 import { CookieService } from 'ngx-cookie-service';
 import { NgxSpinnerService } from "ngx-spinner";
+import { AuthenticationService } from 'src/app/services/Auth/authentication-service.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -29,9 +31,9 @@ ListIndix = []
  letters = [0 , 1 ,2] ;
   chartOptions: {  };
 ind=0;
-
-nameRequirdSession="idUser";
-nameAttributeRequired="users.id";
+vide  =false;
+nameRequirdSession="";
+nameAttributeRequired="";
 typeNumber=3;
   dragPermission :Boolean; 
   positionLayout :Boolean; 
@@ -41,16 +43,17 @@ typeNumber=3;
   @ViewChild('graphiqueComp', { static: false }) public mydiv: ElementRef;
   cookieValue: any;
 
-;  constructor(private serviceWidget:ServiceWidgetService,private cookieService: CookieService,private spinnerService:NgxSpinnerService) {
-  
+;  constructor(private serviceWidget:ServiceWidgetService,      private router: Router,
+  private authenticationService: AuthenticationService,private cookieService: CookieService,private spinnerService:NgxSpinnerService) {
+ 
   this.serviceWidget.refreshneeded.subscribe(()=>{
     if( this.modeLayout.nbLigneIn )
-    this. getWidgetWithType(`?visible=1&type[]=1&type[]=2&${this.nameAttributeRequired}=${localStorage.getItem(this.nameRequirdSession)}`,"1", this.modeLayout.nbLigneIn);
+    this. getWidgetWithType(`?visible=1&type[]=1&type[]=2`,"1", this.modeLayout.nbLigneIn);
     if(this.modeLayout.nbLigneList )
-    this. getWidgetWithType(`?visible=1&type=3&${this.nameAttributeRequired}=${localStorage.getItem(this.nameRequirdSession)}`,"3",this.modeLayout.nbLigneList);
+    this. getWidgetWithType(`?visible=1&type=3`,"3",this.modeLayout.nbLigneList);
     
     if(this.modeLayout.nbLigneGh )
-    this. getWidgetWithType(`?visible=1&type=4&${this.nameAttributeRequired}=${localStorage.getItem(this.nameRequirdSession)}`,"4", this.modeLayout.nbLigneList );
+    this. getWidgetWithType(`?visible=1&type=4`,"4", this.modeLayout.nbLigneList );
 
   });
   
@@ -66,6 +69,8 @@ typeNumber=3;
 
   this.modeLayout.postions=     false ;
 
+  this.vide  =false;
+  this.hiddenLoadSpinner('');
 
 
   }
@@ -75,15 +80,17 @@ typeNumber=3;
  
 
   ngOnInit() {
+    this.vide=false;
+
     this.serviceWidget.refreshneededDataReset.subscribe(()=>{
 
       if( this.modeLayout.nbLigneIn )
-      this. getWidgetWithType(`?visible=1&type[]=1&type[]=2&${this.nameAttributeRequired}=${localStorage.getItem(this.nameRequirdSession)}`,"1", this.modeLayout.nbLigneIn);
+      this. getWidgetWithType(`?visible=1&type[]=1&type[]=2`,"1", this.modeLayout.nbLigneIn);
       if(this.modeLayout.nbLigneList )
-      this. getWidgetWithType(`?visible=1&type=3&${this.nameAttributeRequired}=${localStorage.getItem(this.nameRequirdSession)}`,"3",this.modeLayout.nbLigneList);
+      this. getWidgetWithType(`?visible=1&type=3`,"3",this.modeLayout.nbLigneList);
       
       if(this.modeLayout.nbLigneGh )
-      this. getWidgetWithType(`?visible=1&type=4&${this.nameAttributeRequired}=${localStorage.getItem(this.nameRequirdSession)}`,"4", this.modeLayout.nbLigneList );
+      this. getWidgetWithType(`?visible=1&type=4`,"4", this.modeLayout.nbLigneList );
       
 
     
@@ -91,12 +98,12 @@ typeNumber=3;
     this.serviceWidget.currentDispotionRep.subscribe(layout=>{
 
       if(layout.nbLigneIn && this.modeLayout.nbLigneIn != layout.nbLigneIn)
-      this. getWidgetWithType(`?visible=1&type[]=1&type[]=2&${this.nameAttributeRequired}=${localStorage.getItem(this.nameRequirdSession)}`,"1",layout.nbLigneIn );
+      this. getWidgetWithType(`?visible=1&type[]=1&type[]=2`,"1",layout.nbLigneIn );
       if(layout.nbLigneList&&this.modeLayout.nbLigneList != layout.nbLigneList)
-      this. getWidgetWithType(`?visible=1&type=3&${this.nameAttributeRequired}=${localStorage.getItem(this.nameRequirdSession)}`,"3",layout.nbLigneList );
+      this. getWidgetWithType(`?visible=1&type=3`,"3",layout.nbLigneList );
       
       if(layout.nbLigneGh &&this.modeLayout.nbLigneGh != layout.nbLigneGh)
-      this. getWidgetWithType(`?visible=1&type=4&${this.nameAttributeRequired}=${localStorage.getItem(this.nameRequirdSession)}`,"4", layout.nbLigneGh );
+      this. getWidgetWithType(`?visible=1&type=4`,"4", layout.nbLigneGh );
       
       this.positionLayout=layout.postions ;
       this.dragPermission=layout.drag;    
@@ -118,9 +125,9 @@ if(layout.permutation)
 this.modeLayout.permutation = layout.permutation;
    
 
-
          });
 
+         this.hiddenLoadSpinner('');
 
    }
  
@@ -216,18 +223,28 @@ else if(indexType == 3)
 else if(indexType == 4)
 {
   this.WidgetGraphique=  listWidget;
+ 
+
 }
 
     }},()=>{},
     ()=>{
       this.spinnerService.show();
-    });
+      
+    if(this.WidgetGraphique.length == 0 && this.WidgetIndicator.length == 0 && this .WidgetIndicatorList.length ==0 && this.WidgetList.length ==0){
+      this.hiddenLoadSpinner("");
+      this.vide=true;
+      this.spinnerService.hide();
 
+      }else 
+      this.vide=false;
+
+    });
+ 
   }
   hiddenLoadSpinner($event){
-    console.log("hiddenLoadSpinner"+$event);
     this.spinnerService.hide();
-
+console.log("sppiner non");
   }
 
 }

@@ -214,22 +214,29 @@ switch (this.measur.by) {
 }
 
    this.serviceWidget.getAnythingWithTypeGraphic( `${this.url.substring(0,this.url.indexOf("%"))}&order[created_at]=asc`,false).subscribe(list=>{
-     this.valueWidget=list;
-     console.log(list);
-
+    
+      this.valueWidget=list;
      this.measureValueByDate(list, this.measur);
+    
+
+
              },()=>{},()=>{this.loadedData=false
               this.loaded.emit("graphique");
             });
 
 }
+
+
 measureValueByDate(list,measur:MeasureValue){
+  console.log("dsd"+list.length);
  var position = 0; 
 var nbZero;
 var preDate=0;
 var year_Month_Day =[];
 var total =0;
-/* zero left */
+
+if( list.length !=0)
+{/* zero left */
 var normalizeNameYaxe=     this.normalizeName(measur.nameXAxe);
 preDate=this.getYearsMonthDayFromData(list[0]
   ,normalizeNameYaxe);
@@ -317,7 +324,12 @@ var percentageValue:Number=0;
     measur.y[index]= Number.parseFloat(percentageValue.toFixed(3)) ;
 
    })
+}
+else {
+  this.measur.x =[1,2,3]
+  this.measur.y =[0,0,0]
 
+}
   this.chartOptions =  {
   
 

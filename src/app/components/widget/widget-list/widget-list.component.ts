@@ -27,7 +27,11 @@ public dialog: MatDialog,  serviceWidget:ServiceWidgetService) {
   ngOnInit() {
     if(this.url !=undefined)
     {  
-    this.getDataFromUrl(this.url);}
+      this.url=this.url.replace('$','');
+
+    this.getDataFromUrl(this.url);
+  
+  }
   }
 
   public showTheRelationData(url){

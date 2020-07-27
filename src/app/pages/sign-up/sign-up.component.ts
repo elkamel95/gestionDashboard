@@ -5,6 +5,7 @@ import { first } from 'rxjs/operators';
 import { User } from 'src/app/models/User';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from 'src/app/services/alert/alert.service';
+import { AuthenticationService } from 'src/app/services/Auth/authentication-service.service';
 
 @Component({
   selector: 'sign-up',
@@ -15,7 +16,7 @@ export class SignUpComponent implements OnInit {
   roles: string[] = [];
   RegistreForm:FormGroup ; 
   submitted: boolean=false;
-  loading: boolean;
+  loading: boolean =false;
   user:User = new User();
   returnUrl: string;
 repEmail = 0;
@@ -24,7 +25,8 @@ private notSame  =false ;
     private userService:UserService,
     private route: ActivatedRoute,
     private router: Router,
-    private alertService: AlertService
+    private alertService: AlertService,
+    public authenticationService:AuthenticationService
 
     ) { }
  
@@ -37,7 +39,6 @@ private notSame  =false ;
       password: ['', [Validators.required,Validators.minLength(8)] ],
       confirm: ['', [Validators.required,Validators.minLength(8)] ],
       fullname : ['',Validators.required],
-      roles : ['',Validators.required]
 
   });
   this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
@@ -52,12 +53,12 @@ private notSame  =false ;
 
   onSubmit() {
     
-      this.submitted = true;
 
       // reset alerts on submit
 
       // stop here if form is invalid
       if (this.RegistreForm.invalid) {
+
           return;
       }
 
@@ -69,13 +70,20 @@ this.user.fullname =   this.f.fullname.value
 this.user.plainPassword =   this.f.password.value
 this.user.roles.push("ROLE_USER"); 
 
-      this.loading = true;
-    
     this.userService.register(this.user).pipe(first())
     .subscribe(
-        data => {
-            this.router.navigate([this.returnUrl]);
+        () => {
+          this.loading = true;
 
+            this.authenticationService.login(this.f.email.value, this.f.password.value)
+            .pipe(first())
+            .subscribe(
+                () => {
+           this.router.navigate([this.returnUrl]);
+                },
+                error => {
+                  this.router.navigate([this.returnUrl]);
+                });
         },
         error => {
            this.alertService.error(error);

@@ -110,7 +110,9 @@ this.allWidgetToBeConfigured.push(this.data);
   
       this.serviceWidget.updateAll( this.allWidgetToBeConfigured);
       this.allWidgetToBeConfigured =[new Widget()]; 
-      
+    
+
+  
 
   }
 
